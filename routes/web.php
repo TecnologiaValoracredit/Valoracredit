@@ -32,6 +32,7 @@ Route::middleware("auth")->group(function () {
         Route::resource('expedients', ExpedientController::class);
         Route::get("exp_reports", [ExpReportController::class, "index"])->name("exp_reports.index");
 
+        Route::resource('suppliers', ExpedientController::class);
     });
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
 });

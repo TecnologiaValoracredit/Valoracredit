@@ -23,6 +23,7 @@ class PermissionPermissionSeeder extends Seeder
 		$this->createPermissions(["expedients"], ["index", "uploadExpedientsAbc", "update", "show"], false);
 		$this->createPermissions(["exp_reports"], ["index"], false);
 
+		$this->createPermissions(["suppliers"]);
     }
 
     public function createPermissions($moduleNames = [], $functionNames = [], $addCrudFunctions = true) {

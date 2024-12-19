@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\RequisitionStatus;
 
 class RequisitionStatusSeeder extends Seeder
 {
@@ -14,6 +15,15 @@ class RequisitionStatusSeeder extends Seeder
      */
     public function run()
     {
-        //
+        RequisitionStatus::create([
+            'name'=> 'Creado'
+        ]);
+        RequisitionStatus::create([
+            'name'=> 'Proceso'
+        ]);
+        RequisitionStatus::create([
+            'name'=> 'Autorizado'
+        ]);
+        
     }
 }

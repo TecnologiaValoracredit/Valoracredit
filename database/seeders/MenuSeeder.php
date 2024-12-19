@@ -74,7 +74,18 @@ class MenuSeeder extends Seeder
             "position" => 2.3,
             "permission_id" => $this->getPermissionId("users")
         ]);
-      
+
+        $req = Menu::create([
+            "name" => "Requisiciones",
+            "parent_id" => null,
+            "position" => 3,
+        ]);
+        Menu::create([
+            "name" => "Proveedores",
+            "parent_id" => $req->id,
+            "position" => 3.1,
+            "permission_id" => $this->getPermissionId("suppliers")
+        ]);
 
     }
 

@@ -26,5 +26,8 @@ class PermissionModuleSeeder extends Seeder
         PermissionModule::create(["name" => "expedients",  "description" => "Expedientes", "module_type_id" => 2, "parent_id" => $expedients->id]);
         PermissionModule::create(["name" => "exp_reports",  "description" => "Reporte", "module_type_id" => 2, "parent_id" => $expedients->id]);
 
+        $requisitions = PermissionModule::create(["name" => "req", "description" => "Requisición", "module_type_id" => 1]);
+        PermissionModule::create(["name" => "suppliers",  "description" => "Proveedores", "module_type_id" => 2, "parent_id" => $requisitions->id]);
+
     }
 }
