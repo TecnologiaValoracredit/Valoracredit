@@ -14,12 +14,17 @@ use Database\Seeders\ModuleTypeSeeder;
 use Database\Seeders\DepartamentSeeder;
 
 use Database\Seeders\InstitutionSeeder;
+
+use Database\Seeders\BranchSeeder;
 use Database\Seeders\AnchorerSeeder;
 use Database\Seeders\ExpStatusSeeder;
 use Database\Seeders\UbiStatusSeeder;
 use Database\Seeders\ExpTypeSeeder;
 use Database\Seeders\UbicationSeeder;
 use Database\Seeders\ExpedientSeeder;
+use Database\Seeders\SupplierSeeder;
+use Database\Seeders\RequisitionStatusSeeder;
+use Database\Seeders\PaymentTypeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -33,6 +38,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             DepartamentSeeder::class,
+            BranchSeeder::class,
             UserSeeder::class,
             
             ModuleTypeSeeder::class,
@@ -47,7 +53,12 @@ class DatabaseSeeder extends Seeder
             UbiStatusSeeder::class,
             ExpTypeSeeder::class,
             UbicationSeeder::class,
-            ExpedientSeeder::class,
+            // ExpedientSeeder::class,
+            SupplierSeeder::class,
+            RequisitionStatusSeeder::class,
+            PaymentTypeSeeder::class,
+
+
         ]);
     }
 }

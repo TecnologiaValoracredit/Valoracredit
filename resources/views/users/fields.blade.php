@@ -48,6 +48,31 @@
         "label" => "Contraseña",
     ])
 </div>
+<div class="col-4">
+    @include("components.custom.forms.input-select", [
+        "id" => "departament_id",
+        "name" => "departament_id",
+        "elements" => $departaments,
+        "placeholder" => "Descripción...",
+        "value" => isset($user) ? $user->departament_id :  old("departament_id"),
+        "label" => "Departamento",
+        "required" => true,
+        "invalid_feedback" => "El campo es requerido"
+    ])
+</div>
+<div class="col-4">
+    @include("components.custom.forms.input-select", [
+        "id" => "branch_id",
+        "name" => "branch_id",
+        "elements" => $branches,
+        "placeholder" => "Descripción...",
+        "value" => isset($user) ? $user->branch_id :  old("branch_id"),
+        "label" => "Sucursal",
+        "required" => true,
+        "invalid_feedback" => "El campo es requerido"
+    ])
+</div>
+
 
 
 
@@ -59,3 +84,5 @@
         "label" => "Activo",
     ])
 </div>
+
+

@@ -8,7 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Role;
-
+use App\Models\Branch;
+use App\Models\Departament;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -24,7 +25,8 @@ class User extends Authenticatable
         'password',
         'is_active',
         'role_id',
-        'departament_id'
+        'departament_id',
+        'branch_id'
     ];
 
     /**
@@ -55,6 +57,15 @@ class User extends Authenticatable
     {
         return $this->belongsTo("App\Models\Departament", "departament_id", "id");
     }
+    public function supplier()
+    {
+        return $this->belongsTo("App\Models\supplier", "supplier_id", "id");
+    }
+    public function branch()
+    {
+        return $this->belongsTo("App\Models\Branch", "branch_id", "id");
+    }
+
 
     public function permissions()
 	{

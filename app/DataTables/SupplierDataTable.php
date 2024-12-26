@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
+use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class UsersDataTable extends DataTable
+class SupplierDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -24,30 +24,19 @@ class UsersDataTable extends DataTable
     {
         $datatable = (new EloquentDataTable($query))
         ->setRowId('id')
-        ->editColumn('created_at', function($row) {
-            return date("d/m/Y H:i", strtotime($row->created_at));
+        ->editColumn('created_at', function(Supplier $role) {
+            return date("d/m/Y H:i", strtotime($role->created_at));
         })
-        ->editColumn('updated_at', function($row) {
-            return date("d/m/Y H:i", strtotime($row->updated_at));
+        ->editColumn('updated_at', function(Supplier $role) {
+            return date("d/m/Y H:i", strtotime($role->updated_at));
         })
-        ->editColumn('is_active', function($row) {
-            $user = User::find($row->id);
-            if (!$user->is_active || !$user->role->is_active) {
-                return '<span class="badge badge-danger mb-2 me-4">No</span>';
+        ->editColumn('is_active', function(Supplier $role) {
+            if ($role->is_active) {
+                return '<span class="badge badge-success mb-2 me-4">Sí</span>';
             }
-            return '<span class="badge badge-success mb-2 me-4">Sí</span>';
+            return '<span class="badge badge-danger mb-2 me-4">No</span>';
         });
 
-        // $datatable->filter(function($query) {
-        //     if(request('initial_date') !== null){
-		// 		$query->whereDate('users.created_at', '>=', request('initial_date'));
-		// 	}
-
-        //     if(request('final_date') !== null){
-		// 		$query->whereDate('users.created_at', '<=', request('final_date'));
-		// 	}
-           
-		// }, true);
 
         $datatable->addColumn('action', function($row){
             return $this->getActions($row);
@@ -56,48 +45,35 @@ class UsersDataTable extends DataTable
         return $datatable;
     }
 
-    /**
-     * Get query source of dataTable.
-     *
-     * @param \App\Models\User $model
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function query(User $model): QueryBuilder
-    {
-        return $model->select(
-			'users.id',
-            'users.name',
-			'users.email',
-			'users.created_at',
-            'users.updated_at',
-			'users.is_active',
-			'roles.name as role_id',
-            'departaments.name as departament_id',
-		)
-        ->leftjoin('departaments', 'users.departament_id', '=', 'departaments.id')
-		->leftjoin('roles', 'users.role_id', '=', 'roles.id')
-		->newQuery();
-    }
-
     public function getActions($row){
         $result = null;
-        if (auth()->user()->hasPermissions("users.edit")) {
+        if (auth()->user()->hasPermissions("suppliers.edit")) {
             $result .= '
-                <a title="Editar" href='.route("users.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
+                <a title="Editar" href='.route("suppliers.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                 </a>
             ';
         }
-        if (auth()->user()->hasPermissions("users.destroy")) {
+        if (auth()->user()->hasPermissions("suppliers.destroy")) {
             $result .= '
                 <a onclick="deleteRow('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>        </a>
                 </a>
             ';
         }
-
         return $result;
 	}
+
+    /**
+     * Get query source of dataTable.
+     *
+     * @param \App\Models\Supplier $model
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function query(Supplier $model): QueryBuilder
+    {
+        return $model->newQuery();
+    }
 
     /**
      * Optional method if you want to use html builder.
@@ -111,11 +87,8 @@ class UsersDataTable extends DataTable
                         'paging' => true,
                         'searching' => true,
                         'info' => true,
-                        'responsive' => true, // Habilitar responsividad
-                        'scrollX' =>true
-                        
                     ])
-                    ->setTableId('users-table')
+                    ->setTableId('suppliers-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy(0, "asc")
@@ -127,8 +100,7 @@ class UsersDataTable extends DataTable
                         Button::make('print'),
                     ]);
     }
-    
-    
+
 
     /**
      * Get the dataTable columns definition.
@@ -142,23 +114,35 @@ class UsersDataTable extends DataTable
             ->title('Id')
             ->searchable(false)
             ->visible(false),
-            Column::make('role_id')->title("Rol"),
-            Column::make('departament_id')->title("Depto."),
-            Column::make('name')->title("Nombre"),
-            Column::make('email')->title("Email"),
-            Column::make('created_at')->searchable(false)->title("Fecha creado"),
-            Column::make('updated_at')->searchable(false)->title("Fecha editado"),
+            Column::make('name')
+            ->title('Nombre')
+            ->searchable(true)
+            ->orderable(true)
+            ->printable(true),
+            Column::make('description')
+            ->title('Descripción')
+            ->searchable(true)
+            ->orderable(false)
+            ->className('text-wrap')
+            ->printable(true),
+            Column::make('created_at')->searchable(false)->title('Fecha creado'),
+            Column::make('updated_at')->searchable(false)->title('Fecha editado'),
             Column::make('is_active')->title("Activo"),
+
         ];
 
-        $columns = array_merge($columns, [
-            Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(60)
-            ->addClass('text-center')
-            ->title("Acciones")
-        ]);
+        if (auth()->user()->hasPermissions("suppliers.edit") ||
+            auth()->user()->hasPermissions("suppliers.create") ||
+            auth()->user()->hasPermissions("suppliers.destroy")) {
+            $columns = array_merge($columns, [
+                Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center')
+                ->title('Acciones')
+            ]);
+        }
 
         return $columns;
     }
@@ -170,6 +154,6 @@ class UsersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Users_' . date('YmdHis');
+        return 'suppliers_' . date('YmdHis');
     }
 }

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Branch;
 
 class BranchSeeder extends Seeder
 {
@@ -14,6 +15,11 @@ class BranchSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Branch::create([
+            'name'=> 'Monterrey',
+        ]);
+        Branch::create([
+            'name'=> 'Satillo',
+        ]);
     }
 }

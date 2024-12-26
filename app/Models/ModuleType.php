@@ -9,5 +9,7 @@ class ModuleType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = 
+    ['name', 'description','is_active',
+        'created_by', 'updated_by','notes'];
 }

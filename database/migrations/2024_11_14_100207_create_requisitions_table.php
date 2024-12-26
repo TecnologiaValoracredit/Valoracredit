@@ -16,6 +16,9 @@ return new class extends Migration
         Schema::create('requisitions', function (Blueprint $table) {
             $table->id();
 
+            $table->unsignedSmallInteger('requisition_status_id')->nullable();
+            $table->foreign('requisition_status_id')->references('id')->on('requisition_statuses');
+
             $table->unsignedSmallInteger('payment_type_id')->nullable();
             $table->foreign('payment_type_id')->references('id')->on('payment_types');
 
@@ -24,6 +27,9 @@ return new class extends Migration
 
             $table->unsignedSmallInteger('branch_id')->nullable();
             $table->foreign('branch_id')->references('id')->on('branches');
+
+            $table->unsignedSmallInteger('supplier_id');
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
 
             $table->date("application_date");
 

@@ -1,84 +1,96 @@
 <?php
 
+
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Branch;
+use App\Models\PermissionModule;
+use App\DataTables\BranchDataTable;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\BranchRequest;
 
 class BranchController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(BranchDataTable $dataTable)
     {
-        //
+        //obtener todos los suppliers, y permisos registrados
+        $allowAdd = auth()->user()->hasPermissions("branches.create");
+        return $dataTable->render('branches.index', compact("allowAdd"));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('branches.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(BranchRequest $request)
     {
-        //
+        $status = true;
+		$branch = null;
+
+        $params = array_merge($request->all(), [
+			'name' => $request->name,
+            'description' => $request->description,
+            'is_active' => !is_null($request->is_active),
+		]);
+
+		try {
+			$branch = Branch::create($params);
+			$message = "Sucursal creada correctamente";
+		} catch (\Illuminate\Database\QueryException $e) {
+			$status = false;
+			$message = $this->getErrorMessage($e, 'branches');
+		}
+        return $this->getResponse($status, $message, $branch);
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(Branch $branch)
     {
-        //
+        return view('branches.edit', compact("branch"));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(BranchRequest $request, Branch $branch)
     {
-        //
+        $status = true;
+        $params = array_merge($request->all(), [
+			'name' => $request->name,
+            'description' => $request->description,
+            'is_active' => !is_null($request->is_active),
+		]);
+
+		try {
+			$branch->update($params);
+			$message = "Sucursal modificada correctamente";
+		} catch (\Illuminate\Database\QueryException $e) {
+			$status = false;
+			$message = $this->getErrorMessage($e, 'branches');
+		}
+        return $this->getResponse($status, $message, $branch);
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function show(Branch $branch)
     {
-        //
+        $modules = PermissionModule::all();
+        return view("branches.show", compact("branch", "modules"));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Branch $branch)
     {
-        //
+        $status = true;
+        try {
+            $branch->update(["is_active" => false]);
+            $message = "Sucursal desactivada correctamente";
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'branches');
+        }
+        return $this->getResponse($status, $message);
     }
+
+
 }
+

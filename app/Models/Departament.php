@@ -12,6 +12,7 @@ class Departament extends Model
     protected $fillable = [
         'name',
         'description',
-        'is_active'
+        'is_active','created_by','updated_by','notes'
     ];
+
 }

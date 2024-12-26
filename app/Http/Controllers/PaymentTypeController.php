@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\RequisitionRequest;
 
 class PaymentTypeController extends Controller
 {
@@ -23,7 +24,7 @@ class PaymentTypeController extends Controller
      */
     public function create()
     {
-        //
+ 
     }
 
     /**

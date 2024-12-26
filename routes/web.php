@@ -6,7 +6,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DepartamentController;
 use App\Http\Controllers\ExpedientController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ExpReportController;
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\RequisitionController;
+use App\Models\Branch;
+use App\Models\Supplier;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +37,9 @@ Route::middleware("auth")->group(function () {
         Route::resource('expedients', ExpedientController::class);
         Route::get("exp_reports", [ExpReportController::class, "index"])->name("exp_reports.index");
 
+        Route::resource('suppliers', SupplierController::class);
+        Route::resource('branches', BranchController::class);
+        Route::resource('requisitions',RequisitionController::class);
     });
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
 });

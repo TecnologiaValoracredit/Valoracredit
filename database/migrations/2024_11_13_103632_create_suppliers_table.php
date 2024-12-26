@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('branches', function (Blueprint $table) {
-            $table->smallIncrements("id");
-
+        Schema::create('suppliers', function (Blueprint $table) {
+            $table->smallIncrements('id');
             $table->string('name');
-
-            $table->timestamps();
+            $table->string('description')->nullable();
+            
+            $table->timestamps(); 
             $table->string('notes', 1024)->nullable()->comment('Notas');    
             $table->boolean('is_active')->default(1)->comment('Muestra si la fila está activa');
             $table->smallInteger('created_by')->unsigned()->nullable()->comment('Usuario que creó');
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->smallInteger('updated_by')->unsigned()->nullable()->comment('Último usuario que modificó');
             $table->foreign('updated_by')->references('id')->on('users');
         });
+        
     }
 
     /**
@@ -35,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('branches');
+        Schema::dropIfExists('suppliers');
     }
 };
