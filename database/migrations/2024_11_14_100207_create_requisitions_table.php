@@ -28,6 +28,9 @@ return new class extends Migration
             $table->unsignedSmallInteger('branch_id')->nullable();
             $table->foreign('branch_id')->references('id')->on('branches');
 
+            $table->unsignedSmallInteger('supplier_id');
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
+
             $table->date("application_date");
 
             $table->smallInteger('inmediate_boss_user_id')->unsigned()->nullable()->comment('Jefe inmediato que le pertenece esta requisición');

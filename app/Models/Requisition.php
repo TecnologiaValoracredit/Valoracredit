@@ -11,7 +11,7 @@ class Requisition extends Model
 
     protected $fillable = [
         'is_active','requisition_status_id', 'payment_type_id',
-        'departament_id', 'branch_id', 'inmediate_boss_user_id', 
+        'departament_id', 'branch_id','supplier_id', 'inmediate_boss_user_id', 
         'administration_user_id', 'general_direction_user_id','is_approved_inmediante_boss','is_approved_administration',
         'is_approved_general_direction', 'is_active', 'created_by', 'updated_by','notes'
     ];
@@ -19,6 +19,11 @@ class Requisition extends Model
     public function departament()
     {
         return $this->belongsTo("App\Models\Departament", "departament_id", "id");
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo("App\Models\Supplier", "supplier_id", "id");
     }
 
     public function inmediateBossUser()

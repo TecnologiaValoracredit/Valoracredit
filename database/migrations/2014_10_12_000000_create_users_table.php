@@ -24,6 +24,9 @@ return new class extends Migration
             $table->unsignedSmallInteger('departament_id');
             $table->foreign('departament_id')->references('id')->on('departaments');
 
+            $table->unsignedSmallInteger('branch_id');
+            $table->foreign('branch_id')->references('id')->on('branches');
+
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();

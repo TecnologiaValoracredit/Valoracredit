@@ -18,10 +18,11 @@ class UserSeeder extends Seeder
     {
         User::create([
             "name" => "Iván Rodríguez Silva",
-            "email" => "tecnologia@vaoracredit.mx",
+            "email" => "tecnologia@valoracredit.mx",
             "password" => Hash::make("Valora2024"),
             "role_id" => 1,
-            "departament_id" => 1
+            "departament_id" => 1,
+            "branch_id" => 1
         ]);
 
         User::create([
@@ -29,7 +30,8 @@ class UserSeeder extends Seeder
             "email" => "cartera@valoracredit.mx",
             "password" => Hash::make("Cartera2024"),
             "role_id" => 2,
-            "departament_id" => 2
+            "departament_id" => 2,
+            "branch_id" => 1
         ]);
     }
 }

@@ -16,10 +16,10 @@ class BranchSeeder extends Seeder
     public function run()
     {
         Branch::create([
-            'name'=> 'Monterrey'
+            'name'=> 'Monterrey',
         ]);
         Branch::create([
-            'name'=> 'Satillo'
+            'name'=> 'Satillo',
         ]);
     }
 }

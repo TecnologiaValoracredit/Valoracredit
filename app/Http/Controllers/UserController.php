@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\DataTables\UsersDataTable;
 use App\Models\Role;
+use App\Models\Branch;
+use App\Models\Departament;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +22,9 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::where("is_active", 1)->pluck("name", "id");
-        return view('users.create', compact("roles"));
+        $branches = Branch::where("is_active", 1)->pluck("name", "id");
+        $departaments = Departament::where("is_active", 1)->pluck("name", "id");
+        return view('users.create', compact('roles', 'branches','departaments'));
     }
 
     
@@ -50,7 +54,9 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::where("is_active", 1)->pluck("name", "id");
-        return view('users.edit', compact("user", "roles"));
+        $branches = Branch::where("is_active", 1)->pluck("name", "id");
+        $departaments = Departament::where("is_active", 1)->pluck("name", "id");
+        return view('users.edit', compact("user", "roles", "branches","departaments"));
     }
     
     public function update(UserRequest $request, User $user)

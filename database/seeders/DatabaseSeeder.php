@@ -14,6 +14,8 @@ use Database\Seeders\ModuleTypeSeeder;
 use Database\Seeders\DepartamentSeeder;
 
 use Database\Seeders\InstitutionSeeder;
+
+use Database\Seeders\BranchSeeder;
 use Database\Seeders\AnchorerSeeder;
 use Database\Seeders\ExpStatusSeeder;
 use Database\Seeders\UbiStatusSeeder;
@@ -36,6 +38,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             DepartamentSeeder::class,
+            BranchSeeder::class,
             UserSeeder::class,
             
             ModuleTypeSeeder::class,

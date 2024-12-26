@@ -1,7 +1,7 @@
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
-        Crear departamento
+        Agregar proveedor
     </x-slot>
 
 
@@ -19,14 +19,14 @@
         <!-- CONTENT HERE -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Crear departamento</h5>
-                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('departaments.store') }}">
+                <h5 class="card-title">Crear proveedor</h5>
+                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('suppliers.store') }}">
                     @csrf
                     <div class="d-flex justify-content-center">
                         <div class="w-50">
-                            @include("departaments.fields")
+                            @include("suppliers.fields")
                             <div class="d-flex justify-content-end gap-2">
-                                <a href="{{route('departaments.index')}}" class="btn btn-dark">Cancelar</a>
+                                <a href="{{route('suppliers.index')}}" class="btn btn-dark">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>
