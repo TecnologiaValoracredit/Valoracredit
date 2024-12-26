@@ -27,8 +27,8 @@ class ExpedientSeeder extends Seeder
     {
         
 
-        $this->addBaseExpedients("base_expedientes.xlsx");
-        $this->addExpedients("abc12122024.xlsx");
+        // $this->addBaseExpedients("base_expedientes.xlsx");
+        $this->addExpedients("abc19122024.xlsx");
 
     }
 
@@ -55,9 +55,8 @@ class ExpedientSeeder extends Seeder
 
         // Paso 1: Eliminar los expedientes que ya no están en el nuevo archivo Excel
         Expedient::whereNotIn('credit_id', $creditIdsFromExcel)
-        ->where('exp_status_id', 1) // Validar que estatus 1
         ->update(["exp_status_id" => 2]);
-
+        
         // Paso 2: Agregar los nuevos expedientes
         foreach ($pages as $key => $page) {
             foreach ($page as $key => $sR) {
