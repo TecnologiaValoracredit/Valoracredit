@@ -5,15 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Institution extends Model
+class ChkCheckListsList extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'name',
-        'id',
-        'created_by',
-        'created_at',
-        'is_active'
+        'id','chk_checklist_id','is_active', 'chk_list_id',
+        'created_by','updated_by'
     ];
 }

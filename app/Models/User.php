@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Role;
+use App\Models\ChkList;
 use App\Models\Branch;
 use App\Models\Departament;
 class User extends Authenticatable
@@ -64,6 +65,10 @@ class User extends Authenticatable
     public function branch()
     {
         return $this->belongsTo("App\Models\Branch", "branch_id", "id");
+    }
+    public function chk_list()
+    {
+        return $this->belongsTo("App\Models\ChkList", "chk_list_id", "id");
     }
 
 

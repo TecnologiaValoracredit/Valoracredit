@@ -23,6 +23,7 @@ class PermissionPermissionSeeder extends Seeder
 		$this->createPermissions(["expedients"], ["index", "uploadExpedientsAbc", "update", "show"], false);
 		$this->createPermissions(["exp_reports"], ["index"], false);
 
+		$this->createPermissions(["chk_checklists"]);
 		$this->createPermissions(["suppliers"]);
 		$this->createPermissions(["branches"]);
 		$this->createPermissions(["requisitions"]);

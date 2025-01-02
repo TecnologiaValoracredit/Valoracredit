@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Institution;
+use App\Models\ChkCreditType;
 
-class InstitutionSeeder extends Seeder
+class ChkCreditTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,13 @@ class InstitutionSeeder extends Seeder
      */
     public function run()
     {
-        Institution::create(["name" => "Prueba"]);
-        
+        ChkCreditType::create([
+            'name'=> 'Nuevo', 
+        ]);
+
+        ChkCreditType::create([
+            'name'=> 'Reestructura',
+          
+        ]);
     }
 }

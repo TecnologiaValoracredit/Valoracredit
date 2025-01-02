@@ -46,6 +46,14 @@ class MenuSeeder extends Seeder
             "position" => 1.2,
             "permission_id" => $this->getPermissionId("exp_reports")
         ]);
+
+        Menu::create([
+            "name" => "Checklist",
+            "parent_id" => $exp->id,
+            "position" => 1.3,
+            "permission_id" => $this->getPermissionId("chk_checklists")
+        ]);
+        
         
         //Si es un menu que tiene hijos este no tendrá permisos, ya que solo será para desplegar los hijos
         $users = Menu::create([

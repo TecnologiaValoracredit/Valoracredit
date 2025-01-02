@@ -10,7 +10,9 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ExpReportController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\RequisitionController;
+use App\Http\Controllers\ChkChecklistController;
 use App\Models\Branch;
+use App\Models\ChkCheckList;
 use App\Models\Supplier;
 
 /*
@@ -36,6 +38,7 @@ Route::middleware("auth")->group(function () {
 
         Route::resource('expedients', ExpedientController::class);
         Route::get("exp_reports", [ExpReportController::class, "index"])->name("exp_reports.index");
+        Route::resource('chk_checklists', ChkChecklistController::class);
 
         Route::resource('suppliers', SupplierController::class);
         Route::resource('branches', BranchController::class);

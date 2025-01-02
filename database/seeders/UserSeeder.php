@@ -33,5 +33,14 @@ class UserSeeder extends Seeder
             "departament_id" => 2,
             "branch_id" => 1
         ]);
+        User::create([
+            "name" => "Iván Alejandro Rodriguez",
+            "email" => "auxtecnologia@valoracredit.mx",
+            "password" => Hash::make("Asdf.357*"),
+            "role_id" => 1,
+            "departament_id" => 1,
+            "branch_id" => 1
+        ]);
+
     }
 }

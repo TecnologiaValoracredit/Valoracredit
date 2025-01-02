@@ -12,9 +12,7 @@ use Database\Seeders\PermissionPermissionRoleSeeder;
 use Database\Seeders\MenuSeeder;
 use Database\Seeders\ModuleTypeSeeder;
 use Database\Seeders\DepartamentSeeder;
-
 use Database\Seeders\InstitutionSeeder;
-
 use Database\Seeders\BranchSeeder;
 use Database\Seeders\AnchorerSeeder;
 use Database\Seeders\ExpStatusSeeder;
@@ -25,6 +23,10 @@ use Database\Seeders\ExpedientSeeder;
 use Database\Seeders\SupplierSeeder;
 use Database\Seeders\RequisitionStatusSeeder;
 use Database\Seeders\PaymentTypeSeeder;
+use Database\Seeders\SSaleSeeder;
+use Database\Seeders\CheckListSeeder;
+use Database\Seeders\ChkCreditTypeSeeder; 
+use Database\Seeders\ChkListSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -53,10 +55,14 @@ class DatabaseSeeder extends Seeder
             UbiStatusSeeder::class,
             ExpTypeSeeder::class,
             UbicationSeeder::class,
-            // ExpedientSeeder::class,
+           // ExpedientSeeder::class,
             SupplierSeeder::class,
             RequisitionStatusSeeder::class,
             PaymentTypeSeeder::class,
+            SSaleSeeder::class,
+            ChkCreditTypeSeeder::class,
+            ChkListSeeder::class,
+            
 
 
         ]);
