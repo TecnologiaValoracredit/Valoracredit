@@ -23,10 +23,14 @@ use Database\Seeders\ExpedientSeeder;
 use Database\Seeders\SupplierSeeder;
 use Database\Seeders\RequisitionStatusSeeder;
 use Database\Seeders\PaymentTypeSeeder;
+<<<<<<< HEAD
 use Database\Seeders\SSaleSeeder;
 use Database\Seeders\CheckListSeeder;
 use Database\Seeders\ChkCreditTypeSeeder; 
 use Database\Seeders\ChkListSeeder;
+=======
+use Database\Seeders\EmailAccountSeeder;
+>>>>>>> e861e3ff6b0b053221cb408d49ce313930276edd
 
 class DatabaseSeeder extends Seeder
 {
@@ -64,6 +68,7 @@ class DatabaseSeeder extends Seeder
             ChkListSeeder::class,
             
 
+            // EmailAccountSeeder::class,
 
         ]);
     }

@@ -92,6 +92,7 @@ class ExpReportController extends Controller
         ->join('ubi_statuses', 'expedients.ubi_status_id', '=', 'ubi_statuses.id')
         ->where('ubi_statuses.name', 'PENDIENTE')
         ->where('expedients.ubication_id', 2) // Asegura que solo cuente los que tienen esta ubicación
+        ->where('expedients.exp_status_id', 1)
         ->count();
 
         // Consulta principal con cálculo del porcentaje
@@ -108,6 +109,7 @@ class ExpReportController extends Controller
             DB::raw("CASE WHEN $totalPendientes > 0 THEN ROUND((COUNT(CASE WHEN ubi_statuses.name = 'PENDIENTE' THEN 1 END) * 100.0 / $totalPendientes),2) ELSE 0 END as porcentaje_pendiente")
         )
         ->where('expedients.ubication_id', 2)
+        ->where('expedients.exp_status_id', 1)
         ->leftJoin('expedients', 'expedients.institution_id', '=', 'institutions.id')
         ->leftJoin('ubi_statuses', 'expedients.ubi_status_id', '=', 'ubi_statuses.id')
         ->groupBy('institutions.name')
