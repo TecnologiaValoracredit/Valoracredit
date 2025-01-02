@@ -25,6 +25,7 @@ use Database\Seeders\ExpedientSeeder;
 use Database\Seeders\SupplierSeeder;
 use Database\Seeders\RequisitionStatusSeeder;
 use Database\Seeders\PaymentTypeSeeder;
+use Database\Seeders\EmailAccountSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -57,7 +58,7 @@ class DatabaseSeeder extends Seeder
             SupplierSeeder::class,
             RequisitionStatusSeeder::class,
             PaymentTypeSeeder::class,
-
+            // EmailAccountSeeder::class,
 
         ]);
     }

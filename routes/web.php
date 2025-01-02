@@ -13,6 +13,8 @@ use App\Http\Controllers\RequisitionController;
 use App\Models\Branch;
 use App\Models\Supplier;
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,8 +28,13 @@ use App\Models\Supplier;
 
 Route::middleware("auth")->group(function () {
     Route::get('/dashboard', function () {
+        
+
+
         return view('dashboard', ['title' => 'Inicio']);
     })->name("dashboard.index");
+
+    Route::get('/refresh-emails', [EmailController::class, 'refreshEmails'])->name('emails.refresh');
 
     Route::middleware(['permission'])->group(function () {
         Route::resource('users', UserController::class);
