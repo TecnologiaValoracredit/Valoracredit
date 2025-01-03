@@ -53,33 +53,60 @@ class MenuSeeder extends Seeder
             "position" => 1.3,
             "permission_id" => $this->getPermissionId("chk_checklists")
         ]);
+
+
+        $sal = Menu::create([
+            "name" => "Ventas",
+            "parent_id" => null,
+            "position" => 2,
+        ]);
+        Menu::create([
+            "name" => "Ventas",
+            "parent_id" => $sal->id,
+            "position" => 2.1,
+            "permission_id" => $this->getPermissionId("s_sales")
+        ]);
+
+        Menu::create([
+            "name" => "Reporte general",
+            "parent_id" => $sal->id,
+            "position" => 2.2,
+            "permission_id" => $this->getPermissionId("s_general_reports")
+        ]);
+
+        Menu::create([
+            "name" => "Reporte por instiución",
+            "parent_id" => $sal->id,
+            "position" => 2.3,
+            "permission_id" => $this->getPermissionId("s_institution_reports")
+        ]);
         
         
         //Si es un menu que tiene hijos este no tendrá permisos, ya que solo será para desplegar los hijos
         $users = Menu::create([
             "name" => "Usuarios",
             "parent_id" => null,
-            "position" => 2,
+            "position" => 100,
         ]);
 
         Menu::create([
             "name" => "Roles",
             "parent_id" => $users->id,
-            "position" => 2.1,
+            "position" => 100.1,
             "permission_id" => $this->getPermissionId("roles")
         ]);
 
         Menu::create([
             "name" => "Departamentos",
             "parent_id" => $users->id,
-            "position" => 2.2,
+            "position" => 100.2,
             "permission_id" => $this->getPermissionId("departaments")
         ]);
 
         Menu::create([
             "name" => "Usuarios",
             "parent_id" => $users->id,
-            "position" => 2.3,
+            "position" => 100.3,
             "permission_id" => $this->getPermissionId("users")
         ]);
 

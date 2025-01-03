@@ -84,4 +84,11 @@ window.snackBar = (text, type, color) => {
     });
 }
 
+window.formatNumber = (num) => {
+    return num.toLocaleString("es-MX", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+}
+
 })

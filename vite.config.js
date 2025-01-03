@@ -19,18 +19,21 @@ export default defineConfig({
                 'resources/scss/light/assets/authentication/auth-boxed.scss',
                 'resources/scss/light/assets/components/accordions.scss',
                 'resources/scss/light/assets/components/tabs.scss',
-
                 'resources/sass/app.scss',
-                
+                'resources/sass/datatables.scss',
+
                 'resources/layouts/modern-light-menu/loader.js',
                 'resources/layouts/modern-light-menu/app.js',
 
-                'resources/sass/app.scss',
+              
+
                 'resources/js/app.js',
                 'resources/js/expedients.js',
                 'resources/js/validations.js',
                 'resources/js/alerts.js',
                 'resources/js/filters.js',
+                'resources/js/s_general_reports.js',
+
             ],
             refresh: true,
         }),

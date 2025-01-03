@@ -17,93 +17,49 @@ class UserController extends Controller
 {
     public function index(UsersDataTable $dataTable)
     {
-        $user = auth()->user();
-        $clientManager = new ClientManager();
-        $config = [
-            'host'          => 'imap.ionos.mx',
-            'port'          => 993,
-            'encryption'    => 'ssl', // ssl o tls
-            'validate_cert' => true,
-            'username'      => 'auxtecnologia@valoracredit.mx',
-            'password'      => '4Ca5uWh5BI5D',
-            'protocol'      => 'imap', // Asegúrate de que sea en minúsculas
-        ];
-        $config['debug'] = true;
-
-
-        // Crear el cliente
-        $client = $clientManager->make($config);
-
-        // Conectar al servidor
-        try {
-             // Obtener los mensajes
-             $messages = $client->getFolder('INBOX')->messages()->all()->get();
-
-             foreach ($messages as $message) {
-                // Guardar el correo en la base de datos (si no existe)
-                $email = Email::firstOrCreate(
-                    ['message_id' => $message->getMessageId()],
-                    [
-                        'user_id' => $user->id,
-                        'email_account_id' => 1,
-                        'subject' => $message->getSubject(),
-                        'from' => $message->getFrom()[0]->mail,
-                        'body' => $message->getTextBody(),
-                        'date' => $message->getDate(),
-                        'is_read' => false
-                    ]
-                );
-            }
-        } catch (\Exception $e) {
-            echo "Error: " . $e->getMessage();
-        }
+        $allowAdd = auth()->user()->hasPermissions("users.create");
+        return $dataTable->render('users.index', compact("allowAdd"));
 
         // $user = auth()->user();
+        // $clientManager = new ClientManager();
+        // $config = [
+        //     'host'          => 'imap.ionos.mx',
+        //     'port'          => 993,
+        //     'encryption'    => 'ssl', // ssl o tls
+        //     'validate_cert' => true,
+        //     'username'      => 'auxtecnologia@valoracredit.mx',
+        //     'password'      => '4Ca5uWh5BI5D',
+        //     'protocol'      => 'imap', // Asegúrate de que sea en minúsculas
+        // ];
 
-        // $client = ClientManager::account('default');
-        // $client->connect();
+        // // Crear el cliente
+        // $client = $clientManager->make($config);
 
-        // foreach ($user->emailAccounts as $account) {
-        //     // Configura el cliente IMAP o POP3
-        //     $client = (new ClientManager())->make([
-        //         'host'          => $account->host,
-        //         'port'          => $account->port,
-        //         'encryption'    => $account->encryption,
-        //         'validate_cert' => $account->validate_cert,
-        //         'username'      => $account->username,
-        //         'password'      => decrypt($account->password),
-        //         'protocol'      => $account->protocol,
-        //     ]);
+        // // Conectar al servidor
+        // try {
+        //      // Obtener los mensajes
+        //      $messages = $client->getFolder('INBOX')->messages()->all()->get();
 
-        //     $client->connect();
-
-        //     // Obtén los mensajes de la bandeja de entrada
-        //     $messages = $client->getFolder('INBOX')->messages()->all()->get();
-
-        //     // Guarda los correos en la base de datos
-        //     foreach ($messages as $message) {
-        //         // Usa firstOrCreate para evitar duplicados
-        //         Email::firstOrCreate(
+        //      foreach ($messages as $message) {
+        //         // Guardar el correo en la base de datos (si no existe)
+        //         $email = Email::firstOrCreate(
         //             ['message_id' => $message->getMessageId()],
         //             [
         //                 'user_id' => $user->id,
-        //                 'email_account_id' => $account->id,
+        //                 'email_account_id' => 1,
         //                 'subject' => $message->getSubject(),
         //                 'from' => $message->getFrom()[0]->mail,
         //                 'body' => $message->getTextBody(),
         //                 'date' => $message->getDate(),
+        //                 'is_read' => false
         //             ]
         //         );
-
-        //         // Opcional: eliminar el correo del servidor si lo prefieres
-        //         // $message->delete();
         //     }
+        // } catch (\Exception $e) {
+        //     echo "Error: " . $e->getMessage();
         // }
 
-        // return redirect()->back()->with('success', 'Correos actualizados.');
-
-        // $allowAdd = auth()->user()->hasPermissions("users.create");
-        // return $dataTable->render('users.index', compact("allowAdd"));
+     
     }
 
     public function create()

@@ -17,19 +17,21 @@
                             @foreach($row as $input)
                             <div class="mb-2 {{$input['class']}}">
                                 @include("components.custom.forms.input", [
-                                            "id" => $input["id"],
-                                            "name" => $input["name"],
-                                            "type" => $input["type"] ?? "text",
-                                            "placeholder" => $input["placeholder"] ?? $input["label"],
-                                            "label" => $input["label"],
-                                            "class" => "datatable-filter"
-                                            ])
-                                        </div>
-                                        @endforeach
+                                        "id" => $input["id"],
+                                        "name" => $input["name"],
+                                        "type" => $input["type"] ?? "text",
+                                        "placeholder" => $input["placeholder"] ?? $input["label"],
+                                        "label" => $input["label"],
+                                        "class" => "datatable-filter",
+                                        "value" => $input["value"]
+                                        ])
                                     </div>
+                                    @endforeach
+                                </div>
                         @endforeach
                     </form>
                     <div class="d-flex justify-content-end">
+                        <button class="btn btn-danger mt-3 me-2" onclick="clearFilters()">Limpiar filtros</button>
                         <button class="btn btn-dark mt-3" onclick="filterDT()">Filtrar</button>
                     </div>
                 </div>

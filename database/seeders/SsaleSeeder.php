@@ -11,7 +11,7 @@ use App\Models\Institution;
 use App\Models\SBranch;
 use App\Models\SStatus;
 
-class SsaleSeeder extends Seeder
+class SSaleSeeder extends Seeder
 {
     /**
      * Run the database seeds. 
@@ -47,22 +47,19 @@ class SsaleSeeder extends Seeder
                         $sbranch = SBranch::where("name", "TORREON")->first();
                     }
                 
-                    $f3 = ($row[29] - 25569) * 86400;
+                    $f3 = ($row[29] - 25568) * 86400;
                     $grant_date = date('Y-m-d', $f3);
-
+                    
                     if($sstatus->name !='Cancelado')
                     {
-                        
-                        
                         SSale::create([
-                        
                             'credit_id' => trim($row[1]), 
                             'client_name' => trim($row[6]),
                             'credit_amount' => trim($row[8]),
-                            'sstatus_id' => $sstatus->id,
+                            's_status_id' => $sstatus->id,
                             'grant_date' => $grant_date,
                             'institution_id' => $institution->id,
-                            'sbranch_id' => $sbranch->id
+                            's_branch_id' => $sbranch->id
                         ]);
                     }
            

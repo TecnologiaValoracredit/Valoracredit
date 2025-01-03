@@ -9,8 +9,16 @@ window.loadDatatable = function() {
 }
 
 window.filterDT = () => {
+    console.log(window.LaravelDataTables);
+
     if(window.LaravelDataTables != undefined) {
         loadDatatable();
         window.LaravelDataTables[$("#route").val()+"-table"].draw();
     }
+}
+
+window.clearFilters = () => {
+    $('.datatable-filter').each(function(index, el) {
+        $(el).val("");
+    });
 }

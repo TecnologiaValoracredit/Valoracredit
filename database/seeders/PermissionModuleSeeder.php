@@ -31,5 +31,11 @@ class PermissionModuleSeeder extends Seeder
         PermissionModule::create(["name" => "suppliers",  "description" => "Proveedores", "module_type_id" => 2, "parent_id" => $requisitions->id]);
         PermissionModule::create(["name" => "branches",  "description" => "Sucursales", "module_type_id" => 2, "parent_id" => $requisitions->id]);
         PermissionModule::create(["name" => "requisitions",  "description" => "Requisiciones", "module_type_id" => 2, "parent_id" => $requisitions->id]);
+   
+        $sales = PermissionModule::create(["name" => "s_sal", "description" => "Ventas", "module_type_id" => 1]);
+        PermissionModule::create(["name" => "s_sales",  "description" => "Ventas", "module_type_id" => 2, "parent_id" => $sales->id]);
+        PermissionModule::create(["name" => "s_general_reports",  "description" => "Reporte general", "module_type_id" => 2, "parent_id" => $sales->id]);
+        PermissionModule::create(["name" => "s_institution_reports",  "description" => "Reporte por institución", "module_type_id" => 2, "parent_id" => $sales->id]);
+
     }
 }

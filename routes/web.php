@@ -11,9 +11,9 @@ use App\Http\Controllers\ExpReportController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\ChkChecklistController;
-use App\Models\Branch;
-use App\Models\ChkCheckList;
-use App\Models\Supplier;
+use App\Http\Controllers\SSaleController;
+use App\Http\Controllers\SGeneralReportController;
+// use App\Http\Controllers\SInstitutionReportController;
 
 
 
@@ -36,7 +36,7 @@ Route::middleware("auth")->group(function () {
         return view('dashboard', ['title' => 'Inicio']);
     })->name("dashboard.index");
 
-    Route::get('/refresh-emails', [EmailController::class, 'refreshEmails'])->name('emails.refresh');
+    // Route::get('/refresh-emails', [EmailController::class, 'refreshEmails'])->name('emails.refresh');
 
     Route::middleware(['permission'])->group(function () {
         Route::resource('users', UserController::class);
@@ -50,6 +50,10 @@ Route::middleware("auth")->group(function () {
         Route::resource('suppliers', SupplierController::class);
         Route::resource('branches', BranchController::class);
         Route::resource('requisitions',RequisitionController::class);
+
+        Route::get('s_sales', [SSaleController::class, "index"])->name("s_sales.index");
+        Route::get('s_general_reports', [SGeneralReportController::class, "index"])->name("s_general_reports.index");
+        Route::get('s_institucion_reports', [SInstitutionReportController::class, "index"])->name("s_institution_reports.index");
     });
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
 });

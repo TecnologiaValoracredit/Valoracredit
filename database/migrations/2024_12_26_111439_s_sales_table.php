@@ -24,11 +24,11 @@ return new class extends Migration
             $table->unsignedSmallInteger('institution_id');
             $table->foreign('institution_id')->references('id')->on('institutions');
 
-            $table->unsignedSmallInteger('sbranch_id');
-            $table->foreign('sbranch_id')->references('id')->on('s_branches');
+            $table->unsignedSmallInteger('s_branch_id');
+            $table->foreign('s_branch_id')->references('id')->on('s_branches');
 
-            $table->unsignedSmallInteger('sstatus_id');
-            $table->foreign('sstatus_id')->references('id')->on('s_statuses');
+            $table->unsignedSmallInteger('s_status_id');
+            $table->foreign('s_status_id')->references('id')->on('s_statuses');
             
             $table->timestamps();
             $table->string('notes', 1024)->nullable()->comment('Notas');    

@@ -9,19 +9,24 @@ class SSale extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'client_name', 'amount','grantdate',
-        'institution_id','sbranch_id', 'sstatus_id','credit_id','is_active',
+        'client_name', 'credit_amount','grant_date',
+        'institution_id','s_branch_id', 's_status_id','credit_id','is_active',
         'created_by', 'updated_by'
     ];
 
-    public function sbranch()
+    public function sBranch()
     {
         return $this->belongsTo('App\Models\SBranch', 's_branch_id');
     }
 
-    public function sstatus()
+    public function sStatus()
     {
         return $this->belongsTo('App\Models\SStatus', 's_status_id');
+    }
+
+    public function institution()
+    {
+        return $this->belongsTo('App\Models\Institution', 'institution_id');
     }
     
 }
