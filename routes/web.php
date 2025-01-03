@@ -13,6 +13,8 @@ use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\ChkChecklistController;
 use App\Http\Controllers\SSaleController;
 use App\Http\Controllers\SGeneralReportController;
+use App\Http\Controllers\SMensualReportController;
+
 // use App\Http\Controllers\SInstitutionReportController;
 
 
@@ -54,6 +56,8 @@ Route::middleware("auth")->group(function () {
         Route::get('s_sales', [SSaleController::class, "index"])->name("s_sales.index");
         Route::get('s_general_reports', [SGeneralReportController::class, "index"])->name("s_general_reports.index");
         Route::get('s_institucion_reports', [SInstitutionReportController::class, "index"])->name("s_institution_reports.index");
+        Route::get('s_mensual_reports', [SMensualReportController::class, "index"])->name("s_mensual_reports.index");
+
     });
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
 });

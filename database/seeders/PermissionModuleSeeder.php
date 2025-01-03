@@ -36,6 +36,6 @@ class PermissionModuleSeeder extends Seeder
         PermissionModule::create(["name" => "s_sales",  "description" => "Ventas", "module_type_id" => 2, "parent_id" => $sales->id]);
         PermissionModule::create(["name" => "s_general_reports",  "description" => "Reporte general", "module_type_id" => 2, "parent_id" => $sales->id]);
         PermissionModule::create(["name" => "s_institution_reports",  "description" => "Reporte por institución", "module_type_id" => 2, "parent_id" => $sales->id]);
-
+        PermissionModule::create(["name" => "s_mensual_reports",  "description" => "Reporte mensual", "module_type_id" => 2, "parent_id" => $sales->id]);
     }
 }
