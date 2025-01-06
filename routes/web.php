@@ -14,6 +14,7 @@ use App\Http\Controllers\ChkChecklistController;
 use App\Http\Controllers\SSaleController;
 use App\Http\Controllers\SGeneralReportController;
 use App\Http\Controllers\SMensualReportController;
+use App\Http\Controllers\SInstitutionReportController;
 
 // use App\Http\Controllers\SInstitutionReportController;
 
