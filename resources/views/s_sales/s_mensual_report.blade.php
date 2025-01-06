@@ -40,19 +40,19 @@
                         "id" => "year",
                         "name" => "year",
                         "label" => "Año",
-                        "type" => "text",
+                        "type" => "select",
                         "class" => "col-6",
-                        "value" => "2024"
+                        "elements" => [2020 => "2020", 2021 => "2021", 2022 => "2022", 2023 => "2023", 2024 => "2024"],
+                        "value" => "2"
                     ],
                     [
                         "id" => "month",
                         "name" => "month",
                         "label" => "Mes",
-                        "type" => "text",
+                        "type" => "select",
                         "class" => "col-6",
-
-                         
-                        "value" => date('m') // Establecer el mes actual por defecto
+                        "elements" => [1 => "Enero",2 => "Febrero",3 => "Marzo",4 => "Abril",5 => "Mayo",6 => "Junio",7=> "Julio",8 => "Agosto",9 => "Septiembre",10 => "Octubre",11 => "Noviembre",12 => "Diciembre"],
+                        "value" => "2"
                     ],
                 ],
             ]
