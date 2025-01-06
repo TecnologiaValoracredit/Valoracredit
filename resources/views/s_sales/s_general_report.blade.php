@@ -4,36 +4,19 @@
         Reporte general 
     </x-slot>
 
-
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <x-slot:headerFiles>
-        <!--  BEGIN CUSTOM STYLE FILE  -->
         @vite(['resources/sass/datatables.scss'])
+        <!-- Estilo para la tabla -->
+        <link rel="stylesheet" href="{{ asset('css/custom-style.css') }}">
+        <!-- Importar jQuery desde un CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        <style>
-            .table tbody tr td{
-                padding: 10px;
-            }
-            #s_sales-table th,
-            #s_sales-table td {
-                border-right: 1px solid #ddd; /* Línea vertical entre columnas */
-            }
-
-            #s_sales-table {
-                border-collapse: collapse; /* Evita duplicar bordes */
-            }
-
-            #s_sales-table th:last-child,
-            #s_sales-table td:last-child {
-                border-right: none; /* Elimina la línea de la última columna */
-            }
-        </style>
-        <!--  END CUSTOM STYLE FILE  -->
     </x-slot>
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <div class="row layout-top-spacing">
-        <!-- CONTENT HERE -->
+        <!-- Filtros -->
         @include('components.custom.forms.filters', [
             "rows" => [
                 [
@@ -48,28 +31,20 @@
                 ],
             ]
         ])
-        <div class="card">
-            <div class="card-body">
-                @include("components.custom.session-errors")
-                <div class="d-flex justify-content-between align-items-center mb-2 p-2">
-                    <h5 class="card-title">Reporte general </h5>
-                </div>
+   
+                <!-- Tabla de Datos -->
                 {{ $dataTable->table() }}
-            </div>
-        </div>
-    </div>
-    
+
+                <!-- Contenedor de la gráfica -->
+                <div id="container" style="height: 400px; margin-top: 20px;"></div>
+      
+
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
         {{ $dataTable->scripts() }}
         @vite(['resources/js/filters.js'])
         @vite(['resources/js/s_general_reports.js'])
-
-        <script>
-            
-           
-        </script>
-
+        @vite(['resources/js/s_general_report_graphics.js'])
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

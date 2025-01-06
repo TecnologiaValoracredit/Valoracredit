@@ -80,6 +80,12 @@ class MenuSeeder extends Seeder
             "position" => 2.3,
             "permission_id" => $this->getPermissionId("s_institution_reports")
         ]);
+        Menu::create([
+            "name" => "Reporte mensual",
+            "parent_id" => $sal->id,
+            "position" => 2.4,
+            "permission_id" => $this->getPermissionId("s_mensual_reports")
+        ]);
         
         
         //Si es un menu que tiene hijos este no tendrá permisos, ya que solo será para desplegar los hijos
