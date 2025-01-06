@@ -14,6 +14,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class RolesDataTable extends DataTable
 {
+    
     /**
      * Build DataTable class.
      *

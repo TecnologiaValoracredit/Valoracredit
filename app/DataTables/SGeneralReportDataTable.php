@@ -33,6 +33,7 @@ class SGeneralReportDataTable extends DataTable
         "december" => "Diciembre",
     ];
 
+
     /**
      * Build DataTable class.
      *
