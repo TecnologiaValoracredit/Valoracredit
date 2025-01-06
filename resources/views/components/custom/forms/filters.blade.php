@@ -13,21 +13,32 @@
                 <div class="card-body">
                     <form id="filters-form">
                         @foreach($rows as $row)
-                        <div class="row">
-                            @foreach($row as $input)
-                            <div class="mb-2 {{$input['class']}}">
-                                @include("components.custom.forms.input", [
-                                        "id" => $input["id"],
-                                        "name" => $input["name"],
-                                        "type" => $input["type"] ?? "text",
-                                        "placeholder" => $input["placeholder"] ?? $input["label"],
-                                        "label" => $input["label"],
-                                        "class" => "datatable-filter",
-                                        "value" => $input["value"]
-                                        ])
+                            <div class="row">
+                                @foreach($row as $input)
+                                    <div class="mb-2 {{$input['class']}}">
+                                        @if($input["type"] == "select")
+                                            @include("components.custom.forms.input-select", [
+                                                "id" => $input["id"],
+                                                "name" => $input["name"],
+                                                "label" => $input["label"],
+                                                "class" => "datatable-filter",
+                                                "value" => $input["value"],
+                                                "elements" => $input["elements"]
+                                            ])
+                                        @else
+                                            @include("components.custom.forms.input", [
+                                                "id" => $input["id"],
+                                                "name" => $input["name"],
+                                                "type" => $input["type"] ?? "text",
+                                                "placeholder" => $input["placeholder"] ?? $input["label"],
+                                                "label" => $input["label"],
+                                                "class" => "datatable-filter",
+                                                "value" => $input["value"]
+                                            ])
+                                        @endif
                                     </div>
-                                    @endforeach
-                                </div>
+                                @endforeach
+                            </div>
                         @endforeach
                     </form>
                     <div class="d-flex justify-content-end">

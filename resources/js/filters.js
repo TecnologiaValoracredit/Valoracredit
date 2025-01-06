@@ -9,8 +9,6 @@ window.loadDatatable = function() {
 }
 
 window.filterDT = () => {
-    console.log(window.LaravelDataTables);
-
     if(window.LaravelDataTables != undefined) {
         loadDatatable();
         window.LaravelDataTables[$("#route").val()+"-table"].draw();

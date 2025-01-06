@@ -17,8 +17,8 @@ class SInstitutionReportController extends Controller
      */
     public function index(SInstitutionReportDataTable $dataTable)
     {
-        $institutions = Institution::all();
-        return $dataTable->render('s_sales.s_institution_report');
+        $institutions = Institution::where("is_active", 1)->pluck("name", "id");
+        return $dataTable->render('s_sales.s_institution_report', compact("institutions"));
     }
 
 }

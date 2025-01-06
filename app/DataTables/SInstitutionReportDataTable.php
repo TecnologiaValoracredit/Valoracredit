@@ -52,19 +52,13 @@ class SInstitutionReportDataTable extends DataTable
      */
     public function query(SSale $model): QueryBuilder
     {
-        $institutionName = request('institution_name'); // Obtener el nombre de la institución
-
-        // Validar que se haya proporcionado un nombre de institución
-        if (!$institutionName) {
-            throw new \InvalidArgumentException("Se requiere un nombre de institución para el filtro.");
-        }
-
         return $model->selectRaw('
                 MONTHNAME(grant_date) as month, 
                 SUM(credit_amount) as total
             ')
             ->join('institutions', 's_sales.institution_id', '=', 'institutions.id') // Relación con la tabla de instituciones
-            ->where('institutions.name', $institutionName) // Filtrar por nombre de institución
+            ->where('institutions.id', request("institution_id")) // Filtrar por nombre de institución
+            ->whereYear('s_sales.grant_date', request("year")) // Filtrar por año actual
             ->groupByRaw('MONTH(grant_date), MONTHNAME(grant_date)') // Agrupar por mes
             ->orderByRaw('MONTH(grant_date)'); // Ordenar por número de mes
     }
