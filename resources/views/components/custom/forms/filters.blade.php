@@ -33,7 +33,7 @@
                                                 "placeholder" => $input["placeholder"] ?? $input["label"],
                                                 "label" => $input["label"],
                                                 "class" => "datatable-filter",
-                                                "value" => $input["value"]
+                                                "value" => $input["value"] ?? ""
                                             ])
                                         @endif
                                     </div>
