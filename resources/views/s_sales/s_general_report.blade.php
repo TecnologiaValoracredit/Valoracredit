@@ -31,10 +31,11 @@
         ])
    
         <!-- Tabla de Datos -->
+        
         {{ $dataTable->table() }}
 
         <!-- Contenedor de la gráfica -->
-        <div style="height: 1000px; width: 100%; margin-top: 20px;">
+        <div style="height: 400px; width: 100%; margin-top: 20px;">
             <canvas id="grafica"></canvas>
         </div>
     </div>

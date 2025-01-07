@@ -7,6 +7,7 @@
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <x-slot:headerFiles>
         <!--  BEGIN CUSTOM STYLE FILE  -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         @vite(['resources/sass/datatables.scss'])
 
         <style>
@@ -67,17 +68,19 @@
             </div>
         </div>
     </div>
-    <script src="http://code.highcharts.com/highcharts.js"></script>
 
-    <div id="container" style="height: 400px; width:350px"></div>
-    <button id="b1">Move into other container</button>
-    <div id="beforeItem"></div>
+    <div style="height: 400px; width: 100%; margin-top: 20px;">
+        <canvas id="grafica"></canvas>
+    </div>
+</div>
+  
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
         {{ $dataTable->scripts() }}
         @vite(['resources/js/filters.js'])
         @vite(['resources/js/s_mensual_reports.js'])
+        @vite(['resources/js/s_mensual_report_graphics.js'])
         
 
         
