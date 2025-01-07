@@ -17,7 +17,7 @@ $(document).ready(function() {
         });
 
         // Obtener el contexto del canvas
-        const ctx = document.getElementById('grafica').getContext('2d');
+        const ctx = document.getElementById('generalReportGraphic').getContext('2d');
 
         // Verificar si ya existe una instancia de la gráfica y destruirla
         if (window.myChart instanceof Chart) {
@@ -99,3 +99,14 @@ $(document).ready(function() {
         renderizarGrafica();
     });
 });
+    //Descargar grafica como png
+    document.getElementById('downloadBtn').addEventListener('click',function()
+    {
+        const canvas = document.getElementById('generalReportGraphic');
+        const image = canvas.toDataURL('image/png');
+
+        const link = document.createElement('a');
+        link.href = image;
+        link.download = 'generalReportGraphic.png';
+        link.click();
+    })

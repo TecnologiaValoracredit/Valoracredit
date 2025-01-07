@@ -2,7 +2,8 @@
   <!-- Sección de Datos del Solicitante -->
   <div class="row mb-4">
     <!-- Nombre del cliente -->
-    <div class="col-md-7">
+    <div class="col-md-7
+    ">
       @include("components.custom.forms.input", [
         "id" => "client_name",
         "name" => "client_name",

@@ -8,6 +8,8 @@
     <x-slot:headerFiles>
         <!--  BEGIN CUSTOM STYLE FILE  -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
         @vite(['resources/sass/datatables.scss'])
 
         <style>
@@ -65,15 +67,22 @@
                     <h5 class="card-title">Reporte mensual </h5>
                 </div>
                 {{ $dataTable->table() }}
-            </div>
-        </div>
+           
     </div>
-
+    <!-- Boton descargar -->
+    <div style="position: relative; height: 400px; width: 100%; margin-top: 20px;">
+        <div id="buttonContainer" style="position: absolute; top: -10px; right: 10px; z-index: 10;">
+            <button id="downloadBtn" class="btn btn-light">
+                <i class="fas fa-download" style="color: green; margin-right: 5px;"></i> Descargar Imagen
+            </button>
+        </div>
+        <!--Contenedor grafica -->
     <div style="height: 400px; width: 100%; margin-top: 20px;">
         <canvas id="grafica"></canvas>
     </div>
 </div>
-  
+    </div>
+        </div>
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>

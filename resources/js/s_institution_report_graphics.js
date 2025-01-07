@@ -99,3 +99,15 @@ $(document).ready(function() {
         renderizarGrafica();
     });
 });
+
+    //Descargar grafica como png
+    document.getElementById('downloadBtn').addEventListener('click',function()
+    {
+        const canvas = document.getElementById('grafica');
+        const image = canvas.toDataURL('image/png');
+
+        const link = document.createElement('a');
+        link.href = image;
+        link.download = 'institutionReportGraphic.png';
+        link.click();
+    })
