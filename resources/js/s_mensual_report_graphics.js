@@ -9,10 +9,11 @@ $(document).ready(function() {
 
         // Obtener los datos de la tabla
         data.each(function (row) {
-            if (row.institution_name !== "Total del Mes") {
+            if (row.institution_name !== "Total del Mes" && row.institution_name !== "TOTAL GENERAL" ) {
                 // Asegurarnos de que el nombre esté limpio de HTML
                 instituciones.push($("<div>").html(row.institution_name).text());
                 totales.push(parseFloat(row.total_monthly.replace(/,/g, "")) || 0);
+
             }
         });
 

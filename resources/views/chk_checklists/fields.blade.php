@@ -1,7 +1,8 @@
 <div class="container mt-4">
   <!-- Sección de Datos del Solicitante -->
   <div class="row mb-4">
-    <div class="col-md-4">
+    <!-- Nombre del cliente -->
+    <div class="col-md-7">
       @include("components.custom.forms.input", [
         "id" => "client_name",
         "name" => "client_name",
@@ -13,28 +14,39 @@
         "invalid_feedback" => "El campo es requerido"
       ])
     </div>
+
     <!-- Fecha -->
-    <div class="col-md-4">
+    <div class="col-md-5">
       <label for="date" class="form-label">Fecha</label>
-      <input type="date" id="date" class="form-control" name="date" >
+      <input type="date" id="date" class="form-control" name="date" value="{{ old('date', $chk_checklist->date ?? '') }}">
     </div>
   </div>
 
-  <!-- Sección de Institución y RFC -->
+  <!-- Institución -->
   <div class="row mb-4">
-    <div class="col-md-4">
+    <div class="col-md-9">
       @include("components.custom.forms.input-select", [
         "id" => "institution_id",
         "name" => "institution_id",
         "elements" => $institutions,
         "placeholder" => "Institución",
-        "value" => isset($institution) ? $institution->name : old("institution_id"),
+        "value" => isset($chk_checklist) ? $chk_checklist->institution_id : old("institution_id"),
         "label" => "Institución",
         "required" => true,
         "invalid_feedback" => "El campo es requerido"
       ])
     </div>
-    <div class="col-md-4">
+
+    <!-- Id Solicitud -->
+    <div class="col-md-3">
+      <label for="sol_id" class="form-label">Id Solicitud</label>
+      <input type="text" id="sol_id" class="form-control" value="{{ old('sol_id', $chk_checklist->sol_id ?? '') }}" disabled>
+    </div>
+  </div>
+
+  <!-- RFC -->
+  <div class="row mb-4">
+    <div class="col-md-9">
       @include("components.custom.forms.input", [
         "id" => "rfc",
         "name" => "rfc",
@@ -48,7 +60,7 @@
     </div>
   </div>
 
-  <!-- Sección de Tipo de Crédito y Solicitudes -->
+  <!-- Tipo de Crédito y Id Crédito -->
   <div class="row mb-4">
     <div class="col-md-4">
       @include("components.custom.forms.input-select", [
@@ -56,40 +68,22 @@
         "name" => "chk_credit_type_id",
         "elements" => $chk_credit_types,
         "placeholder" => "Tipo de Crédito",
-        "value" => isset($chk_credit_type) ? $chk_credit_type->name : old("chk_credit_type_id"),
+        "value" => isset($chk_checklist) ? $chk_checklist->chk_credit_type_id : old("chk_credit_type_id"),
         "label" => "Tipo de Crédito",
         "required" => true,
         "invalid_feedback" => "El campo es requerido"
       ])
     </div>
-    
-    <div class="col-md-4">
-      <label for="sol_id" class="form-label">Id Solicitud</label>
-      <input type="text" id="sol_id" class="form-control" value="{{ old('sol_id', $chk_checklist->sol_id ?? '') }}" disabled>
-    </div>
+
     <div class="col-md-4">
       <label for="credit_id" class="form-label">Id Crédito</label>
       <input type="text" id="credit_id" class="form-control" value="{{ old('credit_id', $chk_checklist->credit_id ?? '') }}" disabled>
     </div>
   </div>
 
-  <!-- Sección de Tipo de Firma -->
-  <div class="row mb-4">
-    <div class="col-md-4">
-      @include("components.custom.forms.input-select", [
-        "id" => "exp_type_id",
-        "name" => "exp_type_id",
-        "elements" => $exp_types,
-        "placeholder" => "Tipo de Firma",
-        "value" => isset($exp_type) ? $exp_type->name : old("exp_types_id"),
-        "label" => "Tipo de Firma",
-        "required" => true,
-        "invalid_feedback" => "El campo es requerido"
-      ])
-    </div>
-  </div>
+  <!-- Monto de Crédito y Monto Dispersado -->
 
-  <!-- Sección de Monto de Crédito y Monto Dispersado -->
+  
   <div class="row mb-4">
     <div class="col-md-4">
       @include("components.custom.forms.input", [
@@ -103,6 +97,7 @@
         "invalid_feedback" => "El campo es requerido"
       ])
     </div>
+  
     <div class="col-md-4">
       @include("components.custom.forms.input", [
         "id" => "dispersed_ammount",
@@ -115,24 +110,44 @@
         "invalid_feedback" => "El campo es requerido"
       ])
     </div>
+  
+    <div class="col-md-4">
+      @include("components.custom.forms.input-select", [
+        "id" => "exp_type_id",
+        "name" => "exp_type_id",
+        "elements" => $exp_types,
+        "placeholder" => "Tipo de Firma",
+        "value" => isset($chk_checklist) ? $chk_checklist->exp_type_id : old("exp_type_id"),
+        "label" => "Tipo de Firma",
+        "required" => true,
+        "invalid_feedback" => "El campo es requerido"
+      ])
+    </div>
   </div>
 
-  <!-- Sección de Estado -->
+
+  <!-- Estado -->
   <div class="row mb-4">
-      @foreach ($chk_lists as $chk_list)
-        <div class="d-flex gap-2">
-          <input type="checkbox" id="chk_{{$chk_list->id}}" name="chk_lists[]" value="{{$chk_list->id}}" />
-          <label for="chk_{{$chk_list->id}}">{{$chk_list->description}}</label>
-        </div>
-      @endforeach
+    @foreach ($chk_lists as $chk_list)
+      <hr>
+      <div class="d-flex gap-2 align-items-center">
+        <input type="checkbox" 
+               id="chk_{{$chk_list->id}}" 
+               name="chk_lists[]" 
+               value="{{$chk_list->id}}"
+               {{ in_array($chk_list->id, old('chk_lists', $chk_checklist->chkLists->pluck('id')->toArray())) ? 'checked' : '' }} />
+        <label for="chk_{{$chk_list->id}}" class="m-0">{{$chk_list->description}}</label>
+      </div>
+    @endforeach
   </div>
-</div>
 
-<div class="mb-2">
-  @include("components.custom.forms.input-check", [
+  <!-- Botón activo -->
+  <div class="mb-2">
+    @include("components.custom.forms.input-check", [
       "id" => "is_active",
       "name" => "is_active",
-      "checked" => isset($chk_checklist) ? $chk_checklist->is_active :  true,
+      "checked" => isset($chk_checklist) ? $chk_checklist->is_active : true,
       "label" => "Activo",
-  ])
+    ])
+  </div>
 </div>
