@@ -75,7 +75,7 @@ class MenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            "name" => "Reporte por instiución",
+            "name" => "Reporte por institución",
             "parent_id" => $sal->id,
             "position" => 2.3,
             "permission_id" => $this->getPermissionId("s_institution_reports")

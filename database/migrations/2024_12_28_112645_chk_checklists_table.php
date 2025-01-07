@@ -16,7 +16,7 @@ return new class extends Migration
      
             Schema::create('chck_checklist', function (Blueprint $table) {
       
-                $table->id();
+                $table->bigIncrements("id");
                 $table->string('client_name');
                 $table->date("date");
                 $table->string('rfc');

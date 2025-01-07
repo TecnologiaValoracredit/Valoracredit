@@ -1,7 +1,7 @@
 $(document).ready(function() {
     // Función para renderizar la gráfica
     function renderizarGrafica() {
-        const table = window.LaravelDataTables["s_general_reports-table"];
+        const table = window.LaravelDataTables["s_mensual_reports-table"];
         const data = table.rows({ search: 'applied' }).data();
 
         const instituciones = [];
@@ -9,10 +9,11 @@ $(document).ready(function() {
 
         // Obtener los datos de la tabla
         data.each(function (row) {
-            if (row.institution_name !== "TOTAL GENERAL") {
+            if (row.institution_name !== "Total del Mes" && row.institution_name !== "TOTAL GENERAL" ) {
                 // Asegurarnos de que el nombre esté limpio de HTML
                 instituciones.push($("<div>").html(row.institution_name).text());
-                totales.push(parseFloat(row.total_by_institution.replace(/,/g, "")) || 0);
+                totales.push(parseFloat(row.total_monthly.replace(/,/g, "")) || 0);
+
             }
         });
 
@@ -95,7 +96,7 @@ $(document).ready(function() {
     }
 
     // Ejecutar al iniciar o cuando se dibuje la tabla
-    $('#s_general_reports-table').on('draw.dt init.dt', function () {
+    $('#s_mensual_reports-table').on('draw.dt init.dt', function () {
         renderizarGrafica();
     });
 });

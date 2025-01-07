@@ -7,6 +7,7 @@
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <x-slot:headerFiles>
         <!--  BEGIN CUSTOM STYLE FILE  -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         @vite(['resources/sass/datatables.scss'])
 
         <style>
@@ -33,6 +34,7 @@
 
     <div class="row layout-top-spacing">
         <!-- CONTENT HERE -->
+        
         @include('components.custom.forms.filters', [
             "rows" => [
                 [
@@ -66,44 +68,17 @@
 
                 {{ $dataTable->table() }}
 
-                <hr>
-
-                <table>
-                    <thead>
-                        <th>Año</th>
-                        <th>Ventas</th>
-                        <th>Meses</th>
-                        <th>Promedio</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2022</td>
-                            <td>1000</td>
-                            <td>10</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td>2023</td>
-                            <td>1000</td>
-                            <td>10</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td>2024</td>
-                            <td>1000</td>
-                            <td>10</td>
-                            <td>100</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div style="height: 400px; width: 100%; margin-top: 20px;">
+                    <canvas id="grafica"></canvas>
+                </div>
             </div>
-        </div>
-    </div>
-    
+
+
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
         {{ $dataTable->scripts() }}
         @vite(['resources/js/filters.js'])
+        @vite(['resources/js/s_institution_report_graphics.js'])
         
 
     </x-slot>

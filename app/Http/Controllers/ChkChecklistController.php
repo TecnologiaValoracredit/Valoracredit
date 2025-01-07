@@ -67,13 +67,14 @@ class ChkChecklistController extends Controller
 
     public function edit(ChkChecklist $chk_checklist)
     {
+        $chk_checklist->chk_lists = json_decode($chk_checklist->chk_lists, true);
         $chk_lists = ChkList::where("is_active",1)->get();
         $exp_types = ExpType::where("is_active",1)->pluck("name","id");
         $institutions = Institution::where("is_active", 1)->pluck("name", "id");
         $chk_credit_types = ChkCreditType::where("is_active", 1)->pluck("name", "id");
     
         
-        return view('chk_checklists.create', compact('institutions', 'chk_credit_types','exp_types','chk_lists'));
+        return view('chk_checklists.edit', compact('chk_checklist','institutions', 'chk_credit_types','exp_types','chk_lists'));
     }
 
     public function update(ChkChecklistRequest $request, ChkChecklist $chk_checklist)
