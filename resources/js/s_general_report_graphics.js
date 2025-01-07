@@ -1,11 +1,5 @@
-
-$(function () {
-    // Inicializar DataTable si no está inicializado
-    if (!$.fn.DataTable.isDataTable('#s_general_reports-table')) {
-        $('#s_general_reports-table').DataTable();
-    }
-
-    // Función para obtener los datos y renderizar la gráfica
+$(document).ready(function() {
+    // Función para renderizar la gráfica
     function renderizarGrafica() {
         const table = window.LaravelDataTables["s_general_reports-table"];
         const data = table.rows({ search: 'applied' }).data();
@@ -16,44 +10,91 @@ $(function () {
         // Obtener los datos de la tabla
         data.each(function (row) {
             if (row.institution_name !== "TOTAL GENERAL") {
-                instituciones.push(row.institution_name);
+                // Asegurarnos de que el nombre esté limpio de HTML
+                instituciones.push($("<div>").html(row.institution_name).text());
                 totales.push(parseFloat(row.total_by_institution.replace(/,/g, "")) || 0);
             }
         });
 
-        // Configuración de la gráfica
-        Highcharts.chart('container', {
-            chart: {
-                type: 'column',
-                height: 400, // Altura de la gráfica
+        // Obtener el contexto del canvas
+        const ctx = document.getElementById('grafica').getContext('2d');
+
+        // Verificar si ya existe una instancia de la gráfica y destruirla
+        if (window.myChart instanceof Chart) {
+            window.myChart.destroy();
+        }
+
+        // Crear una nueva instancia de la gráfica
+        window.myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: instituciones,  // Nombres de las instituciones
+                datasets: [{
+                    label: 'Total por Institución',
+                    data: totales,  // Totales por institución
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
             },
-            title: {
-                text: 'Totales por Institución',
-            },
-            xAxis: {
-                categories: instituciones,
-                crosshair: true,
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Total ($)',
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            title: function(tooltipItem) {
+                                // Mostrar el nombre completo de la institución
+                                return tooltipItem[0].label; 
+                            },
+                            label: function(tooltipItem) {
+                                // Mostrar el total en el tooltip
+                                return 'Total: ' + tooltipItem.raw.toLocaleString();
+                            }
+                        },
+                        // Estilo del tooltip
+                        bodyFont: {
+                            size: 12  // Tamaño de la fuente
+                        },
+                        titleFont: {
+                            weight: 'bold',  // Hacer el título más prominente
+                            size: 14  // Ajustar el tamaño del título
+                        },
+                        displayColors: false,  // No mostrar color extra en el tooltip
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',  // Fondo del tooltip
+                        titleColor: '#fff',  // Color del título
+                        bodyColor: '#fff',  // Color del cuerpo del tooltip
+                        padding: 10,  // Relleno para mayor espacio
+                    }
                 },
-            },
-            tooltip: {
-                valuePrefix: '$',
-                valueDecimals: 2,
-            },
-            series: [
-                {
-                    name: 'Total por Institución',
-                    data: totales,
-                },
-            ],
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) { return value.toLocaleString(); }  // Formatear valores
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 10  // Ajuste del tamaño de la fuente para las etiquetas
+                            },
+                            padding: 10,  // Aumentar el espacio entre las etiquetas
+                            autoSkip: true,  // Evita que las etiquetas se solapen
+                        },
+                        grid: {
+                            display: false  // Quitar las líneas de la cuadrícula en el eje X
+                        }
+                    }
+                }
+            }
         });
     }
 
-    // Renderizar gráfica al inicializar o actualizar la tabla
+    // Ejecutar al iniciar o cuando se dibuje la tabla
     $('#s_general_reports-table').on('draw.dt init.dt', function () {
         renderizarGrafica();
     });

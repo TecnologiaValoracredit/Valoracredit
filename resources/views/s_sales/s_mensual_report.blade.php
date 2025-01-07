@@ -67,6 +67,11 @@
             </div>
         </div>
     </div>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+
+    <div id="container" style="height: 400px; width:350px"></div>
+    <button id="b1">Move into other container</button>
+    <div id="beforeItem"></div>
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>

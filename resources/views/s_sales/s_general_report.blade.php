@@ -1,17 +1,14 @@
 <x-base-layout :scrollspy="false">
     <input type="hidden" id="route" value="s_general_reports">
     <x-slot:pageTitle>
-        Reporte general 
+        Reporte General
     </x-slot>
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <x-slot:headerFiles>
         @vite(['resources/sass/datatables.scss'])
-        <!-- Estilo para la tabla -->
         <link rel="stylesheet" href="{{ asset('css/custom-style.css') }}">
-        <!-- Importar jQuery desde un CDN -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </x-slot>
     <!-- END GLOBAL MANDATORY STYLES -->
 
@@ -33,12 +30,14 @@
             ]
         ])
    
-                <!-- Tabla de Datos -->
-                {{ $dataTable->table() }}
+        <!-- Tabla de Datos -->
+        {{ $dataTable->table() }}
 
-                <!-- Contenedor de la gráfica -->
-                <div id="container" style="height: 400px; margin-top: 20px;"></div>
-      
+        <!-- Contenedor de la gráfica -->
+        <div style="height: 1000px; width: 100%; margin-top: 20px;">
+            <canvas id="grafica"></canvas>
+        </div>
+    </div>
 
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
