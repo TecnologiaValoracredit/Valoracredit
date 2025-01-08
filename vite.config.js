@@ -26,13 +26,16 @@ export default defineConfig({
                 'resources/layouts/modern-light-menu/app.js',
 
               
-
                 'resources/js/app.js',
                 'resources/js/expedients.js',
                 'resources/js/validations.js',
                 'resources/js/alerts.js',
                 'resources/js/filters.js',
                 'resources/js/s_general_reports.js',
+                'resources/js/s_general_report_graphics.js',
+                'resources/js/s_mensual_reports.js',
+                'resources/js/s_mensual_report_graphics.js',
+                'resources/js/s_institution_report_graphics.js',
 
             ],
             refresh: true,
