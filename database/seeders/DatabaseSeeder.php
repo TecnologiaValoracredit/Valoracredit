@@ -29,6 +29,12 @@ use Database\Seeders\ChkCreditTypeSeeder;
 use Database\Seeders\ChkListSeeder;
 use Database\Seeders\EmailAccountSeeder;
 
+use Database\Seeders\FAccountSeeder;
+use Database\Seeders\FBeneficiarySeeder;
+use Database\Seeders\FMovementTypeSeeder;
+use Database\Seeders\FStatusSeeder;
+
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -64,6 +70,10 @@ class DatabaseSeeder extends Seeder
             ChkCreditTypeSeeder::class,
             ChkListSeeder::class,
             
+            FAccountSeeder::class,
+            FBeneficiarySeeder::class,
+            FMovementTypeSeeder::class,
+            FStatusSeeder::class,
 
             // EmailAccountSeeder::class,
 
