@@ -9,7 +9,7 @@ $(document).ready(function() {
 
         // Obtener los datos de la tabla
         data.each(function (row) {
-            if (row.month !== "Total Ventas") {
+            if (row.month !== "Total Ventas" && row.month !== "TOTAL GENERAL" ) {
                 // Asegurarnos de que el nombre esté limpio de HTML
                 meses.push($("<div>").html(row.month).text());
                 totales.push(parseFloat(row.total.replace(/,/g, "")) || 0);

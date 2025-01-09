@@ -10,7 +10,6 @@ use App\Models\Departament;
 use App\Models\Supplier;
 use App\DataTables\RequisitionDataTable;
 use App\Models\PermissionModule;
-use App\DataTables\RequisitiontDataTable;
 use App\Http\Requests\RequisitionRequest;
 
 

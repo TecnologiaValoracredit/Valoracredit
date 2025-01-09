@@ -9,7 +9,7 @@ class ChkList extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id','description','is_active', 
+        'description','is_active', 
         'created_by','updated_by'
     ];
     

@@ -9,7 +9,7 @@ class ChkCreditType extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id','name','is_active',
+        'name','is_active',
         'created_by','updated_by'
     ];
 }

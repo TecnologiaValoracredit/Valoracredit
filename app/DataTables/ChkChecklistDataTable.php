@@ -21,28 +21,34 @@ class ChkChecklistDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         $datatable = (new EloquentDataTable($query))
-            ->setRowId('id')
-            ->editColumn('created_at', function (ChkChecklist $chk_checklist) {
-                return date("d/m/Y H:i", strtotime($chk_checklist->created_at));
-            })
-            ->editColumn('updated_at', function (ChkChecklist $chk_checklist) {
-                return date("d/m/Y H:i", strtotime($chk_checklist->updated_at));
-            })
-            ->editColumn('date', function (ChkChecklist $chk_checklist) {
-                return date("d/m/Y", strtotime($chk_checklist->date));
-            })
-            ->editColumn('is_active', function (ChkChecklist $chk_checklist) {
-                return $chk_checklist->is_active
-                    ? '<span class="badge badge-success mb-2 me-4">Sí</span>'
-                    : '<span class="badge badge-danger mb-2 me-4">No</span>';
-            });
+        ->setRowId('id')
+        ->editColumn('created_at', function (ChkChecklist $chk_checklist) {
+            return date("d/m/Y H:i", strtotime($chk_checklist->created_at));
+        })
+        ->editColumn('updated_at', function (ChkChecklist $chk_checklist) {
+            return date("d/m/Y H:i", strtotime($chk_checklist->updated_at));
+        })
+        ->editColumn('date', function (ChkChecklist $chk_checklist) {
+            return date("d/m/Y", strtotime($chk_checklist->date));
+        })
+        ->editColumn('is_active', function (ChkChecklist $chk_checklist) {
+            return $chk_checklist->is_active
+                ? '<span class="badge badge-success mb-2 me-4">Sí</span>'
+                : '<span class="badge badge-danger mb-2 me-4">No</span>';
+        })
+        ->editColumn('credit_ammount', function ($row) {
+            return '$' . number_format($row->credit_ammount, 2, '.', ',');
+        })
+        ->editColumn('dispersed_ammount', function ($row) {
+            return '$' . number_format($row->dispersed_ammount, 2, '.', ',');
+        });
 
-        // Agregar columna de acciones
-        $datatable->addColumn('action', function ($row) {
-            return $this->getActions($row);
-        })->rawColumns(["action", "is_active"]);
+    // Agregar columna de acciones
+    $datatable->addColumn('action', function ($row) {
+        return $this->getActions($row);
+    })->rawColumns(["action", "is_active"]);
 
-        return $datatable;
+    return $datatable;
     }
 
     public function getActions($row)
@@ -73,7 +79,7 @@ class ChkChecklistDataTable extends DataTable
      */
     public function query(ChkChecklist $model): QueryBuilder
     {
-        $query = ChkChecklist::select(
+        $query = $model->select(
             'chk_checklists.id',
             'chk_checklists.client_name',
             'chk_checklists.date',
@@ -92,7 +98,8 @@ class ChkChecklistDataTable extends DataTable
         )
         ->leftJoin('institutions', 'chk_checklists.institution_id', '=', 'institutions.id')
         ->leftJoin('chk_credit_types', 'chk_checklists.chk_credit_type_id', '=', 'chk_credit_types.id')
-        ->leftJoin('exp_types', 'chk_checklists.exp_type_id', '=', 'exp_types.id');
+        ->leftJoin('exp_types', 'chk_checklists.exp_type_id', '=', 'exp_types.id')
+        ->newQuery();
 
         return $query;
     }
