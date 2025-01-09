@@ -28,6 +28,8 @@ use Database\Seeders\CheckListSeeder;
 use Database\Seeders\ChkCreditTypeSeeder; 
 use Database\Seeders\ChkListSeeder;
 use Database\Seeders\EmailAccountSeeder;
+use Database\Seeders\HDeviceTypeSeeder;
+use Database\Seeders\HBrandSeeder;
 
 use Database\Seeders\FAccountSeeder;
 use Database\Seeders\FBeneficiarySeeder;
@@ -66,9 +68,11 @@ class DatabaseSeeder extends Seeder
             SupplierSeeder::class,
             RequisitionStatusSeeder::class,
             PaymentTypeSeeder::class,
-            SSaleSeeder::class,
+            // SSaleSeeder::class,
             ChkCreditTypeSeeder::class,
             ChkListSeeder::class,
+            HDeviceTypeSeeder::class,
+            HBrandSeeder::class,
             
             FAccountSeeder::class,
             FBeneficiarySeeder::class,

@@ -36,6 +36,7 @@ export default defineConfig({
                 'resources/js/s_mensual_reports.js',
                 'resources/js/s_mensual_report_graphics.js',
                 'resources/js/s_institution_report_graphics.js',
+                'resources/js/s_institution_reports.js',
 
             ],
             refresh: true,

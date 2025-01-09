@@ -38,10 +38,16 @@ class PermissionModuleSeeder extends Seeder
         PermissionModule::create(["name" => "s_institution_reports",  "description" => "Reporte por institución", "module_type_id" => 2, "parent_id" => $sales->id]);
         PermissionModule::create(["name" => "s_mensual_reports",  "description" => "Reporte mensual", "module_type_id" => 2, "parent_id" => $sales->id]);
 
+        $h_hardwares = PermissionModule::create(["name" => "h_hardw", "description" => "Hardware", "module_type_id" => 1]);
+        PermissionModule::create(["name" => "h_hardwares",  "description" => "Hardware", "module_type_id" => 2, "parent_id" => $h_hardwares->id]);
+        PermissionModule::create(["name" => "h_device_types",  "description" => "Tipos de hardware", "module_type_id" => 2, "parent_id" => $h_hardwares->id]);
+        PermissionModule::create(["name" => "h_brands",  "description" => "Marcas", "module_type_id" => 2, "parent_id" => $h_hardwares->id]);
+        
         $fluxes = PermissionModule::create(["name" => "f_flu", "description" => "Ventas", "module_type_id" => 1]);
         PermissionModule::create(["name" => "f_fluxes",  "description" => "Flujo", "module_type_id" => 2, "parent_id" => $fluxes->id]);
         PermissionModule::create(["name" => "f_accounts",  "description" => "Cuentas", "module_type_id" => 2, "parent_id" => $fluxes->id]);
         PermissionModule::create(["name" => "f_beneficiaries",  "description" => "Beneficiarios", "module_type_id" => 2, "parent_id" => $fluxes->id]);
+       
 
     }
 }

@@ -132,11 +132,19 @@
     @foreach ($chk_lists as $chk_list)
       <hr>
       <div class="d-flex gap-2 align-items-center">
+        @if (isset ($chk_checklist))
+          <input type="checkbox" 
+          id="chk_{{$chk_list->id}}" 
+          name="chk_lists[]" 
+          value="{{$chk_list->id}}"
+          {{ in_array($chk_list->id, old('chk_lists', $chk_checklist->chkLists->pluck('id')->toArray())) ? 'checked' : '' }} />
+        @else
         <input type="checkbox" 
-               id="chk_{{$chk_list->id}}" 
-               name="chk_lists[]" 
-               value="{{$chk_list->id}}"
-               {{ in_array($chk_list->id, old('chk_lists', $chk_checklist->chkLists->pluck('id')->toArray())) ? 'checked' : '' }} />
+          id="chk_{{$chk_list->id}}" 
+          name="chk_lists[]" 
+          value="{{$chk_list->id}}"/>
+        @endif
+       
         <label for="chk_{{$chk_list->id}}" class="m-0">{{$chk_list->description}}</label>
       </div>
     @endforeach

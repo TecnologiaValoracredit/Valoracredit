@@ -15,6 +15,9 @@ use App\Http\Controllers\SSaleController;
 use App\Http\Controllers\SGeneralReportController;
 use App\Http\Controllers\SMensualReportController;
 use App\Http\Controllers\SInstitutionReportController;
+use App\Http\Controllers\HBrandController;
+use App\Http\Controllers\HDeviceTypeController;
+use App\Http\Controllers\HHardwareController;
 
 // use App\Http\Controllers\SInstitutionReportController;
 
@@ -59,6 +62,9 @@ Route::middleware("auth")->group(function () {
         Route::get('s_institucion_reports', [SInstitutionReportController::class, "index"])->name("s_institution_reports.index");
         Route::get('s_mensual_reports', [SMensualReportController::class, "index"])->name("s_mensual_reports.index");
 
+        Route::resource('h_brands', HBrandController::class);
+        Route::resource('h_device_types', HDeviceTypeController::class);
+        Route::resource('h_hardwares', HHardwareController::class);
     });
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
 });

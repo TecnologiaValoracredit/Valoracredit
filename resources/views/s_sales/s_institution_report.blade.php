@@ -93,6 +93,7 @@
         {{ $dataTable->scripts() }}
         @vite(['resources/js/filters.js'])
         @vite(['resources/js/s_institution_report_graphics.js'])
+        @vite(['resources/js/s_institution_reports.js'])
         
 
     </x-slot>

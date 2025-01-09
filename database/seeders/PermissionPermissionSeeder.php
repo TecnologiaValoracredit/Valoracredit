@@ -33,6 +33,10 @@ class PermissionPermissionSeeder extends Seeder
 		$this->createPermissions(["s_institution_reports"], ["index"], false);
 		$this->createPermissions(["s_mensual_reports"], ["index"], false);
 
+		$this->createPermissions(["h_hardwares"]);
+		$this->createPermissions(["h_device_types"]);
+		$this->createPermissions(["h_brands"]);
+
     }
 
     public function createPermissions($moduleNames = [], $functionNames = [], $addCrudFunctions = true) {
