@@ -17,27 +17,27 @@ class FAccountSeeder extends Seeder
     {
         FAccount::create([
             "name" => "BIM 2017",
-            "account" => "XXXX",
+            "account_number" => "XXXX",
             "balance" => 0
         ]);
         FAccount::create([
             "name" => "BIM 2018",
-            "account" => "XXXX",
+            "account_number" => "XXXX",
             "balance" => 0
         ]);
         FAccount::create([
             "name" => "WS Santander",
-            "account" => "XXXX",
+            "account_number" => "XXXX",
             "balance" => 0
         ]);
         FAccount::create([
             "name" => "WS BBVA",
-            "account" => "XXXX",
+            "account_number" => "XXXX",
             "balance" => 0
         ]);
         FAccount::create([
             "name" => "STP",
-            "account" => "XXXX",
+            "account_number" => "XXXX",
             "balance" => 0
         ]);
     }

@@ -140,31 +140,57 @@ class MenuSeeder extends Seeder
             "position" => 3.2,
             "permission_id" => $this->getPermissionId("requisitions")
         ]);
+
+        $f_fluxes = Menu::create([
+            "name" => "Flujo",
+            "parent_id" => null,
+            "position" => 4,
+        ]);
+        Menu::create([
+            "name" => "Flujo",
+            "parent_id" => $f_fluxes->id,
+            "position" => 4.1,
+            "permission_id" => $this->getPermissionId("f_fluxes")
+        ]);
+
+        Menu::create([
+            "name" => "Cuentas",
+            "parent_id" => $f_fluxes->id,
+            "position" => 4.2,
+            "permission_id" => $this->getPermissionId("f_accounts")
+        ]);
+
+        Menu::create([
+            "name" => "Beneficiarios",
+            "parent_id" => $f_fluxes->id,
+            "position" => 4.3,
+            "permission_id" => $this->getPermissionId("f_beneficiaries")
+        ]);
         
 
         $h_hardware = Menu::create([
             "name" => "Dispostivos",
             "parent_id" => null,
-            "position" => 4,
+            "position" => 5,
         ]);
         Menu::create([
             "name" => "Dispositivos",
             "parent_id" => $h_hardware->id,
-            "position" => 4.1,
+            "position" => 5.1,
             "permission_id" => $this->getPermissionId("h_hardwares")
         ]);
 
         Menu::create([
             "name" => "Tipos de dispositivos",
             "parent_id" => $h_hardware->id,
-            "position" => 4.2,
+            "position" => 5.2,
             "permission_id" => $this->getPermissionId("h_device_types")
         ]);
 
         Menu::create([
             "name" => "Marcas de dispositivos",
             "parent_id" => $h_hardware->id,
-            "position" => 4.3,
+            "position" => 5.3,
             "permission_id" => $this->getPermissionId("h_brands")
         ]);
        

@@ -38,5 +38,7 @@ class PermissionFunctionSeeder extends Seeder
         );
 
         PermissionFunction::create(["name" => "uploadExpedientsAbc"]);
+        PermissionFunction::create(["name" => "getDataAutocomplete"]);
+
     }
 }

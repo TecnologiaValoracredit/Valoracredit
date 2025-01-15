@@ -38,6 +38,8 @@
     @vite(['resources/scss/light/assets/elements/alert.scss'])
         
     @vite(['resources/scss/light/assets/main.scss'])
+    <link rel="stylesheet" href="{{asset('plugins/autocomplete/css/autoComplete.02.css')}}">
+    @vite(['resources/scss/light/plugins/autocomplete/css/custom-autoComplete.scss'])
 
     @if (
             !Request::routeIs('404') &&
@@ -180,6 +182,7 @@
             <script src="{{asset('plugins/waves/waves.min.js')}}"></script>
             <script src="{{asset('plugins/highlight/highlight.pack.js')}}"></script>
             <script src="{{asset('plugins/notification/snackbar/snackbar.min.js')}}"></script>
+            <script src="{{asset('plugins/autocomplete/autoComplete.min.js')}}"></script>
 
             @vite(['resources/js/validations.js'])
             @vite(['resources/js/alerts.js'])

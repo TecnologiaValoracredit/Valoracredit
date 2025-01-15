@@ -18,6 +18,9 @@ use App\Http\Controllers\SInstitutionReportController;
 use App\Http\Controllers\HBrandController;
 use App\Http\Controllers\HDeviceTypeController;
 use App\Http\Controllers\HHardwareController;
+use App\Http\Controllers\FBeneficiaryController;
+use App\Http\Controllers\FAccountController;
+use App\Http\Controllers\FFluxController;
 
 // use App\Http\Controllers\SInstitutionReportController;
 
@@ -36,11 +39,11 @@ use App\Http\Controllers\HHardwareController;
 
 Route::middleware("auth")->group(function () {
     Route::get('/dashboard', function () {
-        
-
-
         return view('dashboard', ['title' => 'Inicio']);
     })->name("dashboard.index");
+
+    Route::get('f_beneficiaries/getDataAutocomplete', [FBeneficiaryController::class, "getDataAutocomplete"])->name("f_beneficiaries.getDataAutocomplete");
+
 
     // Route::get('/refresh-emails', [EmailController::class, 'refreshEmails'])->name('emails.refresh');
 
@@ -65,6 +68,11 @@ Route::middleware("auth")->group(function () {
         Route::resource('h_brands', HBrandController::class);
         Route::resource('h_device_types', HDeviceTypeController::class);
         Route::resource('h_hardwares', HHardwareController::class);
+
+        Route::resource('f_fluxes', FFluxController::class);
+        Route::resource('f_accounts', FAccountController::class);
+        Route::resource('f_beneficiaries', FBeneficiaryController::class);
+
     });
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
 });

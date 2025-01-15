@@ -21,12 +21,14 @@ export default defineConfig({
                 'resources/scss/light/assets/components/tabs.scss',
                 'resources/sass/app.scss',
                 'resources/sass/datatables.scss',
+                'resources/sass/input-inline.scss',
 
                 'resources/layouts/modern-light-menu/loader.js',
                 'resources/layouts/modern-light-menu/app.js',
 
-              
+                
                 'resources/js/app.js',
+                'resources/js/autocomplete.js',
                 'resources/js/expedients.js',
                 'resources/js/validations.js',
                 'resources/js/alerts.js',
@@ -37,6 +39,7 @@ export default defineConfig({
                 'resources/js/s_mensual_report_graphics.js',
                 'resources/js/s_institution_report_graphics.js',
                 'resources/js/s_institution_reports.js',
+                'resources/js/f_fluxes.js',
 
             ],
             refresh: true,

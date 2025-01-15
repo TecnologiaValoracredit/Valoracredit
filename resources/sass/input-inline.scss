@@ -1,0 +1,20 @@
+.input-container {
+    width: 100%;
+    span {
+        width: 320px;
+    }
+    input, select {
+        margin-left: -5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        height: 40px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        display: block;
+        width: 100%;
+    }
+    select {
+        height: 40px;
+        padding: 0 10px;
+    }
+}
