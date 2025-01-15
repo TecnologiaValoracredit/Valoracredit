@@ -24,8 +24,8 @@
   </div>
 </div>
 
-<div class="container text-center">
-  <div class="row align-items-end">
+
+<div class="row mb-4">
 <div class="col-md-4">
   @include("components.custom.forms.input-select", [
       "id" => "payment_type_id",
@@ -39,12 +39,12 @@
   ])
 </div>
 
-<div class="col-4">
+<div class="col-md-4">
   <label for="inputIzquierda" class="form-label">Sucursal</label>
   <input type="text" id="branch" class="form-control" 
     value="{{ Auth::user()->branch ? Auth::user()->branch->name : 'No asignada' }}" disabled>
 </div>
-
+<div class= "col-4">
   @include("components.custom.forms.input-select", [
       "id" => "supplier_id",
       "name" => "supplier_id",
@@ -55,7 +55,9 @@
       "required" => true,
       "invalid_feedback" => "El campo es requerido"
   ])
-
+  </div>
+</div>
+<br>
 <div class="mb-2">
   @include("components.custom.forms.input-check", [
       "id" => "is_active",

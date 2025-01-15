@@ -19,6 +19,8 @@ class PermissionPermissionSeeder extends Seeder
     {
         $this->createPermissions(["dashboard"], ["index"], false);
         $this->createPermissions(["users", "roles", "departaments"]);
+		$this->createPermissions(["users"], ["changePassword","setNewPassword"], false);
+
 
 		$this->createPermissions(["expedients"], ["index", "uploadExpedientsAbc", "update", "show"], false);
 		$this->createPermissions(["exp_reports"], ["index"], false);

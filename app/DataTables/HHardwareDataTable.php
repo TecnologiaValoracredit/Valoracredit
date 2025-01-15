@@ -58,41 +58,18 @@ class HHardwareDataTable extends DataTable
             ';
         }
     
-
-
-        // Botón de ver imagen (ojo)
-        if ($row->image) {
+        if (auth()->user()->hasPermissions("h_hardwares.show")) {
             $result .= '
-                <a href="javascript:void(0);" class="btn btn-outline-info btn-icon ps-2 px-1" data-bs-toggle="modal" data-bs-target="#imageModal'.$row->id.'" title="Ver imagen">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
+                <a href="' . route('h_hardwares.show', $row->id) . '" title="Ver Más" class="btn btn-outline-info btn-icon ps-2 px-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal">
+                        <circle cx="12" cy="12" r="1"/>
+                        <circle cx="18" cy="12" r="1"/>
+                        <circle cx="24" cy="12" r="1"/>
                     </svg>
                 </a>
-    
-                <!-- Modal para mostrar la imagen -->
-                <div class="modal fade" id="imageModal'.$row->id.'" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="imageModalLabel">Imagen de Hardware</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <img src="'.asset('storage/'.$row->image).'" alt="Imagen del hardware" class="img-fluid" />
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             ';
-        } else {
-            // Si no hay imagen, muestra un texto "No disponible"
-            $result .= '<span class="text-muted">No imagen</span>';
         }
-    
+           
         return $result;
     }
     
@@ -205,7 +182,9 @@ class HHardwareDataTable extends DataTable
 
         if (auth()->user()->hasPermissions("h_hardwares.edit") ||
             auth()->user()->hasPermissions("h_hardwares.create") ||
-            auth()->user()->hasPermissions("h_hardwares.destroy")) {
+            auth()->user()->hasPermissions("h_hardwares.destroy")||
+            auth()->user()->hasPermissions("h_hardwares.show"))
+            {
             $columns = array_merge($columns, [
                 Column::computed('action')
                 ->exportable(false)

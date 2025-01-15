@@ -10,6 +10,7 @@ use App\Models\HHardware;
 use App\Http\Requests\HHardwareRequest;
 use App\Models\PermissionModule;
 use App\DataTables\HHardwareDataTable;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class HHardwareController extends Controller
 {
@@ -86,7 +87,15 @@ class HHardwareController extends Controller
         return $this->getResponse($status, $message, $h_hardware);
     }
     
-    
+        public function generateQrCode(HHardware $h_hardware)
+        {
+        // Generar un código QR con el enlace al hardware específico
+        $qrCode = QrCode::size(200)->generate(route('h_hardwares.show', $h_hardware->id));
+
+        // Pasar el QR generado a la vista
+        return view('h_hardwares.qr_code', compact('qrCode', 'h_hardware'));
+        }
+
 
     /**
      * Display the specified resource.
@@ -94,11 +103,22 @@ class HHardwareController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(HHardware $h_hardware)
     {
-        $modules = PermissionModule::all();
-        return view("h_hardwares.show", compact("h_hardwares", "modules"));
+        $modules = PermissionModule::all(); // Cargar todos los módulos de permisos
+        $h_device_types = HDeviceType::where("is_active", 1)->pluck("name", "id");
+        $h_brands = HBrand::where("is_active", 1)->pluck("name", "id");
+        $users = User::where("is_active", 1)->pluck("name", "id");
+    
+        // Asegúrate de que el hardware está activo
+        if (!$h_hardware->is_active) {
+            abort(404, "El hardware no está activo o no existe.");
+        }
+    
+        // Pasar el hardware y los módulos a la vista
+        return view("h_hardwares.show", compact("h_hardware", "modules",'h_device_types', 'h_brands','users',));
     }
+    
 
     /**
      * Show the form for editing the specified resource.
