@@ -39,6 +39,11 @@ class PermissionPermissionSeeder extends Seeder
 		$this->createPermissions(["h_device_types"]);
 		$this->createPermissions(["h_brands"]);
 
+		$this->createPermissions(["f_fluxes"]);
+		$this->createPermissions(["f_accounts"]);
+		$this->createPermissions(["f_beneficiaries"]);
+
+
     }
 
     public function createPermissions($moduleNames = [], $functionNames = [], $addCrudFunctions = true) {

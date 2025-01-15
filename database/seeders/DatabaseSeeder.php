@@ -31,6 +31,12 @@ use Database\Seeders\EmailAccountSeeder;
 use Database\Seeders\HDeviceTypeSeeder;
 use Database\Seeders\HBrandSeeder;
 
+use Database\Seeders\FAccountSeeder;
+use Database\Seeders\FBeneficiarySeeder;
+use Database\Seeders\FMovementTypeSeeder;
+use Database\Seeders\FStatusSeeder;
+
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -68,6 +74,10 @@ class DatabaseSeeder extends Seeder
             HDeviceTypeSeeder::class,
             HBrandSeeder::class,
             
+            FAccountSeeder::class,
+            FBeneficiarySeeder::class,
+            FMovementTypeSeeder::class,
+            FStatusSeeder::class,
 
             // EmailAccountSeeder::class,
 
