@@ -23,7 +23,7 @@
                                                 "label" => $input["label"],
                                                 "class" => "datatable-filter",
                                                 "value" => $input["value"],
-                                                "elements" => $input["elements"]
+                                                "elements" => $input["elements"] ?? []
                                             ])
                                         @else
                                             @include("components.custom.forms.input", [

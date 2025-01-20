@@ -22,10 +22,26 @@ class HHardwareDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $datatable = (new EloquentDataTable($query));
-        $datatable->addColumn('action', function($row){
+        $datatable = (new EloquentDataTable($query))
+        ->setRowId('id')
+        ->editColumn('created_at', function (HHardware $h_hardware) {
+            return date("d/m/Y H:i", strtotime($h_hardware->created_at));
+        })
+        ->editColumn('updated_at', function (HHardware $h_hardware) {
+            return date("d/m/Y H:i", strtotime($h_hardware->updated_at));
+        })
+        ->editColumn('date', function (HHardware $h_hardware) {
+            return date("d/m/Y", strtotime($h_hardware->date));
+        })
+        ->editColumn('is_active', function (HHardware $h_hardware) {
+            return $h_hardware->is_active
+                ? '<span class="badge badge-success mb-2 me-4">Sí</span>'
+                : '<span class="badge badge-danger mb-2 me-4">No</span>';
+        });
+        $datatable->addColumn('action', function ($row) {
             return $this->getActions($row);
         })->rawColumns(["action", "is_active"]);
+    
         return $datatable;
     }
         
@@ -49,14 +65,12 @@ class HHardwareDataTable extends DataTable
         // Botón de eliminación
         if (auth()->user()->hasPermissions("h_hardwares.destroy")) {
             $result .= '
-                <a onclick="deleteRow('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash">
-                        <polyline points="3 6 5 6 21 6"/>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                    </svg>
+                <a onclick="deleteRow(' . $row->id . ')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>        
                 </a>
             ';
         }
+        
     
         if (auth()->user()->hasPermissions("h_hardwares.show")) {
             $result .= '
@@ -107,6 +121,7 @@ class HHardwareDataTable extends DataTable
                         'paging' => true,
                         'searching' => true,
                         'info' => true,
+                        'responsive' => true,
                     ])
                     ->setTableId('h_hardwares-table')
                     ->columns($this->getColumns())
@@ -176,7 +191,10 @@ class HHardwareDataTable extends DataTable
 
 
             
-            Column::make('is_active')->title("Activo"),
+            Column::make('is_active')
+                ->title('Activo')
+                ->searchable(false)
+                ->orderable(false),
 
         ];
 

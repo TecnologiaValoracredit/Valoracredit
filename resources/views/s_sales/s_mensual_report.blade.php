@@ -45,7 +45,7 @@
                         "label" => "Año",
                         "type" => "select",
                         "class" => "col-6",
-                        "elements" => [2020 => "2020", 2021 => "2021", 2022 => "2022", 2023 => "2023", 2024 => "2024"],
+                        "elements" => collect(range(2020, date('Y')))->mapWithKeys(fn($year) => [$year => (string)$year])->toArray(),
                         "value" => "2"
                     ],
                     [

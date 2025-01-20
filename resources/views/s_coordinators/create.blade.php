@@ -1,7 +1,7 @@
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
-        Modificar flujo
+        Crear coordinador
     </x-slot>
 
 
@@ -20,16 +20,15 @@
         <!-- CONTENT HERE -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Modificar flujo</h5>
-                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('f_fluxes.update', $f_flux->id) }}">
+                <h5 class="card-title">Crear coordinador</h5>
+                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('s_coordinators.store') }}">
                     @csrf
-                    @method("PUT")
                     <div class="d-flex justify-content-center">
                         <div class="w-50">
-                            @include("f_fluxes.fields")
+                            @include("s_coordinators.fields")
                             <div class="d-flex justify-content-end gap-2">
-                            <a href="{{route('f_fluxes.index')}}" class="btn btn-dark">Cancelar</a>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                <a href="{{route('s_coordinators.index')}}" class="btn btn-dark">Cancelar</a>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>
                     </div>

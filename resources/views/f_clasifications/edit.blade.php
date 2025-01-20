@@ -1,7 +1,7 @@
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
-        Modificar flujo
+        Modificar clasificaciones
     </x-slot>
 
 
@@ -20,15 +20,15 @@
         <!-- CONTENT HERE -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Modificar flujo</h5>
-                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('f_fluxes.update', $f_flux->id) }}">
+                <h5 class="card-title">Modificar clasificaciones</h5>
+                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('f_clasifications.update', $f_clasification->id) }}">
                     @csrf
                     @method("PUT")
                     <div class="d-flex justify-content-center">
                         <div class="w-50">
-                            @include("f_fluxes.fields")
+                            @include("f_clasifications.fields")
                             <div class="d-flex justify-content-end gap-2">
-                            <a href="{{route('f_fluxes.index')}}" class="btn btn-dark">Cancelar</a>
+                            <a href="{{route('f_clasifications.index')}}" class="btn btn-dark">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>

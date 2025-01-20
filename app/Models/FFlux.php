@@ -10,12 +10,12 @@ class FFlux extends Model
     use HasFactory;
 
     protected $fillable = [
-        'f_account_id',
+        'f_account_id', 
         'accredit_date',
         'f_beneficiary_id',
         'concept',
         'amount',
-        'f_movement_type_id',
+        'f_movement_type_id', 
         'account',
         'account2',
         'comments',
