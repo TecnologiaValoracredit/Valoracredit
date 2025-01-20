@@ -12,6 +12,7 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Email;
 use Webklex\PHPIMAP\ClientManager;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -19,89 +20,82 @@ class UserController extends Controller
     {
         $allowAdd = auth()->user()->hasPermissions("users.create");
         return $dataTable->render('users.index', compact("allowAdd"));
-
-        // $user = auth()->user();
-        // $clientManager = new ClientManager();
-        // $config = [
-        //     'host'          => 'imap.ionos.mx',
-        //     'port'          => 993,
-        //     'encryption'    => 'ssl', // ssl o tls
-        //     'validate_cert' => true,
-        //     'username'      => 'auxtecnologia@valoracredit.mx',
-        //     'password'      => '4Ca5uWh5BI5D',
-        //     'protocol'      => 'imap', // Asegúrate de que sea en minúsculas
-        // ];
-
-        // // Crear el cliente
-        // $client = $clientManager->make($config);
-
-        // // Conectar al servidor
-        // try {
-        //      // Obtener los mensajes
-        //      $messages = $client->getFolder('INBOX')->messages()->all()->get();
-
-        //      foreach ($messages as $message) {
-        //         // Guardar el correo en la base de datos (si no existe)
-        //         $email = Email::firstOrCreate(
-        //             ['message_id' => $message->getMessageId()],
-        //             [
-        //                 'user_id' => $user->id,
-        //                 'email_account_id' => 1,
-        //                 'subject' => $message->getSubject(),
-        //                 'from' => $message->getFrom()[0]->mail,
-        //                 'body' => $message->getTextBody(),
-        //                 'date' => $message->getDate(),
-        //                 'is_read' => false
-        //             ]
-        //         );
-        //     }
-        // } catch (\Exception $e) {
-        //     echo "Error: " . $e->getMessage();
-        // }
-
-     
     }
+
+    // Mostrar formulario de cambio de contraseña
+    public function changePassword(User $user)
+    {
+        return view('users.changePassword', compact('user'));
+    }
+
+    public function setNewPassword(Request $request, User $user)
+    {
+        // Verificar que el usuario autenticado sea el mismo
+        if (auth()->id() !== $user->id) {
+            abort(403, 'No tienes permiso para cambiar la contraseña de este usuario.');
+        }
+
+        // Validar las contraseñas
+        $request->validate([
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|confirmed|min:8',
+        ]);
+        
+
+        // Verificar si la contraseña actual es correcta
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'La contraseña actual es incorrecta.']);
+        }
+
+        // Cambiar la contraseña
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('dashboard.index')->with('success', 'Contraseña cambiada exitosamente.');
+    }
+
+    
 
     public function create()
     {
         $roles = Role::where("is_active", 1)->pluck("name", "id");
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
-        return view('users.create', compact('roles', 'branches','departaments'));
+        return view('users.create', compact('roles', 'branches', 'departaments'));
     }
 
-    
     public function store(UserRequest $request)
     {
         $status = true;
-		$user = null;
+        $user = null;
         $params = array_merge($request->all(), [
             "name" => $request->name,
             "email" => $request->email,
             "password" => Hash::make($request->password),
             "role_id" => $request->role_id,
             'is_active' => !is_null($request->is_active),
-		]);
-        
-		try {
+        ]);
+
+        try {
             $user = User::create($params);
             $message = "Usuario creado correctamente";
-		} catch (\Illuminate\Database\QueryException $e) {
+        } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
-			$message = $this->getErrorMessage($e, 'roles');
-		}
+            $message = $this->getErrorMessage($e, 'roles');
+        }
+
         return $this->getResponse($status, $message, $user);
-        
     }
-    
+
     public function edit(User $user)
     {
         $roles = Role::where("is_active", 1)->pluck("name", "id");
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
-        return view('users.edit', compact("user", "roles", "branches","departaments"));
+        return view('users.edit', compact("user", "roles", "branches", "departaments"));
     }
-    
+
     public function update(UserRequest $request, User $user)
     {
         $status = true;
@@ -110,7 +104,7 @@ class UserController extends Controller
             "email" => $request->email,
             "role_id" => $request->role_id,
             'is_active' => !is_null($request->is_active),
-		]);
+        ]);
         unset($params["password"]);
         if ($request->password) {
             $params["password"] = Hash::make($request->password);
@@ -123,8 +117,8 @@ class UserController extends Controller
             $status = false;
             $message = $this->getErrorMessage($e, 'users');
         }
+
         return $this->getResponse($status, $message, $user);
-    
     }
 
     public function destroy(User $user)
@@ -139,5 +133,6 @@ class UserController extends Controller
         }
         return $this->getResponse($status, $message);
     }
-    
+
+
 }

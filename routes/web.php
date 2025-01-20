@@ -49,6 +49,10 @@ Route::middleware("auth")->group(function () {
 
     Route::middleware(['permission'])->group(function () {
         Route::resource('users', UserController::class);
+        
+        Route::get('users/{user}/changePassword', [UserController::class, 'changePassword'])->name('users.changePassword');
+        Route::put('users/{user}/setNewPassword', [UserController::class, 'setNewPassword'])->name('users.setNewPassword');
+        
         Route::resource('roles', RoleController::class);
         Route::resource('departaments', DepartamentController::class);
 
@@ -68,6 +72,7 @@ Route::middleware("auth")->group(function () {
         Route::resource('h_brands', HBrandController::class);
         Route::resource('h_device_types', HDeviceTypeController::class);
         Route::resource('h_hardwares', HHardwareController::class);
+        Route::get('/h_hardware/{h_hardware}/qr', [HHardwareController::class, 'generateQrCode'])->name('h_hardwares.qr');
 
         Route::resource('f_fluxes', FFluxController::class);
         Route::resource('f_accounts', FAccountController::class);
@@ -78,6 +83,9 @@ Route::middleware("auth")->group(function () {
 });
 
 
+
 Route::get('/unauthorized', function () {
-    return view('pages.page.unauthorized', ['title' => 'Usuario no autorizado']);
+    return view('pages.unauthorized', ['title' => 'Usuario no autorizado']);
 })->name("unauthorized");
+
+        

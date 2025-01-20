@@ -37,6 +37,15 @@ class PermissionFunctionSeeder extends Seeder
             ["name" => "destroy"],
         );
 
+        PermissionFunction::create([
+            'name' => 'setNewPassword',
+            'description' => 'Permiso para cambiar la contraseña de un usuario'
+        ]);
+        PermissionFunction::create([
+            'name' => 'changePassword',
+            'description' => 'Permiso para cambiar la contraseña de un usuario'
+        ]);
+
         PermissionFunction::create(["name" => "uploadExpedientsAbc"]);
         PermissionFunction::create(["name" => "getDataAutocomplete"]);
 
