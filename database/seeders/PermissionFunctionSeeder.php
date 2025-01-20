@@ -45,6 +45,18 @@ class PermissionFunctionSeeder extends Seeder
             'name' => 'changePassword',
             'description' => 'Permiso para cambiar la contraseña de un usuario'
         ]);
+        PermissionFunction::create([
+            'name' => 'changeStats',
+            'description' => 'Permiso para cambiar el estado de flujo'
+        ]);
+        PermissionFunction::create([
+            'name' => 'showIncome',
+            'description' => 'Permiso para ver ingresados'
+        ]);
+        PermissionFunction::create([
+            'name' => 'showExpenses',
+            'description' => 'Permiso para ver egresados'
+        ]);
 
         PermissionFunction::create(["name" => "uploadExpedientsAbc"]);
         PermissionFunction::create(["name" => "getDataAutocomplete"]);

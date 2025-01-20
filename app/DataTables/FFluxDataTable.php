@@ -31,13 +31,57 @@ class FFluxDataTable extends DataTable
         ->editColumn('updated_at', function(FFlux $f_flux) {
             return date("d/m/Y H:i", strtotime($f_flux->updated_at));
         })
-        ->editColumn('is_active', function(FFlux $f_flux) {
-            if ($f_flux->is_active) {
-                return '<span class="badge badge-success mb-2 me-4">Sí</span>';
-            }
-            return '<span class="badge badge-danger mb-2 me-4">No</span>';
-        });
+        ->editColumn('accredit_date', function(FFlux $f_flux) {
+            return date("d/m/Y", strtotime($f_flux->accredit_date));
+        })
 
+        ->editColumn('f_status_name', function(FFlux $f_flux) {
+            if ($f_flux->f_status_id == 2) {
+                return '<span class="badge badge-success mb-2 me-4">Terminado</span>';
+            }
+            return '<span class="badge badge-danger mb-2 me-4">Pendiente</span>';
+        })
+        ->rawColumns(['f_status_name'])  
+        ->addColumn('action', function($row){
+            return $this->getActions($row);
+        })
+        ->rawColumns(['action', 'f_status_name']); 
+
+        return $datatable;
+
+        $datatable->filter(function($query) {
+
+            if (auth()->user()->hasPermissions("f_fluxes.showIncome")) {
+                $query->where('f_movement_type_id', 1);
+            }
+            
+            if (auth()->user()->hasPermissions("f_fluxes.showExpenses")) {
+                $query->orWhere('f_movement_type_id', 2);
+            }
+            
+            if(request('initial_accredit_date') !== null){
+                $query->whereDate('f_fluxes.accredit_date', '>=', request('initial_accredit_date'));
+            }
+        
+            if(request('final_accredit_date') !== null){
+                $query->whereDate('f_fluxes.accredit_date', '<=', request('final_accredit_date'));
+            }
+        
+            if(request('f_movement_type') !== null){
+                $query->where('f_fluxes.f_movement_type_id', '=', request('f_movement_type'));
+            }
+        
+            if(request('f_status_id') !== null){
+                $query->where('f_fluxes.f_status_id', '=', request('f_status_id'));
+            }
+        
+            if(request('f_beneficiary_id') !== null){
+                $query->where('f_fluxes.f_beneficiary_id', '=', request('f_beneficiary_id'));
+            }
+        
+           
+		}, true);
+    
 
         $datatable->addColumn('action', function($row){
             return $this->getActions($row);
@@ -47,6 +91,7 @@ class FFluxDataTable extends DataTable
     }
 
     public function getActions($row){
+        
         $result = null;
         if (auth()->user()->hasPermissions("f_fluxes.edit")) {
             $result .= '
@@ -55,14 +100,14 @@ class FFluxDataTable extends DataTable
                 </a>
             ';
         }
-        if (auth()->user()->hasPermissions("f_fluxes.destroy")) {
+      
+        if (auth()->user()->hasPermissions("f_fluxes.changeStats") && $row->f_status_id == 1) {
             $result .= '
-                <a onclick="deleteRow('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>        </a>
+                <a onclick="changeStatus(' . $row->id . ')" title="Estado" class="btn btn-outline-warning btn-icon ps-2 px-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-toggle-left"/></svg>
                 </a>
             ';
         }
-
         return $result;
 	}
 
@@ -126,20 +171,21 @@ class FFluxDataTable extends DataTable
             ->searchable(false)
             ->visible(false),
             Column::make('accredit_date')->title('Fecha acreditado'),
-            Column::make('f_beneficiary_name')->title('Beneficiario')->name("f_beneficiaries.name"),
+            Column::make('f_beneficiary_name')->title('Beneficiario')->name("f_beneficiaries.name")->searchable(true),
             Column::make('concept')->title('Concepto'),
-            Column::make('f_movement_type_name')->title('Tipo de movimiento')->name("f_movement_types.name"),
+            Column::make('f_movement_type_name')->title('Tipo de movimiento')->name("f_movement_types.name")->searchable(true),
             Column::make('account')->title('Cuenta'),
             Column::make('account2')->title('Cuenta cartera'),
-            Column::make('f_status_name')->title('Estatus')->name("f_status.name"),
-
-            Column::make('is_active')->title("Activo"),
+            
+            Column::make('f_status_name')->title('Estatus')->name("f_statuses.name")->searchable(true),
 
         ];
 
         if (auth()->user()->hasPermissions("f_fluxes.edit") ||
             auth()->user()->hasPermissions("f_fluxes.create") ||
-            auth()->user()->hasPermissions("f_fluxes.destroy")) {
+            auth()->user()->hasPermissions("f_fluxes.changeStats")) {
+               
+               
             $columns = array_merge($columns, [
                 Column::computed('action')
                 ->exportable(false)
@@ -148,6 +194,7 @@ class FFluxDataTable extends DataTable
                 ->addClass('text-center')
                 ->title('Acciones')
             ]);
+        
         }
 
         return $columns;

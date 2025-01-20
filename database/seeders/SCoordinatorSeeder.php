@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\FStatus;
+use App\Models\SCoordinator;
 
-class FStatusSeeder extends Seeder
+class SCoordinatorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,11 +15,9 @@ class FStatusSeeder extends Seeder
      */
     public function run()
     {
-        FStatus::create([
-            "name" => "Pendiente",
-        ]);
-        FStatus::create([
-            "name" => "Terminado",
+        SCoordinator :: create([
+            'id'=>'1',
+            'name'=>'Sin coordinador',
         ]);
     }
 }

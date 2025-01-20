@@ -132,12 +132,13 @@
     </div>
   </div>
 
+
 <!--Activo-->
 <div class="mb-2">
   @include("components.custom.forms.input-check", [
       "id" => "is_active",
       "name" => "is_active",
-      "checked" => isset($user) ? $user->is_active :  true,
+      "checked" => isset($h_hardware) ? $h_hardware->is_active :  true,
       "label" => "Activo",
   ])
 </div>
