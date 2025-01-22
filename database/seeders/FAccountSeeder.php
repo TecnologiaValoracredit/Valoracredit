@@ -26,7 +26,7 @@ class FAccountSeeder extends Seeder
             "f_company_id" => 2
         ]);
         FAccount::create([
-            "name" => "WS Santander",
+            "name" => "WS SANTANDER",
             "account_number" => "XXXX",
             "f_company_id" => 1
         ]);

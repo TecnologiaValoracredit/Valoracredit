@@ -38,6 +38,7 @@ use Database\Seeders\FStatusSeeder;
 use Database\Seeders\FCobClasificationSeeder;
 use Database\Seeders\SCoordinatorSeeder;
 use Database\Seeders\FCompanySeeder;
+use Database\Seeders\FFluxSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -83,6 +84,8 @@ class DatabaseSeeder extends Seeder
             FMovementTypeSeeder::class,
             FStatusSeeder::class,
             FCobClasificationSeeder:: class,
+            
+            FFluxSeeder:: class,
 
             // EmailAccountSeeder::class,
 

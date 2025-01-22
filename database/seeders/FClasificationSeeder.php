@@ -6,7 +6,7 @@ use App\Models\FClasification;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class FCobClasificationSeeder extends Seeder
+class FClasificationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
