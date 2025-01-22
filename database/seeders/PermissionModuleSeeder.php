@@ -34,10 +34,12 @@ class PermissionModuleSeeder extends Seeder
    
         $sales = PermissionModule::create(["name" => "s_sal", "description" => "Ventas", "module_type_id" => 1]);
         PermissionModule::create(["name" => "s_sales",  "description" => "Ventas", "module_type_id" => 2, "parent_id" => $sales->id]);
+        PermissionModule::create(["name" => "s_coordinators",  "description" => "Coordinadores", "module_type_id" => 2, "parent_id" => $sales->id]);
         PermissionModule::create(["name" => "s_general_reports",  "description" => "Reporte general", "module_type_id" => 2, "parent_id" => $sales->id]);
         PermissionModule::create(["name" => "s_institution_reports",  "description" => "Reporte por institución", "module_type_id" => 2, "parent_id" => $sales->id]);
         PermissionModule::create(["name" => "s_mensual_reports",  "description" => "Reporte mensual", "module_type_id" => 2, "parent_id" => $sales->id]);
-        PermissionModule::create(["name" => "s_coordinators",  "description" => "Coordinadores", "module_type_id" => 2, "parent_id" => $sales->id]);
+        PermissionModule::create(["name" => "s_coordinator_reports",  "description" => "Reporte coordinadores", "module_type_id" => 2, "parent_id" => $sales->id]);
+
 
         $h_hardwares = PermissionModule::create(["name" => "h_hardw", "description" => "Hardware", "module_type_id" => 1]);
         PermissionModule::create(["name" => "h_hardwares",  "description" => "Hardware", "module_type_id" => 2, "parent_id" => $h_hardwares->id]);

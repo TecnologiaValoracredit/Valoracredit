@@ -10,6 +10,7 @@ use App\Imports\ExcelImport;
 use App\Models\Institution;
 use App\Models\SBranch;
 use App\Models\SStatus;
+use App\Models\SCoordinator;
 
 class SSaleSeeder extends Seeder
 {
@@ -46,6 +47,19 @@ class SSaleSeeder extends Seeder
                     if (($institution->name == "SECCION 5" || $institution->name == "SECCION 38") && $sbranch->name != "SALTILLO"){
                         $sbranch = SBranch::where("name", "TORREON")->first();
                     }
+
+                    //Buscar el coordinador por nombre actual
+                    $s_coordinator = SCoordinator::where("name", trim($row[21]))->first();
+                    //Si no lo encuentra buscar por nombre antiguo
+                    if ($s_coordinator == null) {
+                        $s_coordinator = SCoordinator::where("previous_name", trim($row[21]))->first();
+                        if ($s_coordinator == null) {
+                            $s_coordinator = SCoordinator::find(1);
+                        }else {
+                            $s_coordinator = SCoordinator::where("name", $s_coordinator->name)->first();
+                        }
+                    }
+                   
                 
                     $f3 = ($row[29] - 25568) * 86400;
                     $grant_date = date('Y-m-d', $f3);
@@ -59,17 +73,10 @@ class SSaleSeeder extends Seeder
                             's_status_id' => $sstatus->id,
                             'grant_date' => $grant_date,
                             'institution_id' => $institution->id,
-                            's_branch_id' => $sbranch->id
+                            's_branch_id' => $sbranch->id,
+                            's_coordinator_id' => $s_coordinator->id
                         ]);
                     }
-           
-                   
-                       
-                   
-
-                   
-                    
-
             }
         }
     }

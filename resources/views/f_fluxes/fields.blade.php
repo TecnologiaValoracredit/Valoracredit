@@ -7,7 +7,8 @@
         "label" => "Fecha acreditado",
         "required" => true,
         "value" => isset($f_flux) ? $f_flux->accredit_date :  old("accredit_date"),
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "disabled" => in_array(auth()->user()->role_id, [2, 4])
     ])
     <!-- Beneficiario-->
 </div>
@@ -21,7 +22,8 @@
         "value" => isset($f_flux) ? $f_flux->fBeneficiary->name :  old("f_beneficiary_name"),
         "input_hidden" => "f_beneficiary_id",
         "value_hidden" => isset($f_flux) ? $f_flux->f_beneficiary_id :  old("f_beneficiary_id"),
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "disabled" => in_array(auth()->user()->role_id, [2, 4])
     ])
 </div>
 
@@ -31,11 +33,12 @@
         "id" => "f_account_id",
         "name" => "f_account_id",
         "elements" => $f_accounts,
-        "placeholder" => "Id de cuenta",
+        "placeholder" => "Cuenta",
         "value" => isset($f_flux) ? $f_flux->f_account_id : old("f_account_id"),
-        "label" => "Id de cuenta",
+        "label" => "Cuenta",
         "required" => true,
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "disabled" => in_array(auth()->user()->role_id, [2, 4])
     ])
 </div>    
 
@@ -49,7 +52,8 @@
         "value" => isset($f_flux) ? $f_flux->concept :old("concept"),
         "label" => "Concepto",
         "required" => true,
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "disabled" => in_array(auth()->user()->role_id, [2, 4])
     ])
 </div>
 <!-- Monto-->
@@ -57,12 +61,13 @@
     @include("components.custom.forms.input-inline", [
         "id" => "amount",
         "name" => "amount",
-        "type" => "float",
+        "type" => "number",
         "placedolder" => "Monto",
         "value" => isset($f_flux) ? $f_flux->amount :old("amount"),
         "label" => "Monto",
         "required" => true,
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "disabled" => in_array(auth()->user()->role_id, [2, 4])
     ])
 </div>
 <!-- Tipo de movimiento-->
@@ -75,30 +80,54 @@
         "value" => isset($f_flux) ? $f_flux->f_movement_type_id : old("f_movement_type_id"),
         "label" => "Tipo de movimiento",
         "required" => true,
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "disabled" => in_array(auth()->user()->role_id, [2, 4])
+
     ])
 </div>    
+<div class= "mb-2">
+    @include("components.custom.forms.input-inline-select", [
+        "id" => "f_cob_id",
+        "name" => "f_cob_id",
+        "elements" => $f_clasifications,
+        "placeholder" => "Clasificación admin.",
+        "value" => isset($f_flux) ? $f_flux->f_cob_id : old("f_cob_id"),
+        "label" => "Clasificación tesorería",
+        "invalid_feedback" => "El campo es requerido"
+    ])
+</div>  
+<div class= "mb-2">
+    @include("components.custom.forms.input-inline-select", [
+        "id" => "f_cob_clasification_id",
+        "name" => "f_cob_clasification_id",
+        "elements" => $f_cob_clasifications,
+        "placeholder" => "Clasificación cartera",
+        "value" => isset($f_flux) ? $f_flux->f_cob_clasification_id : old("f_cob_clasification_id"),
+        "label" => "Clasificación cartera",
+        "invalid_feedback" => "El campo es requerido"
+    ])
+</div>  
 <!-- Cuenta-->
 <div class="mb-2">
     @include("components.custom.forms.input-inline",[
-        "id" => "account",
-        "name" => "account",
+        "id" => "notes1",
+        "name" => "notes1",
         "type" => "text",
-        "placedolder" => "Cuenta 1",
-        "value" => isset($f_flux) ? $f_flux->account :old("account"),
-        "label" => "Cuenta 1",
+        "placedolder" => "Notas admin.",
+        "value" => isset($f_flux) ? $f_flux->notes1 :old("notes1"),
+        "label" => "Notas admin.",
         "invalid_feedback" => "El campo es requerido"
     ])
 </div>
 <!-- Cuenta 2-->
 <div class="mb-2">
     @include("components.custom.forms.input-inline",[
-        "id" => "account2",
-        "name" => "account2",
+        "id" => "notes2",
+        "name" => "notes2",
         "type" => "text",
-        "placedolder" => "Cuenta 2",
-        "value" => isset($f_flux) ? $f_flux->account :old("account2"),
-        "label" => "Cuenta 2",
+        "placedolder" => "Notas cartera",
+        "value" => isset($f_flux) ? $f_flux->account :old("notes2"),
+        "label" => "Notas cartera",
         "invalid_feedback" => "El campo es requerido"
     ])
 </div>

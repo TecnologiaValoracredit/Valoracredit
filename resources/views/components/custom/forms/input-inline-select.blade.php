@@ -6,12 +6,20 @@
         @endif
     </span>
     <div class="w-100">
-        <select class="form-control" id="{{$id ?? $name}}" name="{{$name}}" {{isset($required) ? "required" : ""}}>
-            <option disabled selected value="">Seleccione una opción...</option>
+        <select 
+            class="form-control" 
+            id="{{ $id ?? $name }}" 
+            name="{{ $name }}" 
+            {{ isset($required) ? "required" : "" }}
+            {{ isset($disabled) && $disabled ? 'disabled' : '' }}
+        >
+            @if(isset($required))
+                <option disabled selected value="">Seleccione una opción...</option>
+            @endif    
+            <option selected value="">Seleccione una opción...</option>
             @foreach ($elements as $key => $element)
-                <option {{$key == $value ? "selected" : ""}} value="{{$key}}">{{$element}}</option>
+                <option {{ $key == $value ? "selected" : "" }} value="{{ $key }}">{{ $element }}</option>
             @endforeach
         </select>
     </div>
 </div>
-

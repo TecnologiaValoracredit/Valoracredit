@@ -30,13 +30,18 @@ return new class extends Migration
             $table->unsignedSmallInteger('f_movement_type_id');
             $table->foreign('f_movement_type_id')->references('id')->on('f_movement_types');
 
-            $table->string('account')->nullable();
-            $table->string('account2')->nullable();
+            $table->string('notes1')->nullable();
+            $table->string('notes2')->nullable();
             $table->string('comments')->nullable();
 
-            $table->unsignedSmallInteger('f_status_id');
-            $table->foreign('f_status_id')->references('id')->on('f_statuses');
+            $table->unsignedBigInteger('f_clasification_id')->nullable();
+            $table->foreign('f_clasification_id')->references('id')->on('f_clasifications');
 
+            $table->unsignedSmallInteger('f_cob_clasification_id')->nullable();
+            $table->foreign('f_cob_clasification_id')->references('id')->on('f_cob_clasifications');
+
+            $table->unsignedSmallInteger('f_status_id')->nullable();
+            $table->foreign('f_status_id')->references('id')->on('f_statuses');
             
             $table->timestamps(); 
             $table->string('notes', 1024)->nullable()->comment('Notas');    

@@ -84,7 +84,7 @@ class SGeneralReportDataTable extends DataTable
     public function query(SSale $model): QueryBuilder
     {
         $totalGlobal = DB::table('s_sales')
-        ->whereYear('s_sales.grant_date', (request("year") ?? 2024))
+        ->whereYear('s_sales.grant_date', (request("year") ?? 2025))
         ->sum('s_sales.credit_amount'); // Sumar el total global
 
         return $model->select(
@@ -109,7 +109,7 @@ class SGeneralReportDataTable extends DataTable
                 ')
             )
             ->leftJoin('institutions', 's_sales.institution_id', '=', 'institutions.id')
-            ->whereYear('s_sales.grant_date', (request("year") ?? 2024)) // Filtrar solo el año 2024
+            ->whereYear('s_sales.grant_date', (request("year") ?? 2025)) // Filtrar solo el año 2024
             ->groupBy('institutions.id', 'institutions.name') // Agrupar por institución
             ->addBinding($totalGlobal, 'select') // Agregar el total global como binding
             ->newQuery();

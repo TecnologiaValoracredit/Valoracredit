@@ -51,11 +51,11 @@ class PermissionFunctionSeeder extends Seeder
         ]);
         PermissionFunction::create([
             'name' => 'showIncome',
-            'description' => 'Permiso para ver ingresados'
+            'description' => 'Permiso para ver ingresos'
         ]);
         PermissionFunction::create([
             'name' => 'showExpenses',
-            'description' => 'Permiso para ver egresados'
+            'description' => 'Permiso para ver egresos'
         ]);
 
         PermissionFunction::create(["name" => "uploadExpedientsAbc"]);

@@ -16,17 +16,18 @@ class FFlux extends Model
         'concept',
         'amount',
         'f_movement_type_id', 
-        'account',
-        'account2',
+        'notes1',
+        'notes2',
         'comments',
         'f_status_id',
-
+        'f_clasification_id',
+        'f_cob_clasification_id',
         'is_active',
         'created_by',
         'updated_by',
         'notes'
     ];
-
+    
     public function fAccount()
     {
         return $this->belongsTo("App\Models\FAccount", "f_account_id", "id");
@@ -45,6 +46,16 @@ class FFlux extends Model
     public function fMovementType()
     {
         return $this->belongsTo("App\Models\FMovementType", "f_movement_type_id", "id");
+    }
+
+    public function fClasification()
+    {
+        return $this->belongsTo("App\Models\FClasification", "f_clasification_id", "id");
+    }
+
+    public function fCobClasification()
+    {
+        return $this->belongsTo("App\Models\FCobClasification", "f_cob_clasification_id", "id");
     }
 
 }

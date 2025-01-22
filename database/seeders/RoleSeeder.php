@@ -23,5 +23,17 @@ class RoleSeeder extends Seeder
             "name" => "Gerencia Cartera",
             "description" => "Encargados de cartera"
         ]);
+        Role::create([
+            "name" => "Tesorería",
+            "description" => ""
+        ]);
+        Role::create([
+            "name" => "Administración",
+            "description" => ""
+        ]);
+        Role::create([
+            "name" => "Contabilidad",
+            "description" => ""
+        ]);
     }
 }

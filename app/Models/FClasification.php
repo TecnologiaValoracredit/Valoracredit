@@ -10,9 +10,19 @@ class FClasification extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id','name','description', 'parent_id',
+        'name','description', 'parent_id', 'f_movement_type_id',
         'is_active',
         'created_by',
         'updated_by',
     ];
+
+    public function parent()
+    {
+        return $this->belongsTo("App\Models\FClasification", "parent_id", "id");
+    }
+
+    public function fMovementType()
+    {
+        return $this->belongsTo("App\Models\FMovementType", "f_movement_type_id", "id");
+    }
 }

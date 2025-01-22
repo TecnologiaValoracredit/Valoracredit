@@ -23,6 +23,7 @@ use App\Http\Controllers\FAccountController;
 use App\Http\Controllers\FFluxController;
 use App\Http\Controllers\FClasificationController;
 use App\Http\Controllers\SCoordinatorController;
+use App\Http\Controllers\SCoordinatorReportController;
 
 use App\Models\SCoordinator;
 
@@ -72,6 +73,7 @@ Route::middleware("auth")->group(function () {
         Route::get('s_general_reports', [SGeneralReportController::class, "index"])->name("s_general_reports.index");
         Route::get('s_institucion_reports', [SInstitutionReportController::class, "index"])->name("s_institution_reports.index");
         Route::get('s_mensual_reports', [SMensualReportController::class, "index"])->name("s_mensual_reports.index");
+        Route::get('s_coordinator_reports', [SCoordinatorReportController::class, "index"])->name("s_coordinator_reports.index");
 
         Route::resource('h_brands', HBrandController::class);
         Route::resource('h_device_types', HDeviceTypeController::class);
@@ -83,7 +85,6 @@ Route::middleware("auth")->group(function () {
         Route::resource('f_accounts', FAccountController::class);
         Route::resource('f_beneficiaries', FBeneficiaryController::class);
         Route::resource('f_clasifications', FClasificationController::class);
-
         Route::resource('s_coordinators', SCoordinatorController::class);
         
 

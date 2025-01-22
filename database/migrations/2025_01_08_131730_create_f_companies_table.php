@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('f_accounts', function (Blueprint $table) {
+        Schema::create('f_companies', function (Blueprint $table) {
             $table->smallIncrements("id");
             $table->string('name');
-            $table->string('account_number');
-
-            $table->unsignedSmallInteger('f_company_id')->nullable();
-            $table->foreign('f_company_id')->references('id')->on('f_companies');
 
             $table->timestamps(); 
             $table->string('notes', 1024)->nullable()->comment('Notas');    
@@ -38,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('f_accounts');
+        Schema::dropIfExists('f_companies');
     }
 };

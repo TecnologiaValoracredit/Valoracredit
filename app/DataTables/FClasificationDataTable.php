@@ -24,14 +24,20 @@ class FClasificationDataTable extends DataTable
     {
         $datatable = (new EloquentDataTable($query))
         ->setRowId('id')
-        ->editColumn('created_at', function(FClasification $role) {
-            return date("d/m/Y H:i", strtotime($role->created_at));
+        ->editColumn('created_at', function(FClasification $f_clasification) {
+            return date("d/m/Y H:i", strtotime($f_clasification->created_at));
         })
-        ->editColumn('updated_at', function(FClasification $role) {
-            return date("d/m/Y H:i", strtotime($role->updated_at));
+        ->editColumn('updated_at', function(FClasification $f_clasification) {
+            return date("d/m/Y H:i", strtotime($f_clasification->updated_at));
         })
-        ->editColumn('is_active', function(FClasification $role) {
-            if ($role->is_active) {
+        ->editColumn('parent_name', function(FClasification $f_clasification) {
+            if ($f_clasification->parent_id == null) {
+                return 'N/A';
+            }
+            return $f_clasification->parent->name;
+        })
+        ->editColumn('is_active', function(FClasification $f_clasification) {
+            if ($f_clasification->is_active) {
                 return '<span class="badge badge-success mb-2 me-4">Sí</span>';
             }
             return '<span class="badge badge-danger mb-2 me-4">No</span>';
@@ -72,7 +78,14 @@ class FClasificationDataTable extends DataTable
      */
     public function query(FClasification $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->select(
+            'f_clasifications.*',
+            'parent_clasifications.name as parent_name', // Nombre del padre
+            'f_movement_types.name as f_movement_type_name',
+        )
+        ->leftJoin('f_clasifications as parent_clasifications', 'f_clasifications.parent_id', '=', 'parent_clasifications.id')
+        ->leftjoin('f_movement_types', 'f_clasifications.f_movement_type_id', '=', 'f_movement_types.id')
+        ->newQuery();
     }
 
     /**
@@ -114,12 +127,13 @@ class FClasificationDataTable extends DataTable
             ->title('Id')
             ->searchable(false)
             ->visible(false),
+            Column::make('f_movement_type_name')->title('Tipo de clasificación')->name("f_movement_types.name"),
+            Column::make('parent_name')->title('Padre')->name("f_clasifications.name"),
             Column::make('name')
             ->title('Nombre')
             ->searchable(true)
             ->orderable(true)
             ->printable(true),
-            
             Column::make('is_active')->title("Activo"),
 
         ];

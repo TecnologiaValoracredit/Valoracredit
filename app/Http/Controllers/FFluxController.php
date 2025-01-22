@@ -10,6 +10,8 @@ use App\Models\FMovementType;
 use App\Models\FAccount;
 use App\Models\FStatus;
 use App\Models\FBeneficiary;
+use App\Models\FClasification;
+use App\Models\FCobClasification;
 
 use App\Models\PermissionModule;
 use App\DataTables\FFluxDataTable;
@@ -33,14 +35,16 @@ class FFluxController extends Controller
         $f_movement_types = FMovementType::where("is_active", 1)->pluck("name", "id");
         $f_accounts = FAccount::where("is_active", 1)->pluck("name", "id");
         $f_statuses = FStatus::where("is_active", 1)->pluck("name", "id");
-        return view('f_fluxes.create', compact("f_movement_types", "f_accounts", "f_statuses"));
+        $f_clasifications = FClasification::where("is_active", 1)->whereNotNull("parent_id")->pluck("name", "id");
+        $f_cob_clasifications = FCobClasification::where("is_active", 1)->pluck("name", "id");
+
+        return view('f_fluxes.create', compact("f_movement_types", "f_accounts", "f_statuses", "f_clasifications", "f_cob_clasifications"));
     }
 
     public function store(FFluxRequest $request)
     {
         $status = true;
 		$f_flux = null;
-
         $params = array_merge($request->all(), [
             'f_status_id' => 1,
             'is_active' => !is_null($request->is_active),
@@ -62,8 +66,10 @@ class FFluxController extends Controller
         $f_movement_types = FMovementType::where("is_active", 1)->pluck("name", "id");
         $f_accounts = FAccount::where("is_active", 1)->pluck("name", "id");
         $f_statuses = FStatus::where("is_active", 1)->pluck("name", "id");
+        $f_clasifications = FClasification::where("is_active", 1)->whereNotNull("parent_id")->pluck("name", "id");
+        $f_cob_clasifications = FCobClasification::where("is_active", 1)->pluck("name", "id");
 
-        return view('f_fluxes.edit', compact("f_movement_types", "f_accounts", "f_statuses","f_flux"));
+        return view('f_fluxes.edit', compact("f_movement_types", "f_accounts", "f_statuses","f_flux", "f_clasifications", "f_cob_clasifications"));
      
     }
 
@@ -76,7 +82,7 @@ class FFluxController extends Controller
 		]);
 
 		try {
-			$f_flux->update($params);
+            $f_flux->update($params);
 			$message = "Flujo modificada correctamente";
 		} catch (\Illuminate\Database\QueryException $e) {
 			$status = false;

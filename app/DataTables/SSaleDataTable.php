@@ -68,10 +68,14 @@ class SSaleDataTable extends DataTable
             's_statuses.name as s_status_name',
             's_branches.name as s_branch_name',
 			'institutions.name as institution_name',
+            's_coordinators.name as s_coordinator_name',
+
 		)
         ->leftjoin('s_statuses', 's_sales.s_status_id', '=', 's_statuses.id')
         ->leftjoin('s_branches', 's_sales.s_branch_id', '=', 's_branches.id')
         ->leftjoin('institutions', 's_sales.institution_id', '=', 'institutions.id')
+        ->leftjoin('s_coordinators', 's_sales.s_coordinator_id', '=', 's_coordinators.id')
+
 		->newQuery();
     }
 
@@ -120,6 +124,7 @@ class SSaleDataTable extends DataTable
             Column::make('credit_amount')->title('Monto entregado'),
             Column::make('grant_date')->title('F. Otorgamiento'),
             Column::make('institution_name')->title('Institución')->name("institutions.name"),
+            Column::make('s_coordinator_name')->title('Coordinador')->name("s_coordinators.name"),
             Column::make('s_branch_name')->title('Sucursal')->name("s_branches.name"),
             Column::make('s_status_name')->title('Estatus')->name("s_statuses.name"),
 

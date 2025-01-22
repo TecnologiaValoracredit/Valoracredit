@@ -41,7 +41,7 @@
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
         @vite(['resources/js/autocomplete.js'])
-        @vite(['resources/js/f_fluxes.js'])
+        @vite(['resources/js/f_clasifications.js'])
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

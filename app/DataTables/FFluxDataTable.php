@@ -47,18 +47,8 @@ class FFluxDataTable extends DataTable
         })
         ->rawColumns(['action', 'f_status_name']); 
 
-        return $datatable;
-
         $datatable->filter(function($query) {
 
-            if (auth()->user()->hasPermissions("f_fluxes.showIncome")) {
-                $query->where('f_movement_type_id', 1);
-            }
-            
-            if (auth()->user()->hasPermissions("f_fluxes.showExpenses")) {
-                $query->orWhere('f_movement_type_id', 2);
-            }
-            
             if(request('initial_accredit_date') !== null){
                 $query->whereDate('f_fluxes.accredit_date', '>=', request('initial_accredit_date'));
             }
@@ -74,18 +64,22 @@ class FFluxDataTable extends DataTable
             if(request('f_status_id') !== null){
                 $query->where('f_fluxes.f_status_id', '=', request('f_status_id'));
             }
-        
+            
             if(request('f_beneficiary_id') !== null){
                 $query->where('f_fluxes.f_beneficiary_id', '=', request('f_beneficiary_id'));
+            }
+
+            if (auth()->user()->hasPermissions("f_fluxes.showIncome")) {
+                $query->where('f_movement_type_id', 1);
+            }
+            
+            if (auth()->user()->hasPermissions("f_fluxes.showExpenses")) {
+                $query->orWhere('f_movement_type_id', 2);
             }
         
            
 		}, true);
     
-
-        $datatable->addColumn('action', function($row){
-            return $this->getActions($row);
-        })->rawColumns(["action", "is_active"]);
 
         return $datatable;
     }
@@ -174,8 +168,9 @@ class FFluxDataTable extends DataTable
             Column::make('f_beneficiary_name')->title('Beneficiario')->name("f_beneficiaries.name")->searchable(true),
             Column::make('concept')->title('Concepto'),
             Column::make('f_movement_type_name')->title('Tipo de movimiento')->name("f_movement_types.name")->searchable(true),
-            Column::make('account')->title('Cuenta'),
-            Column::make('account2')->title('Cuenta cartera'),
+            Column::make('amount')->title('Cantidad'),
+            Column::make('notes1')->title('Notas admin.'),
+            Column::make('notes2')->title('Notas cartera'),
             
             Column::make('f_status_name')->title('Estatus')->name("f_statuses.name")->searchable(true),
 

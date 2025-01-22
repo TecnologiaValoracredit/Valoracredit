@@ -36,6 +36,9 @@ class FAccountDataTable extends DataTable
                 return '<span class="badge badge-success mb-2 me-4">Sí</span>';
             }
             return '<span class="badge badge-danger mb-2 me-4">No</span>';
+        })->addColumn('balance', function (FAccount $f_account) {
+            // Accede al atributo calculado 'balance'
+            return number_format($f_account->balance, 2); // Formato de saldo con 2 decimales
         });
 
 
@@ -74,7 +77,13 @@ class FAccountDataTable extends DataTable
      */
     public function query(FAccount $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->select(
+			'f_accounts.*',
+            'f_companies.name as company_name',
+		)
+        ->leftjoin('f_companies', 'f_accounts.f_company_id', '=', 'f_companies.id')
+		->newQuery();
+        
     }
 
     /**
@@ -116,9 +125,10 @@ class FAccountDataTable extends DataTable
             ->title('Id')
             ->searchable(false)
             ->visible(false),
+            Column::make('company_name')->title('Empresa'),
             Column::make('name')->title('Nombre'),
             Column::make('account_number')->title('Número de cuenta'),
-            Column::make('balance')->title('Saldo'),
+            Column::make('balance')->title("Saldo"),
             Column::make('is_active')->title("Activo"),
 
         ];

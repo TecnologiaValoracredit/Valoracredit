@@ -36,6 +36,8 @@ use Database\Seeders\FBeneficiarySeeder;
 use Database\Seeders\FMovementTypeSeeder;
 use Database\Seeders\FStatusSeeder;
 use Database\Seeders\FCobClasificationSeeder;
+use Database\Seeders\SCoordinatorSeeder;
+use Database\Seeders\FCompanySeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -69,12 +71,13 @@ class DatabaseSeeder extends Seeder
             SupplierSeeder::class,
             RequisitionStatusSeeder::class,
             PaymentTypeSeeder::class,
-            //SSaleSeeder::class,
+            SCoordinatorSeeder::class,
+            SSaleSeeder::class,
             ChkCreditTypeSeeder::class,
             ChkListSeeder::class,
             HDeviceTypeSeeder::class,
             HBrandSeeder::class,
-            
+            FCompanySeeder::class,
             FAccountSeeder::class,
             FBeneficiarySeeder::class,
             FMovementTypeSeeder::class,

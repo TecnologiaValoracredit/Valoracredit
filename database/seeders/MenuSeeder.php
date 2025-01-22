@@ -70,28 +70,35 @@ class MenuSeeder extends Seeder
         Menu::create([
             "name" => "Reporte general",
             "parent_id" => $sal->id,
-            "position" => 2.2,
+            "position" => 2.3,
             "permission_id" => $this->getPermissionId("s_general_reports")
         ]);
 
         Menu::create([
             "name" => "Reporte por institución",
             "parent_id" => $sal->id,
-            "position" => 2.3,
+            "position" => 2.4,
             "permission_id" => $this->getPermissionId("s_institution_reports")
         ]);
         Menu::create([
             "name" => "Reporte mensual",
             "parent_id" => $sal->id,
-            "position" => 2.4,
+            "position" => 2.5,
             "permission_id" => $this->getPermissionId("s_mensual_reports")
         ]);
 
         Menu::create([
             "name" => "Coordinadores",
             "parent_id" => $sal->id,
-            "position" => 2.1,
+            "position" => 2.2,
             "permission_id" => $this->getPermissionId("s_coordinators")
+        ]);
+
+        Menu::create([
+            "name" => "Reporte coordinadores",
+            "parent_id" => $sal->id,
+            "position" => 2.6,
+            "permission_id" => $this->getPermissionId("s_coordinator_reports")
         ]);
         
         
