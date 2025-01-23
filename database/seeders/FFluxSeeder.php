@@ -10,6 +10,7 @@ use App\Imports\ExcelImport;
 use App\Models\FBeneficiary;
 use App\Models\FAccount;
 use App\Models\FClasification;
+use Illuminate\Support\Facades\DB;
 
 class FFluxSeeder extends Seeder
 {
@@ -21,7 +22,10 @@ class FFluxSeeder extends Seeder
     public function run()
     {
         
-        
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        FFlux::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         $file = base_path("resources/flujos-enero2025.xlsx");
         $pages = Excel::toArray(new ExcelImport(), $file); 
 
@@ -44,7 +48,7 @@ class FFluxSeeder extends Seeder
                 $m_type_id = 2;
             }
 
-            $f_clasification = FClasification::whereRaw("UPPER(name) = ?", [strtoupper(trim($row[6]))])->first();
+            $f_clasification = FClasification::whereRaw("UPPER(name) = ?", [strtoupper(trim($row[6]))])->whereNotNull("parent_id")->first();
             
             FFlux::create([
                 'f_account_id'  => $account->id,
@@ -54,8 +58,9 @@ class FFluxSeeder extends Seeder
                 'amount' => $amount,
                 'f_movement_type_id' => $m_type_id,
                 'f_status_id' => 1,
-                'f_clasification_id',
+                'f_clasification_id' => $f_clasification->id ?? null,
             ]);
+           
         }
     }
 

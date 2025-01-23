@@ -18,12 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
 
-            $table->unsignedSmallInteger('f_movement_type_id')->nullable();
-            $table->foreign('f_movement_type_id')->references('id')->on('f_movement_types');
-
             $table->unsignedBigInteger('parent_id')->nullable()->comment('Para submenús, si es nulo es menu principal, si no, es desplegable y no tiene funcion al hacer clic');
             $table->foreign('parent_id')->references('id')->on('f_clasifications'); 
-    
     
             $table->timestamps(); 
             $table->string('notes', 1024)->nullable()->comment('Notas');    

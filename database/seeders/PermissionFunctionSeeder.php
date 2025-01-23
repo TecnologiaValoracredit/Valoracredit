@@ -58,6 +58,12 @@ class PermissionFunctionSeeder extends Seeder
             'description' => 'Permiso para ver egresos'
         ]);
 
+        PermissionFunction::create([
+            'name' => 'exportAdminReport',
+            'description' => 'Exportar reporte administrativo a excel'
+        ]);
+        
+
         PermissionFunction::create(["name" => "uploadExpedientsAbc"]);
         PermissionFunction::create(["name" => "getDataAutocomplete"]);
 

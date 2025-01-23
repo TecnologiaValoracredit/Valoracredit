@@ -13,54 +13,75 @@
         <!--  END CUSTOM STYLE FILE  -->
     </x-slot>
     <!-- END GLOBAL MANDATORY STYLES -->
-    @include('components.custom.forms.filters', [
-        "rows" => [
-            [
-                [
-                    "id" => "initial_accredit_date",
-                    "name" => "initial_accredit_date",
-                    "label" => "Flujos desde",
-                    "type" => "date",
-                    "class" => "col-6"
-                ],
-                [
-                    "id" => "final_accredit_date",
-                    "name" => "final_accredit_date",
-                    "label" => "Flujos hasta",
-                    "type" => "date",
-                    "class" => "col-6"
-                ],
-                [
-                    "id" => "f_movement_type",
-                    "name" => "f_movement_type",
-                    "label" => "Tipo de movimiento",
-                    "type" => "select",
-                    "elements" => $f_movement_types,  
-                    "class" => "col-6",
-                    "value" => request('f_movement_type')  
-                ],
-                [
-                    "id" => "f_status_id",
-                    "name" => "f_status_id",
-                    "label" => "Estatus",
-                    "type" => "select",
-                    "elements" => $f_statuses,  
-                    "class" => "col-6",
-                    "value" => request('f_status_id')  
-                ],
-
-                
-            ],
-        ]
-    ])
     
-    @if(auth()->user()->hasPermissions("f_fluxes.showExpenses") || auth()->user()->hasPermissions("f_fluxes.showIncome"))
+    
     <div class="row layout-top-spacing">
+        @include('components.custom.forms.filters', [
+            "rows" => [
+                [
+                    [
+                        "id" => "initial_accredit_date",
+                        "name" => "initial_accredit_date",
+                        "label" => "Flujos desde",
+                        "type" => "date",
+                        "class" => "col-6"
+                    ],
+                    [
+                        "id" => "final_accredit_date",
+                        "name" => "final_accredit_date",
+                        "label" => "Flujos hasta",
+                        "type" => "date",
+                        "class" => "col-6"
+                    ],
+                    [
+                        "id" => "f_movement_type",
+                        "name" => "f_movement_type",
+                        "label" => "Tipo de movimiento",
+                        "type" => "select",
+                        "elements" => $f_movement_types,  
+                        "class" => "col-6",
+                        "value" => 0
+                    ],
+                    [
+                        "id" => "f_status_id",
+                        "name" => "f_status_id",
+                        "label" => "Estatus",
+                        "type" => "select",
+                        "elements" => $f_statuses,  
+                        "class" => "col-6",
+                        "value" => 0
+
+                    ],
+                    [
+                        "id" => "f_clasification",
+                        "name" => "f_clasification",
+                        "label" => "Clasificación admin.",
+                        "type" => "select",
+                        "elements" => $f_clasifications,  
+                        "class" => "col-6",
+                        "value" => 0
+
+                    ],
+                    [
+                        "id" => "f_cob_clasification",
+                        "name" => "f_cob_clasification",
+                        "label" => "Clasificación cartera",
+                        "type" => "select",
+                        "elements" => $f_cob_clasifications,  
+                        "class" => "col-6",
+                        "value" => 0
+
+                    ],
+                ],
+            ]
+        ])
         <div class="card">
             <div class="card-body">
                 @include("components.custom.session-errors")
                 <div class="d-flex justify-content-between align-items-center mb-2 p-2">
                     <h5 class="card-title">Flujo</h5>
+                    <a href="{{ route('f_fluxes.exportAdminReport') }}" class="btn btn-primary">Descargar Excel</a>
+
                     @if($allowAdd)
                         <a href="{{route('f_fluxes.create')}}" class="btn btn-success text-end">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle">
@@ -72,15 +93,11 @@
                         </a>
                     @endif
                 </div>
+
                 {{ $dataTable->table() }}
             </div>
         </div>
     </div>
-@else
-    <div class="alert alert-warning">
-        No tienes permisos para ver esta información.
-    </div>
-@endif
 
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->

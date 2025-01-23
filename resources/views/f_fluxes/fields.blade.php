@@ -87,15 +87,16 @@
 </div>    
 <div class= "mb-2">
     @include("components.custom.forms.input-inline-select", [
-        "id" => "f_cob_id",
-        "name" => "f_cob_id",
+        "id" => "f_clasification_id",
+        "name" => "f_clasification_id",
         "elements" => $f_clasifications,
         "placeholder" => "Clasificación admin.",
-        "value" => isset($f_flux) ? $f_flux->f_cob_id : old("f_cob_id"),
-        "label" => "Clasificación tesorería",
-        "invalid_feedback" => "El campo es requerido"
+        "value" => isset($f_flux) ? $f_flux->f_clasification_id : old("f_clasification_id"),
+        "label" => "Clasificación admin.",
+        "invalid_feedback" => "El campo es requerido",
+
     ])
-</div>  
+</div>
 <div class= "mb-2">
     @include("components.custom.forms.input-inline-select", [
         "id" => "f_cob_clasification_id",
@@ -104,7 +105,9 @@
         "placeholder" => "Clasificación cartera",
         "value" => isset($f_flux) ? $f_flux->f_cob_clasification_id : old("f_cob_clasification_id"),
         "label" => "Clasificación cartera",
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "disabled" => in_array(auth()->user()->role_id, [3, 4])
+
     ])
 </div>  
 <!-- Cuenta-->
@@ -116,7 +119,8 @@
         "placedolder" => "Notas admin.",
         "value" => isset($f_flux) ? $f_flux->notes1 :old("notes1"),
         "label" => "Notas admin.",
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "disabled" => in_array(auth()->user()->role_id, [2, 4])
     ])
 </div>
 <!-- Cuenta 2-->
@@ -128,7 +132,9 @@
         "placedolder" => "Notas cartera",
         "value" => isset($f_flux) ? $f_flux->account :old("notes2"),
         "label" => "Notas cartera",
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "disabled" => in_array(auth()->user()->role_id, [3, 4])
+
     ])
 </div>
 <!-- Comentarios-->
@@ -140,7 +146,9 @@
         "placedolder" => "Comentarios",
         "value" => isset($f_flux) ? $f_flux->comments :old("comments"),
         "label" => "Comentarios",
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "disabled" => in_array(auth()->user()->role_id, [3, 4])
+
     ])
 </div>
 

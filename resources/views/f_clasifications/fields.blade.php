@@ -20,18 +20,6 @@
         "invalid_feedback" => "El campo es requerido"
     ])
 </div> 
-<div class= "mb-2">
-    @include("components.custom.forms.input-inline-select", [
-        "id" => "f_movement_type_id",
-        "name" => "f_movement_type_id",
-        "elements" => $f_movement_types,
-        "placeholder" => "Tipo de clasificación",
-        "value" => isset($f_flux) ? $f_flux->f_movement_type_id : old("f_movement_type_id"),
-        "label" => "Tipo de clasificación",
-        "required" => true,
-        "invalid_feedback" => "El campo es requerido"
-    ])
-</div>  
 
     <!--Activo-->
 <div class="mb-2">

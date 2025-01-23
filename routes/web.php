@@ -24,8 +24,7 @@ use App\Http\Controllers\FFluxController;
 use App\Http\Controllers\FClasificationController;
 use App\Http\Controllers\SCoordinatorController;
 use App\Http\Controllers\SCoordinatorReportController;
-
-use App\Models\SCoordinator;
+use App\Http\Controllers\FFluxAdminReportController;
 
 // use App\Http\Controllers\SInstitutionReportController;
 
@@ -51,6 +50,7 @@ Route::middleware("auth")->group(function () {
 
 
     // Route::get('/refresh-emails', [EmailController::class, 'refreshEmails'])->name('emails.refresh');
+    Route::get('f_fluxes/exportAdminReport', [FFluxAdminReportController::class, 'exportAdminReport'])->name("f_fluxes.exportAdminReport");
 
     Route::middleware(['permission'])->group(function () {
         Route::resource('users', UserController::class);
@@ -80,17 +80,16 @@ Route::middleware("auth")->group(function () {
         Route::resource('h_hardwares', HHardwareController::class);
         Route::get('/h_hardwares/{h_hardware}/qr', [HHardwareController::class, 'generateQrCode'])->name('h_hardwares.qr');
 
-        
+        Route::put('f_fluxes/changeStats/{f_flux}', [FFluxController::class, 'changeStats'])->name('f_fluxes.changeStats');
         Route::resource('f_fluxes', FFluxController::class);
         Route::resource('f_accounts', FAccountController::class);
         Route::resource('f_beneficiaries', FBeneficiaryController::class);
         Route::resource('f_clasifications', FClasificationController::class);
         Route::resource('s_coordinators', SCoordinatorController::class);
         
-
+        
     });
 
-    Route::put('f_fluxes/changeStats/{f_flux}', [FFluxController::class, 'changeStats'])->name('f_fluxes.changeStats');
 
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
 });

@@ -35,5 +35,25 @@ class RoleSeeder extends Seeder
             "name" => "Contabilidad",
             "description" => ""
         ]);
+        Role::create([
+            "name" => "Rrecursos Humanos",
+            "description" => ""
+        ]);
+        Role::create([
+            "name" => "Cartera",
+            "description" => ""
+        ]);
+        Role::create([
+            "name" => "Marketing",
+            "description" => ""
+        ]);
+        Role::create([
+            "name" => "Tecnología",
+            "description" => ""
+        ]);
+        Role::create([
+            "name" => "Operaciones",
+            "description" => ""
+        ]);
     }
 }

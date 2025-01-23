@@ -26,8 +26,10 @@ class FFluxController extends Controller
         $allowAdd = auth()->user()->hasPermissions("f_fluxes.create");
         $f_statuses = FStatus::where("is_active", 1)->pluck("name", "id");
         $f_beneficiaries = FBeneficiary::where("is_active", 1)->pluck("name", "id");
-        $f_movement_types = FMovementType::where("is_active", 1)->pluck("name", "id");;
-        return $dataTable->render('f_fluxes.index', compact("allowAdd","f_movement_types","f_statuses","f_beneficiaries"));
+        $f_movement_types = FMovementType::where("is_active", 1)->pluck("name", "id");
+        $f_clasifications = FClasification::where("is_active", 1)->whereNotNull("parent_id")->pluck("name", "id");
+        $f_cob_clasifications = FCobClasification::where("is_active", 1)->pluck("name", "id");
+        return $dataTable->render('f_fluxes.index', compact("allowAdd","f_movement_types","f_statuses","f_beneficiaries", "f_clasifications", "f_cob_clasifications"));
     }
 
     public function create()
