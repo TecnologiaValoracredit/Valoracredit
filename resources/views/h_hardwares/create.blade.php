@@ -1,7 +1,7 @@
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
-        Agregar hardware
+        Tipo de activo
     </x-slot>
 
 
@@ -19,7 +19,7 @@
         <!-- CONTENT HERE -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Crear hardware</h5>
+                <h5 class="card-title">Crear activo</h5>
                 <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('h_hardwares.store') }}">
                     @csrf
                     <div class="d-flex justify-content-center">

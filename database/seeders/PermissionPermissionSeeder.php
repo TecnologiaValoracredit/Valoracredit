@@ -39,7 +39,8 @@ class PermissionPermissionSeeder extends Seeder
 		$this->createPermissions(["h_hardwares"]);
 		$this->createPermissions(["h_device_types"]);
 		$this->createPermissions(["h_brands"]);
-
+		$this->createPermissions(["h_hardwares"],["generateQrCode"],false);
+		
 		$this->createPermissions(["f_fluxes"]);
 		$this->createPermissions(["f_accounts"]);
 		$this->createPermissions(["f_beneficiaries"]);

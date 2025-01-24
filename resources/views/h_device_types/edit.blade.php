@@ -1,7 +1,7 @@
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
-        Modificar activo
+        Modificar tipo
     </x-slot>
 
 
@@ -19,15 +19,15 @@
         <!-- CONTENT HERE -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Modificar activo</h5>
-                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('h_hardwares.update', $h_hardware->id) }}">
+                <h5 class="card-title">Modificar tipo</h5>
+                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('h_device_type.update', $h_hardware->id) }}">
                     @csrf
                     @method("PUT")
                     <div class="d-flex justify-content-center">
                         <div class="w-100">
-                            @include("h_hardwares.fields")
+                            @include("h_device_type.fields")
                             <div class="d-flex justify-content-end gap-2">
-                            <a href="{{route('h_hardwares.index')}}" class="btn btn-dark">Cancelar</a>
+                            <a href="{{route('h_device_type.index')}}" class="btn btn-dark">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>

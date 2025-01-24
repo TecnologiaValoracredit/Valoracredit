@@ -195,26 +195,26 @@ class MenuSeeder extends Seeder
         ]);
 
         $h_hardware = Menu::create([
-            "name" => "Dispostivos",
+            "name" => "Activos",
             "parent_id" => null,
             "position" => 5,
         ]);
         Menu::create([
-            "name" => "Dispositivos",
+            "name" => "Activos",
             "parent_id" => $h_hardware->id,
             "position" => 5.1,
             "permission_id" => $this->getPermissionId("h_hardwares")
         ]);
 
         Menu::create([
-            "name" => "Tipos de dispositivos",
+            "name" => "Tipos de Activos",
             "parent_id" => $h_hardware->id,
             "position" => 5.2,
             "permission_id" => $this->getPermissionId("h_device_types")
         ]);
 
         Menu::create([
-            "name" => "Marcas de dispositivos",
+            "name" => "Marcas de Activos",
             "parent_id" => $h_hardware->id,
             "position" => 5.3,
             "permission_id" => $this->getPermissionId("h_brands")

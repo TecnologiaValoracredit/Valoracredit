@@ -5,8 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\HDeviceType;
 use App\Models\HBrand;
+use App\Models\Branch;
+use App\Models\Company;
 use App\Models\User;
+use Spatie\Browsershot\Browsershot;
 use App\Models\HHardware;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 use App\Http\Requests\HHardwareRequest;
 use App\Models\PermissionModule;
 use App\DataTables\HHardwareDataTable;
@@ -14,10 +19,21 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class HHardwareController extends Controller
 {
+
+    public function boot()
+    {
+    Image::useImageDriver('gd');
+    }
+
     public function index(HHardwareDataTable $dataTable)
     {
         $allowAdd = auth()->user()->hasPermissions("h_hardwares.create");
-        return $dataTable->render('h_hardwares.index', compact("allowAdd"));
+        $users = User::where("is_active", 1)->pluck("name", "id");
+        $h_device_types = HDeviceType::where("is_active", 1)->pluck("name", "id");
+        $h_brands = HBrand::where("is_active", 1)->pluck("name", "id");
+        $companies = Company::where("is_active", 1)->pluck("name", "id");
+        $branches = Branch::where("is_active", 1)->pluck("name", "id");
+        return $dataTable->render('h_hardwares.index', compact("allowAdd","users","h_device_types","h_brands","companies","branches"));
     }
 
     /**
@@ -30,8 +46,11 @@ class HHardwareController extends Controller
         $h_device_types = HDeviceType::where("is_active", 1)->pluck("name", "id");
         $h_brands = HBrand::where("is_active", 1)->pluck("name", "id");
         $users = User::where("is_active", 1)->pluck("name", "id");
+        $companies = Company::where("is_active", 1)->pluck("name", "id");
+        $branches = Branch::where("is_active", 1)->pluck("name", "id");
+
    
-        return view('h_hardwares.create', compact('h_device_types', 'h_brands','users',));
+        return view('h_hardwares.create', compact('h_device_types', 'h_brands','users','companies','branches'));
     }
     
 
@@ -89,13 +108,27 @@ class HHardwareController extends Controller
     
     public function generateQrCode(HHardware $h_hardware)
     {
-        // Generar un código QR con el enlace al hardware específico
-        $qrCode = QrCode::size(200)->generate(route('h_hardwares.show', $h_hardware->id));
-
-        // Pasar el QR generado a la vista
-        return view('h_hardwares.qr_code', compact('qrCode', 'h_hardware'));
+        $allowAdd = auth()->user()->hasPermissions("h_hardwares.generateQrCode");
+    
+        // Generar el código QR con el enlace
+        $qrCode = QrCode::size(50)->generate(route('h_hardwares.show', $h_hardware->id));
+    
+        // Crear la vista HTML con el contenido del cuadro
+        $view = view('h_hardwares.generateQrCode', compact('allowAdd', 'qrCode', 'h_hardware'))->render();
+    
+        // Ruta para guardar la imagen generada
+        $imagePath = storage_path('app/public/hardware_image.png');
+    
+        // Generar solo el cuadro con dimensiones específicas
+        Browsershot::html($view)
+            ->setOption('no-sandbox', true) // Opcional según tu entorno
+            ->windowSize(190, 110) // Ajusta el tamaño del área visible al cuadro
+            ->clip(0, 0, 190, 110) // Captura solo el cuadro con estas dimensiones (x, y, ancho, alto)
+            ->save($imagePath);
+    
+        // Devolver la imagen para descarga
+        return response()->download($imagePath);
     }
-
 
     /**
      * Display the specified resource.
@@ -109,6 +142,8 @@ class HHardwareController extends Controller
         $h_device_types = HDeviceType::where("is_active", 1)->pluck("name", "id");
         $h_brands = HBrand::where("is_active", 1)->pluck("name", "id");
         $users = User::where("is_active", 1)->pluck("name", "id");
+        $companies = Company::where("is_active", 1)->pluck("name", "id");
+        $branches = Branch::where("is_active", 1)->pluck("name", "id");
     
         // Asegúrate de que el hardware está activo
         if (!$h_hardware->is_active) {
@@ -116,7 +151,7 @@ class HHardwareController extends Controller
         }
     
         // Pasar el hardware y los módulos a la vista
-        return view("h_hardwares.show", compact("h_hardware", "modules",'h_device_types', 'h_brands','users',));
+        return view("h_hardwares.show", compact("h_hardware", "modules",'h_device_types', 'h_brands','users','companies','branches'));
     }
     
 

@@ -77,7 +77,7 @@ Route::middleware("auth")->group(function () {
         Route::resource('h_brands', HBrandController::class);
         Route::resource('h_device_types', HDeviceTypeController::class);
         Route::resource('h_hardwares', HHardwareController::class);
-        Route::get('/h_haxrdwares/{h_hardware}/qr', [HHardwareController::class, 'generateQrCode'])->name('h_hardwares.qr');
+        Route::get('/h_hardwares/{h_hardware}/generateQrCode', [HHardwareController::class, 'generateQrCode'])->name('h_hardwares.generateQrCode');
 
         Route::put('f_fluxes/changeStats/{f_flux}', [FFluxController::class, 'changeStats'])->name('f_fluxes.changeStats');
         

@@ -30,8 +30,8 @@ class HHardwareDataTable extends DataTable
         ->editColumn('updated_at', function (HHardware $h_hardware) {
             return date("d/m/Y H:i", strtotime($h_hardware->updated_at));
         })
-        ->editColumn('date', function (HHardware $h_hardware) {
-            return date("d/m/Y", strtotime($h_hardware->date));
+        ->editColumn('purchase_date', function (HHardware $h_hardware) {
+            return date("d/m/Y", strtotime($h_hardware->purchase_date));
         })
         ->editColumn('is_active', function (HHardware $h_hardware) {
             return $h_hardware->is_active
@@ -42,7 +42,35 @@ class HHardwareDataTable extends DataTable
             return $this->getActions($row);
         })->rawColumns(["action", "is_active"]);
     
-        return $datatable;
+        $datatable->filter(function($query) {
+
+            
+            if(request('user_id') !== null){
+                $query->where('h_hardwares.user_id', '=', request('user_id'));
+            }
+
+            if(request('h_device_type_id') !== null){
+                $query->where('h_hardwares.h_device_type_id', '=', request('h_device_type_id'));
+            }
+
+            if(request('h_brand_id') !== null){
+                $query->where('h_hardwares.h_brand_id', '=', request('h_brand_id'));
+            }
+
+            if(request('initial_purchase_date') !== null){
+                $query->whereDate('h_hardwares.purchase_date', '>=', request('initial_purchase_date'));
+            }
+        
+            if(request('final_purchase_date') !== null){
+                $query->whereDate('h_hardwares.purchase_date', '<=', request('final_purchase_date'));
+            }
+           
+           
+		}, true);
+    
+
+        return $datatable;     
+         
     }
         
     
@@ -101,12 +129,17 @@ class HHardwareDataTable extends DataTable
             'users.name as user_name',
             'h_device_types.name as dev_name',
             'h_brands.name as brand_name',
+            'companies.name as company_name',
+            'branches.name as branch_name',
             )
             
+        ->leftjoin('branches','h_hardwares.branch_id','=','branches.id')    
+        ->leftjoin('companies','h_hardwares.company_id','=','companies.id') 
         ->leftJoin('h_device_types','h_hardwares.h_device_type_id','=','h_device_types.id')
-        ->leftJoin('h_brands', 'h_hardwares.h_brand_id', '=', 'h_brands.id')
-        ->leftJoin('users', 'h_hardwares.user_id', '=', 'users.id')
+        ->leftJoin('h_brands','h_hardwares.h_brand_id','=','h_brands.id')
+        ->leftJoin('users','h_hardwares.user_id','=','users.id')
         ->newQuery();
+
     }
 
     /**

@@ -68,12 +68,32 @@
                         <p id="specifications">{{ $h_hardware->specifications ?? 'Sin especificaciones' }}</p>
                     </div>
 
+                    <div class="col-md-6">
+                        <label for="color" class="form-label"><strong>Color</strong></label>
+                        <p id="color">{{ $h_hardware->color ?? 'Sin color definido' }}</p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="company_id" class="form-label"><strong>Compañia</strong></label>
+                        <p id="company_id">
+                            {{ \App\Models\Company::find($h_hardware->company_id)?->name ?? 'No asignado' }}
+                            <p>
+                            {{ \App\Models\Company::find($h_hardware->company_id)?->location ?? 'No asignado' }}
+                        </p>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label for="branch_id" class="form-label"><strong>Sucursal</strong></label>
+                        <p id="branch_id">
+                            {{ \App\Models\Branch::find($h_hardware->branch_id)?->name ?? 'No asignado' }}
+                        </p>
+                    </div>
                     
                     <!-- En el archivo show.blade.php donde muestras los detalles del hardware -->
 
               
-                    
-                    <a class="btn btn-secondary col-md-3" href="{{ route('h_hardwares.qr', $h_hardware->id) }}" target="_blank">
+                    <p>
+                    <a class="btn btn-secondary col-md-3" href="{{ route('h_hardwares.generateQrCode', $h_hardware->id) }}" target="_blank">
                         Generar Código QR
                     </a>
 

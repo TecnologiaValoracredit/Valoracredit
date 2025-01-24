@@ -59,6 +59,11 @@ class PermissionFunctionSeeder extends Seeder
         ]);
 
         PermissionFunction::create([
+            'name' => 'generateQrCode',
+            'description' => 'Crear qr en los activos'
+        ]);
+
+        PermissionFunction::create([
             'name' => 'exportAdminReport',
             'description' => 'Exportar reporte administrativo a excel'
         ]);
@@ -67,6 +72,8 @@ class PermissionFunctionSeeder extends Seeder
             'name' => 'exportAdminReport',
             'description' => 'Exportar reporte administrativo de flujos (más completo)'
         ]);
+        
+ 
         
 
         PermissionFunction::create(["name" => "uploadExpedientsAbc"]);
