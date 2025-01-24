@@ -1,19 +1,69 @@
 <x-base-layout :scrollspy="false">
     <input type="hidden" id="route" value="h_hardwares">
     <x-slot:pageTitle>
-        Hardware
+        Activos
     </x-slot>
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <x-slot:headerFiles>
-        <!--  BEGIN CUSTOM STYLE FILE  -->
         
         <!--  END CUSTOM STYLE FILE  -->
+
     </x-slot>
-    <!-- END GLOBAL MANDATORY STYLES -->
+   
 
     <div class="row layout-top-spacing">
-        <!-- CONTENT HERE -->
+    @include('components.custom.forms.filters', [
+            "rows" => [
+                [
+                    [
+                        "id" => "initial_purchase_date",
+                        "name" => "initial_purchase_date",
+                        "label" => "Comprados desde",
+                        "type" => "date",
+                        "class" => "col-6"
+                    ],
+                    [
+                        "id" => "final_purchase_date",
+                        "name" => "final_purchase_date",
+                        "label" => "Comprados hasta",
+                        "type" => "date",
+                        "class" => "col-6"
+                    ],
+                    [
+                        "id" => "user_id",
+                        "name" => "user_id",
+                        "label" => "Propietario",
+                        "type" => "select",
+                        "elements" => $users,  
+                        "class" => "col-6",
+                        "value" => 0
+                    ],
+
+                    [
+                        "id" => "h_device_type_id",
+                        "name" => "h_device_type_id",
+                        "label" => "Tipo",
+                        "type" => "select",
+                        "elements" => $h_device_types,  
+                        "class" => "col-6",
+                        "value" => 0
+                    ],
+
+                    [
+                        "id" => "h_brand_id",
+                        "name" => "h_brand_id",
+                        "label" => "Marca",
+                        "type" => "select",
+                        "elements" => $h_brands,  
+                        "class" => "col-6",
+                        "value" => 0
+                    ],
+
+
+                ],
+            ]
+        ])
         
         <div class="card">
             <div class="card-body">
@@ -35,13 +85,14 @@
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
         {{ $dataTable->scripts() }}
+        @vite(['resources/js/filters.js'])
 
         <!-- Modal for Image Preview -->
         <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="imageModalLabel">Imagen del Hardware</h5>
+                        <h5 class="modal-title" id="imageModalLabel">Imagen del Activo</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -69,5 +120,5 @@
         </script>
 
     </x-slot>
-    <!--  END CUSTOM SCRIPTS FILE  -->
+    
 </x-base-layout>

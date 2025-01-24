@@ -11,8 +11,10 @@ class HHardware extends Model
     protected $table = "h_hardwares";
     protected $fillable=
     [
-        'user_id','h_device_type_id','h_brand_id','serial_number','specifications',
-        'purchase_date', 'image', 'created_by','created_at','is_active', 'notes', 'color','custom_serial_number'
+        'user_id','h_device_type_id','h_brand_id','serial_number',
+        'specifications', 'branch_id', 'company_id',
+        'purchase_date', 'image', 'created_by','created_at','is_active', 'notes',
+        'color','custom_serial_number'
     ];
 
     protected static function booted()

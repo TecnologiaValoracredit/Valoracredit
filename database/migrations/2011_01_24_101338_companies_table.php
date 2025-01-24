@@ -13,18 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('h_device_types', function (Blueprint $table) {
-            $table->smallIncrements('id');
-            $table->string('name');
-            $table->string('description');
+        Schema::create('companies', function (Blueprint $table) {
+            $table->smallIncrements("id");
 
-            $table->timestamps(); 
+            $table->string('name');
+            $table->string('location');
+
+            $table->timestamps();
             $table->string('notes', 1024)->nullable()->comment('Notas');    
             $table->boolean('is_active')->default(1)->comment('Muestra si la fila está activa');
-            $table->smallInteger('created_by')->unsigned()->nullable()->comment('Usuario que creó');
-            $table->foreign('created_by')->references('id')->on('users');
-            $table->smallInteger('updated_by')->unsigned()->nullable()->comment('Último usuario que modificó');
-            $table->foreign('updated_by')->references('id')->on('users');
 
         });
     }

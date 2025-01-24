@@ -81,12 +81,6 @@ class HBrandDataTable extends DataTable
     public function getColumns(): array
     {
         $columns = [
-            Column::make('id')
-            ->title('Id')
-            ->searchable(true)
-            ->orderable(true)
-            ->printable(true),
-
             Column::make('name')
             ->title('Nombre')
             ->searchable(true)

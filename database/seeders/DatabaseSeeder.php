@@ -40,6 +40,7 @@ use Database\Seeders\SCoordinatorSeeder;
 use Database\Seeders\FCompanySeeder;
 use Database\Seeders\FFluxSeeder;
 use Database\Seeders\FClasificationSeeder;
+use Database\Seeders\CompanySeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -74,7 +75,7 @@ class DatabaseSeeder extends Seeder
             RequisitionStatusSeeder::class,
             PaymentTypeSeeder::class,
             SCoordinatorSeeder::class,
-            SSaleSeeder::class,
+            //SSaleSeeder::class,
             ChkCreditTypeSeeder::class,
             ChkListSeeder::class,
             HDeviceTypeSeeder::class,
@@ -86,6 +87,7 @@ class DatabaseSeeder extends Seeder
             FStatusSeeder::class,
             FCobClasificationSeeder:: class,
             FClasificationSeeder:: class,
+            CompanySeeder::class,
 
             FFluxSeeder:: class,
 

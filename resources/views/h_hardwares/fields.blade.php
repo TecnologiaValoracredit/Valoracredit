@@ -23,7 +23,7 @@
         "placeholder" => "Marca de dispositivo",
         "value" => isset($h_hardware) ? $h_hardware->h_brand_id : old("h_brand_id"),
         "label" => "Marca de dispositivo",
-        "required" => true,
+        "required" => false,
         "invalid_feedback" => "El campo es requerido"
       ])
     </div>
@@ -52,7 +52,6 @@
         "type" => "text",
         "placeholder" => "Numero de serie...",
         "label" => "Numero de serie original",
-        "required" => true,
         "value" => isset($h_hardware) ? $h_hardware->serial_number : old("serial_number"),
         "invalid_feedback" => "El campo es requerido"
       ])
@@ -80,7 +79,6 @@
       "type" => "date",
       "placeholder" => "Fecha compra",
       "label" => "Fecha compra",
-      "required" => true,
       "value" => isset($h_hardware) ? $h_hardware->purchase_date : old("purchase_date"),
       "invalid_feedback" => "El campo es requerido"
     ])
@@ -99,6 +97,32 @@
         "invalid_feedback" => "El campo es requerido"
     ])
   </div>
+  <!--Sucursal-->
+  <div class="col-md-4">
+    @include("components.custom.forms.input-select", [
+      "id" => "branch_id",
+      "name" => "branch_id",
+      "elements" => $branches,
+      "placeholder" => "Sucursal",
+      "value" => isset($h_hardware) ? $h_hardware->branch_id : old("branch_id"),
+      "label" => "Sucursal",
+      "required" => true,
+      "invalid_feedback" => "El campo es requerido"
+    ])
+  </div>
+
+  <div class="col-md-4">
+    @include("components.custom.forms.input-select", [
+      "id" => "company_id",
+      "name" => "company_id",
+      "elements" => $companies,
+      "placeholder" => "Compañia",
+      "value" => isset($h_hardware) ? $h_hardware->company_id : old("company_id"),
+      "label" => "Compañia",
+      "required" => true,
+      "invalid_feedback" => "El campo es requerido"
+    ])
+  </div>
   </div>       
 
       <!--Especificaciones-->
@@ -108,7 +132,7 @@
             "name" => "specifications",
             "placeholder" => "Agrega algun detalle o problema",
             "label" => "Especificaciones",
-            "required" => true,
+            "required" => false,
             "value" => isset($h_hardware) ? $h_hardware->specifications : old("specifications"),
             "invalid_feedback" => "El campo es requerido"
         ])
