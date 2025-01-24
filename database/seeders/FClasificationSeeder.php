@@ -22,6 +22,17 @@ class FClasificationSeeder extends Seeder
         ////INGRESOS////
         $f = FClasification::create([
             "name" => "WS PROMOTORA",
+            "f_movement_type_id" => 1
+        ]);
+
+        FClasification::create([
+            "name" => "WS PROMOTORA",
+            "parent_id" => $f->id,
+        ]);
+
+        $f = FClasification::create([
+            "name" => "WS PROMOTORA",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -31,12 +42,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Fondeo Fimubac",
-        ]);
-
-
-        FClasification::create([
-            "name" => "Fondeo Fimubac",
-            "parent_id" => $f->id,
+            "f_movement_type_id" => 1
         ]);
 
       
@@ -47,6 +53,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Personas Fisicas",
+            "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
@@ -56,6 +63,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Cobranza",
+            "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
@@ -165,6 +173,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Intereses de Inversion",
+            "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
@@ -174,6 +183,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Liquidaciones y cobranza externa",
+            "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
@@ -183,6 +193,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Cobranza Extrajudicial",
+            "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
@@ -192,6 +203,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Cobranza Despacho",
+            "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
@@ -201,6 +213,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Ingresos por Domiciliar",
+            "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
@@ -210,6 +223,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Otros Ingresos",
+            "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
@@ -219,6 +233,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Retorno Estrategia",
+            "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
@@ -228,6 +243,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "GNP Defunciones",
+            "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
@@ -237,6 +253,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "INGRESOS BIM DOMICILIADO",
+            "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
@@ -247,6 +264,7 @@ class FClasificationSeeder extends Seeder
       
         $f = FClasification::create([
             "name" => "Convenios",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -256,6 +274,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Apoyos mensuales",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -275,6 +294,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Regalias",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -284,6 +304,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Nomina",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -308,6 +329,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Colocación",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -322,6 +344,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Comisiones",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -341,6 +364,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Reembolsos a Clientes",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -350,6 +374,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Capital a Fimubac",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -359,6 +384,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Intereses a Fimubac",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -368,6 +394,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Impuestos WS",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -387,6 +414,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Impuestos PIP",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -406,6 +434,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Family & Friends",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -425,6 +454,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Gastos Operativos",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -600,6 +630,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Estrategia",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -609,6 +640,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "Reclamación Cargos Domiciliados",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
@@ -618,6 +650,7 @@ class FClasificationSeeder extends Seeder
 
         $f = FClasification::create([
             "name" => "AMEX",
+            "f_movement_type_id" => 2
         ]);
 
         FClasification::create([

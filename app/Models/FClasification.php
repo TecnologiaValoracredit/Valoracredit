@@ -10,7 +10,7 @@ class FClasification extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','description', 'parent_id',
+        'name','description', 'parent_id', 'f_movement_type_id',
         'is_active',
         'created_by',
         'updated_by',

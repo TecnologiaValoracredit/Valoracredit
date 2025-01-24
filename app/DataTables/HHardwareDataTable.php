@@ -147,47 +147,26 @@ class HHardwareDataTable extends DataTable
         $columns = [
 
             Column::make('user_name')
-            ->title('Responsable')
-            ->searchable(true)
-            ->orderable(true)
-            ->printable(true),
+            ->title('Responsable'),
 
             Column::make('dev_name')
-            ->title('Tipo')
-            ->searchable(true)
-            ->orderable(true)
-            ->printable(true),
+            ->title('Tipo'),
 
             Column::make('brand_name')
             ->title('Marca')
-            ->searchable(true)
-            ->orderable(false)
-            ->className('text-wrap')
-            ->printable(true),
+            ->className('text-wrap'),
 
             Column::make('purchase_date')
-            ->title('Fecha compra')
-            ->searchable(true)
-            ->orderable(true)
-            ->printable(true),
+            ->title('Fecha compra'),
 
             Column::make('serial_number')
-            ->title('Numero de serie')
-            ->searchable(true)
-            ->orderable(true)
-            ->printable(true),
+            ->title('Numero de serie'),
 
             Column::make('color')
-            ->title('Color')
-            ->searchable(true)
-            ->orderable(true)
-            ->printable(true),
+            ->title('Color'),
 
             Column::make('custom_serial_number')
-            ->title('Numero de serie generado')
-            ->searchable(true)
-            ->orderable(true)
-            ->printable(true),
+            ->title('Numero de serie generado'),
 
 
             

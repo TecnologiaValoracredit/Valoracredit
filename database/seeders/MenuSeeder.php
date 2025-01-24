@@ -187,7 +187,12 @@ class MenuSeeder extends Seeder
             "position" => 4.4,
             "permission_id" => $this->getPermissionId("f_clasifications")
         ]);
-        
+        Menu::create([
+            "name" => "Reportes",
+            "parent_id" => $f_fluxes->id,
+            "position" => 4.5,
+            "permission_id" => $this->getPermissionId("f_flux_reports")
+        ]);
 
         $h_hardware = Menu::create([
             "name" => "Dispostivos",

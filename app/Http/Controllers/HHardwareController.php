@@ -54,17 +54,17 @@ class HHardwareController extends Controller
     
         try {
            // Manejar la carga de la imagen
-    if ($request->hasFile('image') && $request->file('image')->isValid()) {
-    $image = $request->file('image');
-    
-    // Validar el archivo de imagen (opcional, según los requisitos)
-    $request->validate([
-        'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB máximo
-    ]);
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $image = $request->file('image');
+                
+                // Validar el archivo de imagen (opcional, según los requisitos)
+                $request->validate([
+                    'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB máximo
+            ]);
 
-    // Almacenar la imagen en el disco 'public' y obtener la ruta
-    $imagePath = $image->store('hardware_images', 'public'); // Almacenamiento en 'public'
-    }
+            // Almacenar la imagen en el disco 'public' y obtener la ruta
+            $imagePath = $image->store('hardware_images', 'public'); // Almacenamiento en 'public'
+            }
 
     
             // Unir los parámetros del request con el número de serie personalizado y la ruta de la imagen
@@ -87,14 +87,14 @@ class HHardwareController extends Controller
         return $this->getResponse($status, $message, $h_hardware);
     }
     
-        public function generateQrCode(HHardware $h_hardware)
-        {
+    public function generateQrCode(HHardware $h_hardware)
+    {
         // Generar un código QR con el enlace al hardware específico
         $qrCode = QrCode::size(200)->generate(route('h_hardwares.show', $h_hardware->id));
 
         // Pasar el QR generado a la vista
         return view('h_hardwares.qr_code', compact('qrCode', 'h_hardware'));
-        }
+    }
 
 
     /**
