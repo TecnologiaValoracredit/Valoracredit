@@ -20,7 +20,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Crear activo</h5>
-                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('h_hardwares.store') }}">
+                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('h_hardwares.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="d-flex justify-content-center">
                         <div class="w-100">

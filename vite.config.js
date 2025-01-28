@@ -40,8 +40,11 @@ export default defineConfig({
                 'resources/js/s_institution_report_graphics.js',
                 'resources/js/s_institution_reports.js',
                 'resources/js/f_fluxes.js',
+                'resources/js/f_flux_status.js',
                 'resources/js/f_clasifications.js',
-
+                'resources/js/s_coordinator_reports.js',
+                'resources/js/s_coordinator_report_graphics.js',
+                
             ],
             refresh: true,
         }),

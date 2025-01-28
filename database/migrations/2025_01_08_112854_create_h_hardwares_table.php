@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('h_hardwares', function (Blueprint $table) {
             
             $table->smallIncrements('id');
+            $table->string('name')->nullable();
 
             $table->unsignedSmallInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
