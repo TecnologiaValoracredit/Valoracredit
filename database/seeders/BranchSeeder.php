@@ -21,5 +21,11 @@ class BranchSeeder extends Seeder
         Branch::create([
             'name'=> 'Satillo',
         ]);
+        Branch::create([
+            'name'=> 'Torreon',
+        ]);
+        Branch::create([
+            'name'=> 'Villahermosa',
+        ]);
     }
 }

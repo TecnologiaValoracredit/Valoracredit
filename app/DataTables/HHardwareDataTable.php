@@ -187,7 +187,8 @@ class HHardwareDataTable extends DataTable
             ->title('Tipo'),
 
             Column::make('brand_name')
-            ->title('Marca'),
+            ->title('Marca')
+            ->className('text-wrap'),
 
             Column::make('purchase_date')
             ->title('Fecha compra'),
@@ -198,14 +199,8 @@ class HHardwareDataTable extends DataTable
             Column::make('color')
             ->title('Color'),
 
-            Column::make('branch_name')
-            ->title('Sucursal'),
-
             Column::make('custom_serial_number')
-            ->title('Numero de serie generado')
-            ->searchable(true)
-            ->orderable(true)
-            ->printable(true),
+            ->title('Numero de serie generado'),
 
 
             

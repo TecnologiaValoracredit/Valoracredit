@@ -60,7 +60,7 @@ class FFluxDataTable extends DataTable
                     $query->orWhere('f_movement_type_id', 2);
                 }
             }
-
+            
             if(request('initial_accredit_date') !== null){
                 $query->whereDate('f_fluxes.accredit_date', '>=', request('initial_accredit_date'));
             }

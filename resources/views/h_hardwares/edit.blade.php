@@ -20,7 +20,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Modificar activo</h5>
-                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('h_hardwares.update', $h_hardware->id) }}">
+                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('h_hardwares.update', $h_hardware->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method("PUT")
                     <div class="d-flex justify-content-center">

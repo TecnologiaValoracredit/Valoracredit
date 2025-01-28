@@ -17,6 +17,7 @@ return new class extends Migration
             $table->smallIncrements("id");
             $table->string('name');
             $table->string('account_number');
+            $table->float('init_balance')->comments("saldo inicial, solo se pone una vez");
 
             $table->unsignedSmallInteger('f_company_id')->nullable();
             $table->foreign('f_company_id')->references('id')->on('f_companies');

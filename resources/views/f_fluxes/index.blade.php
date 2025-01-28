@@ -78,10 +78,9 @@
         <div class="card">
             <div class="card-body">
                 @include("components.custom.session-errors")
+                
                 <div class="d-flex justify-content-between align-items-center mb-2 p-2">
                     <h5 class="card-title">Flujo</h5>
-                    <a href="{{ route('f_fluxes.exportAdminReport') }}" class="btn btn-primary">Descargar Excel</a>
-
                     @if($allowAdd)
                         <a href="{{route('f_fluxes.create')}}" class="btn btn-success text-end">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle">
@@ -103,9 +102,9 @@
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
         {{ $dataTable->scripts() }}
-
+        @vite(['resources/js/filters.js'])
+        @vite(['resources/js/f_flux_status.js'])
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
-    @vite(['resources/js/filters.js'])
-    @vite(['resources/js/f_flux_status.js'])
+
 </x-base-layout>

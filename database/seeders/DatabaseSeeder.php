@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
             RequisitionStatusSeeder::class,
             PaymentTypeSeeder::class,
             SCoordinatorSeeder::class,
-            SSaleSeeder::class,
+            // SSaleSeeder::class,
             ChkCreditTypeSeeder::class,
             ChkListSeeder::class,
             HDeviceTypeSeeder::class,
