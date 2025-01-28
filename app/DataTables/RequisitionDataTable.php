@@ -87,6 +87,8 @@ class RequisitionDataTable extends DataTable
                         'paging' => true,
                         'searching' => true,
                         'info' => true,
+                        'responsive' => true,
+                        "scrollX"=> true,
                     ])
                     ->setTableId('requisitions-table')
                     ->columns($this->getColumns())

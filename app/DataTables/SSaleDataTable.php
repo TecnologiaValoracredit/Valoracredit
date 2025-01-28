@@ -91,6 +91,8 @@ class SSaleDataTable extends DataTable
                         'paging' => true,
                         'searching' => true,
                         'info' => true,
+                        'responsive' => true,
+                        "scrollX"=> true,
                     ])
                     ->setTableId('s_sales-table')
                     ->columns($this->getColumns())

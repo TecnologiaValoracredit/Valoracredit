@@ -98,6 +98,8 @@ class FAccountDataTable extends DataTable
                         'paging' => true,
                         'searching' => true,
                         'info' => true,
+                        'responsive' => true,
+                        "scrollX"=> true,
                     ])
                     ->setTableId('f_accounts-table')
                     ->columns($this->getColumns())

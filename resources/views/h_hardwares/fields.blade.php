@@ -58,16 +58,19 @@
     </div>
     <!--Numero de serie custom-->
     <div class="col-md-4">
-      @include("components.custom.forms.input", [
-          "id" => "custom_serial_number",
-          "name" => "custom_serial_number",
-          "type" => "text",
-          "label" => "Número de serie",
-          "value" => isset($h_hardware) ? $h_hardware->custom_serial_number : 'Se generará automáticamente al guardar',
-          "placeholder" => "Número de serie",
-          "readonly" => true,
-      ])
-  </div>
+    <label for="custom_serial_number">Número de serie</label>
+    <input 
+        type="text" 
+        id="custom_serial_number" 
+        name="custom_serial_number" 
+        value="{{ isset($h_hardware) ? $h_hardware->custom_serial_number : 'Se generará automáticamente al guardar' }}" 
+        placeholder="Número de serie" 
+        disabled 
+        class="form-control"
+    >
+</div>
+
+
   
   
 
@@ -110,7 +113,7 @@
       "invalid_feedback" => "El campo es requerido"
     ])
   </div>
-
+<!--Compañia-->
   <div class="col-md-4">
     @include("components.custom.forms.input-select", [
       "id" => "company_id",

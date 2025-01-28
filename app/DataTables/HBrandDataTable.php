@@ -58,6 +58,8 @@ class HBrandDataTable extends DataTable
                         'paging' => true,
                         'searching' => true,
                         'info' => true,
+                        'responsive' => true,
+                        "scrollX"=> true,
                     ])
                     ->setTableId('h_device_types-table')
                     ->columns($this->getColumns())

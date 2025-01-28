@@ -155,6 +155,7 @@ class HHardwareDataTable extends DataTable
                         'searching' => true,
                         'info' => true,
                         'responsive' => true,
+                        "scrollX"=> true,
                     ])
                     ->setTableId('h_hardwares-table')
                     ->columns($this->getColumns())
