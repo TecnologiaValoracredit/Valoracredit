@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Exports\FFluxExport;
+use App\Exports\NormalFFLuxExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\FClasification;
 use App\Models\FFlux;
+use App\Models\FMovementType;
 use App\Models\FAccount;
 
 use Carbon\Carbon;
@@ -24,8 +26,9 @@ class FFluxReportController extends Controller
         // Formatear las fechas como YYYY-MM-DD (formato requerido por input type="date")
         $startDate = $firstDayOfMonth->format('Y-m-d');
         $endDate = $lastDayOfMonth->format('Y-m-d');
+        $f_movement_types = FMovementType::where("is_active", 1)->pluck("name", "id");
 
-        return view("f_flux_reports.index", compact("startDate", "endDate"));
+        return view("f_flux_reports.index", compact("startDate", "endDate","f_movement_types"));
     }
 
     public function exportAdminReport(Request $request)
@@ -149,4 +152,77 @@ class FFluxReportController extends Controller
 
         return $processedData;
     }
+
+    protected function getFluxData($startDate, $endDate, $movementTypeId = null)
+    {
+        $query = FFlux::select(
+            'accredit_date',
+            'f_beneficiaries.name as beneficiary_name',
+            'concept',
+            'f_movement_types.name as movement_type_name',
+            \DB::raw('SUM(amount) as total_amount'),
+            'f_clasifications.name as clasification_name',
+            'f_cob_clasifications.name as cob_clasification_name',
+            'notes1',
+            'notes2',
+            'f_statuses.name as status_name'
+        )
+        ->leftJoin('f_beneficiaries', 'f_fluxes.f_beneficiary_id', '=', 'f_beneficiaries.id')
+        ->leftJoin('f_movement_types', 'f_fluxes.f_movement_type_id', '=', 'f_movement_types.id')
+        ->leftJoin('f_clasifications', 'f_fluxes.f_clasification_id', '=', 'f_clasifications.id')
+        ->leftJoin('f_cob_clasifications', 'f_fluxes.f_cob_clasification_id', '=', 'f_cob_clasifications.id')
+        ->leftJoin('f_statuses', 'f_fluxes.f_status_id', '=', 'f_statuses.id')
+        ->whereBetween('accredit_date', [$startDate, $endDate])
+        ->where('f_fluxes.is_active', 1);
+    
+        // Aplicar el filtro solo si se proporciona un movementTypeId
+        if (!empty($movementTypeId)) {
+            $query->where('f_fluxes.f_movement_type_id', $movementTypeId);
+        }
+    
+        $fluxes = $query->groupBy(
+            'accredit_date',
+            'f_beneficiaries.name',
+            'concept',
+            'f_movement_types.name',
+            'f_clasifications.name',
+            'f_cob_clasifications.name',
+            'notes1',
+            'notes2',
+            'f_statuses.name'
+        )->get();
+    
+        // Formatear la fecha antes de devolver los datos
+        foreach ($fluxes as $flux) {
+            if (isset($flux->accredit_date)) {
+                $flux->accredit_date = Carbon::parse($flux->accredit_date)->format('d/m/Y');
+            }
+        }
+    
+        return $fluxes;
+    }
+    
+    
+    
+    public function exportFluxReport(Request $request)
+    {
+        // Validar las fechas antes de usarlas
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+    
+        // Obtener las fechas de la solicitud
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $movementType = $request->input('f_movement_type'); // Capturar el filtro
+    
+        // Obtener los datos procesados para el reporte con el filtro de tipo de movimiento
+        $fluxData = $this->getFluxData($startDate, $endDate, $movementType);
+    
+        // Generar y descargar el archivo Excel con los datos filtrados
+        return Excel::download(new NormalFFLuxExport($fluxData), 'FluxReport.xlsx');
+    }
+    
+    
 }

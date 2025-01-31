@@ -42,9 +42,8 @@
     ])
   </div>
 </div>
-  
+      <!--Numero de serie original-->
   <div class="row mb-4">
-    <!--Numero de serie original-->
     <div class="col-md-4">
       @include("components.custom.forms.input", [
         "id" => "serial_number",
@@ -144,11 +143,7 @@
       "invalid_feedback" => "El campo es requerido"
     ])
   </div>
-<<<<<<< HEAD
 <!--Compañia-->
-=======
-<!-- Compañía -->
->>>>>>> 7ebb62a5c8a7a65ed9084774ac4fc6c5fbb2498a
   <div class="col-md-4">
     @include("components.custom.forms.input-select", [
       "id" => "company_id",

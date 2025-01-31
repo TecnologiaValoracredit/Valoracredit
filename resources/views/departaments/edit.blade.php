@@ -1,7 +1,7 @@
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
-        Modificar rol
+        Modificar departamento
     </x-slot>
 
 
@@ -19,7 +19,7 @@
         <!-- CONTENT HERE -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Modificar rol</h5>
+                <h5 class="card-title">Modificar departamento</h5>
                 <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('departaments.update', $departament->id) }}">
                     @csrf
                     @method("PUT")

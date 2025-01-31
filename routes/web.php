@@ -83,6 +83,7 @@ Route::middleware("auth")->group(function () {
         
         
         Route::get('f_flux_reports/exportAdminReport',  [FFluxReportController::class, 'exportAdminReport'])->name("f_flux_reports.exportAdminReport");
+        Route::get('f_flux_reports/exportFluxReport',  [FFluxReportController::class, 'exportFluxReport'])->name("f_flux_reports.exportFluxReport");
         Route::get('f_flux_reports',  [FFluxReportController::class, 'index'])->name("f_flux_reports.index");
         
         Route::resource('f_fluxes', FFluxController::class);

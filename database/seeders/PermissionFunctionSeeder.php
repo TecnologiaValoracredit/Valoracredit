@@ -69,8 +69,8 @@ class PermissionFunctionSeeder extends Seeder
         ]);
 
         PermissionFunction::create([
-            'name' => 'exportAdminReport',
-            'description' => 'Exportar reporte administrativo de flujos (más completo)'
+            'name' => 'exportFluxReport',
+            'description' => 'Exportar reporte de flujos '
         ]);
         
  

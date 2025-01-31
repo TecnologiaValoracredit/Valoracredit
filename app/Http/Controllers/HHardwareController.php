@@ -64,43 +64,41 @@ class HHardwareController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(HHardwareRequest $request)
-    {
-        $status = true;
-        $h_hardware = null;
-    
-        // Generar un número de serie personalizado
-        $customSerialNumber = 'SN-' . strtoupper(uniqid());
-    
-        // Inicializar variable para la imagen
-        $imagePath = null;
-        try {
-           // Manejar la carga de la imagen
-            if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                $image = $request->file('image');
-                // Almacenar la imagen en el disco 'public' y obtener la ruta
-                $imagePath = $image->store('active', 'public'); // Almacenamiento en 'public'
-            }
+   public function store(HHardwareRequest $request)
+{
+    $status = true;
+    $h_hardware = null;
 
-    
-            // Unir los parámetros del request con el número de serie personalizado y la ruta de la imagen
-            $params = array_merge($request->all(), [
-                'is_active' => !is_null($request->is_active),
-                'custom_serial_number' => $customSerialNumber,
-                'image' => $imagePath, // Agregar la ruta de la imagen al registro
-            ]);
-    
-            // Crear el hardware con los parámetros
-            $h_hardware = HHardware::create($params);
-            $message = "Hardware agregado correctamente";
-        } catch (\Illuminate\Database\QueryException $e) {
-            $status = false;
-            $message = $this->getErrorMessage($e, 'h_hardwares');
+    // Generar un número de serie personalizado
+    $customSerialNumber = 'SN-' . strtoupper(uniqid());
+
+    // Inicializar variable para la imagen
+    $imagePath = null;
+    try {
+       // Manejar la carga de la imagen
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $image = $request->file('image');
+            // Almacenar la imagen en el disco 'public' y obtener la ruta
+            $imagePath = $image->store('active', 'public'); // Almacenamiento en 'public'
         }
-    
-        return $this->getResponse($status, $message, $h_hardware);
+
+        // Unir los parámetros del request con el número de serie personalizado y la ruta de la imagen
+        $params = array_merge($request->all(), [
+            'is_active' => !is_null($request->is_active),
+            'custom_serial_number' => $customSerialNumber,
+            'image' => $imagePath, // Agregar la ruta de la imagen al registro
+        ]);
+
+        // Crear el hardware con los parámetros
+        $h_hardware = HHardware::create($params);
+        $message = "Hardware agregado correctamente";
+    } catch (\Illuminate\Database\QueryException $e) {
+        $status = false;
+        $message = $this->getErrorMessage($e, 'h_hardwares');
     }
-    
+
+    return $this->getResponse($status, $message, $h_hardware);
+}
 
 public function generateQrCode(HHardware $h_hardware)
 {
@@ -209,23 +207,42 @@ public function generateQrCode(HHardware $h_hardware)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(HHardwareRequest $request, HHardware $h_hardware)
-    {
-        $status = true;
-        $params = array_merge($request->all(), [
-			'name' => $request->name,
-            'is_active' => !is_null($request->is_active),
-		]);
+   public function update(HHardwareRequest $request, HHardware $h_hardware)
+{
+    $status = true;
 
-		try {
-			$h_hardware->update($params);
-			$message = "Hardware modificado correctamente";
-		} catch (\Illuminate\Database\QueryException $e) {
-			$status = false;
-			$message = $this->getErrorMessage($e, 'h_hardwares');
-		}
-        return $this->getResponse($status, $message, $h_hardware);
+    // Inicializar la variable de la imagen
+    $imagePath = $h_hardware->image; // Mantén la imagen actual si no se ha subido una nueva
+
+    try {
+        // Verificar si se sube una nueva imagen
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            // Eliminar la imagen anterior si existe
+            if ($imagePath && File::exists(public_path('storage/' . $imagePath))) {
+                File::delete(public_path('storage/' . $imagePath));
+            }
+
+            // Subir la nueva imagen
+            $image = $request->file('image');
+            $imagePath = $image->store('active', 'public'); // Almacenar la nueva imagen
+        }
+
+        // Unir los parámetros del request con la ruta de la imagen actualizada
+        $params = array_merge($request->all(), [
+            'is_active' => !is_null($request->is_active),
+            'image' => $imagePath, // Usar la nueva ruta de la imagen
+        ]);
+
+        // Actualizar el hardware
+        $h_hardware->update($params);
+        $message = "Hardware modificado correctamente";
+    } catch (\Illuminate\Database\QueryException $e) {
+        $status = false;
+        $message = $this->getErrorMessage($e, 'h_hardwares');
     }
+
+    return $this->getResponse($status, $message, $h_hardware);
+}
 
     /**
      * Remove the specified resource from storage.
