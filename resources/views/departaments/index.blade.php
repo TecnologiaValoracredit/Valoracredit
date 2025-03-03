@@ -1,7 +1,7 @@
 <x-base-layout :scrollspy="false">
     <input type="hidden" id="route" value="departaments">
     <x-slot:pageTitle>
-        Roles 
+        Departamentos 
     </x-slot>
 
 

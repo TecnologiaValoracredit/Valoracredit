@@ -12,9 +12,12 @@
   ])
 </div>
 
-    <!-- Id -->
-    <div class="col-md-3">
-      <label for="sol_id" class="form-label">Id</label>
-      <input type="text" id="sol_id" class="form-control" value="{{ old('sol_id', $h_brand->id ?? '') }}" disabled>
-    </div>
-  </div>
+    <!-- Activo -->
+<div class="mb-2">
+  @include("components.custom.forms.input-check", [
+    "id" => "is_active",
+    "name" => "is_active",
+    "checked" => isset($h_hardware) ? $h_hardware->is_active : true,
+    "label" => "Activo",
+  ])
+</div>

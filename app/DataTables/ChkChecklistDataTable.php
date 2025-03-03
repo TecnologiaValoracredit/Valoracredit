@@ -116,7 +116,8 @@ class ChkChecklistDataTable extends DataTable
                         'paging' => true,
                         'searching' => true,
                         'info' => true,
-                        'responsive' => true,  // Habilitar responsividad
+                        'responsive' => true,
+                        "scrollX"=> true,
                     ])
                     ->setTableId('chk_checklists-table')
                     ->columns($this->getColumns())

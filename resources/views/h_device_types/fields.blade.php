@@ -23,3 +23,13 @@
         "invalid_feedback" => "El campo es requerido"
     ])
 </div>
+
+<!-- Activo -->
+<div class="mb-2">
+  @include("components.custom.forms.input-check", [
+    "id" => "is_active",
+    "name" => "is_active",
+    "checked" => isset($h_hardware) ? $h_hardware->is_active : true,
+    "label" => "Activo",
+  ])
+</div>

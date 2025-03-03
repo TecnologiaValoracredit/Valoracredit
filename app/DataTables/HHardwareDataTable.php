@@ -155,6 +155,7 @@ class HHardwareDataTable extends DataTable
                         'searching' => true,
                         'info' => true,
                         'responsive' => true,
+                        "scrollX"=> true,
                     ])
                     ->setTableId('h_hardwares-table')
                     ->columns($this->getColumns())
@@ -180,14 +181,16 @@ class HHardwareDataTable extends DataTable
         $columns = [
 
             Column::make('user_name')
-            ->title('Responsable'),
+            ->title('Responsable')
+            ->name('users.name'),
 
             Column::make('dev_name')
-            ->title('Tipo'),
+            ->title('Tipo')
+            ->name('h_device_types.name'),
 
             Column::make('brand_name')
             ->title('Marca')
-            ->className('text-wrap'),
+            ->name('h_brands.name'),
 
             Column::make('purchase_date')
             ->title('Fecha compra'),

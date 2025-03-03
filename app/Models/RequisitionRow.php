@@ -9,11 +9,11 @@ class RequisitionRow extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'requisition_id', 'ammount',
+        'id', 'requisition_id', 'amount', 'subtotal',
         'departament', 'supplier_id', 'description', 
-        'unit_price', 'url','include_iva','notes',
+        'unit_price', 'url','include_iva','notes', 
         'created_by','updated_by', 'is_active','created_by', 
-        'updated_by','notes'  
+        'updated_by','notes',
     ];
 
     public function supplier()
@@ -24,8 +24,13 @@ class RequisitionRow extends Model
     {
         return $this->belongsTo("App\Models\Departament", "departament_id", "id");
     }
-    public function requisitionOptionals()
+    public function requisitionRowOptional()
     {
         return $this->hasMany("App\Models\RequisitionRowOptional", "requisition_row_id", "id");
+    }
+
+    public function requisition()
+    {
+        return $this->belongsTo(Requisition::class);
     }
 }

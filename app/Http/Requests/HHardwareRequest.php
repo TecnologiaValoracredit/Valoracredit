@@ -24,7 +24,7 @@ class HHardwareRequest extends FormRequest
     public function rules()
     {
         return [
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB máximo
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:5120', // 2MB máximo
         ];
     }
 }

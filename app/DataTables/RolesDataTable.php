@@ -96,6 +96,8 @@ class RolesDataTable extends DataTable
                         'paging' => true,
                         'searching' => true,
                         'info' => true,
+                        'responsive' => true,
+                        "scrollX"=> true,
                     ])
                     ->setTableId('roles-table')
                     ->columns($this->getColumns())

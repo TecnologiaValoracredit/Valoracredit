@@ -30,9 +30,18 @@ class HBrandSeeder extends Seeder
             'id'=>'3',
             'name'=>'Dell',
         ]);
-
         HBrand :: create([
             'id'=>'4',
+            'name'=>'MSI',
+        ]);
+
+        HBrand :: create([
+            'id'=>'5',
+            'name'=>'Apple',
+        ]);
+
+        HBrand :: create([
+            'id'=>'100',
             'name'=>'Otro',
         ]);
     }

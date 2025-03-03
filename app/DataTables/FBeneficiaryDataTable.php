@@ -89,6 +89,8 @@ class FBeneficiaryDataTable extends DataTable
                         'paging' => true,
                         'searching' => true,
                         'info' => true,
+                        'responsive' => true,
+                        "scrollX"=> true,
                     ])
                     ->setTableId('f_beneficiaries-table')
                     ->columns($this->getColumns())

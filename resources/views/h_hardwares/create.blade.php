@@ -1,7 +1,7 @@
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
-        Tipo de activo
+        Activos
     </x-slot>
 
 

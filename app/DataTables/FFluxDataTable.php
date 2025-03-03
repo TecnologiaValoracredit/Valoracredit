@@ -180,7 +180,7 @@ class FFluxDataTable extends DataTable
             Column::make('f_movement_type_name')->title('Tipo de movimiento')->name("f_movement_types.name"),
             Column::make('amount')->title('Cantidad'),
             Column::make('f_clasification_name')->title('Calsificación Admin.')->name("f_clasifications.name")->className("text-wrap"),
-            Column::make('f_cob_clasification_name')->title('Calsificación Cartera.')->name("f_cob_clasifications.name")->className("text-wrap"),
+            Column::make('f_cob_clasification_name')->title('Clasificación Cartera.')->name("f_cob_clasifications.name")->className("text-wrap"),
 
             Column::make('notes1')->title('Notas admin.')->className("text-wrap"),
             Column::make('notes2')->title('Notas cartera')->className("text-wrap"),

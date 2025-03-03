@@ -87,6 +87,8 @@ class BranchDataTable extends DataTable
                         'paging' => true,
                         'searching' => true,
                         'info' => true,
+                        'responsive' => true,
+                        "scrollX"=> true,
                     ])
                     ->setTableId('branches-table')
                     ->columns($this->getColumns())

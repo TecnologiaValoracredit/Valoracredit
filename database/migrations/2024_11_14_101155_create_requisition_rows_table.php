@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('requisition_id')->nullable();
             $table->foreign('requisition_id')->references('id')->on('requisitions');
 
-            $table->smallInteger("amount");
+            $table->float('amount', 10, 2)->default(0)->nullable();
 
             $table->unsignedSmallInteger("departament_id")->nullable();
             $table->foreign('departament_id')->references('id')->on('departaments');
@@ -30,9 +30,11 @@ return new class extends Migration
 
             $table->string("description");
             $table->float("unit_price");
+            $table->float("subtotal");
             $table->text("url")->nullable();
 
-            $table->boolean("include_iva");
+            $table->boolean('include_iva')->default(0);
+
             $table->timestamps();
             $table->string('notes', 1024)->nullable()->comment('Notas');    
             $table->boolean('is_active')->default(1)->comment('Muestra si la fila está activa');

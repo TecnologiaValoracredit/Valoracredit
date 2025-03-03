@@ -1,7 +1,6 @@
 <x-base-layout :scrollspy="false">
-
     <x-slot:pageTitle>
-        Detalles del Hardware
+        Detalles del Activo
     </x-slot>
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
@@ -50,6 +49,7 @@
                 max-width: 200px;
                 height: auto;
                 margin-top: 1rem;
+                cursor: pointer;
             }
             .border-st {
                 border: 1px dotted  #cccccc;
@@ -126,19 +126,7 @@
                     </div>
                 </div>
                 <hr>
-                <div class="d-flex justify-content-between gap-2">
-                    <div class="w-100 border-st p-3">
-                        <!-- Imagen -->
-                        @if($h_hardware->image)
-                            <div class="details-section">
-                                <label for="image" class="form-label"><strong>Imagen</strong></label>
-                                <div>
-                                    <img src="{{ asset('storage/' . $h_hardware->image) }}" alt="Imagen del hardware" class="img-thumbnail">
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="w-100 border-st p-3">
+                <div class="w-100 border-st p-3">
                          <!-- Especificaciones -->
                          <div class="details-section">
                             <label for="specifications" class="form-label"><strong>Especificaciones</strong></label>
@@ -146,21 +134,68 @@
                         </div>
                     </div>
                 </div>
-              
+                <div class="d-flex justify-content-between gap-2">
+                    <div class="w-100 border-st p-3">
+                        <!-- Imagen -->
+                        @if($h_hardware->image)
+                            <div class="details-section">
+                                <label for="image" class="form-label"><strong>Imagen</strong></label>
+                                <div>
+                                    <img src="{{ asset('storage/' . $h_hardware->image) }}" alt="Imagen del hardware" class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal">
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                    
 
                 <!-- Botón para Generar Código QR -->
-                <div class="text-center">
-                    <a class="btn btn-qr" href="{{ route('h_hardwares.generateQrCode', $h_hardware->id) }}" target="_blank">
-                        Generar Código QR
-                    </a>
-                </div>
+               
             </div>
         </div>
     </div>
 
+    <!-- Modal para imagen ampliada -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content custom-modal-background">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Imagen</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Imagen ampliada -->
+                <img src="{{ asset('storage/' . $h_hardware->image) }}" alt="Imagen del hardware" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos personalizados -->
+<style>
+    .custom-modal-background {
+        background-color: #f8f9fa; /* Cambia este color al que prefieras */
+        color: #333; /* Cambia el color del texto si es necesario */
+        border-radius: 8px; /* Opcional: bordes redondeados */
+    }
+</style>
+
+
+    <div class="text-center">
+                    <a class="btn btn-qr" href="{{ route('h_hardwares.generateQrCode', $h_hardware->id) }}" target="_blank">
+                        Generar Código QR
+                    </a>
+                </div>
+
+    
+
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
         <!-- Agrega aquí cualquier script adicional si es necesario -->
+        <!-- Incluir JS de Bootstrap y dependencias (jQuery y Popper.js) -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

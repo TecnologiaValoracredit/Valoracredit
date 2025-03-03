@@ -67,6 +67,9 @@ Route::middleware("auth")->group(function () {
         Route::resource('suppliers', SupplierController::class);
         Route::resource('branches', BranchController::class);
         Route::resource('requisitions',RequisitionController::class);
+        Route::delete('/requisition_row_optionals/{id}', [RequisitionRowOptionalController::class, 'destroy'])
+        ->name('requisition_row_optionals.destroy');
+
 
         Route::get('s_sales', [SSaleController::class, "index"])->name("s_sales.index");
         Route::get('s_general_reports', [SGeneralReportController::class, "index"])->name("s_general_reports.index");
@@ -83,6 +86,7 @@ Route::middleware("auth")->group(function () {
         
         
         Route::get('f_flux_reports/exportAdminReport',  [FFluxReportController::class, 'exportAdminReport'])->name("f_flux_reports.exportAdminReport");
+        Route::get('f_flux_reports/exportFluxReport',  [FFluxReportController::class, 'exportFluxReport'])->name("f_flux_reports.exportFluxReport");
         Route::get('f_flux_reports',  [FFluxReportController::class, 'index'])->name("f_flux_reports.index");
         
         Route::resource('f_fluxes', FFluxController::class);

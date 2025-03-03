@@ -16,6 +16,9 @@ return new class extends Migration
         Schema::create('requisitions', function (Blueprint $table) {
             $table->id();
 
+            $table->unsignedSmallInteger('user_id')->nullable(); 
+            $table->foreign('user_id')->references('id')->on('users'); 
+
             $table->unsignedSmallInteger('requisition_status_id')->nullable();
             $table->foreign('requisition_status_id')->references('id')->on('requisition_statuses');
 
@@ -28,10 +31,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('branch_id')->nullable();
             $table->foreign('branch_id')->references('id')->on('branches');
 
-            $table->unsignedSmallInteger('supplier_id');
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
-
-            $table->date("application_date");
+            $table->date("application_date"); 
 
             $table->smallInteger('inmediate_boss_user_id')->unsigned()->nullable()->comment('Jefe inmediato que le pertenece esta requisición');
             $table->foreign('inmediate_boss_user_id')->references('id')->on('users');
