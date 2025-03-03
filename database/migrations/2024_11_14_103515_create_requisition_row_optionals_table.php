@@ -16,13 +16,20 @@ return new class extends Migration
         Schema::create('requisition_row_optionals', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('requisition_row_id')->nullable();
-            $table->foreign('requisition_row_id')->references('id')->on('requisition_rows');
+            $table->unsignedBigInteger('requisition_id')->nullable();
+            $table->foreign('requisition_id')->references('id')->on('requisitions');
 
-            $table->string("supplier");
+            $table->float('amount', 10, 2)->default(0)->nullable();
+
+            $table->unsignedSmallInteger('supplier_id')->nullable();
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
+
+            $table->string("description");
             $table->float("unit_price");
+            $table->float("subtotal");
             $table->text("url")->nullable();
 
+            $table->boolean('include_iva')->default(0);
             $table->timestamps();
             $table->string('notes', 1024)->nullable()->comment('Notas');    
             $table->boolean('is_active')->default(1)->comment('Muestra si la fila está activa');

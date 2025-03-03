@@ -43,7 +43,6 @@ use Database\Seeders\FClasificationSeeder;
 use Database\Seeders\CompanySeeder;
 use Database\Seeders\HHardwareSeeder;
 
-
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -90,7 +89,6 @@ class DatabaseSeeder extends Seeder
             FClasificationSeeder:: class,
             CompanySeeder::class,
             HHardwareSeeder::class,
-
             FFluxSeeder:: class,
 
             // EmailAccountSeeder::class,

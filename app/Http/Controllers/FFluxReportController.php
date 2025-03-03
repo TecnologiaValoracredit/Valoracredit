@@ -221,7 +221,7 @@ class FFluxReportController extends Controller
         $fluxData = $this->getFluxData($startDate, $endDate, $movementType);
     
         // Generar y descargar el archivo Excel con los datos filtrados
-        return Excel::download(new NormalFFLuxExport($fluxData), 'FluxReport.xlsx');
+        return Excel::download(new NormalFFluxExport($fluxData), 'FluxReport.xlsx');
     }
     
     

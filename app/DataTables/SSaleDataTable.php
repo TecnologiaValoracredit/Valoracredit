@@ -34,7 +34,14 @@ class SSaleDataTable extends DataTable
         })
         ->editColumn('credit_amount', function(SSale $sSale) {
             return "$".number_format($sSale->credit_amount, 2, ".", ",");
+        })
+        ->editColumn('opening_amount', function(SSale $sSale) {
+            return "$".number_format($sSale->opening_amount, 2, ".", ",");
+        })
+        ->editColumn('total_amount', function(SSale $sSale) {
+            return "$".number_format($sSale->total_amount, 2, ".", ",");
         });
+
 
         $datatable->filter(function($query) {
             if(request('initial_grant_date') !== null){
@@ -124,6 +131,8 @@ class SSaleDataTable extends DataTable
             Column::make('credit_id')->title('# Crédito'),
             Column::make('client_name')->title('Cliente'),
             Column::make('credit_amount')->title('Monto entregado'),
+            Column::make('opening_amount')->title('Monto apertura'),
+            Column::make('total_amount')->title('Monto total'),
             Column::make('grant_date')->title('F. Otorgamiento'),
             Column::make('institution_name')->title('Institución')->name("institutions.name"),
             Column::make('s_coordinator_name')->title('Coordinador')->name("s_coordinators.name"),

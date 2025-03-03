@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -12,7 +13,7 @@ use App\Models\FClasification;
 use App\Models\FCobClasification;
 use App\Models\FStatus;
 
-class NormalFFLuxExport implements FromCollection, WithHeadings, WithStyles
+class NormalFFluxExport implements FromCollection, WithHeadings, WithStyles
 {
     protected $processedData;
     protected $movementTypes;

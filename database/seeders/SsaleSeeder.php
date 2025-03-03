@@ -70,6 +70,8 @@ class SSaleSeeder extends Seeder
                             'credit_id' => trim($row[1]), 
                             'client_name' => trim($row[6]),
                             'credit_amount' => trim($row[8]),
+                            'opening_amount' => trim($row[9]),
+                            'total_amount' => trim($row[8]) + trim($row[9]),
                             's_status_id' => $sstatus->id,
                             'grant_date' => $grant_date,
                             'institution_id' => $institution->id,

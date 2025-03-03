@@ -45,7 +45,7 @@ class PermissionPermissionSeeder extends Seeder
 		$this->createPermissions(["f_accounts"]);
 		$this->createPermissions(["f_beneficiaries"]);
 		$this->createPermissions(["f_fluxes"],["changeStats","showIncome","showExpenses"], false);
-		$this->createPermissions(["f_flux_reports"],["index","exportAdminReport","exportFluxReport"], false);
+		$this->createPermissions(["f_flux_reports"],["index","exportAdminReport",], false);
 
 		$this->createPermissions(["f_clasifications"]);
 		$this->createPermissions(["f_cob_clasifications"]);
