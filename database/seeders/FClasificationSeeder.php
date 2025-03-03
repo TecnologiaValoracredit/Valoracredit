@@ -22,21 +22,25 @@ class FClasificationSeeder extends Seeder
         ////INGRESOS////
         $f = FClasification::create([
             "name" => "WS PROMOTORA",
+            "description" => "Ingreso",
             "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
             "name" => "WS PROMOTORA",
+            "description" => "Ingreso",
             "parent_id" => $f->id,
         ]);
 
         $f = FClasification::create([
             "name" => "WS PROMOTORA",
+            "description" => "Egreso",
             "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
             "name" => "WS PROMOTORA",
+            "description" => "Egreso",
             "parent_id" => $f->id,
         ]);
 

@@ -37,7 +37,15 @@ class FFluxController extends Controller
         $f_movement_types = FMovementType::where("is_active", 1)->pluck("name", "id");
         $f_accounts = FAccount::where("is_active", 1)->pluck("name", "id");
         $f_statuses = FStatus::where("is_active", 1)->pluck("name", "id");
-        $f_clasifications = FClasification::where("is_active", 1)->whereNotNull("parent_id")->pluck("name", "id");
+        $f_clasifications = FClasification::where("is_active", 1)
+        ->whereNotNull("parent_id")
+        ->selectRaw('
+            CASE 
+                WHEN description IS NOT NULL AND description != "" 
+                THEN CONCAT(name, " - ", description) 
+                ELSE name 
+            END as name_description, id
+        ')->pluck('name_description', 'id');
         $f_cob_clasifications = FCobClasification::where("is_active", 1)->pluck("name", "id");
 
         return view('f_fluxes.create', compact("f_movement_types", "f_accounts", "f_statuses", "f_clasifications", "f_cob_clasifications"));
@@ -68,7 +76,15 @@ class FFluxController extends Controller
         $f_movement_types = FMovementType::where("is_active", 1)->pluck("name", "id");
         $f_accounts = FAccount::where("is_active", 1)->pluck("name", "id");
         $f_statuses = FStatus::where("is_active", 1)->pluck("name", "id");
-        $f_clasifications = FClasification::where("is_active", 1)->whereNotNull("parent_id")->pluck("name", "id");
+        $f_clasifications = FClasification::where("is_active", 1)
+        ->whereNotNull("parent_id")
+        ->selectRaw('
+            CASE 
+                WHEN description IS NOT NULL AND description != "" 
+                THEN CONCAT(name, " - ", description) 
+                ELSE name 
+            END as name_description, id
+        ')->pluck('name_description', 'id');
         $f_cob_clasifications = FCobClasification::where("is_active", 1)->pluck("name", "id");
 
         return view('f_fluxes.edit', compact("f_movement_types", "f_accounts", "f_statuses","f_flux", "f_clasifications", "f_cob_clasifications"));

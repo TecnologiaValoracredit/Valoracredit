@@ -153,7 +153,7 @@
 </div>
 
 <!--Activo-->
-<div class="mb-2">
+<div class="mb-2 d-none">
     @include("components.custom.forms.input-check", [
         "id" => "is_active",
         "name" => "is_active",
