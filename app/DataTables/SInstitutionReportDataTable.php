@@ -54,7 +54,7 @@ class SInstitutionReportDataTable extends DataTable
     {
         return $model->selectRaw('
                 MONTHNAME(grant_date) as month, 
-                SUM(credit_amount) as total
+                SUM(total_amount) as total
             ')
             ->join('institutions', 's_sales.institution_id', '=', 'institutions.id') // Relación con la tabla de instituciones
             ->where('institutions.id', request("institution_id")) // Filtrar por nombre de institución

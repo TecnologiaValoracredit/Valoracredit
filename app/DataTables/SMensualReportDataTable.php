@@ -66,15 +66,15 @@ class SMensualReportDataTable extends DataTable
      $totalGlobal = DB::table('s_sales')
      ->whereYear('s_sales.grant_date', $currentYear) // Filtrar por año actual
      ->whereMonth('s_sales.grant_date', $currentMonth) // Filtrar por mes actual
-     ->sum('s_sales.credit_amount'); // Sumar el monto total de ventas
+     ->sum('s_sales.total_amount'); // Sumar el monto total de ventas
 
      
 
     return $model->select(
             'institutions.name as institution_name',
-            DB::raw('SUM(s_sales.credit_amount) as total_monthly'), // Total del mes actual
+            DB::raw('SUM(s_sales.total_amount) as total_monthly'), // Total del mes actual
             DB::raw('COUNT(s_sales.id) as total_sales'), // Contar el número de venta
-            DB::raw('(SUM(s_sales.credit_amount) / ?) * 100 as percentage_of_total') // Calcular el porcentaje de ventas por institución
+            DB::raw('(SUM(s_sales.total_amount) / ?) * 100 as percentage_of_total') // Calcular el porcentaje de ventas por institución
         )
         ->leftJoin('institutions', 's_sales.institution_id', '=', 'institutions.id')
         ->whereYear('s_sales.grant_date', $currentYear) // Filtrar por año actual

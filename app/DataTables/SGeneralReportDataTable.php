@@ -85,27 +85,27 @@ class SGeneralReportDataTable extends DataTable
     {
         $totalGlobal = DB::table('s_sales')
         ->whereYear('s_sales.grant_date', (request("year") ?? 2025))
-        ->sum('s_sales.credit_amount'); // Sumar el total global
+        ->sum('s_sales.total_amount'); // Sumar el total global
 
         return $model->select(
                 'institutions.name as institution_name',
                 DB::raw('
-                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 1 THEN s_sales.credit_amount ELSE 0 END) as january,
-                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 2 THEN s_sales.credit_amount ELSE 0 END) as february,
-                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 3 THEN s_sales.credit_amount ELSE 0 END) as march,
-                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 4 THEN s_sales.credit_amount ELSE 0 END) as april,
-                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 5 THEN s_sales.credit_amount ELSE 0 END) as may,
-                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 6 THEN s_sales.credit_amount ELSE 0 END) as june,
-                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 7 THEN s_sales.credit_amount ELSE 0 END) as july,
-                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 8 THEN s_sales.credit_amount ELSE 0 END) as august,
-                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 9 THEN s_sales.credit_amount ELSE 0 END) as september,
-                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 10 THEN s_sales.credit_amount ELSE 0 END) as october,
-                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 11 THEN s_sales.credit_amount ELSE 0 END) as november,
-                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 12 THEN s_sales.credit_amount ELSE 0 END) as december
+                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 1 THEN s_sales.total_amount ELSE 0 END) as january,
+                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 2 THEN s_sales.total_amount ELSE 0 END) as february,
+                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 3 THEN s_sales.total_amount ELSE 0 END) as march,
+                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 4 THEN s_sales.total_amount ELSE 0 END) as april,
+                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 5 THEN s_sales.total_amount ELSE 0 END) as may,
+                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 6 THEN s_sales.total_amount ELSE 0 END) as june,
+                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 7 THEN s_sales.total_amount ELSE 0 END) as july,
+                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 8 THEN s_sales.total_amount ELSE 0 END) as august,
+                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 9 THEN s_sales.total_amount ELSE 0 END) as september,
+                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 10 THEN s_sales.total_amount ELSE 0 END) as october,
+                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 11 THEN s_sales.total_amount ELSE 0 END) as november,
+                    SUM(CASE WHEN MONTH(s_sales.grant_date) = 12 THEN s_sales.total_amount ELSE 0 END) as december
                 '),
-                DB::raw('SUM(s_sales.credit_amount) as total_by_institution'),
+                DB::raw('SUM(s_sales.total_amount) as total_by_institution'),
                 DB::raw('
-                    (SUM(s_sales.credit_amount) / ?) * 100 as percentage_of_total
+                    (SUM(s_sales.total_amount) / ?) * 100 as percentage_of_total
                 ')
             )
             ->leftJoin('institutions', 's_sales.institution_id', '=', 'institutions.id')
