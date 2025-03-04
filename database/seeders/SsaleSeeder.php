@@ -21,8 +21,6 @@ class SSaleSeeder extends Seeder
      */
     public function run()
     {
-        
-        
         $file = base_path("resources/reporte_ventas.xlsx");
         $pages = Excel::toArray(new ExcelImport(), $file); 
         SBranch::create(["name" => "TORREON"]);
