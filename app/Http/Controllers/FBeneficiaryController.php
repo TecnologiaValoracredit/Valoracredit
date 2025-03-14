@@ -34,10 +34,17 @@ class FBeneficiaryController extends Controller
         $params = array_merge($request->all(), [
             'is_active' => !is_null($request->is_active),
 		]);
-
+        //Verificar si ya existe el beneficiario
+        $f_beneficiary = FBeneficiary::where("name", trim($params["name"]))->where("is_active", 1)->first();
+       
 		try {
-			$f_beneficiary = FBeneficiary::create($params);
-			$message = "Cuenta creada correctamente";
+            $message = "Beneficiario creado correctamente";
+            if ($f_beneficiary == null) {
+                $f_beneficiary = FBeneficiary::create($params);
+            }else {
+                $message = "El beneficiario ya existe";
+                $status = false;
+            }
 		} catch (\Illuminate\Database\QueryException $e) {
 			$status = false;
 			$message = $this->getErrorMessage($e, 'f_beneficiaries');
@@ -57,10 +64,16 @@ class FBeneficiaryController extends Controller
         $params = array_merge($request->all(), [
             'is_active' => !is_null($request->is_active),
 		]);
-
+        //Verificar si ya existe el beneficiario
+        $f_beneficiary_exist = FBeneficiary::where("name", trim($params["name"]))->where("is_active", 1)->first();
 		try {
-			$f_beneficiary->update($params);
-			$message = "Cuenta modificada correctamente";
+            $message = "Beneficiario modificado correctamente";
+            if ($f_beneficiary_exist == null) {
+                $f_beneficiary->update($params);
+            }else {
+                $message = "El beneficiario ya existe";
+                $status = false;
+            }
 		} catch (\Illuminate\Database\QueryException $e) {
 			$status = false;
 			$message = $this->getErrorMessage($e, 'f_beneficiaries');
@@ -78,12 +91,18 @@ class FBeneficiaryController extends Controller
         $status = true;
         try {
             $f_beneficiary->update(["is_active" => false]);
-            $message = "Cuenta desactivada correctamente";
+            $message = "Beneficiario desactivado correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
             $message = $this->getErrorMessage($e, 'f_beneficiaries');
         }
         return $this->getResponse($status, $message);
+    }
+
+    public function getAddModal()
+    {
+        $type = "add";
+        return view("f_beneficiaries.modal-content", compact("type"));
     }
 
     public function getDataAutocomplete()

@@ -80,8 +80,10 @@ class FClasificationDataTable extends DataTable
     {
         return $model->select(
             'f_clasifications.*',
+            'f_movement_types.name as f_movement_type_name', // Nombre del padre
             'parent_clasifications.name as parent_name', // Nombre del padre
         )
+        ->leftJoin('f_movement_types', 'f_clasifications.f_movement_type_id', '=', 'f_movement_types.id')
         ->leftJoin('f_clasifications as parent_clasifications', 'f_clasifications.parent_id', '=', 'parent_clasifications.id')
         ->newQuery();
     }
@@ -133,6 +135,8 @@ class FClasificationDataTable extends DataTable
             ->searchable(true)
             ->orderable(true)
             ->printable(true),
+            Column::make('f_movement_type_name')->title('Tipo')->name("f_movement_types.name"),
+
             Column::make('is_active')->title("Activo"),
 
         ];

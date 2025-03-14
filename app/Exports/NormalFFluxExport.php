@@ -12,47 +12,37 @@ use App\Models\FMovementType;
 use App\Models\FClasification;
 use App\Models\FCobClasification;
 use App\Models\FStatus;
+use App\Models\FCarteraStatus;
 
 class NormalFFluxExport implements FromCollection, WithHeadings, WithStyles
 {
-    protected $processedData;
-    protected $movementTypes;
-    protected $clasifications;
-    protected $cobClasifications;
-    protected $statuses;
 
     public function __construct($processedData)
     {
         $this->processedData = $processedData;
 
-        // Cargar las relaciones necesarias (Asegurarse de que estos datos existen)
-        $this->movementTypes = FMovementType::all()->keyBy('id');
-        $this->clasifications = FClasification::all()->keyBy('id');
-        $this->cobClasifications = FCobClasification::all()->keyBy('id');
-        $this->statuses = FStatus::all()->keyBy('id');
     }
 
     public function collection()
-{
-    return collect($this->processedData);
-}
+    {
+        return collect($this->processedData);
+    }
 
-    
-    
 
     public function headings(): array
     {
         return [
             'Fecha de Acreditación',
-            'ID Beneficiario',
+            'Beneficiario',
             'Concepto',
             'Tipo de Movimiento',
             'Monto',
-            'Clasificación',
-            'Clasificación Cobro',
+            'Clasificación Admon.',
+            'Clasificación Cartera',
             'Notas Admin.',
             'Notas cartera',
-            'Estado',
+            'Estatus contabilidad',
+            'Estatus cartera'
         ];
     }
 
@@ -68,7 +58,7 @@ class NormalFFluxExport implements FromCollection, WithHeadings, WithStyles
         $highestColumnIndex = Coordinate::columnIndexFromString($highestColumn);
     
         // Congelar el panel superior
-        $sheet->freezePane('B3');
+        $sheet->freezePane('B2');
     
         // Estilo para los encabezados (se mantienen con color de fondo azul oscuro y texto blanco)
         $sheet->getStyle('A1:' . $highestColumn . '1')->applyFromArray([

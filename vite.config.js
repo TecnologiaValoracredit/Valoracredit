@@ -22,6 +22,8 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/sass/datatables.scss',
                 'resources/sass/input-inline.scss',
+                'resources/sass/colvis.scss',
+                'resources/sass/f_fluxes.scss',
 
                 'resources/layouts/modern-light-menu/loader.js',
                 'resources/layouts/modern-light-menu/app.js',

@@ -32,11 +32,14 @@
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/table/datatable/datatables.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/sweetalerts2/sweetalerts2.css')}}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
     @vite(['resources/scss/light/plugins/sweetalerts2/custom-sweetalert.scss'])
     <link rel="stylesheet" href="{{asset('plugins/notification/snackbar/snackbar.min.css')}}">
     @vite(['resources/scss/light/plugins/notification/snackbar/custom-snackbar.scss'])
     @vite(['resources/scss/light/assets/elements/alert.scss'])
-        
+    @vite(['resources/sass/colvis.scss'])
+
     @vite(['resources/scss/light/assets/main.scss'])
     <link rel="stylesheet" href="{{asset('plugins/autocomplete/css/autoComplete.02.css')}}">
     @vite(['resources/scss/light/plugins/autocomplete/css/custom-autoComplete.scss'])
@@ -84,6 +87,7 @@
     <script src="{{asset('plugins/table/datatable/button-ext/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('plugins/table/datatable/button-ext/buttons.html5.min.js')}}"></script>
     <script src="{{asset('plugins/table/datatable/button-ext/buttons.print.min.js')}}"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
     <script src="{{asset('plugins/table/datatable/dt-custom-setting.js')}}"></script>
     <script src="{{asset('plugins/sweetalerts2/sweetalerts2.min.js')}}"></script>
     {{--

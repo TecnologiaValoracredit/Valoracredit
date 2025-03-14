@@ -15,8 +15,9 @@
         >
             @if(isset($required))
                 <option disabled selected value="">Seleccione una opción...</option>
+            @else
+                <option selected value="">Seleccione una opción...</option>
             @endif    
-            <option selected value="">Seleccione una opción...</option>
             @foreach ($elements as $key => $element)
                 <option {{ $key == $value ? "selected" : "" }} value="{{ $key }}">{{ $element }}</option>
             @endforeach

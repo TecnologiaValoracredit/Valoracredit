@@ -11,6 +11,7 @@ use App\DataTables\FClasificationDataTable;
 use App\Models\PermissionModule;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\DB;
 
 
 class FClasificationController extends Controller
@@ -110,5 +111,25 @@ class FClasificationController extends Controller
             $message = $this->getErrorMessage($e, 'f_clasifications');
         }
         return $this->getResponse($status, $message);
+    }
+
+    public function getDataAutocomplete(FMovementType $f_movement_type)
+    {
+        $f_clasifications = FClasification::select(
+            "f_clasifications.id",
+            "f_clasifications.name"
+        )
+        ->join("f_clasifications as parent", "parent.id", "=", "f_clasifications.parent_id") // Unir con los padres
+        ->where("parent.f_movement_type_id", $f_movement_type->id) // Filtrar por el tipo de movimiento del padre
+        ->get();
+
+        $formattedClasifications = $f_clasifications->map(function ($f_beneficiary) {
+            return [
+                'id' => $f_beneficiary->id,
+                'name' => $f_beneficiary->name
+            ];
+        });
+
+        return response()->json($formattedClasifications);    
     }
 }

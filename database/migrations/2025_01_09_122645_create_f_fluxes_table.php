@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreign('f_beneficiary_id')->references('id')->on('f_beneficiaries');
 
             $table->string('concept');
-            $table->float('amount');
+            $table->decimal('amount', 12, 2);
 
             $table->unsignedSmallInteger('f_movement_type_id');
             $table->foreign('f_movement_type_id')->references('id')->on('f_movement_types');

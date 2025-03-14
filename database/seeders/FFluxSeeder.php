@@ -31,6 +31,10 @@ class FFluxSeeder extends Seeder
 
         foreach($pages[0] as $key =>$row)
         {
+            if ($row[0] == "FIN") {
+                break;
+            }
+
             $f_beneficiary = FBeneficiary::where("name", trim($row[2]))->first();
             if ($f_beneficiary == null) {
                 $f_beneficiary = FBeneficiary::create(["name" => trim($row[2])]);
@@ -58,7 +62,9 @@ class FFluxSeeder extends Seeder
                 'amount' => $amount,
                 'f_movement_type_id' => $m_type_id,
                 'f_status_id' => 1,
+                'f_cartera_status_id' => 1,
                 'f_clasification_id' => $f_clasification->id ?? null,
+                'tracking_key' => $key.now()
             ]);
            
         }

@@ -9,7 +9,7 @@ class SSale extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'client_name', 'credit_amount','grant_date', 's_coordinator_id',
+        'client_name', 'credit_amount','grant_date', 's_coordinator_id', 's_credit_type_id',
         'institution_id','s_branch_id', 's_status_id','credit_id','is_active',
         'created_by', 'updated_by','opening_amount', 'total_amount'
     ];
@@ -32,6 +32,11 @@ class SSale extends Model
     public function sCoordinator()
     {
         return $this->belongsTo('App\Models\SCoordinator', 's_coordinator_id');
+    }
+
+    public function sCreditType()
+    {
+        return $this->belongsTo('App\Models\SCreditType', 's_credit_type_id');
     }
     
 }

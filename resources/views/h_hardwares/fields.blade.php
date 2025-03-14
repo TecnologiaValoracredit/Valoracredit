@@ -43,8 +43,8 @@
   </div>
 </div>
       <!--Numero de serie original-->
-  <div class="row mb-4">
-    <div class="col-md-4">
+<div class="row mb-2">
+  <div class="col-md-4">
       @include("components.custom.forms.input", [
         "id" => "serial_number",
         "name" => "serial_number",
@@ -54,29 +54,21 @@
         "value" => isset($h_hardware) ? $h_hardware->serial_number : old("serial_number"),
         "invalid_feedback" => "El campo es requerido"
       ])
-    </div>
+  </div>
     <!--Numero de serie custom-->
-    <div class="col-md-4">
-    <label for="custom_serial_number">Número de serie</label>
-    <input 
-        type="text" 
-        id="custom_serial_number" 
-        name="custom_serial_number" 
-        value="{{ isset($h_hardware) ? $h_hardware->custom_serial_number : 'Se generará automáticamente al guardar' }}" 
-        placeholder="Número de serie" 
-        disabled 
-        class="form-control"
-    >
-</div>
-
-
-  
-  
-
-<!-- Número de serie original y Número de serie custom -->
-<div class="row mb-4">
-  <!-- Fecha de compra -->
-   <div class="col-md-4">
+  <div class="col-md-4">
+      <label for="custom_serial_number">Número de serie</label>
+      <input 
+          type="text" 
+          id="custom_serial_number" 
+          name="custom_serial_number" 
+          value="{{ isset($h_hardware) ? $h_hardware->custom_serial_number : 'Se generará automáticamente al guardar' }}" 
+          placeholder="Número de serie" 
+          disabled 
+          class="form-control"
+      >
+  </div>
+  <div class="col-md-4">
     @include("components.custom.forms.input", [
       "id" => "purchase_date",
       "name" => "purchase_date",
@@ -87,33 +79,7 @@
       "invalid_feedback" => "El campo es requerido"
     ])
   </div>
-  <!-- Número de serie original -->
-  <div class="col-md-4">
-    @include("components.custom.forms.input", [
-      "id" => "serial_number",
-      "name" => "serial_number",
-      "type" => "text",
-      "placeholder" => "Número de serie...",
-      "label" => "Número de serie original",
-      "value" => isset($h_hardware) ? $h_hardware->serial_number : old("serial_number"),
-      "invalid_feedback" => "El campo es requerido"
-    ])
-  </div>
-
-  <!-- Número de serie custom -->
-  <div class="col-md-4">
-    @include("components.custom.forms.input", [
-      "id" => "custom_serial_number",
-      "name" => "custom_serial_number",
-      "type" => "text",
-      "label" => "Número de serie",
-      "value" => isset($h_hardware) ? $h_hardware->custom_serial_number : 'Se generará automáticamente al guardar',
-      "placeholder" => "Número de serie",
-      "readonly" => true,
-    ])
-  </div>
 </div>
-
 <!-- Fecha de compra, Color y Sucursal -->
 <div class="row mb-2">
   <!-- Color -->

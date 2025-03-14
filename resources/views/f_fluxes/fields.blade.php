@@ -86,12 +86,14 @@
     ])
 </div>    
 <div class= "mb-2">
-    @include("components.custom.forms.input-inline-select", [
-        "id" => "f_clasification_id",
-        "name" => "f_clasification_id",
-        "elements" => $f_clasifications,
+    @include("components.custom.forms.input-inline", [
+        "id" => "f_clasification_name",
+        "name" => "f_clasification_name",
         "placeholder" => "Clasificación admin.",
-        "value" => isset($f_flux) ? $f_flux->f_clasification_id : old("f_clasification_id"),
+        "type" => "autocomplete",
+        "value" => isset($f_flux) ? $f_flux->fClasification->name ?? "" : old("f_clasification_name"),
+        "input_hidden" => "f_clasification_id",
+        "value_hidden" => isset($f_flux) ? $f_flux->f_clasification_id : old("f_clasification_id"),
         "label" => "Clasificación admin.",
         "invalid_feedback" => "El campo es requerido",
 

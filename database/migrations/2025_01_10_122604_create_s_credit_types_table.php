@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('f_accounts', function (Blueprint $table) {
+        Schema::create('s_credit_types', function (Blueprint $table) {
             $table->smallIncrements("id");
             $table->string('name');
-            $table->string('account_number');
-            $table->decimal('init_balance', 12, 2)->comments("saldo inicial, solo se pone una vez");
-
-            $table->unsignedSmallInteger('f_company_id')->nullable();
-            $table->foreign('f_company_id')->references('id')->on('f_companies');
+            $table->string('description')->nullable();
 
             $table->timestamps(); 
             $table->string('notes', 1024)->nullable()->comment('Notas');    
@@ -39,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('f_accounts');
+        Schema::dropIfExists('s_credit_types');
     }
 };

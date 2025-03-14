@@ -34,19 +34,8 @@
                 "required" => true,
                 "value" => $endDate,
                 "invalid_feedback" => "El campo es requerido",
-            ])                            </div>
-
-            <div class="col-5">
-            @include("components.custom.forms.input-inline-select", [
-                        "id" => "f_movement_type",
-                        "name" => "f_movement_type",
-                        "label" => "Tipo de movimiento",
-                        "type" => "select",
-                        "elements" => $f_movement_types,  
-                        "class" => "col-6",
-                        "value" => 0
-                    ])                            </div>
-
+            ])                            
+        </div>
         <div class="col-2">
             <button class="btn btn-success">Descargar Excel</a>
         </div>

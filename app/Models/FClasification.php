@@ -21,4 +21,9 @@ class FClasification extends Model
         return $this->belongsTo("App\Models\FClasification", "parent_id", "id");
     }
 
+    public function children()
+    {
+        return $this->hasMany(FClasification::class, 'parent_id', 'id');
+    }
+
 }

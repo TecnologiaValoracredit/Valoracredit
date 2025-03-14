@@ -20,8 +20,10 @@ class FFlux extends Model
         'notes2',
         'comments',
         'f_status_id',
+        'f_cartera_status_id',
         'f_clasification_id',
         'f_cob_clasification_id',
+        'tracking_key',
         'is_active',
         'created_by',
         'updated_by',
@@ -41,6 +43,11 @@ class FFlux extends Model
     public function fStatus()
     {
         return $this->belongsTo("App\Models\FStatus", "f_status_id", "id");
+    }
+
+    public function fCarteraStatus()
+    {
+        return $this->belongsTo("App\Models\FCarteraStatus", "f_cartera_status_id", "id");
     }
 
     public function fMovementType()

@@ -48,7 +48,7 @@ class FFluxReportController extends Controller
         $clasifications = FClasification::where("is_active", 1)->get();
         $activeAccounts = FAccount::where("is_active", 1)->get();
 
-        return Excel::download(new FFluxExport($processedData, $clasifications, $activeAccounts, $startDate, $endDate), 'flux_summary.xlsx');
+        return Excel::download(new FFluxExport($processedData, $clasifications, $activeAccounts, $startDate, $endDate), 'Flujo-'.$startDate.'-'.$endDate.'.xlsx');
     }
 
     protected function getProcessedData($startDate, $endDate)
@@ -165,21 +165,29 @@ class FFluxReportController extends Controller
             'f_cob_clasifications.name as cob_clasification_name',
             'notes1',
             'notes2',
-            'f_statuses.name as status_name'
+            'f_statuses.name as status_name',
+            'f_cartera_statuses.name as cartera_status_name'
+
         )
         ->leftJoin('f_beneficiaries', 'f_fluxes.f_beneficiary_id', '=', 'f_beneficiaries.id')
         ->leftJoin('f_movement_types', 'f_fluxes.f_movement_type_id', '=', 'f_movement_types.id')
         ->leftJoin('f_clasifications', 'f_fluxes.f_clasification_id', '=', 'f_clasifications.id')
         ->leftJoin('f_cob_clasifications', 'f_fluxes.f_cob_clasification_id', '=', 'f_cob_clasifications.id')
         ->leftJoin('f_statuses', 'f_fluxes.f_status_id', '=', 'f_statuses.id')
+        ->leftJoin('f_cartera_statuses', 'f_fluxes.f_cartera_status_id', '=', 'f_cartera_statuses.id')
         ->whereBetween('accredit_date', [$startDate, $endDate])
         ->where('f_fluxes.is_active', 1);
     
         // Aplicar el filtro solo si se proporciona un movementTypeId
-        if (!empty($movementTypeId)) {
-            $query->where('f_fluxes.f_movement_type_id', $movementTypeId);
+        //Si no puede ver egresos
+        if (!auth()->user()->hasPermissions("f_fluxes.showExpenses")) {
+            $query->where('f_fluxes.f_movement_type_id', '<>', 1);
         }
-    
+        //Si no puede ver ingresos
+        if (!auth()->user()->hasPermissions("f_fluxes.showIncome")) {
+            $query->where('f_fluxes.f_movement_type_id', '<>', 2);
+        }
+
         $fluxes = $query->groupBy(
             'accredit_date',
             'f_beneficiaries.name',
@@ -189,7 +197,8 @@ class FFluxReportController extends Controller
             'f_cob_clasifications.name',
             'notes1',
             'notes2',
-            'f_statuses.name'
+            'f_statuses.name',
+            'f_cartera_statuses.name'
         )->get();
     
         // Formatear la fecha antes de devolver los datos
@@ -198,10 +207,8 @@ class FFluxReportController extends Controller
                 $flux->accredit_date = Carbon::parse($flux->accredit_date)->format('d/m/Y');
             }
         }
-    
         return $fluxes;
     }
-    
     
     
     public function exportFluxReport(Request $request)
@@ -221,7 +228,7 @@ class FFluxReportController extends Controller
         $fluxData = $this->getFluxData($startDate, $endDate, $movementType);
     
         // Generar y descargar el archivo Excel con los datos filtrados
-        return Excel::download(new NormalFFluxExport($fluxData), 'FluxReport.xlsx');
+        return Excel::download(new NormalFFluxExport($fluxData), 'Reporte de flujo.xlsx');
     }
     
     

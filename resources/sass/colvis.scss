@@ -1,0 +1,13 @@
+.dt-button.buttons-columnVisibility {
+    color: black !important;
+
+    &.active {
+        background-color: rgb(229, 232, 242) !important;
+    }
+}
+
+.dt-button.buttons-collection.buttons-colvis {
+    background-color: #ebedf2;
+    color: black;
+    border-radius: 5px;
+}

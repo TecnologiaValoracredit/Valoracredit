@@ -11,6 +11,7 @@ use App\Models\Institution;
 use App\Models\SBranch;
 use App\Models\SStatus;
 use App\Models\SCoordinator;
+use App\Models\SCreditType;
 
 class SSaleSeeder extends Seeder
 {
@@ -57,7 +58,9 @@ class SSaleSeeder extends Seeder
                             $s_coordinator = SCoordinator::where("name", $s_coordinator->name)->first();
                         }
                     }
-                   
+
+                    //Tengo que agregar el tipo de credito es, nuevo o restructura
+                    $creditType = SCreditType::where("name", trim($row[12]))->first();
                 
                     $f3 = ($row[29] - 25568) * 86400;
                     $grant_date = date('Y-m-d', $f3);
@@ -74,6 +77,7 @@ class SSaleSeeder extends Seeder
                             'grant_date' => $grant_date,
                             'institution_id' => $institution->id,
                             's_branch_id' => $sbranch->id,
+                            's_credit_type_id' => $creditType->id,
                             's_coordinator_id' => $s_coordinator->id
                         ]);
                     }

@@ -20,26 +20,27 @@ class FClasificationSeeder extends Seeder
         FClasification::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         ////INGRESOS////
+
         $f = FClasification::create([
-            "name" => "WS PROMOTORA",
+            "name" => "WS PROMOTORA - I",
             "description" => "Ingreso",
             "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
-            "name" => "WS PROMOTORA",
+            "name" => "WS PROMOTORA - I",
             "description" => "Ingreso",
             "parent_id" => $f->id,
         ]);
 
         $f = FClasification::create([
-            "name" => "WS PROMOTORA",
+            "name" => "WS PROMOTORA - E",
             "description" => "Egreso",
             "f_movement_type_id" => 2
         ]);
 
         FClasification::create([
-            "name" => "WS PROMOTORA",
+            "name" => "WS PROMOTORA - E",
             "description" => "Egreso",
             "parent_id" => $f->id,
         ]);
@@ -131,7 +132,7 @@ class FClasificationSeeder extends Seeder
         ]);
 
         FClasification::create([
-            "name" => "IEA AGUASCALIENTES",
+            "name" => "IEA-AGUASCALIENTES",
             "parent_id" => $f->id,
         ]);
 
@@ -176,15 +177,16 @@ class FClasificationSeeder extends Seeder
         ]);
 
         $f = FClasification::create([
-            "name" => "Intereses de Inversion",
+            "name" => "Interes de Inversion",
             "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
-            "name" => "Intereses de Inversion",
+            "name" => "Interes de Inversion",
             "parent_id" => $f->id,
         ]);
 
+       
         $f = FClasification::create([
             "name" => "Liquidaciones y cobranza externa",
             "f_movement_type_id" => 1
@@ -216,12 +218,43 @@ class FClasificationSeeder extends Seeder
         ]);
 
         $f = FClasification::create([
-            "name" => "Ingresos por Domiciliar",
+            "name" => "Ingresos por domiciliación",
             "f_movement_type_id" => 1
         ]);
 
         FClasification::create([
-            "name" => "Ingresos por Domiciliar",
+            "name" => "Ingresos por domiciliación",
+            "parent_id" => $f->id,
+        ]);
+
+        $f = FClasification::create([
+            "name" => "DEPOSITO INVERSION",
+            "f_movement_type_id" => 1
+        ]);
+
+        FClasification::create([
+            "name" => "DEPOSITO INVERSION",
+            "parent_id" => $f->id,
+        ]);
+        
+
+        $f = FClasification::create([
+            "name" => "Firmas",
+            "f_movement_type_id" => 1
+        ]);
+
+        FClasification::create([
+            "name" => "Firmas",
+            "parent_id" => $f->id,
+        ]);
+
+        $f = FClasification::create([
+            "name" => "Deposito pendiente por identificar",
+            "f_movement_type_id" => 1
+        ]);
+
+        FClasification::create([
+            "name" => "Deposito pendiente por identificar",
             "parent_id" => $f->id,
         ]);
 
@@ -255,17 +288,6 @@ class FClasificationSeeder extends Seeder
             "parent_id" => $f->id,
         ]);
 
-        $f = FClasification::create([
-            "name" => "INGRESOS BIM DOMICILIADO",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "INGRESOS BIM DOMICILIADO",
-            "parent_id" => $f->id,
-        ]);
-
-      
         $f = FClasification::create([
             "name" => "Convenios",
             "f_movement_type_id" => 2
@@ -307,6 +329,17 @@ class FClasificationSeeder extends Seeder
         ]);
 
         $f = FClasification::create([
+            "name" => "Traspaso inv. BIM",
+            "f_movement_type_id" => 2
+        ]);
+
+        FClasification::create([
+            "name" => "Traspaso inv. BIM",
+            "parent_id" => $f->id,
+        ]);
+
+
+        $f = FClasification::create([
             "name" => "Nomina",
             "f_movement_type_id" => 2
         ]);
@@ -328,6 +361,11 @@ class FClasificationSeeder extends Seeder
         
         FClasification::create([
             "name" => "Prestamos a empleados",
+            "parent_id" => $f->id,
+        ]);
+
+        FClasification::create([
+            "name" => "Finiquito",
             "parent_id" => $f->id,
         ]);
 
@@ -363,6 +401,21 @@ class FClasificationSeeder extends Seeder
 
         FClasification::create([
             "name" => "Comisiones Telemarketing",
+            "parent_id" => $f->id,
+        ]);
+
+        FClasification::create([
+            "name" => "Comisiones por cobranza despacho",
+            "parent_id" => $f->id,
+        ]);
+
+        FClasification::create([
+            "name" => "Bono Cobranza / Telemarketing",
+            "parent_id" => $f->id,
+        ]);
+        
+        FClasification::create([
+            "name" => "Bono Comercial",
             "parent_id" => $f->id,
         ]);
 
@@ -457,6 +510,16 @@ class FClasificationSeeder extends Seeder
         ]);
 
         $f = FClasification::create([
+            "name" => "Activos fijos",
+            "f_movement_type_id" => 2
+        ]);
+        
+        FClasification::create([
+            "name" => "Activos fijos",
+            "parent_id" => $f->id,
+        ]);
+
+        $f = FClasification::create([
             "name" => "Gastos Operativos",
             "f_movement_type_id" => 2
         ]);
@@ -467,34 +530,20 @@ class FClasificationSeeder extends Seeder
         ]);
 
         FClasification::create([
-            "name" => "Activos fijos",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
             "name" => "Consultoria SOFOM",
             "parent_id" => $f->id,
         ]);
 
-        FClasification::create([
-            "name" => "Comisiones por cobranza despacho",
-            "parent_id" => $f->id,
-        ]);
+      
 
         FClasification::create([
             "name" => "Arrendamiento",
             "parent_id" => $f->id,
         ]);
 
-        FClasification::create([
-            "name" => "Bono Cobranza / Telemarketing",
-            "parent_id" => $f->id,
-        ]);
+        
 
-        FClasification::create([
-            "name" => "Bono Comercial",
-            "parent_id" => $f->id,
-        ]);
+        
 
         FClasification::create([
             "name" => "Limpieza",
@@ -596,16 +645,7 @@ class FClasificationSeeder extends Seeder
             "name" => "Gastos de Viaje",
             "parent_id" => $f->id,
         ]);
-        
-        FClasification::create([
-            "name" => "Finiquito",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Teams",
-            "parent_id" => $f->id,
-        ]);
+    
         
         FClasification::create([
             "name" => "Gasto Operaciones",

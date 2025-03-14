@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('client_name');
             $table->float('credit_amount');
             $table->float('opening_amount');
-            $table-> float('total_amount');
+            $table->float('total_amount');
             $table->date('grant_date');
 
             $table->unsignedSmallInteger('institution_id');

@@ -1,0 +1,60 @@
+#table-excel {
+    overflow-x: auto; 
+    max-width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    min-height: 30vh; 
+    border:1px solid rgb(198, 198, 198);
+    margin-top: 30px;
+    padding-bottom: 150px;
+    .error-null {
+        border: 3px solid rgb(230, 0, 0);
+    }
+
+    .button {
+        cursor: pointer;
+        padding: 10px;
+        color: red;
+    }
+
+    tr, td {
+        border: 1px dotted rgb(197, 197, 197);
+    }
+
+    input, select {
+        padding: 0px 5px;
+        border-radius: 5px;
+        height: 40px;
+        border: 1px dotted rgb(109, 109, 109);
+        font-size: 14px;
+        color: black;
+    }
+
+    .autoComplete_wrapper {
+        width: 200px;
+    }
+
+    .amount {
+        width: 120px;
+    }
+
+    .number {
+        text-align: center;
+        color: rgb(41, 41, 41);
+    }
+
+    ul {
+        width: 300px;
+        li {
+            font-size: 12px;
+            padding: 8px 5px;
+        }
+    }
+
+    thead {
+        th {
+            color: black;
+            padding: 7px 10px 3px 10px;
+        }
+    }
+}

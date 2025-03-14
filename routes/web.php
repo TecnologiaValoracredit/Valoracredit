@@ -46,6 +46,7 @@ Route::middleware("auth")->group(function () {
         return view('dashboard', ['title' => 'Inicio']);
     })->name("dashboard.index");
 
+    Route::get('f_clasifications/getDataAutocomplete/{f_movement_type}', [FClasificationController::class, "getDataAutocomplete"])->name("f_clasifications.getDataAutocomplete");
     Route::get('f_beneficiaries/getDataAutocomplete', [FBeneficiaryController::class, "getDataAutocomplete"])->name("f_beneficiaries.getDataAutocomplete");
 
 
@@ -83,22 +84,25 @@ Route::middleware("auth")->group(function () {
         Route::get('/h_hardwares/{h_hardware}/generateQrCode', [HHardwareController::class, 'generateQrCode'])->name('h_hardwares.generateQrCode');
 
         Route::put('f_fluxes/changeStats/{f_flux}', [FFluxController::class, 'changeStats'])->name('f_fluxes.changeStats');
+        Route::put('f_fluxes/changeCarteraStatus/{f_flux}', [FFluxController::class, 'changeCarteraStatus'])->name('f_fluxes.changeCarteraStatus');
         
-        
+        Route::post('f_fluxes/storeFromExcel',  [FFluxController::class, 'storeFromExcel'])->name("f_fluxes.storeFromExcel");
+        Route::get('f_fluxes/createFromExcel',  [FFluxController::class, 'createFromExcel'])->name("f_fluxes.createFromExcel");
+        Route::post('f_fluxes/importExcel',  [FFluxController::class, 'importExcel'])->name("f_fluxes.importExcel");
+
         Route::get('f_flux_reports/exportAdminReport',  [FFluxReportController::class, 'exportAdminReport'])->name("f_flux_reports.exportAdminReport");
         Route::get('f_flux_reports/exportFluxReport',  [FFluxReportController::class, 'exportFluxReport'])->name("f_flux_reports.exportFluxReport");
         Route::get('f_flux_reports',  [FFluxReportController::class, 'index'])->name("f_flux_reports.index");
         
         Route::resource('f_fluxes', FFluxController::class);
         Route::resource('f_accounts', FAccountController::class);
+
+        Route::get('f_beneficiaries/getAddModal', [FBeneficiaryController::class, 'getAddModal'])->name("f_beneficiaries.getAddModal");
         Route::resource('f_beneficiaries', FBeneficiaryController::class);
         Route::resource('f_clasifications', FClasificationController::class);
         Route::resource('s_coordinators', SCoordinatorController::class);
-
         
     });
-
-
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
 });
 

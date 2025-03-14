@@ -43,6 +43,11 @@ use Database\Seeders\FClasificationSeeder;
 use Database\Seeders\CompanySeeder;
 use Database\Seeders\HHardwareSeeder;
 
+use Database\Seeders\FCarteraStatusSeeder;
+use Database\Seeders\PermissionPermissionSeeder31012025;
+use Database\Seeders\PermissionFunction11032025Seeder;
+use Database\Seeders\PermissionPermission11032025Seeder;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -62,7 +67,6 @@ class DatabaseSeeder extends Seeder
             PermissionModuleSeeder::class,
             PermissionFunctionSeeder::class,
             PermissionPermissionSeeder::class,
-            PermissionPermissionRoleSeeder::class,
             MenuSeeder::class,
             InstitutionSeeder::class,
             AnchorerSeeder::class,
@@ -75,6 +79,7 @@ class DatabaseSeeder extends Seeder
             RequisitionStatusSeeder::class,
             PaymentTypeSeeder::class,
             SCoordinatorSeeder::class,
+            SCreditTypeSeeder::class,//NUEVO
             SSaleSeeder::class,
             ChkCreditTypeSeeder::class,
             ChkListSeeder::class,
@@ -89,7 +94,14 @@ class DatabaseSeeder extends Seeder
             FClasificationSeeder:: class,
             CompanySeeder::class,
             HHardwareSeeder::class,
+            FCarteraStatusSeeder::class,
+            PermissionPermissionSeeder31012025::class,
+
+            PermissionFunction11032025Seeder::class, //NUEVO
+            PermissionPermission11032025Seeder::class, //NUEVO
             FFluxSeeder:: class,
+            PermissionPermissionRoleSeeder::class,
+
 
             // EmailAccountSeeder::class,
 
