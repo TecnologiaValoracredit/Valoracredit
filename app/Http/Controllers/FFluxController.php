@@ -22,6 +22,7 @@ use App\Models\PermissionModule;
 use App\DataTables\FFluxDataTable;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\FFluxRequest;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use Carbon\Carbon;
 
@@ -96,24 +97,97 @@ class FFluxController extends Controller
         $request->validate([
             'file' => 'required'
         ]);
+
+        $file = $request->file('file');
+        $extension = $file->getClientOriginalExtension();
+
         $f_accounts = FAccount::where("is_active", 1)->get();
         $f_movement_types = FMovementType::where("is_active", 1)->get();
-
-        $data = Excel::toArray(new ExcelImport(), $request->file('file'))[0];
-        $columnCount = count($data[0]); // Contar columnas en la primera fila
         
-        if ($columnCount == 12) {
-            $finalRows = $this->readStpExcel($data);
-        }else if ($columnCount == 20) {
-            $finalRows = $this->readOtherBanksExcel($data);
+        if ($extension == "txt") {
+            $content = file($file->getRealPath()); // Obtener contenido del archivo
+            $finalRows = $this->processTxtFile($content); // Procesar contenido del archivo txt
+        }else {
+            $data = Excel::toArray(new ExcelImport(), $file)[0];
+            $columnCount = count($data[0]); // Contar columnas en la primera fila
+            
+            if ($columnCount == 12) {
+                $finalRows = $this->readStpExcel($data);
+            }else if ($columnCount == 20) {
+                $finalRows = $this->readOtherBanksExcel($data);
+            }
         }
 
         return view('f_fluxes.table-excel', compact('f_accounts', 'f_movement_types'), ['rows' => $finalRows])->render();
     }
 
+    private function processTxtFile($content)
+    {
+        $rows = [];
+        $saldoAnterior = FAccount::find(9)->getBalanceAttribute() ?? 0;
+        $content = array_reverse($content);
+        // Eliminar la última fila del array (asumiendo que es el encabezado o datos incorrectos)
+        array_pop($content);
+
+        foreach ($content as $key => $line) {
+            if (empty(trim($line))) {
+                continue; // Omitir líneas vacías
+            }
+
+            $columns = explode("\t", $line);
+            if (count($columns) < 3) {
+                continue;
+            }
+
+            $dia = trim($columns[0]); 
+            $fechaFormateada = Carbon::createFromFormat('d-m-Y', $dia)->format('Y-m-d');
+            $concept = trim($columns[1]);
+
+            // Extraer montos de la línea
+            $montoColumnas = array_slice($columns, 2);
+            $montos = array_values(array_filter($montoColumnas, function ($value) {
+                return preg_match('/[\d,]+\.\d{2}/', $value); 
+            }));
+
+            if (count($montos) < 2) {
+                continue; // Si no hay al menos 2 valores numéricos (monto y saldo), ignorar
+            }
+
+            $monto = floatval(str_replace(',', '', $montos[0])); // Primer monto detectado
+            $saldo = floatval(str_replace(',', '', $montos[1])); // Último monto detectado es el saldo final
+            // Determinar si es Cargo o Abono comparando con el saldo anterior
+            $f_movement_type_id = null;
+            if ($saldoAnterior !== null) {
+                if ($saldo < $saldoAnterior) {
+                    $f_movement_type_id = 2; //EGRESO
+                } elseif ($saldo > $saldoAnterior) {
+                    $f_movement_type_id = 1; //INGRESO
+                }
+            }
+            $saldoAnterior = $saldo; // Actualizar saldo anterior para la siguiente iteración
+
+            $tracking_key = $fechaFormateada;
+            $tracking_key .= $this->getInitials($concept);
+            $tracking_key .= $saldoAnterior;
+            $rows[] = [
+                "accredit_date" => $fechaFormateada,
+                "f_beneficiary_id" => null,
+                "f_beneficiary_name" => null,
+                "concept" => $concept,
+                "f_account_id" => 9, //La 9 es BBVA
+                "f_movement_type_id" => $f_movement_type_id,
+                "f_clasification_id" => null,
+                "f_clasification_name" => null,
+                "tracking_key" => $tracking_key,
+                "amount" => $monto
+            ];
+        }
+        return $rows;
+    }
+
     private function readStpExcel($rows)
     {
-        $f_beneficiary = FBeneficiary::find(1); //Este es el ID beneficiario de deposito a cliente
+        $f_beneficiary = FBeneficiary::find(2); //Este es el ID beneficiario de ws promotora
         $finalRows = [];
         //Quitar las primeras 31 rows que no nos sirven
         $rows = array_slice($rows, 32);
@@ -128,6 +202,7 @@ class FFluxController extends Controller
             $f_movement_type_id = 1; //Ingreso default
             $amount = $row[8];
             if ($row[7] > 0) {
+                $f_beneficiary = FBeneficiary::find(1); //Este es el ID beneficiario de deposito a cliente
                 $amount = $row[7];
                 $f_movement_type_id = 2;
             }
@@ -194,9 +269,12 @@ class FFluxController extends Controller
 
             //Verificar el tipo de movimiento
             $f_movement_type_id = 1; //Ingreso default
+            $f_beneficiary = FBeneficiary::find(2); //Este es el ID beneficiario de ws promotora
+
             $amount = $row[6];
             if ($row[5] == "-") {
                 $f_movement_type_id = 2;
+                $f_beneficiary = FBeneficiary::where("name", trim($row[12]))->first(); //Este es el ID beneficiario de deposito a cliente
             }
 
             $concept = $row[9]; 
@@ -207,7 +285,6 @@ class FFluxController extends Controller
                 $concept = preg_replace('/\s+/', ' ', trim($row[4]));
             }
 
-            $f_beneficiary = FBeneficiary::where("name", trim($row[12]))->first(); //Este es el ID beneficiario de deposito a cliente
 
             $account = FAccount::where("account_number", trim($row[0], "'"))->first();
 
@@ -233,6 +310,7 @@ class FFluxController extends Controller
                 "f_clasification_id" => null,
                 "f_clasification_name" => null,
                 "tracking_key" => $tracking_key,
+                'notes1' => trim($row[14]),
                 "amount" => $amount
             ];
             }

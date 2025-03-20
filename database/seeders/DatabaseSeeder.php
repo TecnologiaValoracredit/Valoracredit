@@ -94,7 +94,7 @@ class DatabaseSeeder extends Seeder
             FClasificationSeeder:: class,
             CompanySeeder::class,
             HHardwareSeeder::class,
-            FCarteraStatusSeeder::class,
+            FCarteraStatusSeeder::class,//NUEVO
             PermissionPermissionSeeder31012025::class,
 
             PermissionFunction11032025Seeder::class, //NUEVO

@@ -30,8 +30,8 @@
                     </a>
                 </td>
                 <td class="f_clasification">
-                    <input required name="f_clasification_id[]" type="hidden" id="f_clasification{{$key}}_id" value="{{$row['f_clasification_id']}}">
-                    <input required type="text" id="f_clasification{{$key}}_name" value="{{$row['f_clasification_name']}}">
+                    <input name="f_clasification_id[]" type="hidden" id="f_clasification{{$key}}_id" value="{{$row['f_clasification_id']}}">
+                    <input type="text" id="f_clasification{{$key}}_name" value="{{$row['f_clasification_name']}}">
                 </td>
                 <td>
                     <select required name="f_account_id[]">
@@ -53,7 +53,7 @@
                 </td>
                 <td><input required class="amount" type="number" name="amount[]" value="{{$row['amount']}}"></td>
                 <td><input required type="text" name="concept[]" value="{{$row['concept']}}"></td>
-                <td><input type="text" name="notes1[]"></td>
+                <td><input type="text" name="notes1[]" value="{{$row['notes1'] ?? ''}}"></td>
             </tr>
         @endforeach
     </tbody>

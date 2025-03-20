@@ -222,10 +222,9 @@ class FFluxReportController extends Controller
         // Obtener las fechas de la solicitud
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
-        $movementType = $request->input('f_movement_type'); // Capturar el filtro
     
         // Obtener los datos procesados para el reporte con el filtro de tipo de movimiento
-        $fluxData = $this->getFluxData($startDate, $endDate, $movementType);
+        $fluxData = $this->getFluxData($startDate, $endDate);
     
         // Generar y descargar el archivo Excel con los datos filtrados
         return Excel::download(new NormalFFluxExport($fluxData), 'Reporte de flujo.xlsx');
