@@ -66,10 +66,10 @@ class FFluxDataTable extends DataTable
             if (auth()->user()->hasPermissions("f_fluxes.showIncome") && auth()->user()->hasPermissions("f_fluxes.showExpenses")) {
             }else{
                 if (auth()->user()->hasPermissions("f_fluxes.showIncome")) {
-                    $query->where('f_movement_type_id', 1);
+                    $query->where('f_fluxes.f_movement_type_id', 1);
                 }
                 if (auth()->user()->hasPermissions("f_fluxes.showExpenses")) {
-                    $query->orWhere('f_movement_type_id', 2);
+                    $query->orWhere('f_fluxes.f_movement_type_id', 2);
                 }
             }
             

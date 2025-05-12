@@ -106,7 +106,9 @@ Route::middleware("auth")->group(function () {
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
 });
 
-
+Route::get('/phpinfo', function () {
+    phpinfo();
+});
 
 Route::get('/unauthorized', function () {
     return view('pages.unauthorized', ['title' => 'Usuario no autorizado']);

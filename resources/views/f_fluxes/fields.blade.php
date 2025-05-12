@@ -8,7 +8,6 @@
         "required" => true,
         "value" => isset($f_flux) ? $f_flux->accredit_date :  old("accredit_date"),
         "invalid_feedback" => "El campo es requerido",
-        "disabled" => in_array(auth()->user()->role_id, [2, 4])
     ])
     <!-- Beneficiario-->
 </div>
@@ -23,7 +22,6 @@
         "input_hidden" => "f_beneficiary_id",
         "value_hidden" => isset($f_flux) ? $f_flux->f_beneficiary_id :  old("f_beneficiary_id"),
         "invalid_feedback" => "El campo es requerido",
-        "disabled" => in_array(auth()->user()->role_id, [2, 4])
     ])
 </div>
 
@@ -38,7 +36,6 @@
         "label" => "Cuenta",
         "required" => true,
         "invalid_feedback" => "El campo es requerido",
-        "disabled" => in_array(auth()->user()->role_id, [2, 4])
     ])
 </div>    
 
@@ -53,7 +50,6 @@
         "label" => "Concepto",
         "required" => true,
         "invalid_feedback" => "El campo es requerido",
-        "disabled" => in_array(auth()->user()->role_id, [2, 4])
     ])
 </div>
 <!-- Monto-->
@@ -67,7 +63,6 @@
         "label" => "Monto",
         "required" => true,
         "invalid_feedback" => "El campo es requerido",
-        "disabled" => in_array(auth()->user()->role_id, [2, 4])
     ])
 </div>
 <!-- Tipo de movimiento-->
@@ -81,7 +76,6 @@
         "label" => "Tipo de movimiento",
         "required" => true,
         "invalid_feedback" => "El campo es requerido",
-        "disabled" => in_array(auth()->user()->role_id, [2, 4])
 
     ])
 </div>    
@@ -108,7 +102,6 @@
         "value" => isset($f_flux) ? $f_flux->f_cob_clasification_id : old("f_cob_clasification_id"),
         "label" => "Clasificación cartera",
         "invalid_feedback" => "El campo es requerido",
-        "disabled" => in_array(auth()->user()->role_id, [3, 4])
 
     ])
 </div>  
@@ -119,10 +112,9 @@
         "name" => "notes1",
         "type" => "text",
         "placedolder" => "Notas admin.",
-        "value" => isset($f_flux) ? $f_flux->notes1 :old("notes1"),
+        "value" => isset($f_flux) ? $f_flux->notes1 : old("notes1"),
         "label" => "Notas admin.",
         "invalid_feedback" => "El campo es requerido",
-        "disabled" => in_array(auth()->user()->role_id, [2, 4])
     ])
 </div>
 <!-- Cuenta 2-->
@@ -132,10 +124,9 @@
         "name" => "notes2",
         "type" => "text",
         "placedolder" => "Notas cartera",
-        "value" => isset($f_flux) ? $f_flux->account :old("notes2"),
+        "value" => isset($f_flux) ? $f_flux->notes2 : old("notes2"),
         "label" => "Notas cartera",
         "invalid_feedback" => "El campo es requerido",
-        "disabled" => in_array(auth()->user()->role_id, [3, 4])
 
     ])
 </div>
@@ -146,10 +137,9 @@
         "name" => "comments",
         "type" => "text",
         "placedolder" => "Comentarios",
-        "value" => isset($f_flux) ? $f_flux->comments :old("comments"),
+        "value" => isset($f_flux) ? $f_flux->comments : old("comments"),
         "label" => "Comentarios",
         "invalid_feedback" => "El campo es requerido",
-        "disabled" => in_array(auth()->user()->role_id, [3, 4])
 
     ])
 </div>

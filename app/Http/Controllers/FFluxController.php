@@ -169,19 +169,25 @@ class FFluxController extends Controller
             $tracking_key = $fechaFormateada;
             $tracking_key .= $this->getInitials($concept);
             $tracking_key .= $saldoAnterior;
-            $rows[] = [
-                "accredit_date" => $fechaFormateada,
-                "f_beneficiary_id" => null,
-                "f_beneficiary_name" => null,
-                "concept" => $concept,
-                "f_account_id" => 9, //La 9 es BBVA
-                "f_movement_type_id" => $f_movement_type_id,
-                "f_clasification_id" => null,
-                "f_clasification_name" => null,
-                "tracking_key" => $tracking_key,
-                "amount" => $monto
-            ];
-        }
+
+             //Verificar si ya existe ese row en el flujo
+             $f_flux = FFlux::where("tracking_key", $tracking_key)->first();
+
+             if ($f_flux == null) {
+                $rows[] = [
+                    "accredit_date" => $fechaFormateada,
+                    "f_beneficiary_id" => null,
+                    "f_beneficiary_name" => null,
+                    "concept" => $concept,
+                    "f_account_id" => 9, //La 9 es BBVA
+                    "f_movement_type_id" => $f_movement_type_id,
+                    "f_clasification_id" => null,
+                    "f_clasification_name" => null,
+                    "tracking_key" => $tracking_key,
+                    "amount" => $monto
+                ];
+            }
+    }
         return $rows;
     }
 
@@ -229,11 +235,8 @@ class FFluxController extends Controller
                 $f_clasification = FClasification::where("name", "WS PROMOTORA - I")->first();
             }
 
-            $tracking_key = trim($row[5]);
-            if ($tracking_key == null) {
-                $tracking_key = Carbon::createFromFormat('d/m/Y h:i:s a', $row[2])->format('YmdHis');
-                $tracking_key .= $row[9];
-            }
+            $tracking_key = Carbon::createFromFormat('d/m/Y h:i:s a', $row[2])->format('YmdHis');
+            $tracking_key .= $row[9];
 
             //Verificar si ya existe ese row en el flujo
             $f_flux = FFlux::where("tracking_key", $tracking_key)->first();
@@ -288,13 +291,10 @@ class FFluxController extends Controller
 
             $account = FAccount::where("account_number", trim($row[0], "'"))->first();
 
-            $tracking_key = trim($row[19]);
-            if ($tracking_key == null) {
-                $tracking_key = $fecha;
-                $tracking_key .= trim($row[3], "'");
-                $tracking_key .= $this->getInitials($row[4]);
-                $tracking_key .= $row[6].$row[7];
-            }
+            $tracking_key = $fecha;
+            $tracking_key .= trim($row[3], "'");
+            $tracking_key .= $this->getInitials($row[4]);
+            $tracking_key .= $row[6].$row[7];
 
             //Verificar si ya existe ese row en el flujo
             $f_flux = FFlux::where("tracking_key", $tracking_key)->first();
@@ -338,7 +338,7 @@ class FFluxController extends Controller
 		$f_flux = null;
         $params = array_merge($request->all(), [
             'f_status_id' => 1,
-            'is_active' => !is_null($request->is_active),
+            'is_active' => 1,
 		]);
 
 		try {
@@ -401,16 +401,22 @@ class FFluxController extends Controller
         ')->pluck('name_description', 'id');
         $f_cob_clasifications = FCobClasification::where("is_active", 1)->pluck("name", "id");
 
-        return view('f_fluxes.edit', compact("f_movement_types", "f_accounts", "f_statuses","f_flux", "f_clasifications", "f_cob_clasifications"));
+        //Vista de admin o de cartera
+        $rol_id = auth()->user()->role_id;
+        $view = 'f_fluxes.edit';
+        if (in_array($rol_id, [2, 7, 11])) {
+            $view = 'f_fluxes.editCartera';
+        }
+
+        return view($view, compact("f_movement_types", "f_accounts", "f_statuses","f_flux", "f_clasifications", "f_cob_clasifications"));
      
     }
 
-    public function update(FFluxRequest $request, FFlux $f_flux)
+    public function update(Request $request, FFlux $f_flux)
     {
         $status = true;
         $params = array_merge($request->all(), [
-			'name' => $request->name,
-            'is_active' => !is_null($request->is_active),
+            'is_active' => 1,
 		]);
 
 		try {

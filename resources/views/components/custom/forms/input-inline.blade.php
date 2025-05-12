@@ -9,7 +9,7 @@
         <input 
         @if(isset($disabled) && $disabled) disabled @endif
         {{ isset($required) ? "required" : "" }}
-        {{ isset($readonly) ? "readonly" : "" }}
+        @if(isset($readonly) && $readonly) readonly @endif
         
         type="{{ $type }}" id="{{ $id }}" class="form-control" name="{{ $id }}" value="{{ $value ?? '' }}">
         

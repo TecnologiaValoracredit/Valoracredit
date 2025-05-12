@@ -14,7 +14,7 @@ use App\Models\FCobClasification;
 use App\Models\FStatus;
 use App\Models\FCarteraStatus;
 
-class NormalFFluxExport implements FromCollection, WithHeadings, WithStyles
+class NormalFFLuxExport implements FromCollection, WithHeadings, WithStyles
 {
 
     public function __construct($processedData)
@@ -33,6 +33,7 @@ class NormalFFluxExport implements FromCollection, WithHeadings, WithStyles
     {
         return [
             'Fecha de Acreditación',
+            'Cuenta',
             'Beneficiario',
             'Concepto',
             'Tipo de Movimiento',

@@ -59,7 +59,7 @@
         <!--  END CUSTOM STYLE FILE  -->
     </x-slot>
     <!-- END GLOBAL MANDATORY STYLES -->
-
+                
     <div class="row layout-top-spacing">
         @include("components.custom.errors")
         <!-- CONTENT HERE -->

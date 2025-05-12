@@ -15,11 +15,18 @@ use Spatie\Image\Manipulations;
 use App\Http\Requests\HHardwareRequest;
 use App\Models\PermissionModule;
 use App\DataTables\HHardwareDataTable;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\File; 
 
-
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Label\Label;
+use Endroid\QrCode\Logo\Logo;
+use Endroid\QrCode\RoundBlockSizeMode;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Label\Font\NotoSans;
 
 class HHardwareController extends Controller
 {
@@ -65,98 +72,77 @@ class HHardwareController extends Controller
      * @return \Illuminate\Http\Response
      */
    public function store(HHardwareRequest $request)
-{
-    $status = true;
-    $h_hardware = null;
+    {
+        $status = true;
+        $h_hardware = null;
 
-    // Generar un número de serie personalizado
-    $customSerialNumber = 'SN-' . strtoupper(uniqid());
+        // Generar un número de serie personalizado
+        $customSerialNumber = 'SN-' . strtoupper(uniqid());
 
-    // Inicializar variable para la imagen
-    $imagePath = null;
-    try {
-       // Manejar la carga de la imagen
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $image = $request->file('image');
-            // Almacenar la imagen en el disco 'public' y obtener la ruta
-            $imagePath = $image->store('active', 'public'); // Almacenamiento en 'public'
-        }
-
-        // Unir los parámetros del request con el número de serie personalizado y la ruta de la imagen
-        $params = array_merge($request->all(), [
-            'is_active' => !is_null($request->is_active),
-            'custom_serial_number' => $customSerialNumber,
-            'image' => $imagePath, // Agregar la ruta de la imagen al registro
-        ]);
-
-        // Crear el hardware con los parámetros
-        $h_hardware = HHardware::create($params);
-        $message = "Hardware agregado correctamente";
-    } catch (\Illuminate\Database\QueryException $e) {
-        $status = false;
-        $message = $this->getErrorMessage($e, 'h_hardwares');
-    }
-
-    return $this->getResponse($status, $message, $h_hardware);
-}
-
-public function generateQrCode(HHardware $h_hardware)
-{
-    try {
-        // Generar la URL del QR
-        $qrData = route('h_hardwares.show', $h_hardware->id);
-        $qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" . urlencode($qrData);
-
-        // Crear la vista HTML de la etiqueta
-        $view = view('h_hardwares.generateQrCode', compact('qrUrl', 'h_hardware'))->render();
-
-        // Guardar el HTML en un archivo público
-        $htmlFileName = 'hardware_label_' . $h_hardware->id . '.html';
-        $htmlPath = public_path($htmlFileName);
-
-        file_put_contents($htmlPath, $view);
-
-        // Generar la URL pública del archivo
-        $publicHtmlUrl = url($htmlFileName);
-
-        // URL de la API de ApiFlash
-        $apiUrl = 'https://api.apiflash.com/v1/urltoimage';
-        $accessKey = '0dc526f94420457eaf8b3b54e49d8292'; // Reemplaza con tu clave de ApiFlash
-
-        // Crear la URL para la solicitud
-        $apiRequestUrl = "$apiUrl?access_key=$accessKey&url=" . urlencode($publicHtmlUrl) . "&format=png&width=240&height=140";
-
-        // Realizar la solicitud a la API
-        $response = Http::get($apiRequestUrl);
-
-        if ($response->successful()) {
-            // Guardar la imagen generada
-            $imageFileName = 'hardware_label_' . $h_hardware->id . '.png';
-            $imagePath = public_path($imageFileName);
-            file_put_contents($imagePath, $response->body());
-
-            // Eliminar el archivo HTML temporal
-            if (File::exists($htmlPath)) {
-                File::delete($htmlPath);
+        // Inicializar variable para la imagen
+        $imagePath = null;
+        try {
+        // Manejar la carga de la imagen
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $image = $request->file('image');
+                // Almacenar la imagen en el disco 'public' y obtener la ruta
+                $imagePath = $image->store('active', 'public'); // Almacenamiento en 'public'
             }
 
-            // Devolver la imagen para descarga
-            return response()->download($imagePath)->deleteFileAfterSend(true);
-        } else {
-            // Manejar el error de generación
-            return response()->json([
-                'error' => 'Hubo un error al generar la imagen.',
-                'status' => $response->status(),
-                'body' => $response->body(),
+            // Unir los parámetros del request con el número de serie personalizado y la ruta de la imagen
+            $params = array_merge($request->all(), [
+                'is_active' => !is_null($request->is_active),
+                'custom_serial_number' => $customSerialNumber,
+                'image' => $imagePath, // Agregar la ruta de la imagen al registro
             ]);
+
+            // Crear el hardware con los parámetros
+            $h_hardware = HHardware::create($params);
+            $message = "Hardware agregado correctamente";
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'h_hardwares');
         }
-    } catch (\Exception $e) {
-        return response()->json([
-            'error' => 'Se produjo un error inesperado.',
-            'message' => $e->getMessage(),
-        ], 500);
+
+        return $this->getResponse($status, $message, $h_hardware);
     }
-}
+
+    public function generateQrCode(HHardware $h_hardware)
+    {
+        // Crear la URL que deseas codificar
+        $url = route('h_hardwares.show', $h_hardware->id);  // Asegúrate de que esta sea la URL que deseas
+
+        // Crear el objeto QrCode
+        $qrCode = new QrCode(
+            data: $url,  // Usamos la URL generada como datos del QR
+            encoding: new Encoding('UTF-8'),
+            errorCorrectionLevel: ErrorCorrectionLevel::Low,
+            size: 60,
+            margin: 0,
+            roundBlockSizeMode: RoundBlockSizeMode::Margin,
+            foregroundColor: new Color(0, 0, 0),
+            backgroundColor: new Color(255, 255, 255)
+        );
+
+
+        // Crear la etiqueta (opcional)
+        $label = new Label(
+            text: "ID: ".$h_hardware->id,  // Texto que aparecerá en la etiqueta
+            textColor: new Color(0, 0, 0)  // Color del texto (negro en este caso)
+        );
+
+        $label = $label->setFont(new NotoSans(8));
+
+        // Crear el escritor de la imagen y generar el código QR
+        $writer = new PngWriter();
+        $result = $writer->write($qrCode, null, $label);
+
+
+        // Generar la respuesta para descargar el código QR
+        return response($result->getString())
+            ->header('Content-Type', 'image/png')
+            ->header('Content-Disposition', 'attachment; filename="qr_con_logo.png"');
+    }
 
 
     /**

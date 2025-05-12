@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Exports\FFluxExport;
-use App\Exports\NormalFFLuxExport;
+use App\Exports\NormalFFluxExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\FClasification;
 use App\Models\FFlux;
@@ -157,10 +157,11 @@ class FFluxReportController extends Controller
     {
         $query = FFlux::select(
             'accredit_date',
+            'f_accounts.name as account_name',
             'f_beneficiaries.name as beneficiary_name',
             'concept',
             'f_movement_types.name as movement_type_name',
-            \DB::raw('SUM(amount) as total_amount'),
+            'amount as total_amount',
             'f_clasifications.name as clasification_name',
             'f_cob_clasifications.name as cob_clasification_name',
             'notes1',
@@ -169,6 +170,7 @@ class FFluxReportController extends Controller
             'f_cartera_statuses.name as cartera_status_name'
 
         )
+        ->leftJoin('f_accounts', 'f_fluxes.f_account_id', '=', 'f_accounts.id')
         ->leftJoin('f_beneficiaries', 'f_fluxes.f_beneficiary_id', '=', 'f_beneficiaries.id')
         ->leftJoin('f_movement_types', 'f_fluxes.f_movement_type_id', '=', 'f_movement_types.id')
         ->leftJoin('f_clasifications', 'f_fluxes.f_clasification_id', '=', 'f_clasifications.id')
@@ -181,26 +183,14 @@ class FFluxReportController extends Controller
         // Aplicar el filtro solo si se proporciona un movementTypeId
         //Si no puede ver egresos
         if (!auth()->user()->hasPermissions("f_fluxes.showExpenses")) {
-            $query->where('f_fluxes.f_movement_type_id', '<>', 1);
+            $query->where('f_fluxes.f_movement_type_id', '<>', 2);
         }
         //Si no puede ver ingresos
         if (!auth()->user()->hasPermissions("f_fluxes.showIncome")) {
-            $query->where('f_fluxes.f_movement_type_id', '<>', 2);
+            $query->where('f_fluxes.f_movement_type_id', '<>', 1);
         }
 
-        $fluxes = $query->groupBy(
-            'accredit_date',
-            'f_beneficiaries.name',
-            'concept',
-            'f_movement_types.name',
-            'f_clasifications.name',
-            'f_cob_clasifications.name',
-            'notes1',
-            'notes2',
-            'f_statuses.name',
-            'f_cartera_statuses.name'
-        )->get();
-    
+        $fluxes = $query->get();
         // Formatear la fecha antes de devolver los datos
         foreach ($fluxes as $flux) {
             if (isset($flux->accredit_date)) {
