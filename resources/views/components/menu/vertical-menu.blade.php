@@ -30,7 +30,6 @@
                     </div>
                 </div>
                 <ul class="list-unstyled menu-categories" id="accordionExample">
-
                     @foreach ($menus as $menu)
                         <!-- Revisar si tiene permisos -->
                         @if($menu->hasSubmenus())

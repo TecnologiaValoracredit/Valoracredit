@@ -141,7 +141,7 @@ class HHardwareController extends Controller
         // Generar la respuesta para descargar el código QR
         return response($result->getString())
             ->header('Content-Type', 'image/png')
-            ->header('Content-Disposition', 'attachment; filename="qr_con_logo.png"');
+            ->header('Content-Disposition', 'attachment; filename="qr"'.$h_hardware->id.'".png"');
     }
 
 

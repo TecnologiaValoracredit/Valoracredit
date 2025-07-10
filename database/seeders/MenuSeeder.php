@@ -100,7 +100,7 @@ class MenuSeeder extends Seeder
             "position" => 2.6,
             "permission_id" => $this->getPermissionId("s_coordinator_reports")
         ]);
-        
+
         
         //Si es un menu que tiene hijos este no tendrá permisos, ya que solo será para desplegar los hijos
         $users = Menu::create([
@@ -223,7 +223,7 @@ class MenuSeeder extends Seeder
 
     }
 
-    private function getPermissionId($module_name){
+    public function getPermissionId($module_name){
         $module = PermissionModule::where("name", $module_name)->first();
         $function = PermissionFunction::where("name", "index")->first();
 

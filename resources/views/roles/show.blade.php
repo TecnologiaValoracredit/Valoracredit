@@ -66,6 +66,7 @@
                                     </div>
                                 @else
                                     @if($module->parent_id == null)
+
                                         <div class="tab-pane fade show {{$key == 0 ? 'active' : ''}}" id="pills-{{$module->name}}" role="tabpanel" aria-labelledby="pills-{{$module->name}}-tab" tabindex="0">
                                             <p>Funciones</p>
                                             @foreach($module->permissions as $permission)

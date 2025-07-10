@@ -65,4 +65,40 @@ class FFlux extends Model
         return $this->belongsTo("App\Models\FCobClasification", "f_cob_clasification_id", "id");
     }
 
+    public function previousBalance()
+    {
+        $init_balance = $this->fAccount->init_balance ?? 0;
+
+        $movimientosAnteriores = self::where('f_account_id', $this->f_account_id)
+            ->where(function ($query) {
+                $query->where('accredit_date', '<', $this->accredit_date)
+                    ->orWhere(function ($q) {
+                        $q->where('accredit_date', $this->accredit_date)
+                            ->where('id', '<', $this->id);
+                    });
+            })
+            ->get();
+
+        // Calcular saldo acumulado a partir del saldo inicial
+        $saldo = $movimientosAnteriores->reduce(function ($carry, $item) {
+            if ($item->f_movement_type_id == 1) {
+                return $carry + floatval($item->amount); // ingreso
+            } elseif ($item->f_movement_type_id == 2) {
+                return $carry - floatval($item->amount); // egreso
+            }
+            return $carry;
+        }, $init_balance);
+
+        return $saldo;
+    }
+
+    public function actualBalance()
+    {
+        return $this->previousBalance() + (
+            $this->f_movement_type_id == 1
+                ? floatval($this->amount)
+                : -floatval($this->amount)
+        );
+    }
+
 }

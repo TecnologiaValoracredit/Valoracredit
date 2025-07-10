@@ -232,7 +232,7 @@ class FFluxController extends Controller
                 }
 
             } else {
-                $f_clasification = FClasification::where("name", "WS PROMOTORA - I")->first();
+                $f_clasification = FClasification::where("name", "WS PROMOTORA - I")->whereNotNull("parent_id")->first();
             }
 
             $tracking_key = Carbon::createFromFormat('d/m/Y h:i:s a', $row[2])->format('YmdHis');
@@ -246,7 +246,7 @@ class FFluxController extends Controller
                     "f_beneficiary_id" => $f_beneficiary->id,
                     "f_beneficiary_name" => $f_beneficiary->name,
                     "concept" => trim($row[4]),
-                    "f_account_id" => 5, //La 5 es STP
+                    "f_account_id" => FAccount::where("name", "STP")->first()->id, //La 5 es STP
                     "f_movement_type_id" => $f_movement_type_id,
                     "f_clasification_id" => $f_clasification->id ?? null,
                     "f_clasification_name" => $f_clasification->name ?? null,

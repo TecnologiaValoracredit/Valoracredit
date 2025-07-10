@@ -155,29 +155,7 @@ class FFluxReportController extends Controller
 
     protected function getFluxData($startDate, $endDate, $movementTypeId = null)
     {
-        $query = FFlux::select(
-            'accredit_date',
-            'f_accounts.name as account_name',
-            'f_beneficiaries.name as beneficiary_name',
-            'concept',
-            'f_movement_types.name as movement_type_name',
-            'amount as total_amount',
-            'f_clasifications.name as clasification_name',
-            'f_cob_clasifications.name as cob_clasification_name',
-            'notes1',
-            'notes2',
-            'f_statuses.name as status_name',
-            'f_cartera_statuses.name as cartera_status_name'
-
-        )
-        ->leftJoin('f_accounts', 'f_fluxes.f_account_id', '=', 'f_accounts.id')
-        ->leftJoin('f_beneficiaries', 'f_fluxes.f_beneficiary_id', '=', 'f_beneficiaries.id')
-        ->leftJoin('f_movement_types', 'f_fluxes.f_movement_type_id', '=', 'f_movement_types.id')
-        ->leftJoin('f_clasifications', 'f_fluxes.f_clasification_id', '=', 'f_clasifications.id')
-        ->leftJoin('f_cob_clasifications', 'f_fluxes.f_cob_clasification_id', '=', 'f_cob_clasifications.id')
-        ->leftJoin('f_statuses', 'f_fluxes.f_status_id', '=', 'f_statuses.id')
-        ->leftJoin('f_cartera_statuses', 'f_fluxes.f_cartera_status_id', '=', 'f_cartera_statuses.id')
-        ->whereBetween('accredit_date', [$startDate, $endDate])
+        $query = FFlux::whereBetween('accredit_date', [$startDate, $endDate])
         ->where('f_fluxes.is_active', 1);
     
         // Aplicar el filtro solo si se proporciona un movementTypeId
@@ -192,11 +170,11 @@ class FFluxReportController extends Controller
 
         $fluxes = $query->get();
         // Formatear la fecha antes de devolver los datos
-        foreach ($fluxes as $flux) {
-            if (isset($flux->accredit_date)) {
-                $flux->accredit_date = Carbon::parse($flux->accredit_date)->format('d/m/Y');
-            }
-        }
+        // foreach ($fluxes as $flux) {
+        //     if (isset($flux->accredit_date)) {
+        //         $flux->accredit_date = Carbon::parse($flux->accredit_date)->format('d/m/Y');
+        //     }
+        // }
         return $fluxes;
     }
     

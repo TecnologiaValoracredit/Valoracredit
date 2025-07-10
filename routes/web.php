@@ -25,6 +25,7 @@ use App\Http\Controllers\FClasificationController;
 use App\Http\Controllers\SCoordinatorController;
 use App\Http\Controllers\SCoordinatorReportController;
 use App\Http\Controllers\FFluxReportController;
+use App\Http\Controllers\SPromotorReportController;
 
 // use App\Http\Controllers\SInstitutionReportController;
 
@@ -77,6 +78,7 @@ Route::middleware("auth")->group(function () {
         Route::get('s_institucion_reports', [SInstitutionReportController::class, "index"])->name("s_institution_reports.index");
         Route::get('s_mensual_reports', [SMensualReportController::class, "index"])->name("s_mensual_reports.index");
         Route::get('s_coordinator_reports', [SCoordinatorReportController::class, "index"])->name("s_coordinator_reports.index");
+        Route::get('s_promotor_reports', [SPromotorReportController::class, "index"])->name("s_promotor_reports.index");
 
         Route::resource('h_brands', HBrandController::class);
         Route::resource('h_device_types', HDeviceTypeController::class);
@@ -104,6 +106,8 @@ Route::middleware("auth")->group(function () {
         
     });
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
+    Route::get('s_promotor_reports/getTable/{year}', [SPromotorReportController::class, "getTable"])->name("s_promotor_reports.getTable");
+
 });
 
 Route::get('/phpinfo', function () {

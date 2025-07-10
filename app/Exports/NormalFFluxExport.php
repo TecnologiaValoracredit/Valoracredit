@@ -13,6 +13,7 @@ use App\Models\FClasification;
 use App\Models\FCobClasification;
 use App\Models\FStatus;
 use App\Models\FCarteraStatus;
+use Carbon\Carbon;
 
 class NormalFFLuxExport implements FromCollection, WithHeadings, WithStyles
 {
@@ -20,24 +21,43 @@ class NormalFFLuxExport implements FromCollection, WithHeadings, WithStyles
     public function __construct($processedData)
     {
         $this->processedData = $processedData;
-
     }
 
     public function collection()
     {
-        return collect($this->processedData);
+        return collect($this->processedData)->map(function ($item) {
+            return [
+                Carbon::parse($item->accredit_date)->format('d/m/Y'),
+                optional($item->fAccount)->name,
+                optional($item->fBeneficiary)->name,
+                $item->concept,
+                optional($item->fMovementType)->name,
+                $item->previousBalance(),
+                $item->amount,
+                $item->actualBalance(),
+                optional($item->fClasification)->name,
+                optional($item->fCobClasification)->name,
+                $item->notes1,
+                $item->notes2,
+                optional($item->fStatus)->name,
+                optional($item->fCarteraStatus)->name,
+            ];
+        });
     }
 
 
     public function headings(): array
     {
+        
         return [
             'Fecha de Acreditación',
             'Cuenta',
             'Beneficiario',
             'Concepto',
             'Tipo de Movimiento',
+            'Saldo inicial',
             'Monto',
+            'Saldo final',
             'Clasificación Admon.',
             'Clasificación Cartera',
             'Notas Admin.',
