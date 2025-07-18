@@ -48,6 +48,7 @@ use Database\Seeders\PermissionPermissionSeeder31012025;
 use Database\Seeders\PermissionFunction11032025Seeder;
 use Database\Seeders\PermissionPermission11032025Seeder;
 use Database\Seeders\Database25062025Seeder;
+use Database\Seeders\Database17072025Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -102,9 +103,10 @@ class DatabaseSeeder extends Seeder
             PermissionPermission11032025Seeder::class, //NUEVO
             FFluxSeeder:: class,
             PermissionPermissionRoleSeeder::class,
-            Database25062025Seeder::class
+            Database25062025Seeder::class,
 
             // EmailAccountSeeder::class,
+            Database17072025Seeder::class
 
         ]);
     }

@@ -45,4 +45,13 @@ class Controller extends BaseController
 			<a href="#" data-bs-toggle="collapse" data-bs-target="#errorDetails">'.__('Show details').':</a>
 			<span id="errorDetails" class="collapse" aria-expanded="false">'.$e->getMessage().'</span>';
 	}
+
+	public function getViewDataTable($dataTable, $entity, $permissions = [], $route = null, $parameters = [])
+    {
+		$dataTable = $dataTable->html();
+		
+        $dataTable = $dataTable->ajax(route($route ?? $entity.'.index', $parameters));
+        return ["view" => view('components.datatable', compact('dataTable', 'permissions','entity'))->render(),
+            "scripts" => $dataTable->scripts()];
+    }
 }

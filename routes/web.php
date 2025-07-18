@@ -26,6 +26,7 @@ use App\Http\Controllers\SCoordinatorController;
 use App\Http\Controllers\SCoordinatorReportController;
 use App\Http\Controllers\FFluxReportController;
 use App\Http\Controllers\SPromotorReportController;
+use App\Http\Controllers\RIndicatorController;
 
 // use App\Http\Controllers\SInstitutionReportController;
 
@@ -79,6 +80,7 @@ Route::middleware("auth")->group(function () {
         Route::get('s_mensual_reports', [SMensualReportController::class, "index"])->name("s_mensual_reports.index");
         Route::get('s_coordinator_reports', [SCoordinatorReportController::class, "index"])->name("s_coordinator_reports.index");
         Route::get('s_promotor_reports', [SPromotorReportController::class, "index"])->name("s_promotor_reports.index");
+        Route::get('r_indicators', [RIndicatorController::class, "index"])->name("r_indicators.index");
 
         Route::resource('h_brands', HBrandController::class);
         Route::resource('h_device_types', HDeviceTypeController::class);
@@ -108,6 +110,9 @@ Route::middleware("auth")->group(function () {
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
     Route::get('s_promotor_reports/getTable/{year}', [SPromotorReportController::class, "getTable"])->name("s_promotor_reports.getTable");
 
+    //DATATABLES
+    Route::get('r_indicators/getRIndicatorFinalDataTable',  [RIndicatorController::class, 'getRIndicatorFinalDataTable'])->name('r_indicators.getRIndicatorFinalDataTable');
+    Route::get('r_indicators/getRIndicatorDataTable',  [RIndicatorController::class, 'getRIndicatorDataTable'])->name('r_indicators.getRIndicatorDataTable');
 });
 
 Route::get('/phpinfo', function () {
