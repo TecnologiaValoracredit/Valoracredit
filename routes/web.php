@@ -23,6 +23,8 @@ use App\Http\Controllers\FAccountController;
 use App\Http\Controllers\FFluxController;
 use App\Http\Controllers\FClasificationController;
 use App\Http\Controllers\SCoordinatorController;
+use App\Http\Controllers\SPromotorController;
+use App\Http\Controllers\CommissionController;
 use App\Http\Controllers\SCoordinatorReportController;
 use App\Http\Controllers\FFluxReportController;
 use App\Http\Controllers\SPromotorReportController;
@@ -106,6 +108,11 @@ Route::middleware("auth")->group(function () {
         Route::resource('f_clasifications', FClasificationController::class);
         Route::resource('s_coordinators', SCoordinatorController::class);
         
+        //Commissions 
+        Route::resource('s_coordinators', SCoordinatorController::class);
+        Route::resource('s_promotors', SPromotorController::class);
+        Route::resource('commissions', CommissionController::class);
+
     });
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
     Route::get('s_promotor_reports/getTable/{year}', [SPromotorReportController::class, "getTable"])->name("s_promotor_reports.getTable");

@@ -106,4 +106,26 @@ class User extends Authenticatable
 		}
 		return $result;
 	}
+
+    //Relacion que tiene con los detalles del banco
+    public function bankDetails(){
+        return $this->hasMany(BankDetail::class,"user_id","id");
+    }
+
+    //Relación que se tiene con los bonos 
+    public function userBonuses(){
+        return $this->hasMany(UserBonus::class,"user_id","id");
+    }
+
+    //Relación que se tiene con el promotor
+    public function promotor(){
+        return $this->hasOne(SPromotor::class,"user_id", "id");
+    }
+
+    //Relación que se tiene con el coordinador
+    public function coordinator(){
+        return $this->hasOne(SCoordinator::class,"user_id", "id");
+    }
+
+
 }

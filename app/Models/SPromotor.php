@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SCoordinator extends Model
+class SPromotor extends Model
 {
     use HasFactory;
 
@@ -13,24 +13,22 @@ class SCoordinator extends Model
         'id',
         'user_id',
         'commission_percentage',
+        'coordinator_id',
         's_branch_id',
-        'is_broker',
-        'created_by',
-        'created_at',
+        'promotor_credisoft_id',
+        'is_active',
+        'created_by', 
         'updated_by',
-        'updated_at',
-        'is_active'
     ];
 
-
-    //Relacion que se tiene con usuario
+     //Relacion que se tiene con usuario
     public function user(){
         return $this->belongsTo(User::class);
     }
 
     //Relación que se tiene con sus nombres
-    public function coordinatorNames(){
-        return $this->hasMany(SCoordinatorName::class, 'coordinator_id', 'id');
+    public function promotorNames(){
+        return $this->hasMany(SPromotorName::class, 'promotor_id', 'id');
     }
 
     //Relación que se tiene con las sucursales de CrediSoft
@@ -48,5 +46,4 @@ class SCoordinator extends Model
     public function institution_commisions(){
         return $this->hasMany(InstitutionCommission::class,'user_id', 'user_id');
     }
-
 }

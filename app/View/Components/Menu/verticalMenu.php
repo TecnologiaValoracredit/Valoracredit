@@ -25,6 +25,7 @@ class verticalMenu extends Component
     public function render()
     {
         $menus = Menu::orderBy("position", "asc")->get();
+        
         return view('components.menu.vertical-menu', compact("menus"));
     }
 }

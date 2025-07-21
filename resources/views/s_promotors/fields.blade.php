@@ -90,13 +90,17 @@
             "invalid_feedback" => "El campo es requerido"
         ])
     </div>
-    <div class="col p-3 d-flex align-items-center justify-content-center">
-        @include("components.custom.forms.input-check", [
-        "id" => "is_broker",
-        "name" => "is_broker",
-        "checked" => isset($s_coordinator) ? $s_coordinator->is_broker :  false,
-        "label" => "Es broker",
-    ])
+    <div class="col">
+        @include("components.custom.forms.input-select", [
+            "id" => "coordinator_id",
+            "name" => "coordinator_id",
+            "elements" => $s_coordinators,
+            "placeholder" => "Coordinador...",
+            "value" => isset($s_promotor) ? $s_promotor->coordinator_id :  old("coordinator_id"),
+            "label" => "Coordinador",
+            "required" => true,
+            "invalid_feedback" => "El campo es requerido"
+        ])
     </div>
 
     <div class="col-12 mt-2">
@@ -112,7 +116,7 @@
         ])
     </div>
 
-    <div class="col my-2">
+    <div class="col my-3">
         @include("components.custom.forms.input-check", [
             "id" => "is_active",
             "name" => "is_active",

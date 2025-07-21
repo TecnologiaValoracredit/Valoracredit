@@ -5,20 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Institution extends Model
+class SCoordinatorName extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
         'id',
+        'name',
+        'coordinator_id',
         'created_by',
         'created_at',
+        'updated_by',
+        'updated_at',
         'is_active'
     ];
 
-    //Relacion que se tiene con las comisiones por institución 
-    public function institutionCommissions(){
-        return $this->hasMany(InstitutionCommission::class, 'institution_id','id');
+    //Relación que hay con el coordinador
+    public function coorindator(){
+        return $this->belongsTo(SCoordinator::class);
     }
 }
