@@ -128,7 +128,7 @@
                     
                     
                     <!--  BEGIN CONTENT AREA  -->
-                    <div id="content" class="main-content {{(Request::routeIs('blank') ? 'ms-0 mt-0' : '')}}">
+                    <div id="content" class="main-content pt-3 pt-lg-0 mt-lg-0 {{(Request::routeIs('blank') ? 'ms-0 mt-0' : '')}}">
                         @if ($scrollspy == 1)
                             <div class="container">
                                 <div class="container">

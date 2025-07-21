@@ -1,31 +1,28 @@
 <?php
 
 namespace App\Http\Controllers;
-
-
 use App\Models\SCoordinator;
+use App\Models\SPromotor;
 use App\Models\Role;
 use App\Models\Departament;
 use App\Models\Branch;
 use App\Models\SBranch;
 use App\Models\User;
-use App\Http\Requests\SCoordinatorRequest;
-use App\DataTables\SCoordinatorDataTable;
 use App\Models\PermissionModule;
-use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
-
 use Illuminate\Support\Facades\Hash;
+use App\DataTables\SPromotorDataTable;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\SPromotorRequest;
+use Illuminate\Http\Request;
 
-
-class SCoordinatorController extends Controller
+class SPromotorController extends Controller
 {
-    public function index(SCoordinatorDataTable $dataTable )
+    public function index(SPromotorDataTable $dataTable )
     {
         //obtener todos los suppliers, y permisos registrados
-        $allowAdd = auth()->user()->hasPermissions("s_coordinators.create");
+        $allowAdd = auth()->user()->hasPermissions("s_promotors.create");
        
-        return $dataTable->render('s_coordinators.index', compact("allowAdd"));
+        return $dataTable->render('s_promotors.index', compact("allowAdd"));
     }
 
     public function create()
@@ -34,20 +31,25 @@ class SCoordinatorController extends Controller
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $s_branches = SBranch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
+        $s_coordinators = SCoordinator::where("is_active", 1)
+                                        ->with('user')
+                                        ->get()
+                                        ->pluck('user.name', 'id');
         
-        return view('s_coordinators.create', compact('roles', 'branches', 's_branches', 'departaments'));
+        return view('s_promotors.create', compact('roles', 'branches', 's_branches','departaments', 's_coordinators'));
+
     }
 
-    public function store(SCoordinatorRequest $request)
+    public function store(SPromotorRequest $request)
     {
-        // dd($request->all());
         $status = true;
         $s_coordinator = null;
+
         $userParams = array_merge($request->all(), [
             "name" => $request->name,
             "email" => $request->email,
             "password" => Hash::make($request->password),
-            "role_id" => 13,
+            "role_id" => 12,
             'is_active' => !is_null($request->is_active),
         ] );  
 
@@ -57,38 +59,39 @@ class SCoordinatorController extends Controller
             $params = array_merge($request->all(), [
                 'commission_percentage' => $request->commission_percentage,
                 's_branch_id' => $request->s_branch_id,
-                'is_broker' => $request->is_broker == "on" ?? true, false,
                 'user_id' => $user->id,
+                's_coordinator_id' => $request->s_coordinator_id,
                 'is_active' => !is_null($request->is_active),
             ]);
 
-            $s_coordinator = SCoordinator::create($params);
+            $s_promotor = SPromotor::create($params);
             $message = "Coordinador creado correctamente";
-
-            // dd($user, $s_coordinator, $message);
+            dd($user, $s_promotor);
 
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
-            $message = $this->getErrorMessage($e, 's_coordinators');
+            $message = $this->getErrorMessage($e, 's_promotors');
         }
 
         return $this->getResponse($status, $message, $s_coordinator);
     }   
 
-    public function edit(SCoordinator $s_coordinator)
+    public function edit(SPromotor $s_promotor)
     {
         $roles = Role::where("is_active", 1)->pluck("name", "id");
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $s_branches = SBranch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
-        $user = $s_coordinator->user;
-
-        return view('s_coordinators.edit', compact("s_coordinator", "user", "roles", "branches", "s_branches", "departaments"));
+        $s_coordinators = SCoordinator::where("is_active", 1)
+                                        ->with('user')
+                                        ->get()
+                                        ->pluck('user.name', 'id');
+        return view('s_promotors.edit', compact("s_promotor", 'roles', 'branches', 's_branches','departaments', 's_coordinators'));
         
      
     }
 
-    public function update(SCoordinatorRequest $request, SCoordinator $s_coordinator)
+    public function update(SPromotorRequest $request, SPromotor $s_coordinator)
     {
         $status = true;
         $params = array_merge($request->all(), [
@@ -100,18 +103,18 @@ class SCoordinatorController extends Controller
             $message = "Clasificación modificada correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
-            $message = $this->getErrorMessage($e, 's_coordinators');
+            $message = $this->getErrorMessage($e, 's_promotors');
         }
     
         return $this->getResponse($status, $message, $s_coordinator);
     }
     
 
-    public function show(SCoordinator $s_coordinator)
+    public function show(SPromotor $s_coordinator)
     {
     }
 
-    public function destroy(SCoordinator $s_coordinator)
+    public function destroy(SPromotor $s_coordinator)
     {
         $status = true;
         try {
@@ -119,7 +122,7 @@ class SCoordinatorController extends Controller
             $message = "Clasificación desactivada correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
-            $message = $this->getErrorMessage($e, 's_coordinators');
+            $message = $this->getErrorMessage($e, 's_promotors');
         }
         return $this->getResponse($status, $message);
     }
