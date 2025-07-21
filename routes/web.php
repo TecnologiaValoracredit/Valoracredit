@@ -123,4 +123,3 @@ Route::get('/unauthorized', function () {
     return view('pages.unauthorized', ['title' => 'Usuario no autorizado']);
 })->name("unauthorized");
 
-        
