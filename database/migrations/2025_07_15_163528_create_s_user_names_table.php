@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('s_coordinator_names', function (Blueprint $table) {
+        Schema::create('s_user_names', function (Blueprint $table) {
             $table->smallIncrements(column: "id");
 
             $table->string("name")->comment('Nombre del coordinador dentro de CrediSoft');
             
-            $table->unsignedSmallInteger('coordinator_id');
-            $table->foreign('coordinator_id')->references('id')->on('s_coordinators')->comment('Coordinador');
+            $table->unsignedSmallInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->comment('Usuario');
 
             $table->timestamps(); 
             $table->string('notes', 1024)->nullable()->comment('Notas');    

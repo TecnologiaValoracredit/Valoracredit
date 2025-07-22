@@ -106,7 +106,6 @@ Route::middleware("auth")->group(function () {
         Route::get('f_beneficiaries/getAddModal', [FBeneficiaryController::class, 'getAddModal'])->name("f_beneficiaries.getAddModal");
         Route::resource('f_beneficiaries', FBeneficiaryController::class);
         Route::resource('f_clasifications', FClasificationController::class);
-        Route::resource('s_coordinators', SCoordinatorController::class);
         
         //Commissions 
         Route::resource('s_coordinators', SCoordinatorController::class);
@@ -120,6 +119,17 @@ Route::middleware("auth")->group(function () {
     //DATATABLES
     Route::get('r_indicators/getRIndicatorFinalDataTable',  [RIndicatorController::class, 'getRIndicatorFinalDataTable'])->name('r_indicators.getRIndicatorFinalDataTable');
     Route::get('r_indicators/getRIndicatorDataTable',  [RIndicatorController::class, 'getRIndicatorDataTable'])->name('r_indicators.getRIndicatorDataTable');
+
+    //Comisiones - coordinadores y promotores
+    Route::get('commissions/getInstitutionCommissionDataTable/{user}',  [CommissionController::class, 'getInstitutionCommissionDataTable'])->name('commissions.getInstitutionCommissionDataTable');
+    Route::get('commissions/getSUserNameDataTable/{user}',  [CommissionController::class, 'getSUserNameDataTable'])->name('commissions.getSUserNameDataTable');
+
+    Route::post('commissions/addInstitution/{user}',  [CommissionController::class, 'addInstitution'])->name('commissions.addInstitution');
+    Route::post('commissions/addName/{user}',  [CommissionController::class, 'addName'])->name('commissions.addName');
+
+    Route::delete('commissions/deleteInstitution/{institution_commission}',  [CommissionController::class, 'deleteInstitution'])->name('commissions.deleteInstitution');
+    Route::delete('commissions/deleteName/{s_user_name}',  [CommissionController::class, 'deleteName'])->name('commissions.deleteName');
+
 });
 
 Route::get('/phpinfo', function () {

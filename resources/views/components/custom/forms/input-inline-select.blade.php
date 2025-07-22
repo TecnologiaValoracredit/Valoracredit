@@ -1,4 +1,4 @@
-<div class="d-flex input-container">
+<div class="d-flex input-container {{ $class ?? ''}}">
     <span class="input-group-text" {{ isset($width) ? 'style=width:' . $width . 'px;' : '' }}>
         {{$label ?? $name}}
         @if(isset($required))
@@ -6,21 +6,12 @@
         @endif
     </span>
     <div class="w-100">
-        <select 
-            class="form-control" 
-            id="{{ $id ?? $name }}" 
-            name="{{ $name }}" 
-            {{ isset($required) ? "required" : "" }}
-            {{ isset($disabled) && $disabled ? 'disabled' : '' }}
-        >
-            @if(isset($required))
-                <option disabled selected value="">Seleccione una opción...</option>
-            @else
-                <option selected value="">Seleccione una opción...</option>
-            @endif    
+        <select class="form-control" id="{{$id ?? $name}}" name="{{$name}}" {{isset($required) ? "required" : ""}} {{isset($disabled) ? "disabled" : ""}}>
+            <option disabled selected value="">Seleccione una opción...</option>
             @foreach ($elements as $key => $element)
-                <option {{ $key == $value ? "selected" : "" }} value="{{ $key }}">{{ $element }}</option>
+                <option {{$key == $value ? "selected" : ""}} value="{{$key}}">{{$element}}</option>
             @endforeach
         </select>
     </div>
 </div>
+

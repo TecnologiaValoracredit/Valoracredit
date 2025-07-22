@@ -111,7 +111,11 @@ class UserController extends Controller
         }
 
         try {
+            
             $user->update($params);
+            if ($user->is_active) {
+                $user->activate();
+            }
             $message = "Usuario modificado correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
@@ -126,6 +130,8 @@ class UserController extends Controller
         $status = true;
         try {
             $user->update(["is_active" => false]);
+            $user->deactivate();
+
             $message = "Usuario desactivado correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;

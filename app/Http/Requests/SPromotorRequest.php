@@ -24,7 +24,6 @@ class SPromotorRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'user_id' => 'required',
 			'coordinator_id' => 'required',
 			'promotor_credisoft_id' => 'numeric',
 			'commission_percentage' => 'required|numeric',
@@ -37,7 +36,6 @@ class SPromotorRequest extends FormRequest
 	{
 		return [
 			'name' => 'Nombre',
-			'user_id' => 'Usuario',
 			'coordinator_id' => 'Coordinador',
 			'promotor_credisoft_id' => 'Id en CrediSoft',
 			'commission_percentage' => 'Porcentaje de comisión',

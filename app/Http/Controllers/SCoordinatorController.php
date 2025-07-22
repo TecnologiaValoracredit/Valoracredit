@@ -9,8 +9,13 @@ use App\Models\Departament;
 use App\Models\Branch;
 use App\Models\SBranch;
 use App\Models\User;
+use App\Models\Institution;
+
 use App\Http\Requests\SCoordinatorRequest;
 use App\DataTables\SCoordinatorDataTable;
+use App\DataTables\InstitutionCommissionDataTable;
+use App\DataTables\SUserNameDataTable;
+
 use App\Models\PermissionModule;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -34,13 +39,13 @@ class SCoordinatorController extends Controller
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $s_branches = SBranch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
-        
-        return view('s_coordinators.create', compact('roles', 'branches', 's_branches', 'departaments'));
+        $isEdit = false;
+
+        return view('s_coordinators.create', compact('roles', 'branches', 's_branches', 'departaments', 'isEdit'));
     }
 
     public function store(SCoordinatorRequest $request)
     {
-        // dd($request->all());
         $status = true;
         $s_coordinator = null;
         $userParams = array_merge($request->all(), [
@@ -48,6 +53,7 @@ class SCoordinatorController extends Controller
             "email" => $request->email,
             "password" => Hash::make($request->password),
             "role_id" => 13,
+            "departament_id" => 1,
             'is_active' => !is_null($request->is_active),
         ] );  
 
@@ -82,9 +88,19 @@ class SCoordinatorController extends Controller
         $s_branches = SBranch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
         $user = $s_coordinator->user;
+        $isEdit = true;
 
-        return view('s_coordinators.edit', compact("s_coordinator", "user", "roles", "branches", "s_branches", "departaments"));
-        
+        $institutionDataTable = new InstitutionCommissionDataTable($s_coordinator->user);
+        $params = ['user' => $s_coordinator->user];
+        $institutionDT = $this->getViewDataTable($institutionDataTable, 'commissions', [], 'commissions.getInstitutionCommissionDataTable', $params);
+
+        $sUserNameDataTable = new SUserNameDataTable($s_coordinator->user);
+        $params = ['user' => $s_coordinator->user];
+        $sUserNameDT = $this->getViewDataTable($sUserNameDataTable, 'commissions', [], 'commissions.getSUserNameDataTable', $params);
+
+        $institutions = Institution::where("is_active", 1)->orderBy("name", "asc")->pluck("name", "id");
+
+        return view('s_coordinators.edit', compact("s_coordinator", "user", "roles", "branches", "s_branches", "departaments", "isEdit", "institutionDT", "institutions", "sUserNameDT"));
      
     }
 
@@ -93,11 +109,18 @@ class SCoordinatorController extends Controller
         $status = true;
         $params = array_merge($request->all(), [
             'is_active' => $request->has('is_active') ? 1 : 0, 
+            'is_broker' => $request->has('is_broker') ? 1 : 0, 
         ]);
-    
+
         try {
             $s_coordinator->update($params);
-            $message = "Clasificación modificada correctamente";
+            $s_coordinator->user->update(["name" => $params["name"]]);
+            if ($params["is_active"] == 0) {
+                $s_coordinator->user->update(["is_active" => false]);
+            }else if ($params["is_active"] == 1) {
+                $s_coordinator->user->update(["is_active" => true]);
+            }
+            $message = "Coordinador modificado correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
             $message = $this->getErrorMessage($e, 's_coordinators');
@@ -116,11 +139,15 @@ class SCoordinatorController extends Controller
         $status = true;
         try {
             $s_coordinator->update(["is_active" => false]);
-            $message = "Clasificación desactivada correctamente";
+            $s_coordinator->user->update(["is_active" => false]);
+            $message = "Coordinador desactivado correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
             $message = $this->getErrorMessage($e, 's_coordinators');
         }
         return $this->getResponse($status, $message);
     }
+
+     
+   
 }

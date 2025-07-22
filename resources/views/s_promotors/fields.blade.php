@@ -7,7 +7,7 @@
             "placeholder" => "Nombre...",
             "label" => "Nombre",
             "required" => true,
-            "value" => isset($s_coordinator) ? $s_coordinator->user->name :  old("name"),
+            "value" => isset($s_promotor) ? $s_promotor->user->name :  old("name"),
             "invalid_feedback" => "El campo es requerido"
         ])
     </div>
@@ -17,7 +17,7 @@
             "name" => "role_id",
             "elements" => $roles,
             "placeholder" => "Descripción...",
-            "value" => isset($s_coordinator) ? $s_coordinator->user->role_id :  old("role_id"),
+            "value" => isset($s_promotor) ? $s_promotor->user->role_id :  old("role_id"),
             "label" => "Rol",
             "required" => true,
             "invalid_feedback" => "El campo es requerido"
@@ -25,13 +25,14 @@
     </div> --}}
 </div>
 
+@if (!$isEdit)
 <div class="mb-2">
     @include("components.custom.forms.input", [
         "id" => "email",
         "name" => "email",
         "type" => "email",
         "placeholder" => "Email...",
-        "value" => isset($s_coordinator) ? $s_coordinator->user->email :  old("email"),
+        "value" => isset($s_promotor) ? $s_promotor->user->email :  old("email"),
         "label" => "Email",
         "required" => true,
         "invalid_feedback" => "El campo es requerido"
@@ -48,6 +49,8 @@
         "label" => "Contraseña",
     ])
 </div>
+@endif
+
 <div class="row mb-2">
     <div class="col">
         @include("components.custom.forms.input-select", [
@@ -55,7 +58,7 @@
             "name" => "departament_id",
             "elements" => $departaments,
             "placeholder" => "Descripción...",
-            "value" => isset($s_coordinator) ? $s_coordinator->user->departament_id :  old("departament_id"),
+            "value" => isset($s_promotor) ? $s_promotor->user->departament_id :  old("departament_id"),
             "label" => "Departamento",
             "required" => true,
             "invalid_feedback" => "El campo es requerido"
@@ -67,7 +70,7 @@
             "name" => "branch_id",
             "elements" => $branches,
             "placeholder" => "Descripción...",
-            "value" => isset($s_coordinator) ? $s_coordinator->user->branch_id :  old("branch_id"),
+            "value" => isset($s_promotor) ? $s_promotor->user->branch_id :  old("branch_id"),
             "label" => "Sucursal",
             "required" => true,
             "invalid_feedback" => "El campo es requerido"
@@ -82,11 +85,11 @@
         @include("components.custom.forms.input", [
             "id" => "commission_percentage",
             "name" => "commission_percentage",
-            "type" => "numeric",
+            "type" => "number",
             "placeholder" => "Porcentaje de comisión...",
             "label" => "Porcentaje de comisión",
             "required" => true,
-            "value" => isset($s_coordinator) ? $s_coordinator->commission_percentage :  old("commission_percentage"),
+            "value" => isset($s_promotor) ? $s_promotor->commission_percentage :  old("commission_percentage"),
             "invalid_feedback" => "El campo es requerido"
         ])
     </div>
@@ -103,17 +106,31 @@
         ])
     </div>
 
-    <div class="col-12 mt-2">
-        @include("components.custom.forms.input-select", [
-            "id" => "s_branch_id",
-            "name" => "s_branch_id",
-            "elements" => $s_branches,
-            "placeholder" => "Descripción...",
-            "value" => isset($s_coordinator) ? $s_coordinator->s_branch_id :  old("s_branch_id"),
-            "label" => "Sucursal en CrediSoft",
-            "required" => true,
-            "invalid_feedback" => "El campo es requerido"
-        ])
+    <div class="row mt-2">
+        <div class="col-6">
+            @include("components.custom.forms.input-select", [
+                "id" => "s_branch_id",
+                "name" => "s_branch_id",
+                "elements" => $s_branches,
+                "placeholder" => "Descripción...",
+                "value" => isset($s_promotor) ? $s_promotor->s_branch_id :  old("s_branch_id"),
+                "label" => "Sucursal en CrediSoft",
+                "required" => true,
+                "invalid_feedback" => "El campo es requerido"
+            ])
+        </div>
+        <div class="col-6">
+            @include("components.custom.forms.input", [
+                "id" => "promotor_credisoft_id",
+                "name" => "promotor_credisoft_id",
+                "type" => "number",
+                "placeholder" => "Id de promotor en CrediSoft...",
+                "label" => "Id de promotor en CrediSoft",
+                "required" => true,
+                "value" => isset($s_promotor) ? $s_promotor->promotor_credisoft_id :  old("promotor_credisoft_id"),
+                "invalid_feedback" => "El campo es requerido"
+            ])
+        </div>
     </div>
 
     <div class="col my-3">

@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SCoordinatorName extends Model
+class SUserName extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id',
         'name',
-        'coordinator_id',
+        'user_id',
         'created_by',
         'created_at',
         'updated_by',
@@ -20,8 +20,8 @@ class SCoordinatorName extends Model
         'is_active'
     ];
 
-    //Relación que hay con el coordinador
-    public function coorindator(){
-        return $this->belongsTo(SCoordinator::class);
+    //Relación que hay con el usuario
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

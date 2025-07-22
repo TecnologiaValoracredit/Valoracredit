@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('institution_commissions', function (Blueprint $table) {
             //Registra los casos expecionales en donde a un usuario se le da una comisión especial dependiendo de la institucion
-            $table->smallIncrements(column: "id");
-            $table->integer("percentage");
+            $table->bigIncrements(column: "id");
+            $table->float("percentage");
 
             $table->unsignedSmallInteger('institution_id');
             $table->foreign('institution_id')->references('id')->on('institutions')->comment('Bono');

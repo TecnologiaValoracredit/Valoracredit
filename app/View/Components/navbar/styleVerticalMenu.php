@@ -3,6 +3,7 @@
 namespace App\View\Components\navbar;
 
 use Illuminate\View\Component;
+use App\Models\Menu;
 
 class styleVerticalMenu extends Component
 {
@@ -32,6 +33,7 @@ class styleVerticalMenu extends Component
      */
     public function render()
     {
-        return view('components.navbar.style-vertical-menu');
+        $menus = Menu::orderBy("position", "asc")->get();
+        return view('components.navbar.style-vertical-menu', compact("menus"));
     }
 }

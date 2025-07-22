@@ -117,6 +117,16 @@ class User extends Authenticatable
         return $this->hasMany(UserBonus::class,"user_id","id");
     }
 
+    //Relación que se tiene con las instituciones para comisiones extra
+    public function institutions(){
+        return $this->hasMany(InstitutionCommission::class,"user_id","id");
+    }
+
+    //Relación que se tiene con las instituciones para comisiones extra
+    public function sUserNames(){
+        return $this->hasMany(SUserName::class,"user_id","id");
+    }
+
     //Relación que se tiene con el promotor
     public function promotor(){
         return $this->hasOne(SPromotor::class,"user_id", "id");
@@ -125,6 +135,28 @@ class User extends Authenticatable
     //Relación que se tiene con el coordinador
     public function coordinator(){
         return $this->hasOne(SCoordinator::class,"user_id", "id");
+    }
+
+    public function activate()
+    {
+        $this->update(["is_active" => true]);
+        if ($this->promotor != null) {
+            $this->promotor->update(["is_active" => true]);
+        }
+        if ($this->coordinator != null) {
+            $this->coordinator->update(["is_active" => true]);
+        }
+    }
+
+    public function deactivate()
+    {
+        $this->update(["is_active" => false]);
+        if ($this->promotor != null) {
+            $this->promotor->update(["is_active" => false]);
+        }
+        if ($this->coordinator != null) {
+            $this->coordinator->update(["is_active" => false]);
+        }
     }
 
 

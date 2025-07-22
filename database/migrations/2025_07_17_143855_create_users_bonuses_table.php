@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('users_bonuses', function (Blueprint $table) {
             //Tabla intermedia entre usuarios y bonos, su objetivo es registrar que bonos tiene un empleado
-            $table->smallIncrements(column: "id");
-            $table->integer("bonus_percentage")->nullabel()->comment('Porcentaje de bono que se llevará');
-            $table->integer("bonus_amount")->nullable()->comment('Porcentaje de bono que se llevará');
+            $table->bigIncrements(column: "id");
+            $table->float("bonus_percentage")->nullabel()->comment('Porcentaje de bono que se llevará');
+            $table->float("bonus_amount")->nullable()->comment('Porcentaje de bono que se llevará');
             
             $table->unsignedSmallInteger('bonus_id');
             $table->foreign('bonus_id')->references('id')->on('bonuses')->comment('Bono');

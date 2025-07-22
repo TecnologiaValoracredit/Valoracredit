@@ -7,14 +7,14 @@
     </span>
     <div class="w-100">
         <input 
-        @if(isset($disabled) && $disabled) disabled @endif
-        {{ isset($required) ? "required" : "" }}
-        @if(isset($readonly) && $readonly) readonly @endif
+        {{isset($disabled) ? "disabled" : ""}}
+        {{isset($required) ? ($required == true ? 'required' : '') : ""}}
+        {{isset($readonly) ? "readonly" : ""}}
+        {{$type == "number" ? "step=0.0001" : ""}}
         
-        type="{{ $type }}" id="{{ $id }}" class="form-control" name="{{ $id }}" value="{{ $value ?? '' }}">
-        
+        type="{{$type}}" id="{{$id}}" class="form-control {{$class ?? ''}}" name="{{$id}}" value="{{$value ?? ''}}" >
         @if ($type == "autocomplete")
-            <input type="hidden" name="{{ $input_hidden }}" id="{{ $input_hidden }}" value="{{ $value_hidden ?? '' }}">
+            <input type="hidden" name="{{$input_hidden}}" id="{{$input_hidden}}" value="{{$value_hidden ?? ''}}" >
         @endif
     </div>
 </div>

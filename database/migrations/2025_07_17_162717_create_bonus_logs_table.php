@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('bonus_logs', function (Blueprint $table) {
-            $table->smallIncrements(column: "id");
+            $table->bigIncrements(column: "id");
             $table->timestamp("date")->comment('Fecha en la que se generó el bono');
 
-            $table->unsignedSmallInteger('user_bonus_id');
+            $table->unsignedBigInteger('user_bonus_id');
             $table->foreign('user_bonus_id')->references('id')->on('users_bonuses')->comment('Bono que tiene el usuario');
         
             $table->integer('amount_sold')->comment('Cantidad vendida');

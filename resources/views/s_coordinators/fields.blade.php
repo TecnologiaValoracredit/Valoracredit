@@ -25,6 +25,7 @@
     </div> --}}
 </div>
 
+@if (!$isEdit)
 <div class="mb-2">
     @include("components.custom.forms.input", [
         "id" => "email",
@@ -48,19 +49,9 @@
         "label" => "Contraseña",
     ])
 </div>
+@endif
+
 <div class="row mb-2">
-    <div class="col">
-        @include("components.custom.forms.input-select", [
-            "id" => "departament_id",
-            "name" => "departament_id",
-            "elements" => $departaments,
-            "placeholder" => "Descripción...",
-            "value" => isset($s_coordinator) ? $s_coordinator->user->departament_id :  old("departament_id"),
-            "label" => "Departamento",
-            "required" => true,
-            "invalid_feedback" => "El campo es requerido"
-        ])
-    </div>
     <div class="col">
         @include("components.custom.forms.input-select", [
             "id" => "branch_id",
@@ -73,9 +64,20 @@
             "invalid_feedback" => "El campo es requerido"
         ])
     </div>
+    <div class="col">
+        @include("components.custom.forms.input-select", [
+            "id" => "s_branch_id",
+            "name" => "s_branch_id",
+            "elements" => $s_branches,
+            "placeholder" => "Descripción...",
+            "value" => isset($s_coordinator) ? $s_coordinator->s_branch_id :  old("s_branch_id"),
+            "label" => "Sucursal en CrediSoft",
+            "required" => true,
+            "invalid_feedback" => "El campo es requerido"
+        ])
+    </div>
 </div>
 
-<hr class="hr hr-blurry" />
 
 <div class="row mb-3">
     <div class="col">
@@ -99,24 +101,11 @@
     ])
     </div>
 
-    <div class="col-12 mt-2">
-        @include("components.custom.forms.input-select", [
-            "id" => "s_branch_id",
-            "name" => "s_branch_id",
-            "elements" => $s_branches,
-            "placeholder" => "Descripción...",
-            "value" => isset($s_coordinator) ? $s_coordinator->s_branch_id :  old("s_branch_id"),
-            "label" => "Sucursal en CrediSoft",
-            "required" => true,
-            "invalid_feedback" => "El campo es requerido"
-        ])
-    </div>
-
     <div class="col my-2">
         @include("components.custom.forms.input-check", [
             "id" => "is_active",
             "name" => "is_active",
-            "checked" => isset($role) ? $role->is_active :  true,
+            "checked" => isset($s_coordinator) ? $s_coordinator->is_active :  true,
             "label" => "Activo",
         ])
     </div>

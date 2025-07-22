@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('s_promotors', function (Blueprint $table) {
             $table->dropColumn(['previous_name']);
+            $table->dropColumn(['name']);
         });
     }
 

@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\SPromotorRequest;
 use Illuminate\Http\Request;
 
+use App\Models\Institution;
+
+use App\DataTables\SCoordinatorDataTable;
+use App\DataTables\InstitutionCommissionDataTable;
+use App\DataTables\SUserNameDataTable;
+
 class SPromotorController extends Controller
 {
     public function index(SPromotorDataTable $dataTable )
@@ -35,15 +41,18 @@ class SPromotorController extends Controller
                                         ->with('user')
                                         ->get()
                                         ->pluck('user.name', 'id');
+
+        $isEdit = false;
+
         
-        return view('s_promotors.create', compact('roles', 'branches', 's_branches','departaments', 's_coordinators'));
+        return view('s_promotors.create', compact('roles', 'branches', 's_branches','departaments', 's_coordinators', 'isEdit'));
 
     }
 
     public function store(SPromotorRequest $request)
     {
         $status = true;
-        $s_coordinator = null;
+        $s_promotor = null;
 
         $userParams = array_merge($request->all(), [
             "name" => $request->name,
@@ -66,14 +75,13 @@ class SPromotorController extends Controller
 
             $s_promotor = SPromotor::create($params);
             $message = "Coordinador creado correctamente";
-            dd($user, $s_promotor);
 
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
             $message = $this->getErrorMessage($e, 's_promotors');
         }
 
-        return $this->getResponse($status, $message, $s_coordinator);
+        return $this->getResponse($status, $message, $s_promotor);
     }   
 
     public function edit(SPromotor $s_promotor)
@@ -86,12 +94,25 @@ class SPromotorController extends Controller
                                         ->with('user')
                                         ->get()
                                         ->pluck('user.name', 'id');
-        return view('s_promotors.edit', compact("s_promotor", 'roles', 'branches', 's_branches','departaments', 's_coordinators'));
+
+        $isEdit = true;
+
+        $institutionDataTable = new InstitutionCommissionDataTable($s_promotor->user);
+        $params = ['user' => $s_promotor->user];
+        $institutionDT = $this->getViewDataTable($institutionDataTable, 'commissions', [], 'commissions.getInstitutionCommissionDataTable', $params);
+
+        $sUserNameDataTable = new SUserNameDataTable($s_promotor->user);
+        $params = ['user' => $s_promotor->user];
+        $sUserNameDT = $this->getViewDataTable($sUserNameDataTable, 'commissions', [], 'commissions.getSUserNameDataTable', $params);
+
+        $institutions = Institution::where("is_active", 1)->orderBy("name", "asc")->pluck("name", "id");
+
+        return view('s_promotors.edit', compact("s_promotor", 'roles', 'branches', 's_branches','departaments', 'isEdit', 'institutionDT', 'sUserNameDT', 'institutions', 's_coordinators'));
         
      
     }
 
-    public function update(SPromotorRequest $request, SPromotor $s_coordinator)
+    public function update(SPromotorRequest $request, SPromotor $s_promotor)
     {
         $status = true;
         $params = array_merge($request->all(), [
@@ -99,26 +120,33 @@ class SPromotorController extends Controller
         ]);
     
         try {
-            $s_coordinator->update($params);
+            $s_promotor->update($params);
+            $s_promotor->user->update(["name" => $params["name"]]);
+            if ($params["is_active"] == 0) {
+                $s_promotor->user->update(["is_active" => false]);
+            }else if ($params["is_active"] == 1) {
+                $s_promotor->user->update(["is_active" => true]);
+            }
             $message = "Clasificación modificada correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
             $message = $this->getErrorMessage($e, 's_promotors');
         }
     
-        return $this->getResponse($status, $message, $s_coordinator);
+        return $this->getResponse($status, $message, $s_promotor);
     }
     
 
-    public function show(SPromotor $s_coordinator)
+    public function show(SPromotor $s_promotor)
     {
     }
 
-    public function destroy(SPromotor $s_coordinator)
+    public function destroy(SPromotor $s_promotor)
     {
         $status = true;
         try {
-            $s_coordinator->update(["is_active" => false]);
+            $s_promotor->update(["is_active" => false]);
+            $s_promotor->user->update(["is_active" => false]);
             $message = "Clasificación desactivada correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
