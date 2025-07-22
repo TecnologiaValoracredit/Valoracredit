@@ -21,8 +21,8 @@ return new class extends Migration
             $table->integer("total_amount_sold")->comment('Cantidad de dinero que se vendió');
             $table->string("beneficiary_type")->comment('Tipo de beneficiario (Promotor, coordinador, broker)');
             $table->integer('amount_received')->comment('Importe entregado');
-            $table->unsignedSmallInteger('s_sales_id');
-            $table->foreign('s_sales_id')->references('id')->on('s_sales')->comment('Venta por la cual se generó la comisión');
+            $table->unsignedBigInteger('s_sale_id');
+            $table->foreign('s_sale_id')->references('id')->on('s_sales')->comment('Venta por la cual se generó la comisión');
 
 
             $table->unsignedSmallInteger('user_id');

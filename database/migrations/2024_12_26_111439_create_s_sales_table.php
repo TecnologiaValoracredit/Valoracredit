@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('s_sales', function(Blueprint $table)
         {
-            $table->id();
+            $table->bigIncrements( "id");
             $table->bigInteger('credit_id');
             $table->string('client_name');
             $table->float('credit_amount');
@@ -28,10 +28,6 @@ return new class extends Migration
 
             $table->unsignedSmallInteger('s_branch_id');
             $table->foreign('s_branch_id')->references('id')->on('s_branches');
-
-            $table->unsignedSmallInteger('s_promotor_id');
-            $table->foreign('s_promotor_id')->references('id')->on('s_promotor');
-
 
             $table->unsignedSmallInteger('s_coordinator_id');
             $table->foreign('s_coordinator_id')->references('id')->on('s_coordinators');
