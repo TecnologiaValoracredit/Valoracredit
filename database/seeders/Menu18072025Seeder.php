@@ -48,6 +48,14 @@ class Menu18072025Seeder extends Seeder
             "permission_id" => $this->getPermissionId("commissions")
         ]);
         
+        $s_sales = Menu::where("name", "Ventas")->first();
+        Menu::create([
+            "name" => "Sucursales CrediSoft",
+            "parent_id" => $s_sales->id,
+            "position" => 2.8,
+            "permission_id" => $this->getPermissionId("s_branches")
+        ]);
+
     }
     public function getPermissionId($module_name){
         $module = PermissionModule::where("name", $module_name)->first();

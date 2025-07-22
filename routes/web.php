@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PreApplicationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -10,11 +11,13 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ExpReportController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\RequisitionController;
+use App\Http\Controllers\RequisitionRowOptionalController;
 use App\Http\Controllers\ChkChecklistController;
 use App\Http\Controllers\SSaleController;
 use App\Http\Controllers\SGeneralReportController;
 use App\Http\Controllers\SMensualReportController;
 use App\Http\Controllers\SInstitutionReportController;
+use App\Http\Controllers\SBranchController;
 use App\Http\Controllers\HBrandController;
 use App\Http\Controllers\HDeviceTypeController;
 use App\Http\Controllers\HHardwareController;
@@ -29,6 +32,9 @@ use App\Http\Controllers\SCoordinatorReportController;
 use App\Http\Controllers\FFluxReportController;
 use App\Http\Controllers\SPromotorReportController;
 use App\Http\Controllers\RIndicatorController;
+//Commissions 
+use App\Http\Controllers\ComCoordinatorController;
+use App\Http\Controllers\ComPromotorController;
 
 // use App\Http\Controllers\SInstitutionReportController;
 
@@ -75,6 +81,7 @@ Route::middleware("auth")->group(function () {
         Route::delete('/requisition_row_optionals/{id}', [RequisitionRowOptionalController::class, 'destroy'])
         ->name('requisition_row_optionals.destroy');
 
+        // Route::resource('s_sales', SSaleController::class);
 
         Route::get('s_sales', [SSaleController::class, "index"])->name("s_sales.index");
         Route::get('s_general_reports', [SGeneralReportController::class, "index"])->name("s_general_reports.index");
@@ -83,6 +90,7 @@ Route::middleware("auth")->group(function () {
         Route::get('s_coordinator_reports', [SCoordinatorReportController::class, "index"])->name("s_coordinator_reports.index");
         Route::get('s_promotor_reports', [SPromotorReportController::class, "index"])->name("s_promotor_reports.index");
         Route::get('r_indicators', [RIndicatorController::class, "index"])->name("r_indicators.index");
+        Route::resource('s_branches', SBranchController::class);
 
         Route::resource('h_brands', HBrandController::class);
         Route::resource('h_device_types', HDeviceTypeController::class);
@@ -106,6 +114,7 @@ Route::middleware("auth")->group(function () {
         Route::get('f_beneficiaries/getAddModal', [FBeneficiaryController::class, 'getAddModal'])->name("f_beneficiaries.getAddModal");
         Route::resource('f_beneficiaries', FBeneficiaryController::class);
         Route::resource('f_clasifications', FClasificationController::class);
+        Route::resource('s_coordinators', SCoordinatorController::class);
         
         //Commissions 
         Route::resource('s_coordinators', SCoordinatorController::class);
@@ -126,9 +135,15 @@ Route::middleware("auth")->group(function () {
 
     Route::post('commissions/addInstitution/{user}',  [CommissionController::class, 'addInstitution'])->name('commissions.addInstitution');
     Route::post('commissions/addName/{user}',  [CommissionController::class, 'addName'])->name('commissions.addName');
+});
+Route::get('pre_applications',  [PreApplicationController::class, 'index'])->name("pre_applications.index");
+Route::get('pre_applications_calculator',  [PreApplicationController::class, 'index'])->name("pre_applications_calculator.index");
+Route::post('s_sales/import_excel', [SSaleController::class, "importExcel"])->name("s_sales.importExcel");
+Route::post('expedient/import_excel', [ExpedientController::class, "importExcel"])->name("expedients.importExcel");
 
     Route::delete('commissions/deleteInstitution/{institution_commission}',  [CommissionController::class, 'deleteInstitution'])->name('commissions.deleteInstitution');
     Route::delete('commissions/deleteName/{s_user_name}',  [CommissionController::class, 'deleteName'])->name('commissions.deleteName');
+Route::get('commissions/export_report',  [CommissionController::class, 'exportReport'])->name("commissions.exportReport");
 
 });
 

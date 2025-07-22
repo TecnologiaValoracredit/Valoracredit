@@ -30,7 +30,7 @@ class PermissionPermissionSeeder extends Seeder
 		$this->createPermissions(["branches"]);
 		$this->createPermissions(["requisitions"]);
 
-		$this->createPermissions(["s_sales"], ["index"], false);
+		$this->createPermissions(["s_sales"], ["importExcel"]);
 		$this->createPermissions(["s_general_reports"], ["index"], false);
 		$this->createPermissions(["s_institution_reports"], ["index"], false);
 		$this->createPermissions(["s_mensual_reports"], ["index"], false);

@@ -16,7 +16,12 @@ class SCoordinatorSeeder extends Seeder
     public function run()
     {
         $data = [
-            // ['name' => 'SIN COORDINADOR'],
+            [
+                'user_id'=> 1,
+                'commission_percentage'=> '100',
+                's_branch_id'=> 1,
+                'is_broker'=> false,
+            ],
             // ['name' => 'ALEJANDRO VAZQUEZ NIETO'],
             // ['name' => 'ALEJANDRO VAZQUEZ NIETO'],
             // ['name' => 'ALONSO LOPEZ RODOLFO'],

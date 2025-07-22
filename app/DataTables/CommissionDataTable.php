@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\SPromotor;
+use App\Models\Commission;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class SPromotorDataTable extends DataTable
+class CommissionDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -24,13 +24,16 @@ class SPromotorDataTable extends DataTable
     {
         $datatable = (new EloquentDataTable($query))
         ->setRowId('id')
-        ->editColumn('created_at', function(SPromotor $role) {
+        ->editColumn('date', function(Commission $role) {
             return date("d/m/Y H:i", strtotime($role->created_at));
         })
-        ->editColumn('updated_at', function(SPromotor $role) {
+        ->editColumn('created_at', function(Commission $role) {
+            return date("d/m/Y H:i", strtotime($role->created_at));
+        })
+        ->editColumn('updated_at', function(Commission $role) {
             return date("d/m/Y H:i", strtotime($role->updated_at));
         })
-        ->editColumn('is_active', function(SPromotor $role) {
+        ->editColumn('is_active', function(Commission $role) {
             if ($role->is_active) {
                 return '<span class="badge badge-success mb-2 me-4">Sí</span>';
             }
@@ -47,14 +50,14 @@ class SPromotorDataTable extends DataTable
 
     public function getActions($row){
         $result = null;
-        if (auth()->user()->hasPermissions("s_promotors.edit")) {
+        if (auth()->user()->hasPermissions("commissions.edit")) {
             $result .= '
-                <a title="Editar" href='.route("s_promotors.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
+                <a title="Editar" href='.route("commissions.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                 </a>
             ';
         }
-        if (auth()->user()->hasPermissions("s_promotors.destroy")) {
+        if (auth()->user()->hasPermissions("commissions.destroy")) {
             $result .= '
                 <a onclick="deleteRow('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>        </a>
@@ -67,21 +70,19 @@ class SPromotorDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\SPromotor $model
+     * @param \App\Models\Commission $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(SPromotor $model): QueryBuilder
+    public function query(Commission $model): QueryBuilder
     {
         return $model->select(
-            's_promotors.*',
+            'commissions.*',
             'users.name as user_name',
-            'coordinator_users.name as coordinator_name',
-            's_branches.name as branch_name'
         )
-        ->leftjoin('users', 's_promotors.user_id', '=', 'users.id')
-        ->leftjoin('s_coordinators', 's_promotors.coordinator_id', '=', 's_coordinators.id')
-        ->leftJoin('users as coordinator_users', 's_coordinators.user_id', '=', 'coordinator_users.id')
-        ->leftjoin('s_branches', 's_promotors.s_branch_id', '=', 's_branches.id')
+        ->leftJoin('users','commissions.user_id','=','users.id')
+        
+        
+        
         ->newQuery();
     }
 
@@ -97,10 +98,8 @@ class SPromotorDataTable extends DataTable
                         'paging' => true,
                         'searching' => true,
                         'info' => true,
-                        'responsive' => true,
-                        "scrollX"=> true,
                     ])
-                    ->setTableId('s_promotors-table')
+                    ->setTableId('commissions-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy(0, "asc")
@@ -122,23 +121,55 @@ class SPromotorDataTable extends DataTable
     public function getColumns(): array
     {
         $columns = [
-           
-            Column::make('name')->title('Nombre')->name("user_name"),
-            Column::make('coordinator_name')->title('Coordinador')->name("coordinator_name"),
-            // ->searchable(true)
-            // ->orderable(true)
-            // ->printable(true),
-
-            Column::make('commission_percentage')->title('Porcentaje de comisión'),
-            Column::make('branch_name')->title('Sucursal')->name("branch_name"),
-           
+            Column::make('id')
+                    ->title('Id')
+                    ->searchable(false)
+                    ->visible(false),
+            Column::make('user_name')
+                    ->title('Nombre')
+                    ->searchable(true)
+                    ->orderable(true)
+                    ->printable(true)
+                    ->name("user_name"),
+            Column::make('total_sales')
+                    ->title('Ventas totales')
+                    ->searchable(true)
+                    ->orderable(false)
+                    ->printable(true),
+            Column::make('total_amount_sold')
+                    ->title('Número de ventas')
+                    ->searchable(true)
+                    ->orderable(false)
+                    ->printable(true),
+            Column::make('beneficary_type')
+                    ->title('Tipo de beneficiarío')
+                    ->searchable(true)
+                    ->orderable(false)
+                    ->printable(true),
+            Column::make('commission_percentage')
+                    ->title('Porcentaje de comisión')
+                    ->searchable(true)
+                    ->orderable(false)
+                    ->printable(true),
+            Column::make('amount_received')
+                    ->title('Importe')
+                    ->searchable(true)
+                    ->orderable(false)
+                    ->printable(true),
+            Column::make('date')
+                    ->title('Fecha')
+                    ->searchable(true)
+                    ->orderable(false)
+                    ->printable(true),
+            Column::make('created_at')->searchable(false)->title('Fecha creado'),
+            Column::make('updated_at')->searchable(false)->title('Fecha editado'),
             Column::make('is_active')->title("Activo"),
 
         ];
 
-        if (auth()->user()->hasPermissions("s_promotors.edit") ||
-            auth()->user()->hasPermissions("s_promotors.create") ||
-            auth()->user()->hasPermissions("s_promotors.destroy")) {
+        if (auth()->user()->hasPermissions("commissions.edit") ||
+            auth()->user()->hasPermissions("commissions.create") ||
+            auth()->user()->hasPermissions("commissions.destroy")) {
             $columns = array_merge($columns, [
                 Column::computed('action')
                 ->exportable(false)
@@ -159,6 +190,6 @@ class SPromotorDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 's_promotors_' . date('YmdHis');
+        return 'Commissions_' . date('YmdHis');
     }
 }

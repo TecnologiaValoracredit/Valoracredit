@@ -16,6 +16,7 @@
     <div class="row layout-top-spacing">
         <!-- CONTENT HERE -->
 
+
         @include('components.custom.forms.filters', [
             "rows" => [
                 [
@@ -43,10 +44,22 @@
                 <div class="d-flex justify-content-between align-items-center mb-2 p-2">
                     <h5 class="card-title">Ventas</h5>
                 </div>
+                <div class="d-flex justify-content-end m-3">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
+                        Subir excel
+                    </button>
+                </div>
+                
+                {{-- Modal --}}
+                @include('s_sales.modal_excel')
                 {{ $dataTable->table() }}
             </div>
         </div>
     </div>
+
+    
+
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>

@@ -14,6 +14,7 @@ class Bonus extends Model
         'name',
         'description',
         'objective',
+        'bonus_quantity_type_id',
         'bonus_type_id',
         'is_active',
         'created_by', 

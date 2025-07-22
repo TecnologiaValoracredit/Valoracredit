@@ -20,5 +20,9 @@ class PermissionModule18072025Seeder extends Seeder
         PermissionModule::create(["name" => "s_coordinators",  "description" => "Coordinadores", "module_type_id" => 2, "parent_id" => $commissions->id]);
         PermissionModule::create(["name" => "s_promotors",  "description" => "Promotores", "module_type_id" => 2, "parent_id" => $commissions->id]);
         PermissionModule::create(["name" => "commissions",  "description" => "Comisiones", "module_type_id" => 2, "parent_id" => $commissions->id]);
+
+        $s_sales = PermissionModule::where("name", "s_sal")->where("module_type_id", 1)->first();
+        PermissionModule::create(["name" => "s_branches",  "description" => "Sucursales dadas de alta en CrediSoft", "module_type_id" => 2, "parent_id" => $s_sales->id]);
+
     }
 }

@@ -15,12 +15,15 @@ return new class extends Migration
     {
         Schema::create('commissions', function (Blueprint $table) {
             //Tabla en donde se lleva un registro de todas las comisiónes que se entregan cada día
-            $table->bigIncrements(column: "id");
+            $table->smallIncrements(column: "id");
 
-            $table->float("total_sales")->comment('Cantidad de ventas que se hicieron');
-            $table->float("total_amount_sold")->comment('Cantidad de dinero que se vendió');
+            $table->integer("total_sales")->comment('Cantidad de ventas que se hicieron');
+            $table->integer("total_amount_sold")->comment('Cantidad de dinero que se vendió');
             $table->string("beneficiary_type")->comment('Tipo de beneficiario (Promotor, coordinador, broker)');
-            $table->float('amount_received')->comment('Importe entregado');
+            $table->integer('amount_received')->comment('Importe entregado');
+            $table->unsignedSmallInteger('s_sales_id');
+            $table->foreign('s_sales_id')->references('id')->on('s_sales')->comment('Venta por la cual se generó la comisión');
+
 
             $table->unsignedSmallInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->comment('Beneficiario');

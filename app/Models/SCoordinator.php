@@ -49,4 +49,8 @@ class SCoordinator extends Model
         return $this->hasMany(InstitutionCommission::class,'user_id', 'user_id');
     }
 
+    //Relacion con ventas
+    public function s_sales(){
+        return $this->hasMany(SSale::class,'s_coordinator_id', 'id');
+    }
 }

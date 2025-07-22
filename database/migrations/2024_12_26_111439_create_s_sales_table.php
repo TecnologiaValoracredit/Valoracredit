@@ -29,6 +29,10 @@ return new class extends Migration
             $table->unsignedSmallInteger('s_branch_id');
             $table->foreign('s_branch_id')->references('id')->on('s_branches');
 
+            $table->unsignedSmallInteger('s_promotor_id');
+            $table->foreign('s_promotor_id')->references('id')->on('s_promotor');
+
+
             $table->unsignedSmallInteger('s_coordinator_id');
             $table->foreign('s_coordinator_id')->references('id')->on('s_coordinators');
 

@@ -46,4 +46,9 @@ class SPromotor extends Model
     public function institution_commisions(){
         return $this->hasMany(InstitutionCommission::class,'user_id', 'user_id');
     }
+
+    //Relacion con ventas
+    public function s_sales(){
+        return $this->hasMany(SSale::class,'s_promotor_id', 'id');
+    }
 }

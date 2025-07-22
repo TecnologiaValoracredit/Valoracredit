@@ -20,7 +20,10 @@ class PermissionPermission18072025Seeder extends Seeder
         //Crear permisos
 		$this->createPermissions(["s_coordinators"]);
 		$this->createPermissions(["s_promotors"]);
-		$this->createPermissions(["commissions"]);
+		$this->createPermissions(["commissions"], ["exportReport"]);
+
+
+		$this->createPermissions(["s_branches"]);
     }
 
     public function createPermissions($moduleNames = [], $functionNames = [], $addCrudFunctions = true) {

@@ -20,6 +20,10 @@ return new class extends Migration
             $table->integer('objective')->comment('Cantidad objetivo');
             
 
+            $table->unsignedSmallInteger('bonus_quantity_type_id');
+            $table->foreign('bonus_quantity_type_id')->references('id')->on('bonus_quantity_types')->comment('Tipo de cantidad bonus');
+        
+
             $table->unsignedSmallInteger('bonus_type_id');
             $table->foreign('bonus_type_id')->references('id')->on('bonus_types')->comment('Tipo de bonus');
         

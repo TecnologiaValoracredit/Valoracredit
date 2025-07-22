@@ -13,17 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users_bonuses', function (Blueprint $table) {
-            //Tabla intermedia entre usuarios y bonos, su objetivo es registrar que bonos tiene un empleado
+        Schema::create('bonus_quantity_types', function (Blueprint $table) {
             $table->smallIncrements(column: "id");
-            $table->integer("bonus_percentage")->nullabel()->comment('Porcentaje de bono que se llevará');
-            $table->integer("bonus_amount")->nullable()->comment('Porcentaje de bono que se llevará');
-            
-            $table->unsignedSmallInteger('bonus_id');
-            $table->foreign('bonus_id')->references('id')->on('bonuses')->comment('Bono');
-        
-            $table->unsignedSmallInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->comment('Beneficiario');
+            $table->string("name")->comment("Nombre del tipo de cantidad");
+            $table->string("descripción")->nullable()->comment("Desc del tipo de cantidad");
 
             $table->timestamps(); 
             $table->string('notes', 1024)->nullable()->comment('Notas');    
@@ -42,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_bonuses');
+        Schema::dropIfExists('bonus_quantity_type');
     }
 };

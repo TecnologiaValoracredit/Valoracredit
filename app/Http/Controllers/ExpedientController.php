@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ExpedientImport;
 use Illuminate\Http\Request;
 use App\Models\Expedient;
 use App\DataTables\ExpedientDataTable;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class ExpedientController extends Controller
 {
@@ -41,4 +44,8 @@ class ExpedientController extends Controller
         return $this->getResponse($status, $message, $expedient);
     }
 
+    public function importExcel(Request $request){
+        dd("a");
+        Excel::import(new ExpedientImport, $request->file);
+    }
 }
