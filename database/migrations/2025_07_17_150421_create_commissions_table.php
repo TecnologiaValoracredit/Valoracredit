@@ -17,17 +17,20 @@ return new class extends Migration
             //Tabla en donde se lleva un registro de todas las comisiónes que se entregan cada día
             $table->smallIncrements(column: "id");
 
-            $table->integer("total_sales")->comment('Cantidad de ventas que se hicieron');
-            $table->integer("total_amount_sold")->comment('Cantidad de dinero que se vendió');
-            $table->string("beneficiary_type")->comment('Tipo de beneficiario (Promotor, coordinador, broker)');
-            $table->integer('amount_received')->comment('Importe entregado');
-            $table->unsignedBigInteger('s_sale_id');
-            $table->foreign('s_sale_id')->references('id')->on('s_sales')->comment('Venta por la cual se generó la comisión');
-
-
             $table->unsignedSmallInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->comment('Beneficiario');
 
+            $table->unsignedBigInteger('s_sale_id');
+            $table->foreign('s_sale_id')->references('id')->on('s_sales')->comment('Venta por la cual se generó la comisión');
+
+            // $table->integer("total_sales")->comment('Cantidad de ventas que se hicieron');
+            // $table->integer("total_amount_sold")->comment('Cantidad de dinero que se vendió');
+            $table->string("beneficiary_type")->comment('Tipo de beneficiario (Promotor, coordinador, broker)');
+            $table->integer('amount_received')->comment('Importe entregado');
+            $table->integer('commission_percentage')->comment('Porcenaje de la comisión');
+            
+
+            
             $table->timestamps(); 
             $table->string('notes', 1024)->nullable()->comment('Notas');    
             $table->boolean('is_active')->default(1)->comment('Muestra si la fila está activa');

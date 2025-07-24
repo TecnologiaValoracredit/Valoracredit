@@ -28,7 +28,7 @@ class SPromotor extends Model
 
     //Relación que se tiene con sus nombres
     public function promotorNames(){
-        return $this->hasMany(SPromotorName::class, 'promotor_id', 'id');
+        return $this->hasMany(SUserName::class, 'user_id', 'user_id');
     }
 
     //Relación que se tiene con las sucursales de CrediSoft

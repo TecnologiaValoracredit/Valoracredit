@@ -30,7 +30,7 @@ class SCoordinator extends Model
 
     //Relación que se tiene con sus nombres
     public function coordinatorNames(){
-        return $this->hasMany(SCoordinatorName::class, 'coordinator_id', 'id');
+        return $this->hasMany(SUserName::class, 'user_id', 'user_id');
     }
 
     //Relación que se tiene con las sucursales de CrediSoft

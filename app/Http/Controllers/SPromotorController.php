@@ -58,7 +58,7 @@ class SPromotorController extends Controller
             "name" => $request->name,
             "email" => $request->email,
             "password" => Hash::make($request->password),
-            "role_id" => 12,
+            "role_id" => 14,
             'is_active' => !is_null($request->is_active),
         ] );  
 

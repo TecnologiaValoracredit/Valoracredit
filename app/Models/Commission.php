@@ -11,12 +11,12 @@ class Commission extends Model
 
     protected $fillable = [
         'id',
-        'total_sales',
-        'total_amount_sold',
+        'user_id',
+        's_sale_id',
         'beneficiary_type',
         'amount_received',
-        'user_id',
-        'is_active',
+        'commission_percentage',
+        'is_active', 
         'created_by', 
         'updated_by',
     ];

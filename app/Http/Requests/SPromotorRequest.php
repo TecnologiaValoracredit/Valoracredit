@@ -24,7 +24,7 @@ class SPromotorRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'user_id' => 'required',
+			// 'user_id' => 'required',
 			'coordinator_id' => 'required',
 			'promotor_credisoft_id' => 'numeric',
 			'commission_percentage' => 'required|numeric',

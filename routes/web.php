@@ -129,12 +129,7 @@ Route::middleware("auth")->group(function () {
     Route::get('r_indicators/getRIndicatorFinalDataTable',  [RIndicatorController::class, 'getRIndicatorFinalDataTable'])->name('r_indicators.getRIndicatorFinalDataTable');
     Route::get('r_indicators/getRIndicatorDataTable',  [RIndicatorController::class, 'getRIndicatorDataTable'])->name('r_indicators.getRIndicatorDataTable');
 
-    //Comisiones - coordinadores y promotores
-    Route::get('commissions/getInstitutionCommissionDataTable/{user}',  [CommissionController::class, 'getInstitutionCommissionDataTable'])->name('commissions.getInstitutionCommissionDataTable');
-    Route::get('commissions/getSUserNameDataTable/{user}',  [CommissionController::class, 'getSUserNameDataTable'])->name('commissions.getSUserNameDataTable');
-
-    Route::post('commissions/addInstitution/{user}',  [CommissionController::class, 'addInstitution'])->name('commissions.addInstitution');
-    Route::post('commissions/addName/{user}',  [CommissionController::class, 'addName'])->name('commissions.addName');
+   
 });
 Route::get('pre_applications',  [PreApplicationController::class, 'index'])->name("pre_applications.index");
 Route::get('pre_applications_calculator',  [PreApplicationController::class, 'index'])->name("pre_applications_calculator.index");
@@ -145,7 +140,12 @@ Route::post('expedient/import_excel', [ExpedientController::class, "importExcel"
     Route::delete('commissions/deleteName/{s_user_name}',  [CommissionController::class, 'deleteName'])->name('commissions.deleteName');
 Route::get('commissions/export_report',  [CommissionController::class, 'exportReport'])->name("commissions.exportReport");
 
-});
+ //Comisiones - coordinadores y promotores
+    Route::get('commissions/getInstitutionCommissionDataTable/{user}',  [CommissionController::class, 'getInstitutionCommissionDataTable'])->name('commissions.getInstitutionCommissionDataTable');
+    Route::get('commissions/getSUserNameDataTable/{user}',  [CommissionController::class, 'getSUserNameDataTable'])->name('commissions.getSUserNameDataTable');
+
+    Route::post('commissions/addInstitution/{user}',  [CommissionController::class, 'addInstitution'])->name('commissions.addInstitution');
+    Route::post('commissions/addName/{user}',  [CommissionController::class, 'addName'])->name('commissions.addName');
 
 Route::get('/phpinfo', function () {
     phpinfo();

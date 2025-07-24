@@ -123,7 +123,7 @@ class SPromotorDataTable extends DataTable
     {
         $columns = [
            
-            Column::make('name')->title('Nombre')->name("user_name"),
+            Column::make('user_name')->title('Nombre')->name("user_name"),
             Column::make('coordinator_name')->title('Coordinador')->name("coordinator_name"),
             // ->searchable(true)
             // ->orderable(true)

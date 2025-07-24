@@ -75,13 +75,18 @@ class SSaleDataTable extends DataTable
             's_statuses.name as s_status_name',
             's_branches.name as s_branch_name',
 			'institutions.name as institution_name',
-            's_coordinators.name as s_coordinator_name',
+            'coordinator_users.name as coordinator_name',
+            'promotor_users.name as promotor_name',
+
 
 		)
         ->leftjoin('s_statuses', 's_sales.s_status_id', '=', 's_statuses.id')
         ->leftjoin('s_branches', 's_sales.s_branch_id', '=', 's_branches.id')
         ->leftjoin('institutions', 's_sales.institution_id', '=', 'institutions.id')
         ->leftjoin('s_coordinators', 's_sales.s_coordinator_id', '=', 's_coordinators.id')
+        ->leftJoin('users as coordinator_users', 's_coordinators.user_id', '=', 'coordinator_users.id')
+        ->leftjoin('s_promotors', 's_sales.s_promotor_id', '=', 's_promotors.id')
+        ->leftJoin('users as promotor_users', 's_promotors.user_id', '=', 'promotor_users.id')
 
 		->newQuery();
     }
@@ -135,7 +140,9 @@ class SSaleDataTable extends DataTable
             Column::make('total_amount')->title('Monto total'),
             Column::make('grant_date')->title('F. Otorgamiento'),
             Column::make('institution_name')->title('Institución')->name("institutions.name"),
-            Column::make('s_coordinator_name')->title('Coordinador')->name("s_coordinators.name"),
+            Column::make('coordinator_name')->title('Coordinador')->name("coordinator_name"),
+            Column::make('promotor_name')->title('Promotor')->name("promotor_name"),
+
             Column::make('s_branch_name')->title('Sucursal')->name("s_branches.name"),
             Column::make('s_status_name')->title('Estatus')->name("s_statuses.name"),
 

@@ -22,7 +22,15 @@ class SSaleController extends Controller
     }
 
     public function importExcel(Request $request){
-        Excel::import(new SalesImport, $request->file);
+        
+        try{
+            Excel::import(new SalesImport, $request->file);
+            return redirect()->back()->with('success','');
+        }
+        catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
     }
 
 }
