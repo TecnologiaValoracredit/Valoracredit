@@ -25,9 +25,11 @@ return new class extends Migration
 
             // $table->integer("total_sales")->comment('Cantidad de ventas que se hicieron');
             // $table->integer("total_amount_sold")->comment('Cantidad de dinero que se vendió');
-            $table->integer('amount_received')->comment('Importe entregado');
-            $table->integer('commission_percentage')->comment('Porcenaje de la comisión');
+            // $table->string("beneficiary_type")->comment('Tipo de beneficiario (Promotor, coordinador, broker)');
+            $table->float('amount_received')->comment('Importe entregado');
+            $table->float('commission_percentage')->comment('Porcenaje de la comisión');
             
+
             
             $table->timestamps(); 
             $table->string('notes', 1024)->nullable()->comment('Notas');    

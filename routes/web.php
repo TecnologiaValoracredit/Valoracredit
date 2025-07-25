@@ -122,30 +122,37 @@ Route::middleware("auth")->group(function () {
         Route::get('commissions',  [CommissionController::class, 'index'])->name("commissions.index");
     });
 
+        Route::post('s_sales/import_excel', [SSaleController::class, "importExcel"])->name("s_sales.importExcel");
+        Route::post('expedient/import_excel', [ExpedientController::class, "importExcel"])->name("expedients.importExcel");
+
+        Route::get('commissions/export_report',  [CommissionController::class, 'exportReport'])->name("commissions.exportReport");
+
+       
+    });
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
     Route::get('s_promotor_reports/getTable/{year}', [SPromotorReportController::class, "getTable"])->name("s_promotor_reports.getTable");
 
-    //DATATABLES
-    Route::get('r_indicators/getRIndicatorFinalDataTable',  [RIndicatorController::class, 'getRIndicatorFinalDataTable'])->name('r_indicators.getRIndicatorFinalDataTable');
-    Route::get('r_indicators/getRIndicatorDataTable',  [RIndicatorController::class, 'getRIndicatorDataTable'])->name('r_indicators.getRIndicatorDataTable');
-
-    });
-
-    Route::get('pre_applications',  [PreApplicationController::class, 'index'])->name("pre_applications.index");
-    Route::get('pre_applications_calculator',  [PreApplicationController::class, 'index'])->name("pre_applications_calculator.index");
-    Route::post('s_sales/import_excel', [SSaleController::class, "importExcel"])->name("s_sales.importExcel");
-    Route::post('expedient/import_excel', [ExpedientController::class, "importExcel"])->name("expedients.importExcel");
-
-    Route::delete('commissions/deleteInstitution/{institution_commission}',  [CommissionController::class, 'deleteInstitution'])->name('commissions.deleteInstitution');
-    Route::delete('commissions/deleteName/{s_user_name}',  [CommissionController::class, 'deleteName'])->name('commissions.deleteName');
-    Route::get('commissions/export_report',  [CommissionController::class, 'exportReport'])->name("commissions.exportReport");
-
-    //Comisiones - coordinadores y promotores
-    Route::get('commissions/getInstitutionCommissionDataTable/{user}',  [CommissionController::class, 'getInstitutionCommissionDataTable'])->name('commissions.getInstitutionCommissionDataTable');
+     Route::get('commissions/getInstitutionCommissionDataTable/{user}',  [CommissionController::class, 'getInstitutionCommissionDataTable'])->name('commissions.getInstitutionCommissionDataTable');
     Route::get('commissions/getSUserNameDataTable/{user}',  [CommissionController::class, 'getSUserNameDataTable'])->name('commissions.getSUserNameDataTable');
 
     Route::post('commissions/addInstitution/{user}',  [CommissionController::class, 'addInstitution'])->name('commissions.addInstitution');
     Route::post('commissions/addName/{user}',  [CommissionController::class, 'addName'])->name('commissions.addName');
+
+    Route::get('users/getBankDetailDataTable/{user}',  [UserController::class, 'getBankDetailDataTable'])->name('users.getBankDetailDataTable');
+    Route::post('users/addBankDetail/{user}',  [UserController::class, 'addBankDetail'])->name('users.addBankDetail');
+    Route::delete('users/deleteBankDetail/{bankDetail}',  [UserController::class, 'deleteBankDetail'])->name('users.deleteBankDetail');
+
+    Route::delete('commissions/deleteInstitution/{institution_commission}',  [CommissionController::class, 'deleteInstitution'])->name('commissions.deleteInstitution');
+    Route::delete('commissions/deleteName/{s_user_name}',  [CommissionController::class, 'deleteName'])->name('commissions.deleteName');
+    
+    //DATATABLES
+    Route::get('r_indicators/getRIndicatorFinalDataTable',  [RIndicatorController::class, 'getRIndicatorFinalDataTable'])->name('r_indicators.getRIndicatorFinalDataTable');
+    Route::get('r_indicators/getRIndicatorDataTable',  [RIndicatorController::class, 'getRIndicatorDataTable'])->name('r_indicators.getRIndicatorDataTable');
+
+   
+});
+// Route::get('pre_applications',  [PreApplicationController::class, 'index'])->name("pre_applications.index");
+// Route::get('pre_applications_calculator',  [PreApplicationController::class, 'index'])->name("pre_applications_calculator.index");
 
     Route::get('/phpinfo', function () {
         phpinfo();
