@@ -24,47 +24,50 @@ class CommissionDataTable extends DataTable
     {
         $datatable = (new EloquentDataTable($query))
         ->setRowId('id')
-        ->editColumn('date', function(Commission $role) {
-            return date("d/m/Y H:i", strtotime($role->created_at));
+        ->editColumn('grant_date', function(Commission $commission) {
+            return date("d/m/Y", strtotime($commission->sSale->grant_date));
         })
-        ->editColumn('created_at', function(Commission $role) {
-            return date("d/m/Y H:i", strtotime($role->created_at));
+        ->editColumn('created_at', function(Commission $commission) {
+            return date("d/m/Y H:i", strtotime($commission->created_at));
         })
-        ->editColumn('updated_at', function(Commission $role) {
-            return date("d/m/Y H:i", strtotime($role->updated_at));
+        ->editColumn('updated_at', function(Commission $commission) {
+            return date("d/m/Y H:i", strtotime($commission->updated_at));
         })
-        ->editColumn('is_active', function(Commission $role) {
-            if ($role->is_active) {
+        ->editColumn('beneficiary_type', function(Commission $commission) {
+            return $commission->user->user_type;
+        })
+        ->editColumn('credit_amount', function(Commission $commission) {
+            return '$' . number_format($commission->credit_amount, 2, '.', ',');
+        })
+        ->editColumn('opening_amount', function(Commission $commission) {
+            return '$' . number_format($commission->opening_amount, 2, '.', ',');
+        })
+        ->editColumn('amount_received', function(Commission $commission) {
+            return '$' . number_format($commission->amount_received, 2, '.', ',');
+        })
+        ->editColumn('is_active', function(Commission $commission) {
+            if ($commission->is_active) {
                 return '<span class="badge badge-success mb-2 me-4">Sí</span>';
             }
             return '<span class="badge badge-danger mb-2 me-4">No</span>';
-        });
+        })->rawColumns(["is_active"]);
 
-
-        $datatable->addColumn('action', function($row){
-            return $this->getActions($row);
-        })->rawColumns(["action", "is_active"]);
+         $datatable->filter(function($query) {
+            if(request('initial_date') !== null){
+                $query->whereDate('s_sales.grant_date', '>=', request('initial_date'));
+            }
+            
+            if(request('final_date') !== null){
+                $query->whereDate('s_sales.grant_date', '<=', request('final_date'));
+            }
+            
+		}, true);
 
         return $datatable;
     }
 
     public function getActions($row){
-        $result = null;
-        if (auth()->user()->hasPermissions("commissions.edit")) {
-            $result .= '
-                <a title="Editar" href='.route("commissions.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                </a>
-            ';
-        }
-        if (auth()->user()->hasPermissions("commissions.destroy")) {
-            $result .= '
-                <a onclick="deleteRow('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>        </a>
-                </a>
-            ';
-        }
-        return $result;
+        
 	}
 
     /**
@@ -78,11 +81,10 @@ class CommissionDataTable extends DataTable
         return $model->select(
             'commissions.*',
             'users.name as user_name',
+            's_sales.*'
         )
         ->leftJoin('users','commissions.user_id','=','users.id')
-        
-        
-        
+        ->leftJoin('s_sales','commissions.s_sale_id','=','s_sales.id')
         ->newQuery();
     }
 
@@ -97,6 +99,8 @@ class CommissionDataTable extends DataTable
                     ->parameters([
                         'paging' => true,
                         'searching' => true,
+                        'responsive' => true, // Habilitar responsividad
+                        'scrollX' =>true,
                         'info' => true,
                     ])
                     ->setTableId('commissions-table')
@@ -121,64 +125,20 @@ class CommissionDataTable extends DataTable
     public function getColumns(): array
     {
         $columns = [
-            Column::make('id')
-                    ->title('Id')
-                    ->searchable(false)
-                    ->visible(false),
-            Column::make('user_name')
-                    ->title('Nombre')
-                    ->searchable(true)
-                    ->orderable(true)
-                    ->printable(true)
-                    ->name("user_name"),
-            Column::make('total_sales')
-                    ->title('Ventas totales')
-                    ->searchable(true)
-                    ->orderable(false)
-                    ->printable(true),
-            Column::make('total_amount_sold')
-                    ->title('Número de ventas')
-                    ->searchable(true)
-                    ->orderable(false)
-                    ->printable(true),
-            Column::make('beneficary_type')
-                    ->title('Tipo de beneficiarío')
-                    ->searchable(true)
-                    ->orderable(false)
-                    ->printable(true),
-            Column::make('commission_percentage')
-                    ->title('Porcentaje de comisión')
-                    ->searchable(true)
-                    ->orderable(false)
-                    ->printable(true),
-            Column::make('amount_received')
-                    ->title('Importe')
-                    ->searchable(true)
-                    ->orderable(false)
-                    ->printable(true),
-            Column::make('date')
-                    ->title('Fecha')
-                    ->searchable(true)
-                    ->orderable(false)
-                    ->printable(true),
-            Column::make('created_at')->searchable(false)->title('Fecha creado'),
-            Column::make('updated_at')->searchable(false)->title('Fecha editado'),
+            Column::make('grant_date')->title('Fecha'),
+            Column::make('user_name')->title('Beneficiario')->name("user_name"),
+            Column::make('beneficiary_type')->title('Tipo')->searchable(false),
+            Column::make('credit_id')->title('# Crédito'),
+            Column::make('credit_amount')->title('Venta'),
+            Column::make('opening_amount')->title('Monto entregado'),
+            Column::make('commission_percentage')->title('% comisión'),
+            Column::make('amount_received')->title('Comisión'),
+
+            Column::make('created_at')->visible(true)->searchable(false)->title('Fecha creado'),
+            Column::make('updated_at')->visible(false)->searchable(false)->title('Fecha editado'),
             Column::make('is_active')->title("Activo"),
 
         ];
-
-        if (auth()->user()->hasPermissions("commissions.edit") ||
-            auth()->user()->hasPermissions("commissions.create") ||
-            auth()->user()->hasPermissions("commissions.destroy")) {
-            $columns = array_merge($columns, [
-                Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center')
-                ->title('Acciones')
-            ]);
-        }
 
         return $columns;
     }
