@@ -137,6 +137,22 @@ class User extends Authenticatable
         return $this->hasOne(SCoordinator::class,"user_id", "id");
     }
 
+    public function getUserTypeAttribute()
+    {
+        if ($this->promotor !== null) {
+            return 'Promotor';
+        }
+
+        if ($this->coordinator !== null) {
+            if ($this->coordinator->is_broker == true) {
+                return 'Broker';
+            }
+            return 'Coordinador';
+        }
+
+        return 'NA';
+    }
+
     public function activate()
     {
         $this->update(["is_active" => true]);
