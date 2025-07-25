@@ -25,7 +25,9 @@ class Commission extends Model
         return $this->belongsTo(User::class);
     }
 
-     public function sSale(){
+    //Relación con la venta
+    public function sSale(){
         return $this->belongsTo(SSale::class);
     }
+    
 }
