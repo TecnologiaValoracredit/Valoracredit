@@ -119,9 +119,9 @@ Route::middleware("auth")->group(function () {
         //Commissions 
         Route::resource('s_coordinators', SCoordinatorController::class);
         Route::resource('s_promotors', SPromotorController::class);
-        Route::resource('commissions', CommissionController::class);
-
+        Route::get('commissions',  [CommissionController::class, 'index'])->name("commissions.index");
     });
+
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
     Route::get('s_promotor_reports/getTable/{year}', [SPromotorReportController::class, "getTable"])->name("s_promotor_reports.getTable");
 
@@ -129,29 +129,29 @@ Route::middleware("auth")->group(function () {
     Route::get('r_indicators/getRIndicatorFinalDataTable',  [RIndicatorController::class, 'getRIndicatorFinalDataTable'])->name('r_indicators.getRIndicatorFinalDataTable');
     Route::get('r_indicators/getRIndicatorDataTable',  [RIndicatorController::class, 'getRIndicatorDataTable'])->name('r_indicators.getRIndicatorDataTable');
 
-   
-});
-Route::get('pre_applications',  [PreApplicationController::class, 'index'])->name("pre_applications.index");
-Route::get('pre_applications_calculator',  [PreApplicationController::class, 'index'])->name("pre_applications_calculator.index");
-Route::post('s_sales/import_excel', [SSaleController::class, "importExcel"])->name("s_sales.importExcel");
-Route::post('expedient/import_excel', [ExpedientController::class, "importExcel"])->name("expedients.importExcel");
+    });
+
+    Route::get('pre_applications',  [PreApplicationController::class, 'index'])->name("pre_applications.index");
+    Route::get('pre_applications_calculator',  [PreApplicationController::class, 'index'])->name("pre_applications_calculator.index");
+    Route::post('s_sales/import_excel', [SSaleController::class, "importExcel"])->name("s_sales.importExcel");
+    Route::post('expedient/import_excel', [ExpedientController::class, "importExcel"])->name("expedients.importExcel");
 
     Route::delete('commissions/deleteInstitution/{institution_commission}',  [CommissionController::class, 'deleteInstitution'])->name('commissions.deleteInstitution');
     Route::delete('commissions/deleteName/{s_user_name}',  [CommissionController::class, 'deleteName'])->name('commissions.deleteName');
-Route::get('commissions/export_report',  [CommissionController::class, 'exportReport'])->name("commissions.exportReport");
+    Route::get('commissions/export_report',  [CommissionController::class, 'exportReport'])->name("commissions.exportReport");
 
- //Comisiones - coordinadores y promotores
+    //Comisiones - coordinadores y promotores
     Route::get('commissions/getInstitutionCommissionDataTable/{user}',  [CommissionController::class, 'getInstitutionCommissionDataTable'])->name('commissions.getInstitutionCommissionDataTable');
     Route::get('commissions/getSUserNameDataTable/{user}',  [CommissionController::class, 'getSUserNameDataTable'])->name('commissions.getSUserNameDataTable');
 
     Route::post('commissions/addInstitution/{user}',  [CommissionController::class, 'addInstitution'])->name('commissions.addInstitution');
     Route::post('commissions/addName/{user}',  [CommissionController::class, 'addName'])->name('commissions.addName');
 
-Route::get('/phpinfo', function () {
-    phpinfo();
-});
+    Route::get('/phpinfo', function () {
+        phpinfo();
+    });
 
-Route::get('/unauthorized', function () {
-    return view('pages.unauthorized', ['title' => 'Usuario no autorizado']);
-})->name("unauthorized");
+    Route::get('/unauthorized', function () {
+        return view('pages.unauthorized', ['title' => 'Usuario no autorizado']);
+    })->name("unauthorized");
 

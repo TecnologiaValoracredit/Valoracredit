@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('s_branches', function (Blueprint $table) {
-            $table->string('segment')->nullable()->unique()->comment('Segmento de la sucursal');
-            $table->string('accounting_account')->nullable()->unique()->comment('Cuenta contable de la sucursal');
+            $table->string('segment')->nullable()->comment('Segmento de la sucursal');
+            $table->string('accounting_account')->nullable()->comment('Cuenta contable de la sucursal');
             
         });
     }

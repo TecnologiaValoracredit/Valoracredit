@@ -13,7 +13,6 @@ class Commission extends Model
         'id',
         'user_id',
         's_sale_id',
-        'beneficiary_type',
         'amount_received',
         'commission_percentage',
         'is_active', 
@@ -24,5 +23,9 @@ class Commission extends Model
     //Relación que se tiene con los usuarios (coordinador y promnotor)
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+     public function sSale(){
+        return $this->belongsTo(SSale::class);
     }
 }
