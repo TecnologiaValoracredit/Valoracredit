@@ -19,6 +19,9 @@ class Role21072025Seeder extends Seeder
             'id' => 13,
             'name'=> 'Cooridnador',
         ]);
-       
+       Role::create([
+            'id' => 14,
+            'name'=> 'Promotor',
+        ]);
     }
 }

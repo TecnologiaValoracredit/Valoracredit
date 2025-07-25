@@ -30,6 +30,10 @@ WithHeadingRow
     {
         foreach ($rows as $key => $row) {
 
+            // if($key == 0) {
+            //     dd($row);
+            // }
+
             $institution = null;
             $sBranch = null;
             $sStatus = null;
@@ -54,7 +58,7 @@ WithHeadingRow
 
             //Lógica de negocio, si las instituciones son Secc 5 || 38 y sucursal no es Saltillo, se asigna Torreon (? lol)
             if (($institution->name == "SECCION 5" || $institution->name == "SECCION 38") && $sBranch->name != "SALTILLO"){
-                dd($institution, $sBranch);
+                // dd($institution, $sBranch);
                 $sBranch = SBranch::where("name", "TORREON")->first();
             }
 
@@ -76,7 +80,7 @@ WithHeadingRow
             $coordinatorRow = $row["coordinador"];
             if(empty($coordinatorRow)) {
                 //Verificar que el id corresponda al usuario "No coordinador"
-                $coordinator = SCoordinator::where("user_id", 16)->first();
+                $coordinator = SCoordinator::where("user_id", 17)->first();
             }else{
                 $coordinator = SCoordinator::whereHas('user', function ($query) use ($coordinatorRow) {
                     $query->where('name', $coordinatorRow);
@@ -132,9 +136,62 @@ WithHeadingRow
                     's_coordinator_id' => $coordinator->id ?? null
                 ]);
 
-                $commission = Commission::create([
-                    
+                // dd($sSale);
+
+                //Obtenemos su porcentaje de comisión 
+                if($promotor->institutionCommisions && $promotor->institutionCommissions->contains('institution_id', $institution->id)){
+                    $institution_commission = $promotor->institutionCommissions
+                                                ->where('institution_id', $institution->id)
+                                                ->first();
+                    $commission_percentage = $institution_commission->commission_percentage;
+                }else{
+                    $commission_percentage = $promotor->commission_percentage;
+                }
+                $commissionPromotor = Commission::create([
+                    'user_id' => $promotor->user_id,
+                    's_sale_id' => $sSale->id, 
+                    'commission_percentage' => $commission_percentage,
+                    'amount_received' => $sSale->credit_amount * ($commission_percentage / 100),
+                    // 'id',
+                    // 'user_id',
+                    // 's_sale_id',
+                    // 'beneficiary_type',
+                    // 'amount_received',
+                    // 'commission_percentage',
+                    // 'is_active', 
+                    // 'created_by', 
+                    // 'updated_by',
                 ]);
+
+                //Si el user_id del coordinador es diferente al user_id del promotor (Que no se tiene a si mismo de coordenador)
+                if($promotor->coordinator->user_id != $promotor->user_id){
+                    //Obtenemos su porcentaje de comisión
+                    if($coordinator->institutionCommisions && $coordinator->institutionCommissions->contains('institution_id', $institution->id)){
+                        $institution_commission = $coordinator->institutionCommissions
+                                                    ->where('institution_id', $institution->id)
+                                                    ->first();
+                        $commission_percentage = $institution_commission->commission_percentage;
+                    }else{
+                        $commission_percentage = $coordinator->commission_percentage;
+                    }
+
+                    $commissionCoordinator = Commission::create([
+                        'user_id' => $coordinator->user_id,
+                        's_sale_id' => $sSale->id, 
+                        'commission_percentage' => $commission_percentage,
+                        'amount_received' => $sSale->credit_amount * ($commission_percentage / 100),
+                        // 'id',
+                        // 'user_id',
+                        // 's_sale_id',
+                        // 'beneficiary_type',
+                        // 'amount_received',
+                        // 'commission_percentage',
+                        // 'is_active', 
+                        // 'created_by', 
+                        // 'updated_by',
+                ]);
+
+                }
             }
             // dd($sSale, $institution, $sBranch, $sStatus, $sCreditType, $coordinator, $promotor);
         }

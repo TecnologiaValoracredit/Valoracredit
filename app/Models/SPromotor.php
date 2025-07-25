@@ -51,4 +51,9 @@ class SPromotor extends Model
     public function s_sales(){
         return $this->hasMany(SSale::class,'s_promotor_id', 'id');
     }
+
+    //Relacion con coordinador
+    public function coordinator(){
+        return $this->belongsTo(SCoordinator::class);
+    }
 }
