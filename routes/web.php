@@ -120,7 +120,6 @@ Route::middleware("auth")->group(function () {
         Route::resource('s_coordinators', SCoordinatorController::class);
         Route::resource('s_promotors', SPromotorController::class);
         Route::get('commissions',  [CommissionController::class, 'index'])->name("commissions.index");
-    });
 
         Route::post('s_sales/import_excel', [SSaleController::class, "importExcel"])->name("s_sales.importExcel");
         Route::post('expedient/import_excel', [ExpedientController::class, "importExcel"])->name("expedients.importExcel");
