@@ -50,5 +50,10 @@ class DepartamentSeeder extends Seeder
             "name" => "Marketing",
             "description" => "",
         ]);
+         //8
+        Departament::create([
+            "name" => "Comercial",
+            "description" => "",
+        ]);
     }
 }

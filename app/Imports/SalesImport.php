@@ -80,7 +80,7 @@ WithHeadingRow
             $coordinatorRow = $row["coordinador"];
             if(empty($coordinatorRow)) {
                 //Verificar que el id corresponda al usuario "No coordinador"
-                $coordinator = SCoordinator::where("user_id", 17)->first();
+                $coordinator = SCoordinator::find(User::where("name", "SIN COORDINADOR")->first()->coordinator->id)->first();
             }else{
                 $coordinator = SCoordinator::whereHas('user', function ($query) use ($coordinatorRow) {
                     $query->where('name', $coordinatorRow);
@@ -99,7 +99,7 @@ WithHeadingRow
 
             if (empty($promotorRow)) {
                 // Asignar usuario "No promotor"
-                $promotor = SPromotor::where('user_id', 17)->first();
+                $promotor = SPromotor::find(User::where("name", "PROMOTOR SIN")->first()->promotor->id)->first();
                 
                 if (!$promotor) {
                     throw new \Exception("Promotor por defecto (ID: 17) no encontrado.");

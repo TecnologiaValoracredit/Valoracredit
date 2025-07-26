@@ -76,7 +76,7 @@ class CommissionSheet implements FromCollection, WithHeadings, WithStyles, WithT
 
         return $rows;
     }
-    
+
     public function title(): string
     {
         return 'Comisiones';

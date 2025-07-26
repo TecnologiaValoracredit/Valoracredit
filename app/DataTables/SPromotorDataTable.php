@@ -123,14 +123,14 @@ class SPromotorDataTable extends DataTable
     {
         $columns = [
            
-            Column::make('user_name')->title('Nombre')->name("user_name"),
-            Column::make('coordinator_name')->title('Coordinador')->name("coordinator_name"),
+            Column::make('user_name')->title('Nombre')->name("users.name"),
+            Column::make('coordinator_name')->title('Coordinador')->name("coordinator_users.name"),
             // ->searchable(true)
             // ->orderable(true)
             // ->printable(true),
 
             Column::make('commission_percentage')->title('Porcentaje de comisión'),
-            Column::make('branch_name')->title('Sucursal')->name("branch_name"),
+            Column::make('branch_name')->title('Sucursal')->name("s_branches.name"),
            
             Column::make('is_active')->title("Activo"),
 

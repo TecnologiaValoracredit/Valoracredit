@@ -141,14 +141,16 @@ class User extends Authenticatable
     {
         if ($this->promotor !== null) {
             return 'Promotor';
+        }else{
+            if ($this->coordinator !== null) {
+                if ($this->coordinator->is_broker == true) {
+                    return 'Broker';
+                }
+                return 'Coordinador';
+            }
         }
 
-        if ($this->coordinator !== null) {
-            if ($this->coordinator->is_broker == true) {
-                return 'Broker';
-            }
-            return 'Coordinador';
-        }
+        
 
         return 'NA';
     }

@@ -16,10 +16,62 @@ class SBranchSeeder extends Seeder
     public function run()
     {
         SBranch::create([
-            'name'=> 'Sucursal de prueba credisoft 1',
+            'name'=> 'B1 EDUARDO MEZA',
+            'segment' => '2104',
+            'accounting_account' => '50401001'
         ]);
+
         SBranch::create([
-            'name'=> 'Sucursal de prueba credisoft 2',
+            'name'=> 'B3 ERICK VILLEGAS',
+            'segment' => '2600',
+            'accounting_account' => '50401001'
         ]);
+
+        SBranch::create([
+            'name'=> 'B4 MARIO ALANIS',
+            'segment' => '2104',
+            'accounting_account' => '50401001'
+        ]);
+
+        SBranch::create([
+            'name'=> 'B5 CHRISTIAN EDUARDO GARCIA',
+        ]);
+
+        SBranch::create([
+            'name'=> 'MATRIZ',
+            'segment' => '2101',
+            'accounting_account' => '50401001'
+        ]);
+
+        SBranch::create([
+            'name'=> 'MEXICALI',
+            'segment' => '2600',
+            'accounting_account' => '50401001'
+        ]);
+
+        SBranch::create([
+            'name'=> 'TELEMARKETING MATRIZ',
+            'segment' => '2101',
+            'accounting_account' => '50401001'
+        ]);
+
+        SBranch::create([
+            'name'=> 'TIJUANA',
+            'segment' => '2101',
+            'accounting_account' => '50401001'
+        ]);
+
+        SBranch::create([
+            'name'=> 'TORREON',
+            'segment' => '2201',
+            'accounting_account' => '50401001'
+        ]);
+
+        SBranch::create([
+            'name'=> 'SALTILLO',
+            'segment' => '2200',
+            'accounting_account' => '50401001'
+        ]);
+       
     }
 }

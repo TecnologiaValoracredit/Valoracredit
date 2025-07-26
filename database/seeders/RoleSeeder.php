@@ -71,6 +71,16 @@ class RoleSeeder extends Seeder
             "description" => ""
         ]);
 
+        //12
+        Role::create([
+            "name" => "Promotor",
+            "description" => ""
+        ]);
+        //13
+        Role::create([
+            "name" => "Coordinador",
+            "description" => ""
+        ]);
         
     }
 }
