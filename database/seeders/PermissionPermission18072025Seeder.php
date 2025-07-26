@@ -21,6 +21,7 @@ class PermissionPermission18072025Seeder extends Seeder
 		$this->createPermissions(["s_coordinators"]);
 		$this->createPermissions(["s_promotors"]);
 		$this->createPermissions(["commissions"], ["exportReport"]);
+		$this->createPermissions(["s_sales"], ["importExcel"], false);
 
 
 		$this->createPermissions(["s_branches"]);

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\BankDetailDataTable;
+use App\Models\BankDetail;
 use Illuminate\Http\Request;
 use App\DataTables\UsersDataTable;
 use App\Models\Role;
 use App\Models\Branch;
+use App\Models\Bank;
 use App\Models\Departament;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
@@ -93,7 +96,14 @@ class UserController extends Controller
         $roles = Role::where("is_active", 1)->pluck("name", "id");
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
-        return view('users.edit', compact("user", "roles", "branches", "departaments"));
+        $banks = Bank::where("is_active",1)->pluck("name", "id");
+
+        $bankDetailDataTable = new BankDetailDataTable($user);
+        $params = ['user' => $user];
+        $bankDetailDT = $this->getViewDataTable($bankDetailDataTable, 'users', [], 'users.getBankDetailDataTable', $params);
+
+
+        return view('users.edit', compact("user", "roles", "branches", "departaments", "banks", "bankDetailDT"));
     }
 
     public function update(UserRequest $request, User $user)
@@ -140,5 +150,41 @@ class UserController extends Controller
         return $this->getResponse($status, $message);
     }
 
+    public function addBankDetail(User $user, Request $request)
+    {
+        $status = true;
+        try {
+           $user->bankDetails()->create(
+    [
+                    'bank_id' => $request->bank_id,
+                    "account_number" => $request->account_number
+                ], // Campos para buscar
+            );
+            $message = "Detalle bancario creado correctamente";
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'bank_details');
+        }
+        return $this->getResponse($status, $message);
+    }
+
+    //Método para elimianr el nombre
+    public function deleteBankDetail(BankDetail $bankDetail)
+    {
+        $status = true;
+        try {
+            $bankDetail->delete();
+            $message = "Detalle bancario eliminado correctamente";
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'bank_details');
+        }
+        return $this->getResponse($status, $message);
+    }
+
+    public function getBankDetailDataTable(User $user)
+    {
+        return (new BankDetailDataTable($user))->render('components.datatable');
+    }
 
 }
