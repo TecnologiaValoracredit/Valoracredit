@@ -90,7 +90,8 @@ class CommissionController extends Controller
         try {
            $user->institutions()->updateOrCreate(
                 ['institution_id' => $request->institution_id], // Campos para buscar
-                ['percentage' => $request->percentage]          // Campos para crear o actualizar
+                ['percentage' => $request->percentage,
+                        'created_by' =>  auth()->id(),]          // Campos para crear o actualizar
             );
             $message = "Comisión actualizada correctamente";
         } catch (\Illuminate\Database\QueryException $e) {

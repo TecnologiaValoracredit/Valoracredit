@@ -62,6 +62,8 @@ class SPromotorController extends Controller
                 'user_id' => $request->user_id,
                 's_coordinator_id' => $request->s_coordinator_id,
                 'is_active' => !is_null($request->is_active),
+                'created_by' =>  auth()->id(),
+                'updated_by' =>  auth()->id(),
             ]);
 
             $s_promotor = SPromotor::create($params);
@@ -109,6 +111,7 @@ class SPromotorController extends Controller
         $status = true;
         $params = array_merge($request->all(), [
             'is_active' => $request->has('is_active') ? 1 : 0, 
+            'updated_by' =>  auth()->id(),
         ]);
     
         try {
