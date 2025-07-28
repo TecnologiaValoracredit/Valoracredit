@@ -41,11 +41,12 @@ class SPromotorController extends Controller
                                         ->with('user')
                                         ->get()
                                         ->pluck('user.name', 'id');
+        $users = User::whereBetween("role_id", [12,13])->pluck("name","id");
 
         $isEdit = false;
 
         
-        return view('s_promotors.create', compact('roles', 'branches', 's_branches','departaments', 's_coordinators', 'isEdit'));
+        return view('s_promotors.create', compact('roles', 'branches', 's_branches','departaments', 's_coordinators', 'users', 'isEdit'));
 
     }
 
@@ -53,22 +54,12 @@ class SPromotorController extends Controller
     {
         $status = true;
         $s_promotor = null;
-
-        $userParams = array_merge($request->all(), [
-            "name" => $request->name,
-            "email" => $request->email,
-            "password" => Hash::make($request->password),
-            "role_id" => 14,
-            'is_active' => !is_null($request->is_active),
-        ] );  
-
         try {
-            $user = User::create($userParams);
 
             $params = array_merge($request->all(), [
                 'commission_percentage' => $request->commission_percentage,
                 's_branch_id' => $request->s_branch_id,
-                'user_id' => $user->id,
+                'user_id' => $request->user_id,
                 's_coordinator_id' => $request->s_coordinator_id,
                 'is_active' => !is_null($request->is_active),
             ]);
@@ -94,6 +85,7 @@ class SPromotorController extends Controller
                                         ->with('user')
                                         ->get()
                                         ->pluck('user.name', 'id');
+        $users = User::whereBetween("role_id", [12,13])->pluck("name","id");
 
         $isEdit = true;
 
@@ -107,7 +99,7 @@ class SPromotorController extends Controller
 
         $institutions = Institution::where("is_active", 1)->orderBy("name", "asc")->pluck("name", "id");
 
-        return view('s_promotors.edit', compact("s_promotor", 'roles', 'branches', 's_branches','departaments', 'isEdit', 'institutionDT', 'sUserNameDT', 'institutions', 's_coordinators'));
+        return view('s_promotors.edit', compact("s_promotor", 'roles', 'branches', 's_branches','departaments', 'users','isEdit', 'institutionDT', 'sUserNameDT', 'institutions', 's_coordinators'));
         
      
     }
@@ -121,7 +113,6 @@ class SPromotorController extends Controller
     
         try {
             $s_promotor->update($params);
-            $s_promotor->user->update(["name" => $params["name"]]);
             if ($params["is_active"] == 0) {
                 $s_promotor->user->update(["is_active" => false]);
             }else if ($params["is_active"] == 1) {

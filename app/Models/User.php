@@ -139,15 +139,13 @@ class User extends Authenticatable
 
     public function getUserTypeAttribute()
     {
-        if ($this->promotor !== null) {
-            return 'Promotor';
-        }else{
-            if ($this->coordinator !== null) {
-                if ($this->coordinator->is_broker == true) {
-                    return 'Broker';
-                }
-                return 'Coordinador';
+        if($this->coordinator != null || $this->promotor != null && $this->coordinator != null){
+            if($this->coordinator->is_broker){
+                return 'Broker';
             }
+            return 'Coordinador';
+        }else{
+            return 'Promotor';
         }
 
         return 'NA';

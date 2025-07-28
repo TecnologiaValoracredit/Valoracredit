@@ -30,7 +30,7 @@ class CommissionSheet implements FromCollection, WithHeadings, WithStyles, WithT
             return [
                 $item->bank_name,
                 $item->account_number,
-                User::find($item->user_id)->first()->user_type,
+                User::where("id",$item->user_id)->first()->user_type,
                 $item->user_name,
                 $item->total_commission,
                 Carbon::parse($item->sale_day)->format('d/m/Y'),
