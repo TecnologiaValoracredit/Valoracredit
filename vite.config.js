@@ -49,6 +49,7 @@ export default defineConfig({
                 'resources/js/s_coordinator_report_graphics.js',
                 'resources/js/s_promotor_reports.js',
                                 
+                'resources/js/users/generals.js',
                 'resources/js/commissions/generals.js',
                 'resources/js/commissions/index.js',
 

@@ -26,5 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('components.menu.vertical-menu', MenuComposer::class);
+        View::composer('components.navbar.style-vertical-menu', MenuComposer::class);
+
     }
 }

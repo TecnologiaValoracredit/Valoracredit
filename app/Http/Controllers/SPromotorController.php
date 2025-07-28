@@ -41,7 +41,7 @@ class SPromotorController extends Controller
                                         ->with('user')
                                         ->get()
                                         ->pluck('user.name', 'id');
-        $users = User::whereBetween("role_id", [12,13])->pluck("name","id");
+        $users = User::whereBetween("role_id", [19,20])->pluck("name","id");
 
         $isEdit = false;
 
@@ -85,7 +85,7 @@ class SPromotorController extends Controller
                                         ->with('user')
                                         ->get()
                                         ->pluck('user.name', 'id');
-        $users = User::whereBetween("role_id", [12,13])->pluck("name","id");
+        $users = User::whereBetween("role_id", [19,20])->pluck("name","id");
 
         $isEdit = true;
 

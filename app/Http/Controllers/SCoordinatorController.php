@@ -39,7 +39,7 @@ class SCoordinatorController extends Controller
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $s_branches = SBranch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
-        $users = User::whereBetween("role_id", [12,13])->pluck("name","id");
+        $users = User::where("role_id", 20)->pluck("name","id");
         $isEdit = false;
 
         return view('s_coordinators.create', compact('roles', 'branches', 's_branches', 'departaments', 'isEdit', 'users'));
@@ -77,7 +77,7 @@ class SCoordinatorController extends Controller
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $s_branches = SBranch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
-        $users = User::whereBetween("role_id", [12,13])->pluck("name","id");
+        $users = User::where("role_id", 20)->pluck("name","id");
         $user = $s_coordinator->user;
         $isEdit = true;
 
