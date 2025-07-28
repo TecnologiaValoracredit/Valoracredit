@@ -18,217 +18,53 @@ class MenuSeeder extends Seeder
      */
     public function run()
     {
-
-        Menu::create([
-            "name" => "Inicio",
-            "parent_id" => null,
-            "position" => 0.9,
-            "permission_id" => $this->getPermissionId("dashboard")
-        ]);
-
-        //Si es un menu que tiene hijos este no tendrá permisos, ya que solo será para desplegar los hijos
-        $exp = Menu::create([
-            "name" => "Expedientes",
-            "parent_id" => null,
-            "position" => 1,
-        ]);
-
-        Menu::create([
-            "name" => "Expedientes",
-            "parent_id" => $exp->id,
-            "position" => 1.1,
-            "permission_id" => $this->getPermissionId("expedients")
-        ]);
-
-        Menu::create([
-            "name" => "Reporte",
-            "parent_id" => $exp->id,
-            "position" => 1.2,
-            "permission_id" => $this->getPermissionId("exp_reports")
-        ]);
-
-        Menu::create([
-            "name" => "Checklist",
-            "parent_id" => $exp->id,
-            "position" => 1.3,
-            "permission_id" => $this->getPermissionId("chk_checklists")
-        ]);
-
-
-        $sal = Menu::create([
-            "name" => "Ventas",
-            "parent_id" => null,
-            "position" => 2,
-        ]);
-        Menu::create([
-            "name" => "Ventas",
-            "parent_id" => $sal->id,
-            "position" => 2.1,
-            "permission_id" => $this->getPermissionId("s_sales")
-        ]);
-
-        Menu::create([
-            "name" => "Reporte general",
-            "parent_id" => $sal->id,
-            "position" => 2.3,
-            "permission_id" => $this->getPermissionId("s_general_reports")
-        ]);
-
-        Menu::create([
-            "name" => "Reporte por institución",
-            "parent_id" => $sal->id,
-            "position" => 2.4,
-            "permission_id" => $this->getPermissionId("s_institution_reports")
-        ]);
-        Menu::create([
-            "name" => "Reporte mensual",
-            "parent_id" => $sal->id,
-            "position" => 2.5,
-            "permission_id" => $this->getPermissionId("s_mensual_reports")
-        ]);
-
-        Menu::create([
-            "name" => "Coordinadores",
-            "parent_id" => $sal->id,
-            "position" => 2.2,
-            "permission_id" => $this->getPermissionId("s_coordinators")
-        ]);
-
-        Menu::create([
-            "name" => "Reporte coordinadores",
-            "parent_id" => $sal->id,
-            "position" => 2.6,
-            "permission_id" => $this->getPermissionId("s_coordinator_reports")
-        ]);
-
+        $menus = array(
+        array('id' => '1','name' => 'Inicio','icon' => NULL,'parent_id' => NULL,'position' => '0.90','permission_id' => '1','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '2','name' => 'Expedientes','icon' => NULL,'parent_id' => NULL,'position' => '1.00','permission_id' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '3','name' => 'Expedientes','icon' => NULL,'parent_id' => '2','position' => '1.10','permission_id' => '25','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '4','name' => 'Reporte','icon' => NULL,'parent_id' => '2','position' => '1.20','permission_id' => '29','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '5','name' => 'Checklist','icon' => NULL,'parent_id' => '2','position' => '1.30','permission_id' => '30','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '6','name' => 'Ventas','icon' => NULL,'parent_id' => NULL,'position' => '2.00','permission_id' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '7','name' => 'Ventas','icon' => NULL,'parent_id' => '6','position' => '2.10','permission_id' => '58','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '8','name' => 'Reporte general','icon' => NULL,'parent_id' => '6','position' => '2.30','permission_id' => '59','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '9','name' => 'Reporte por institución','icon' => NULL,'parent_id' => '6','position' => '2.40','permission_id' => '60','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '10','name' => 'Reporte mensual','icon' => NULL,'parent_id' => '6','position' => '2.50','permission_id' => '61','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '11','name' => 'Coordinadores','icon' => NULL,'parent_id' => '6','position' => '2.20','permission_id' => '119','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '12','name' => 'Reporte coordinadores','icon' => NULL,'parent_id' => '6','position' => '2.60','permission_id' => '62','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '13','name' => 'Usuarios','icon' => NULL,'parent_id' => NULL,'position' => '100.00','permission_id' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '14','name' => 'Roles','icon' => NULL,'parent_id' => '13','position' => '100.10','permission_id' => '2','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '15','name' => 'Departamentos','icon' => NULL,'parent_id' => '13','position' => '100.20','permission_id' => '16','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '16','name' => 'Usuarios','icon' => NULL,'parent_id' => '13','position' => '100.30','permission_id' => '9','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '17','name' => 'Requisiciones','icon' => NULL,'parent_id' => NULL,'position' => '3.00','permission_id' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '18','name' => 'Proveedores','icon' => NULL,'parent_id' => '17','position' => '3.10','permission_id' => '37','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '19','name' => 'Sucursales','icon' => NULL,'parent_id' => '17','position' => '3.20','permission_id' => '44','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '20','name' => 'Requisiciones','icon' => NULL,'parent_id' => '17','position' => '3.20','permission_id' => '51','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '21','name' => 'Flujo','icon' => NULL,'parent_id' => NULL,'position' => '4.00','permission_id' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '22','name' => 'Flujo','icon' => NULL,'parent_id' => '21','position' => '4.10','permission_id' => '85','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '23','name' => 'Cuentas','icon' => NULL,'parent_id' => '21','position' => '4.20','permission_id' => '92','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '24','name' => 'Beneficiarios','icon' => NULL,'parent_id' => '21','position' => '4.30','permission_id' => '99','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '25','name' => 'Clasificaciones','icon' => NULL,'parent_id' => '21','position' => '4.40','permission_id' => '112','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '26','name' => 'Reportes','icon' => NULL,'parent_id' => '21','position' => '4.50','permission_id' => '109','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '27','name' => 'Activos','icon' => NULL,'parent_id' => NULL,'position' => '5.00','permission_id' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '28','name' => 'Activos','icon' => NULL,'parent_id' => '27','position' => '5.10','permission_id' => '63','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '29','name' => 'Tipos de Activos','icon' => NULL,'parent_id' => '27','position' => '5.20','permission_id' => '70','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '30','name' => 'Marcas de Activos','icon' => NULL,'parent_id' => '27','position' => '5.30','permission_id' => '77','created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36'),
+        array('id' => '31','name' => 'Reporte ranking','icon' => NULL,'parent_id' => '6','position' => '2.70','permission_id' => '133','created_at' => '2025-06-26 10:25:47','updated_at' => '2025-06-26 10:25:47'),
+        array('id' => '32','name' => 'Reporte indicadores','icon' => NULL,'parent_id' => '6','position' => '2.80','permission_id' => '134','created_at' => '2025-07-18 10:33:53','updated_at' => '2025-07-18 10:33:53')
+        );
         
-        //Si es un menu que tiene hijos este no tendrá permisos, ya que solo será para desplegar los hijos
-        $users = Menu::create([
-            "name" => "Usuarios",
-            "parent_id" => null,
-            "position" => 100,
-        ]);
-
-        Menu::create([
-            "name" => "Roles",
-            "parent_id" => $users->id,
-            "position" => 100.1,
-            "permission_id" => $this->getPermissionId("roles")
-        ]);
-
-        Menu::create([
-            "name" => "Departamentos",
-            "parent_id" => $users->id,
-            "position" => 100.2,
-            "permission_id" => $this->getPermissionId("departaments")
-        ]);
-
-        Menu::create([
-            "name" => "Usuarios",
-            "parent_id" => $users->id,
-            "position" => 100.3,
-            "permission_id" => $this->getPermissionId("users")
-        ]);
-
-        $req = Menu::create([
-            "name" => "Requisiciones",
-            "parent_id" => null,
-            "position" => 3,
-        ]);
-        Menu::create([
-            "name" => "Proveedores",
-            "parent_id" => $req->id,
-            "position" => 3.1,
-            "permission_id" => $this->getPermissionId("suppliers")
-        ]);
-
-        Menu::create([
-            "name" => "Sucursales",
-            "parent_id" => $req->id,
-            "position" => 3.2,
-            "permission_id" => $this->getPermissionId("branches")
-        ]);
-        Menu::create([
-            "name" => "Requisiciones",
-            "parent_id" => $req->id,
-            "position" => 3.2,
-            "permission_id" => $this->getPermissionId("requisitions")
-        ]);
-
-        $f_fluxes = Menu::create([
-            "name" => "Flujo",
-            "parent_id" => null,
-            "position" => 4,
-        ]);
-        Menu::create([
-            "name" => "Flujo",
-            "parent_id" => $f_fluxes->id,
-            "position" => 4.1,
-            "permission_id" => $this->getPermissionId("f_fluxes")
-        ]);
-
-        Menu::create([
-            "name" => "Cuentas",
-            "parent_id" => $f_fluxes->id,
-            "position" => 4.2,
-            "permission_id" => $this->getPermissionId("f_accounts")
-        ]);
-
-        Menu::create([
-            "name" => "Beneficiarios",
-            "parent_id" => $f_fluxes->id,
-            "position" => 4.3,
-            "permission_id" => $this->getPermissionId("f_beneficiaries")
-        ]);
-
-        Menu::create([
-            "name" => "Clasificaciones",
-            "parent_id" => $f_fluxes->id,
-            "position" => 4.4,
-            "permission_id" => $this->getPermissionId("f_clasifications")
-        ]);
-        Menu::create([
-            "name" => "Reportes",
-            "parent_id" => $f_fluxes->id,
-            "position" => 4.5,
-            "permission_id" => $this->getPermissionId("f_flux_reports")
-        ]);
-
-        $h_hardware = Menu::create([
-            "name" => "Activos",
-            "parent_id" => null,
-            "position" => 5,
-        ]);
-        Menu::create([
-            "name" => "Activos",
-            "parent_id" => $h_hardware->id,
-            "position" => 5.1,
-            "permission_id" => $this->getPermissionId("h_hardwares")
-        ]);
-
-        Menu::create([
-            "name" => "Tipos de Activos",
-            "parent_id" => $h_hardware->id,
-            "position" => 5.2,
-            "permission_id" => $this->getPermissionId("h_device_types")
-        ]);
-
-        Menu::create([
-            "name" => "Marcas de Activos",
-            "parent_id" => $h_hardware->id,
-            "position" => 5.3,
-            "permission_id" => $this->getPermissionId("h_brands")
-        ]);
-       
-
+        foreach ($menus as $key => $menu) {
+            Menu::create([
+                'id' => $menu["id"],
+                'name' => $menu["name"], 
+                'icon' => $menu["icon"], 
+                'parent_id' => $menu["parent_id"], 
+                'position' => $menu["position"], 
+                'permission_id' => $menu["permission_id"], 
+                'created_at' => $menu["created_at"],
+                'updated_at' => $menu["updated_at"], 
+            ]);
+        }
     }
 
-    public function getPermissionId($module_name){
-        $module = PermissionModule::where("name", $module_name)->first();
-        $function = PermissionFunction::where("name", "index")->first();
-
-        $permission = PermissionPermission::where("module_id", $module->id)->where("function_id", $function->id)->first();
-
-        return $permission->id;
-    }
 }

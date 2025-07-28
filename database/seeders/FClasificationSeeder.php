@@ -16,692 +16,182 @@ class FClasificationSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        FClasification::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        ////INGRESOS////
-
-        $f = FClasification::create([
-            "name" => "WS PROMOTORA - I",
-            "description" => "Ingreso",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "WS PROMOTORA - I",
-            "description" => "Ingreso",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "WS PROMOTORA - E",
-            "description" => "Egreso",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "WS PROMOTORA - E",
-            "description" => "Egreso",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Fondeo Fimubac",
-            "f_movement_type_id" => 1
-        ]);
-
-      
-        FClasification::create([
-            "name" => "Fondeo Fimubac",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Personas Fisicas",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "Personas Fisicas",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Cobranza",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "SECCION 5",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "SECCION 35",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "SECCION 21",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "SECCION 38",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "SECTOR SALUD NUEVO LEON",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "SECTOR SALUD FEDERAL COAHUILA",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "SECCION 50",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "AYUNTAMIENTO CENTRO TABASCO",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "SEDUZAC ZACATECAS",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "GOBIERNO DE TABASCO",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "SECCION 35",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "SECTOR SALUD DURANGO",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "IEA-AGUASCALIENTES",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "SALUD BAJA CALIFORNIA",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "BAJA CALIFORNIA MAGISTERIO",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "BAJA CALIFORNIA GOBIERNO",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "TELESECUNDARIAS",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "BAJA CALIFORNIA CONGRESO",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "ISSSTECALI",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "AYUNTAMIENTO MEXICALI",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "AYUNTAMIENTO TIJUANA",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Interes de Inversion",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "Interes de Inversion",
-            "parent_id" => $f->id,
-        ]);
-
-       
-        $f = FClasification::create([
-            "name" => "Liquidaciones y cobranza externa",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "Liquidaciones y cobranza externa",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Cobranza Extrajudicial",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "Cobranza Extrajudicial",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Cobranza Despacho",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "Cobranza Despacho",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Ingresos por domiciliación",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "Ingresos por domiciliación",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "DEPOSITO INVERSION",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "DEPOSITO INVERSION",
-            "parent_id" => $f->id,
-        ]);
-        
-
-        $f = FClasification::create([
-            "name" => "Firmas",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "Firmas",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Deposito pendiente por identificar",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "Deposito pendiente por identificar",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Otros Ingresos",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "Otros Ingresos",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Retorno Estrategia",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "Retorno Estrategia",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "GNP Defunciones",
-            "f_movement_type_id" => 1
-        ]);
-
-        FClasification::create([
-            "name" => "GNP Defunciones",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Convenios",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Convenios",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Apoyos mensuales",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Apoyo SNTE 21",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Apoyo Baja California",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Apoyo SNTE 5",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Regalias",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Regalias",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Traspaso inv. BIM",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Traspaso inv. BIM",
-            "parent_id" => $f->id,
-        ]);
-
-
-        $f = FClasification::create([
-            "name" => "Nomina",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Nomina WS Fiscal",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Nomina WS Complemento",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Nomina PIP",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Prestamos a empleados",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Finiquito",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Colocación",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Dispersiones",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Reestructura de Clientes",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Comisiones",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Comisiones por venta",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Comisiones Cobranza",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Comisiones Telemarketing",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Comisiones por cobranza despacho",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Bono Cobranza / Telemarketing",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Bono Comercial",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Reembolsos a Clientes",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Reembolsos a Clientes",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Capital a Fimubac",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Capital a Fimubac",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Intereses a Fimubac",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Intereses Fimubac",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Impuestos WS",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "WS IVA e ISR",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "WS Imss, Infonavit y Afore",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "WS ISN 3%",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Impuestos PIP",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "PIP IVA e ISR",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "PIP Imss, Infonavit y Afore",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "PIP ISN 3%",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Family & Friends",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Intereses PF",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Intereses HB",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Capital PF",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Activos fijos",
-            "f_movement_type_id" => 2
-        ]);
-        
-        FClasification::create([
-            "name" => "Activos fijos",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Gastos Operativos",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Gasto Operativo",
-            "parent_id" => $f->id,
-        ]);
-
-        FClasification::create([
-            "name" => "Consultoria SOFOM",
-            "parent_id" => $f->id,
-        ]);
-
-      
-
-        FClasification::create([
-            "name" => "Arrendamiento",
-            "parent_id" => $f->id,
-        ]);
-
-        
-
-        
-
-        FClasification::create([
-            "name" => "Limpieza",
-            "parent_id" => $f->id,
-        ]);
-
-
-        FClasification::create([
-            "name" => "ISR de Inversion",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Comision Banco",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Comision BIM",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Comision STP",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Honorarios Bim",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Computacion y Soporte",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Financiamiento Automotriz",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Gasolina",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Mensajeria",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Publicidad",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Renta de impresoras",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Safe Data",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Insumos oficina",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Mantenimiento de equipo de computo",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Mantenimiento de vehiculo",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Mantenimiento de Local",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Servicios",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Cajas Chicas",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Gastos de Viaje",
-            "parent_id" => $f->id,
-        ]);
-    
-        
-        FClasification::create([
-            "name" => "Gasto Operaciones",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Gasto Legal",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Gasto Comercial",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Gasto RH",
-            "parent_id" => $f->id,
-        ]);
-        
-        FClasification::create([
-            "name" => "Credisoft",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Estrategia",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Estrategia",
-            "parent_id" => $f->id,
-        ]);
-
-        $f = FClasification::create([
-            "name" => "Reclamación Cargos Domiciliados",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "Reclamación Cargos Domiciliados",
-            "parent_id" => $f->id, 
-        ]);
-
-        $f = FClasification::create([
-            "name" => "AMEX",
-            "f_movement_type_id" => 2
-        ]);
-
-        FClasification::create([
-            "name" => "AMEX",
-            "parent_id" => $f->id,
-        ]);
-        
+       $f_clasifications = array(
+        array('id' => '1','name' => 'WS PROMOTORA - I','description' => 'Ingreso','f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-18 12:03:30','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '2','name' => 'WS PROMOTORA - I','description' => 'Ingreso','f_movement_type_id' => NULL,'parent_id' => '1','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '3','name' => 'WS PROMOTORA - E','description' => 'Egreso','f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '4','name' => 'WS PROMOTORA - E','description' => 'Egreso','f_movement_type_id' => NULL,'parent_id' => '3','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '5','name' => 'Fondeo Fimubac','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '6','name' => 'Fondeo Fimubac','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '5','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '7','name' => 'Personas Fisicas','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '8','name' => 'Personas Fisicas','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '7','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '9','name' => 'Cobranza','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '10','name' => 'SECCION 5','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '11','name' => 'SECCION 35','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '12','name' => 'SECCION 21','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '13','name' => 'SECCION 38','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '14','name' => 'SECTOR SALUD NUEVO LEON','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '15','name' => 'SECTOR SALUD FEDERAL COAHUILA','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '16','name' => 'SECCION 50','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '17','name' => 'AYUNTAMIENTO CENTRO TABASCO','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '18','name' => 'SEDUZAC ZACATECAS','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '19','name' => 'GOBIERNO DE TABASCO','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '21','name' => 'SECTOR SALUD DURANGO','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '22','name' => 'IEA-AGUASCALIENTES','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '23','name' => 'SALUD BAJA CALIFORNIA','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '24','name' => 'BAJA CALIFORNIA MAGISTERIO','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '25','name' => 'BAJA CALIFORNIA GOBIERNO','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '26','name' => 'TELESECUNDARIAS','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '27','name' => 'BAJA CALIFORNIA CONGRESO','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '28','name' => 'ISSSTECALI','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '29','name' => 'AYUNTAMIENTO MEXICALI','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '30','name' => 'AYUNTAMIENTO TIJUANA','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '31','name' => 'Interes de Inversion','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '32','name' => 'Interes de Inversion','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '31','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '33','name' => 'Liquidaciones y cobranza externa','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '34','name' => 'Liquidaciones y cobranza externa','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '33','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '35','name' => 'Cobranza Extrajudicial','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '36','name' => 'Cobranza Extrajudicial','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '35','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '37','name' => 'Cobranza Despacho','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '38','name' => 'Cobranza Despacho Arana Ramos','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '37','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-24 04:37:35','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '39','name' => 'Ingresos por domiciliación','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '40','name' => 'Ingresos por domiciliación','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '39','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '41','name' => 'DEPOSITO INVERSION','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '42','name' => 'DEPOSITO INVERSION','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '41','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '43','name' => 'Firmas','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '44','name' => 'Firmas','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '43','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '45','name' => 'Deposito pendiente por identificar','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '46','name' => 'Deposito pendiente por identificar','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '45','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '47','name' => 'Otros Ingresos','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '48','name' => 'Otros Ingresos','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '47','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '49','name' => 'Retorno Estrategia','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '50','name' => 'Retorno Estrategia','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '49','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '51','name' => 'GNP Defunciones','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '52','name' => 'GNP Defunciones','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '51','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '53','name' => 'Convenios','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '54','name' => 'Convenios','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '53','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '55','name' => 'Apoyos mensuales','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '56','name' => 'Apoyo SNTE 21','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '55','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '57','name' => 'Apoyo Baja California','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '55','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '58','name' => 'Apoyo SNTE 5','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '55','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '59','name' => 'Regalias','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '60','name' => 'Regalias','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '59','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '61','name' => 'Traspaso inv. BIM','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '62','name' => 'Traspaso inv. BIM','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '61','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '63','name' => 'Nomina','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '64','name' => 'Nomina WS Fiscal','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '63','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '65','name' => 'Nomina WS Complemento','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '63','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '66','name' => 'Nomina PIP','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '63','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '67','name' => 'Prestamos a empleados','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '63','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '68','name' => 'Finiquito','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '63','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '69','name' => 'Colocación','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '70','name' => 'Dispersiones','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '69','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '71','name' => 'Reestructura de Clientes','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '69','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '72','name' => 'Comisiones','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '73','name' => 'Comisiones por venta','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '72','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '74','name' => 'Comisiones Cobranza','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '72','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '75','name' => 'Comisiones Telemarketing','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '72','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '76','name' => 'Comisiones cobranza despacho Arana Ramos','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '72','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-24 05:25:11','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '77','name' => 'Bono Cobranza / Telemarketing','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '72','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '78','name' => 'Bono Comercial','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '72','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '79','name' => 'Reembolsos a Clientes','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '80','name' => 'Reembolsos a Clientes','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '79','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '81','name' => 'Capital a Fimubac','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '82','name' => 'Capital a Fimubac','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '81','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '83','name' => 'Intereses a Fimubac','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '84','name' => 'Intereses Fimubac','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '83','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '85','name' => 'Impuestos WS','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '86','name' => 'WS IVA e ISR','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '85','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '87','name' => 'WS Imss, Infonavit y Afore','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '85','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '88','name' => 'WS ISN 3%','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '85','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '89','name' => 'Impuestos PIP','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '90','name' => 'PIP IVA e ISR','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '89','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '91','name' => 'PIP Imss, Infonavit y Afore','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '89','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '92','name' => 'PIP ISN 3%','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '89','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '93','name' => 'Family & Friends','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '94','name' => 'Intereses PF','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '93','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '95','name' => 'Intereses HB','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '93','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '96','name' => 'Capital PF','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '93','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '97','name' => 'Activos fijos','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '98','name' => 'Activos fijos','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '97','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '99','name' => 'Gastos Operativos','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '100','name' => 'Gasto Operativo','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '101','name' => 'Consultoria SOFOM','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '102','name' => 'Arrendamiento','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '103','name' => 'Limpieza','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '104','name' => 'ISR de Inversion','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '105','name' => 'Comisión Banco - E','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-20 10:48:56','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '106','name' => 'Comision BIM','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '107','name' => 'Comision STP','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '108','name' => 'Honorarios Bim','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '109','name' => 'Computacion y Soporte','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '110','name' => 'Financiamiento Automotriz','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '111','name' => 'Gasolina','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '112','name' => 'Mensajeria','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '113','name' => 'Publicidad','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '114','name' => 'Renta de impresoras','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '115','name' => 'Safe Data','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '116','name' => 'Insumos oficina','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '117','name' => 'Mantenimiento de equipo de computo','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '118','name' => 'Mantenimiento de vehiculo y refrendo','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-04-11 05:45:24','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '119','name' => 'Mantenimiento de Local','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '120','name' => 'Servicios','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '121','name' => 'Cajas Chicas','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '122','name' => 'Gastos de Viaje','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '123','name' => 'Gasto Operaciones','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '124','name' => 'Gasto Legal','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '125','name' => 'Gasto Comercial','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '126','name' => 'Gasto RH','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '127','name' => 'Credisoft','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '128','name' => 'Estrategia','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '129','name' => 'Estrategia','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '128','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '130','name' => 'Reclamación Cargos Domiciliados','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '131','name' => 'Reclamación Cargos Domiciliados','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '130','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '132','name' => 'AMEX','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '133','name' => 'AMEX','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '132','created_at' => '2025-03-14 11:13:39','updated_at' => '2025-03-14 11:13:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '134','name' => 'Comisiones Fimubac','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-19 10:07:45','updated_at' => '2025-03-19 10:07:45','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '135','name' => 'Comisiones Fimubac','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '134','created_at' => '2025-03-19 10:08:10','updated_at' => '2025-03-19 10:08:10','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '136','name' => 'Cobranza Arana Ramos y Asociados','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '9','created_at' => '2025-03-20 06:38:18','updated_at' => '2025-04-02 04:46:14','notes' => NULL,'is_active' => '0','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '137','name' => 'LIQUIDACIONES','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '33','created_at' => '2025-03-20 06:51:51','updated_at' => '2025-03-20 06:51:51','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '138','name' => 'Comisión Banco - I','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-20 10:48:12','updated_at' => '2025-03-20 10:48:12','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '139','name' => 'Comisión Banco - I','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '138','created_at' => '2025-03-20 10:48:27','updated_at' => '2025-03-20 10:48:27','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '140','name' => 'Gasto Cobranza','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-03-20 10:49:46','updated_at' => '2025-03-20 10:49:46','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '141','name' => 'Aportaciones Capital','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-03-20 10:50:23','updated_at' => '2025-03-20 10:50:23','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '142','name' => 'Aportaciones Capital','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '141','created_at' => '2025-03-20 10:50:32','updated_at' => '2025-03-20 10:50:32','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '143','name' => 'APOYO SNTE 35','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '55','created_at' => '2025-03-24 05:19:51','updated_at' => '2025-03-24 05:19:51','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '144','name' => 'SEGUROS Y FIANZAS','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-03-24 05:48:32','updated_at' => '2025-03-24 05:48:32','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '145','name' => 'SEGUROS Y FIANZAS','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '144','created_at' => '2025-03-24 05:48:56','updated_at' => '2025-03-24 05:48:56','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '146','name' => 'Licencias','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-04-11 11:55:03','updated_at' => '2025-04-11 11:55:03','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '147','name' => 'Digitalizacion de creditos','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '99','created_at' => '2025-04-14 11:49:39','updated_at' => '2025-04-14 11:49:39','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '148','name' => 'Apoyo SNTE 38','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '55','created_at' => '2025-04-15 08:34:24','updated_at' => '2025-04-15 08:34:24','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '149','name' => 'Préstamo Inversionista','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-04-16 04:45:23','updated_at' => '2025-04-16 04:45:23','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '150','name' => 'Préstamo Inversionista','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '149','created_at' => '2025-04-16 04:45:43','updated_at' => '2025-04-16 04:45:43','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '151','name' => 'INVERSION CRECIENTE - E','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-05-23 05:17:47','updated_at' => '2025-05-23 05:40:09','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '152','name' => 'INVERSION CRECIENTE - E','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '151','created_at' => '2025-05-23 05:40:31','updated_at' => '2025-05-23 05:40:31','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '153','name' => 'INVERSION CRECIENTE - I','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-05-23 05:40:50','updated_at' => '2025-05-23 05:40:50','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '154','name' => 'INVERSION CRECIENTE - I','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '153','created_at' => '2025-05-23 05:41:13','updated_at' => '2025-05-23 05:41:13','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '156','name' => 'Liq por Defunción','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '33','created_at' => '2025-06-17 03:58:25','updated_at' => '2025-06-17 03:58:25','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '157','name' => 'INVERSION PAGARE - E','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-06-24 04:33:44','updated_at' => '2025-06-24 04:33:44','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '158','name' => 'INVERSION PAGARE - E','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '157','created_at' => '2025-06-24 04:33:50','updated_at' => '2025-06-24 04:33:50','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '160','name' => 'INVERSION PAGARE - I','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-06-24 04:34:44','updated_at' => '2025-06-24 04:34:44','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '161','name' => 'INVERSION PAGARE - I','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '160','created_at' => '2025-06-24 04:34:54','updated_at' => '2025-06-24 04:34:54','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '162','name' => 'PRESTAMO - E','description' => NULL,'f_movement_type_id' => '2','parent_id' => NULL,'created_at' => '2025-06-24 04:35:57','updated_at' => '2025-06-24 04:35:57','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '163','name' => 'PRESTAMO - I','description' => NULL,'f_movement_type_id' => '1','parent_id' => NULL,'created_at' => '2025-06-24 04:36:11','updated_at' => '2025-06-24 04:36:11','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '164','name' => 'PRESTAMO - E','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '162','created_at' => '2025-06-24 04:36:50','updated_at' => '2025-06-24 04:36:50','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL),
+        array('id' => '165','name' => 'PRESTAMO - I','description' => NULL,'f_movement_type_id' => NULL,'parent_id' => '163','created_at' => '2025-06-24 04:37:05','updated_at' => '2025-06-24 04:37:05','notes' => NULL,'is_active' => '1','created_by' => NULL,'updated_by' => NULL)
+        );
+        foreach ($f_clasifications as $key => $f_clasification) {
+            FClasification::create([
+                'id' => $f_clasification["id"],
+                'name' => $f_clasification["name"], 
+                'description' => $f_clasification["description"], 
+                'f_movement_type_id' => $f_clasification["f_movement_type_id"], 
+                'parent_id' => $f_clasification["parent_id"], 
+                'created_at' => $f_clasification["created_at"],
+                'updated_at' => $f_clasification["updated_at"], 
+                'is_active' => $f_clasification["is_active"], 
+            ]);
+        }
        
     }
 }

@@ -19,10 +19,10 @@ class Database25062025Seeder extends Seeder
     public function run()
     {
         $this->call([
-            PermissionModule25062025Seeder::class,
-            PermissionPermission25062025Seeder::class,
-            PermissionPermissionRole25062025Seeder::class,
-            Menu25062025Seeder::class,
+            // PermissionModule25062025Seeder::class,
+            // PermissionPermission25062025Seeder::class,
+            // PermissionPermissionRole25062025Seeder::class,
+            // Menu25062025Seeder::class,
         ]);
     }
 }

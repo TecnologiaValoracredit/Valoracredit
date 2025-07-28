@@ -16,139 +16,60 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            "name" => "Iván Rodríguez Silva",
-            "email" => "tecnologia@valoracredit.mx",
-            "password" => Hash::make("Valora2024"),
-            "role_id" => 1,
-            "departament_id" => 1,
-            "branch_id" => 1
-        ]);
+        $users = array(
+            array('id' => '1','name' => 'Iván Rodríguez Silva','email' => 'tecnologia@valoracredit.mx','role_id' => '1','departament_id' => '1','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$CSNXpIsaLYPptXT13JssNO0jhV8z6pl7QXFU5CpgSLwfwiGrDdXsu','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:35','updated_at' => '2025-01-24 17:57:35','is_active' => '1'),
+            array('id' => '2','name' => 'Perla Alejandra Sauceda','email' => 'cartera@valoracredit.mx','role_id' => '2','departament_id' => '2','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$/YS6mNjTwDtMlCscVE8KiuDOvInh8wqD1fN1Orv3mePNyeXwqOsHe','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:35','updated_at' => '2025-01-24 17:57:35','is_active' => '1'),
+            array('id' => '3','name' => 'Kevin Aguirre','email' => 'auxtecnologia@valoracredit.mx','role_id' => '1','departament_id' => '1','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$KsWtd60CtWg38/sg.zAbg.3bK4d.jqxxLhUPpnZC3nz4Bv3pWmryq','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:35','updated_at' => '2025-07-11 03:22:49','is_active' => '1'),
+            array('id' => '4','name' => 'Ana Karina Chapa Almaguer','email' => 'tesoreria@valoracredit.mx','role_id' => '3','departament_id' => '5','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$v4oALAcVfQZi9PmwFuinu.MmclUtKt9e4FwN0PXS0Yyrr11dCSAEy','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:35','updated_at' => '2025-01-24 17:57:35','is_active' => '1'),
+            array('id' => '5','name' => 'Francisco Sánchez Flores','email' => 'fsanchez@valoracredit.mx','role_id' => '5','departament_id' => '3','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$5fda132k3zXTLuCZ.7tsmeUeT5JPRTAX4FU4M3QwiCzgq.VRua8tO','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:35','updated_at' => '2025-03-28 11:06:12','is_active' => '1'),
+            array('id' => '6','name' => 'Rosa Nelly Garcia Cepeda','email' => 'operaciones@valoracredit.mx','role_id' => '10','departament_id' => '4','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$xwLEQGKhclBYdW5I6qLKY.V4kzReZR9ocIOhiHpqBL6OSXHxI2Vr.','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:35','updated_at' => '2025-06-13 09:22:57','is_active' => '1'),
+            array('id' => '7','name' => 'Victor Hugo García Santana','email' => 'auxtesoreria@valoracredit.mx','role_id' => '3','departament_id' => '5','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$tG3NG5JtiVZkCVf/1w23NeT41nZvqwhnR5Kj2tvGSEy58QGIB1lc6','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:35','updated_at' => '2025-03-19 03:26:31','is_active' => '1'),
+            array('id' => '8','name' => 'Flor Esthela Garcia Garcia','email' => 'telemarketing@valoracredit.mx','role_id' => '7','departament_id' => '2','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$LrWptUQbn4FXMjz4Ti7q6.ZHpgfDqmspgwCwlDMTkLho9wq5t8CLq','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36','is_active' => '1'),
+            array('id' => '9','name' => 'Elisa Ariana Lopez Aguilar','email' => 'cobranza@valoracredit.mx','role_id' => '7','departament_id' => '2','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$5A0iHB5DdzzlL3N4Ve6RxOrRK8nkAa20zB7XsmjcBUsPuySh..85m','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-07-02 05:59:07','is_active' => '0'),
+            array('id' => '10','name' => 'Denise Idalia Gonzalez Garcia','email' => 'rh@valoracredit.mx','role_id' => '6','departament_id' => '6','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$/qtfG6ewj5a9GiBm7NgMR.Q9CAWGJNvLtZWbE8q6QdZj2qA3B5dVi','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-05-12 10:01:12','is_active' => '1'),
+            array('id' => '11','name' => 'Katia Ivett Aguilar Cias','email' => 'analistacredito@valoracredit.mx','role_id' => '10','departament_id' => '4','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$ckuBhbPDwZCuvRzWbNmti.SRSAMYip3kJZW5KTVskav47QnSlyfH6','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-01-24 17:57:36','is_active' => '1'),
+            array('id' => '12','name' => 'Aurora Abigail Hernández Villanueva','email' => 'coordinaciondigital@valoracredit.mx','role_id' => '8','departament_id' => '7','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$/Hv1Iie7OCvbatXRmy.ZEOca5qn7OLh3ZKbZ3pRZRqKNnNkzFXwc2','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-07-02 06:03:43','is_active' => '0'),
+            array('id' => '13','name' => 'Rodrigo de los Santos Cruz','email' => 'auxcontable1@valoracredit.mx','role_id' => '5','departament_id' => '3','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$iygAP/mQ59LO5HRur40WCuYrPX6tgrS3PgeAcjsOXgCE6xVH0CWj.','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-05-13 09:30:36','is_active' => '1'),
+            array('id' => '14','name' => 'Monsserrat Carolin Deras Peña','email' => 'administracioncartera@valoracredit.mx','role_id' => '7','departament_id' => '2','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$KzhYq0wGGpgYuNISqn8XN.Xh9l1qicOLteg4pT.iTgx7FPjruIDQi','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-03-25 09:56:48','is_active' => '1'),
+            array('id' => '15','name' => 'Leticia Medina Acevedo','email' => 'analistacartera@valoracredit.mx','role_id' => '7','departament_id' => '2','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$K849qGYKXZkKkq/dOCpC3.sumYpS9HmTR30Ww5Vn.ZUZKRldhmGVq','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-01-24 17:57:36','updated_at' => '2025-03-25 09:56:39','is_active' => '1'),
+            array('id' => '16','name' => 'Karla Cecilia Rodriguez Larragoity','email' => 'direccion@valoracredit.mx','role_id' => '12','departament_id' => '8','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$2pYGltXKr7D7VnWAeu6kwOOVfzpvIp7ceBfiJ5qWTsPVle4VjxUN2','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-02-04 11:38:00','updated_at' => '2025-05-12 10:00:13','is_active' => '1'),
+            array('id' => '17','name' => 'Disponible','email' => 'disponible@valoracredit.mx','role_id' => '6','departament_id' => '1','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$V9rfTKIbtuCr3rWgLyI3JesbgOlqss/gfs.RGVpZOwAxJq8AQbGMi','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-02-07 11:18:16','updated_at' => '2025-02-07 11:18:16','is_active' => '1'),
+            array('id' => '18','name' => 'Operaciones Maxxas','email' => 'operaciones@playsoluciones.mx','role_id' => '14','departament_id' => '9','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$fiTcOtalxuFmoWMA336RhuwBBugRrKFCR9r/G2hBL5lDIAzQa.PE6','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-02-07 16:57:47','updated_at' => '2025-02-07 17:08:00','is_active' => '1'),
+            array('id' => '19','name' => 'Linda Xochitl Torres Casillas','email' => 'tesoreria1@playsoluciones.com','role_id' => '13','departament_id' => '10','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$Kwqd6M7JJMHd.54nk6kzSeOO1es6v7hMH3H8101I7zYEz//dZL3L.','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-02-07 16:58:36','updated_at' => '2025-02-07 17:07:25','is_active' => '1'),
+            array('id' => '20','name' => 'Maria Fernanda Martinez Zoto','email' => 'contadora@playsoluciones.com','role_id' => '15','departament_id' => '11','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$kISqftTgwO.iz1wwHy01Ie7RKc5mhj0ctZ8RHp6P6DsuMb9iYq8EK','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-02-07 17:15:13','updated_at' => '2025-02-07 17:20:38','is_active' => '1'),
+            array('id' => '21','name' => 'Nancy Jaqueline Gutiérrez Alanís','email' => 'facturacion@valoracredit.mx','role_id' => '16','departament_id' => '12','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$gkn8yB73Hg61ScAZAwI4ye7K3uDY7xVsvwAr8bWcm/WCAPd1X0.Nq','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-02-07 17:17:31','updated_at' => '2025-02-07 17:21:51','is_active' => '1'),
+            array('id' => '22','name' => 'Jovanna Montaño López','email' => 'facturacion@playsoluciones.com','role_id' => '16','departament_id' => '12','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$/dYEkx148ZBazuKLq888s.hEY31LEXSc0NN6USNwDDk4hWy4yoqQi','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-02-07 17:30:24','updated_at' => '2025-02-07 17:30:24','is_active' => '1'),
+            array('id' => '23','name' => 'Valoracredit','email' => 'valoracredit@valoracredit.mx','role_id' => '17','departament_id' => '13','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$5qLk3Cq8ZjjzZpM15TUHiuSVf1uA0L1Dr.Cc/yaP8Mlm1vLsSKPsK','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-02-12 18:13:03','updated_at' => '2025-02-12 18:13:03','is_active' => '1'),
+            array('id' => '24','name' => 'Maxas','email' => 'maxas@valoracredit.mx','role_id' => '17','departament_id' => '13','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$KNIuGah3/H.nRbbKYeEijOKmx/dEPpuV3kQOgMf1qmb8OKsMD9zsW','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-02-12 18:18:22','updated_at' => '2025-02-12 18:18:22','is_active' => '1'),
+            array('id' => '25','name' => 'Hector Berlanga','email' => 'berlangahector@hotmail.com','role_id' => '18','departament_id' => '13','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$5dwQr37PCK.NGu7WqTVtqOS/1IuPm6aYnHfuw3tWHa1axiF5iZJte','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-02-24 12:11:35','updated_at' => '2025-02-24 12:11:35','is_active' => '1'),
+            array('id' => '26','name' => 'Candelaria San Miguel','email' => 'auxcontable@valoracredit.mx','role_id' => '17','departament_id' => '3','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$Vc1K865WGxXu3sf/zFqqdODB5OO/zYwYnhimCPHL2.kNt.dJin60O','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-03-10 06:27:21','updated_at' => '2025-03-10 06:27:21','is_active' => '1'),
+            array('id' => '27','name' => 'Magda','email' => 'mesadecontrolmexicali@valoracredit.mx','role_id' => '17','departament_id' => '13','branch_id' => '4','email_verified_at' => NULL,'password' => '$2y$10$1BSQmN6wed.iDaovrOi.ZuTtYaYrPgN2uv6n81nDuHz2LswI6qeTm','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-03-18 07:33:33','updated_at' => '2025-03-18 07:33:33','is_active' => '1'),
+            array('id' => '28','name' => 'Gabino Puente Maldonado','email' => 'comercialregional@valoracredit.mx','role_id' => '7','departament_id' => '14','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$pEo9UmSz7F.NE43CrivoeOrlangAa67TcUP6N6qcmZH9W4sgh.EX6','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-03-20 10:59:33','updated_at' => '2025-03-20 10:59:51','is_active' => '1'),
+            array('id' => '29','name' => 'Christian Giovanny González Mendoza','email' => 'auxcontable1@grupogce.mx','role_id' => '5','departament_id' => '11','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$SPlFI.G1wFluYE9VNHSwDudYhh81i2mwtwYXnt9yxh8q3LlsLrkb.','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-05-13 09:33:23','updated_at' => '2025-05-13 09:33:23','is_active' => '1'),
+            array('id' => '30','name' => 'sin nombre','email' => 'saltillo@valoracredit.mx','role_id' => '10','departament_id' => '4','branch_id' => '2','email_verified_at' => NULL,'password' => '$2y$10$HMQbQRcwxzzBqhRnsWdLsukvVwLvWnyhNYDlzxwX0ZJBctT5R992O','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-05-19 06:55:51','updated_at' => '2025-07-02 06:04:56','is_active' => '1'),
+            array('id' => '31','name' => 'Consuelo Hurtado Navarro','email' => 'admonfinanzas@valoracredit.mx','role_id' => '4','departament_id' => '3','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$9Nu16Z6QojQL/1h97JvhfeyfMkgWCnjo.leaYJjsAmM2wYvGQ0owW','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-05-19 06:57:09','updated_at' => '2025-07-08 06:30:53','is_active' => '1'),
+            array('id' => '32','name' => 'Candelaria Torres Gamez','email' => 'operaciones@playsoluciones.com','role_id' => '14','departament_id' => '9','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$SarFw1U7KQ4eDb3wo41Q6eQinFl7h4wgAmmL6WD22IAzyuX5iRqXu','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-05-29 11:02:06','updated_at' => '2025-05-29 11:02:06','is_active' => '1'),
+            array('id' => '33','name' => 'Leslie Roxana García Palacios','email' => 'facturacion1@grupogce.mx','role_id' => '16','departament_id' => '12','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$PU415OdvlgVj2FfhDwCVhuk5pQqxX1IANuxzJay1PGMzyeB/j1MdW','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-05-29 11:04:42','updated_at' => '2025-05-29 11:04:42','is_active' => '1'),
+            array('id' => '34','name' => 'Juan Manuel Sanchez Sifuentes','email' => 'tesoreria@playsoluciones.com','role_id' => '13','departament_id' => '10','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$02WKkYrniB/L9Bs9eL9ZQu01eJlUlp54bGo3cIw1neW8UYMG74PXy','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-05-29 11:06:00','updated_at' => '2025-05-29 11:06:00','is_active' => '1'),
+            array('id' => '35','name' => 'David Barrientos','email' => 'comercial@valoracredit.mx','role_id' => '17','departament_id' => '14','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$zdmAMZdmyNhcnhCLfZgt6O2gCdEQafHIMfPwZ2Y5VFqtpN4XpvtIm','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-07-04 08:44:55','updated_at' => '2025-07-04 08:44:55','is_active' => '1'),
+            array('id' => '36','name' => 'Yessica Velez','email' => 'mesadecontrolmty@valoracredit.mx','role_id' => '10','departament_id' => '4','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$6P96J5bfMPGmUw9NfuRJBuUt8mI3CRWIgRkufRR6rwJI7r1a7kRo2','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-07-04 08:50:01','updated_at' => '2025-07-04 08:50:01','is_active' => '1'),
+            array('id' => '37','name' => 'Elizabeth Armas','email' => 'asesortelemarketing1@valoracredit.mx','role_id' => '17','departament_id' => '14','branch_id' => '1','email_verified_at' => NULL,'password' => '$2y$10$90hpeVs/OMxoke1SwD599u0Q.0uvwOHQTSrfauwz.VdL4DOMVa0Ce','two_factor_secret' => NULL,'two_factor_recovery_codes' => NULL,'two_factor_confirmed_at' => NULL,'remember_token' => NULL,'created_at' => '2025-07-04 08:57:41','updated_at' => '2025-07-04 08:57:41','is_active' => '1')
+        );
 
-        User::create([
-            "name" => "Perla Alejandra Sauceda",
-            "email" => "cartera@valoracredit.mx",
-            "password" => Hash::make("Cartera2024"),
-            "role_id" => 2,
-            "departament_id" => 2,
-            "branch_id" => 1
-        ]);
-        User::create([
-            "name" => "Iván Alejandro Rodriguez",
-            "email" => "auxtecnologia@valoracredit.mx",
-            "password" => Hash::make("Asdf.357*"),
-            "role_id" => 1,
-            "departament_id" => 1,
-            "branch_id" => 1
-        ]);
-
-        User::create([
-            "name" => "Ana Karina Chapa Almaguer",
-            "email" => "tesoreria@valoracredit.mx",
-            "password" => Hash::make("Valora2025"),
-            "role_id" => 3,
-            "departament_id" => 5,
-            "branch_id" => 1
-        ]);
-
-        User::create([
-            "name" => "Francisco Sánchez Flores",
-            "email" => "fsanchez@valoracredit.mx",
-            "password" => Hash::make("Valora2025"),
-            "role_id" => 5,
-            "departament_id" => 3,
-            "branch_id" => 1
-        ]);
-
-        User::create([
-            "name" => "Rosa Nelly Garcia Cepeda",
-            "email" => "operaciones@valoracredit.mx",
-            "password" => Hash::make("Valora2025"),
-            "role_id" => 10,
-            "departament_id" => 4,
-            "branch_id" => 1
-        ]);
-
-        User::create([
-            "name" => "Sabrina Anizul de la Cruz Leal",
-            "email" => "auxtesoreria@valoracredit.mx",
-            "password" => Hash::make("Valora2025"),
-            "role_id" => 3,
-            "departament_id" => 5,
-            "branch_id" => 1
-        ]);
-
-        User::create([
-            "name" => "Flor Esthela Garcia Garcia",
-            "email" => "telemarketing@valoracredit.mx",
-            "password" => Hash::make("Valora2025"),
-            "role_id" => 7,
-            "departament_id" => 2,
-            "branch_id" => 1
-        ]);
-
-        User::create([
-            "name" => "Elisa Ariana Lopez Aguilar",
-            "email" => "cobranza@valoracredit.mx",
-            "password" => Hash::make("Valora2025"),
-            "role_id" => 7,
-            "departament_id" => 2,
-            "branch_id" => 1
-        ]);
-
-        User::create([
-            "name" => "Denise Idalia Gonzalez Garcia",
-            "email" => "rh@valoracredit.mx",
-            "password" => Hash::make("Valora2025"),
-            "role_id" => 6,
-            "departament_id" => 6,
-            "branch_id" => 1
-        ]);
-
-        User::create([
-            "name" => "Katia Ivett Aguilar Cias",
-            "email" => "analistacredito@valoracredit.mx",
-            "password" => Hash::make("Valora2025"),
-            "role_id" => 10,
-            "departament_id" => 4,
-            "branch_id" => 1
-        ]);
-
-        User::create([
-            "name" => "Ana Yareli Hernandez Hernandez",
-            "email" => "coordinaciondigital@valoracredit.mx",
-            "password" => Hash::make("Valora2025"),
-            "role_id" => 8,
-            "departament_id" => 7,
-            "branch_id" => 1
-        ]);
-
-        User::create([
-            "name" => "Seydel Silvana Celeste Lopez Hugo",
-            "email" => "auxcontable1@valoracredit.mx",
-            "password" => Hash::make("Valora2025"),
-            "role_id" => 5,
-            "departament_id" => 3,
-            "branch_id" => 1
-        ]);
-
-        User::create([
-            "name" => "Ramon Alberto Zapata Cruz",
-            "email" => "administracioncartera@valoracredit.mx",
-            "password" => Hash::make("Valora2025"),
-            "role_id" => 7,
-            "departament_id" => 2,
-            "branch_id" => 1
-        ]);
-
-        User::create([
-            "name" => "Leticia Medina Acevedo",
-            "email" => "analistacartera@valoracredit.mx",
-            "password" => Hash::make("Valora2025"),
-            "role_id" => 7,
-            "departament_id" => 2,
-            "branch_id" => 1
-        ]);
+        foreach ($users as $key => $user) {
+            User::create([
+                'id' => $user["id"],
+                'name' => $user["name"], 
+                'email' => $user["email"], 
+                'role_id' => $user["role_id"],
+                'departament_id' => $user["departament_id"],
+                'branch_id' => $user["branch_id"], 
+                'password' => $user["password"], 
+                'created_at' => $user["created_at"],
+                'updated_at' => $user["updated_at"], 
+                'is_active' => $user["is_active"], 
+            ]);
+        }
 
         
 

@@ -68,10 +68,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             
             ModuleTypeSeeder::class,
-            PermissionModuleSeeder::class,
+            // PermissionModuleSeeder::class,
             PermissionFunctionSeeder::class,
-            PermissionPermissionSeeder::class,
-            MenuSeeder::class,
+            // PermissionPermissionSeeder::class,
             InstitutionSeeder::class,
             AnchorerSeeder::class,
             ExpStatusSeeder::class,
@@ -100,17 +99,17 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             HHardwareSeeder::class,
             FCarteraStatusSeeder::class,//NUEVO
-            PermissionPermissionSeeder31012025::class,
+            // PermissionPermissionSeeder31012025::class,
 
-            PermissionFunction11032025Seeder::class, //NUEVO
-            PermissionPermission11032025Seeder::class, //NUEVO
+            // PermissionFunction11032025Seeder::class, //NUEVO
+            // PermissionPermission11032025Seeder::class, //NUEVO
             FFluxSeeder:: class,
-            PermissionPermissionRoleSeeder::class,
             Database25062025Seeder::class,
             Database18072025Seeder::class,
-
+            PermissionPermissionRoleSeeder::class,
+            
             // EmailAccountSeeder::class,
-            Database17072025Seeder::class
+            // Database17072025Seeder::class
         ]);
     }
 }

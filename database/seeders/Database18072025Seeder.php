@@ -17,9 +17,9 @@ class Database18072025Seeder extends Seeder
         $this->call([
             PermissionModule18072025Seeder::class,
             PermissionPermission18072025Seeder::class,
+            MenuSeeder::class,
             Menu18072025Seeder::class,
             SBranchSeeder::class,
-            Role21072025Seeder::class,
         ]);
     }
 }

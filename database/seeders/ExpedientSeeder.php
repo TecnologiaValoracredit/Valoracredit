@@ -28,7 +28,7 @@ class ExpedientSeeder extends Seeder
         
 
         // $this->addBaseExpedients("base_expedientes.xlsx");
-        $this->addExpedients("abc19122024.xlsx");
+        // $this->addExpedients("abc19122024.xlsx");
 
     }
 

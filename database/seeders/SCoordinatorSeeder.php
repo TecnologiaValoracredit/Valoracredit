@@ -30,22 +30,19 @@ class SCoordinatorSeeder extends Seeder
         foreach($pages[0] as $key =>$row)
         {
             if ($key > 0) {
-                $maternal_surname = "";
-                if ($row[3] != "") {
-                    $maternal_surname = $row[3]." ";
-                }
+
 
                
 
                 //Crear coordinador si no existe
-                $sCoordinator = User::where("name", trim($row[20]))->where("role_id", 13)->first();
+                $sCoordinator = User::where("name", trim($row[20]))->where("role_id", 20)->first();
                 if ($sCoordinator == null) {
                      $userC = User::create([
                         "name" => trim($row[20]),
                         "email" => 'user_' . Str::random(6) . '@example.com',
                         "password" => Hash::make("123456"),
-                        "role_id" => 13, //Coordinador
-                        "departament_id" => 8, //Comercial
+                        "role_id" => 20, //Coordinador
+                        "departament_id" => 14, //Comercial
                         "branch_id" => 1
                     ]);
 
@@ -59,26 +56,39 @@ class SCoordinatorSeeder extends Seeder
 
 
                 //Usuario para promotor
-
-                if ($row[3] != "") {
-                    $maternal_surname = $row[3]." ";
+                $maternal_surname = $row[3];
+                if ($row[2] != "") {
+                    $maternal_surname = $row[2]." ".$row[3];
                 }
-                $userP = User::create([
-                    "name" => $row[1]." ".$row[2].$maternal_surname." ".$row[4],
-                    "email" => 'user_' . Str::random(6) . '@example.com',
-                    "password" => Hash::make("123456"),
-                    "role_id" => 12, //Promotor
-                    "departament_id" => 8, //Comercial
-                    "branch_id" => 1
-                ]);
 
-                $sPromotor = SPromotor::create([
-                    'user_id'=> $userP->id,
-                    'commission_percentage'=> '0',
-                    'coordinator_id' => User::where("name", trim($row[20]))->where("role_id", 13)->first()->coordinator->id,
-                    's_branch_id'=> SBranch::where("name", trim($row[19]))->first()->id,
-                    'promotor_credisoft_id' => $row[0]
-                ]);
+                if ($row[1]." ".$maternal_surname." ".$row[4] != $row[20]) {
+                    $userP = User::create([
+                        "name" => $row[1]." ".$maternal_surname." ".$row[4],
+                        "email" => 'user_' . Str::random(6) . '@example.com',
+                        "password" => Hash::make("123456"),
+                        "role_id" => 19, //Promotor
+                        "departament_id" => 14, //Comercial
+                        "branch_id" => 1
+                    ]);
+
+                    $sPromotor = SPromotor::create([
+                        'user_id'=> $userP->id,
+                        'commission_percentage'=> '0',
+                        'coordinator_id' => User::where("name", trim($row[20]))->where("role_id", 20)->first()->coordinator->id,
+                        's_branch_id'=> SBranch::where("name", trim($row[19]))->first()->id,
+                        'promotor_credisoft_id' => $row[0]
+                    ]);
+                }else{
+                    $userP = User::where("name", trim($row[20]))->first();
+                    $sPromotor = SPromotor::create([
+                        'user_id'=> $userP->id,
+                        'commission_percentage'=> '0',
+                        'coordinator_id' => User::where("name", trim($row[20]))->where("role_id", 20)->first()->coordinator->id,
+                        's_branch_id'=> SBranch::where("name", trim($row[19]))->first()->id,
+                        'promotor_credisoft_id' => $row[0]
+                    ]);
+                }
+                
                 
 
             }
