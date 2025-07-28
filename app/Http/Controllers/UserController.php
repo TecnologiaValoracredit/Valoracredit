@@ -155,7 +155,7 @@ class UserController extends Controller
         $status = true;
         try {
            $user->bankDetails()->create(
-    [
+                [
                     'bank_id' => $request->bank_id,
                     "account_number" => $request->account_number
                 ], // Campos para buscar

@@ -124,7 +124,7 @@ Route::middleware("auth")->group(function () {
         Route::post('s_sales/import_excel', [SSaleController::class, "importExcel"])->name("s_sales.importExcel");
         Route::post('expedient/import_excel', [ExpedientController::class, "importExcel"])->name("expedients.importExcel");
 
-        Route::get('commissions/export_report',  [CommissionController::class, 'exportReport'])->name("commissions.exportReport");
+        Route::post('commissions/export_report',  [CommissionController::class, 'exportReport'])->name("commissions.exportReport");
 
        
     });

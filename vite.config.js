@@ -50,6 +50,7 @@ export default defineConfig({
                 'resources/js/s_promotor_reports.js',
                                 
                 'resources/js/commissions/generals.js',
+                'resources/js/commissions/index.js',
 
             ],
             refresh: true,
