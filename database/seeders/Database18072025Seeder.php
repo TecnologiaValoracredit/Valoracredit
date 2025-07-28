@@ -19,7 +19,6 @@ class Database18072025Seeder extends Seeder
             PermissionPermission18072025Seeder::class,
             Menu18072025Seeder::class,
             SBranchSeeder::class,
-            Role21072025Seeder::class,
         ]);
     }
 }

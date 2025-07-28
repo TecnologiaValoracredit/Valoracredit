@@ -39,32 +39,22 @@ class SCoordinatorController extends Controller
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $s_branches = SBranch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
+        $users = User::whereBetween("role_id", [12,13])->pluck("name","id");
         $isEdit = false;
 
-        return view('s_coordinators.create', compact('roles', 'branches', 's_branches', 'departaments', 'isEdit'));
+        return view('s_coordinators.create', compact('roles', 'branches', 's_branches', 'departaments', 'isEdit', 'users'));
     }
 
     public function store(SCoordinatorRequest $request)
     {
         $status = true;
         $s_coordinator = null;
-        $userParams = array_merge($request->all(), [
-            "name" => $request->name,
-            "email" => $request->email,
-            "password" => Hash::make($request->password),
-            "role_id" => 13,
-            "departament_id" => 1,
-            'is_active' => !is_null($request->is_active),
-        ] );  
-
         try {
-            $user = User::create($userParams);
-
             $params = array_merge($request->all(), [
                 'commission_percentage' => $request->commission_percentage,
                 's_branch_id' => $request->s_branch_id,
                 'is_broker' => $request->is_broker == "on" ?? true, false,
-                'user_id' => $user->id,
+                'user_id' => $request->user_id,
                 'is_active' => !is_null($request->is_active),
             ]);
 
@@ -87,6 +77,7 @@ class SCoordinatorController extends Controller
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $s_branches = SBranch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
+        $users = User::whereBetween("role_id", [12,13])->pluck("name","id");
         $user = $s_coordinator->user;
         $isEdit = true;
 
@@ -100,7 +91,7 @@ class SCoordinatorController extends Controller
 
         $institutions = Institution::where("is_active", 1)->orderBy("name", "asc")->pluck("name", "id");
 
-        return view('s_coordinators.edit', compact("s_coordinator", "user", "roles", "branches", "s_branches", "departaments", "isEdit", "institutionDT", "institutions", "sUserNameDT"));
+        return view('s_coordinators.edit', compact("s_coordinator", "user", "roles", "branches", "s_branches", "departaments", "isEdit", "institutionDT", "institutions", "sUserNameDT", "users"));
      
     }
 
@@ -114,7 +105,6 @@ class SCoordinatorController extends Controller
 
         try {
             $s_coordinator->update($params);
-            $s_coordinator->user->update(["name" => $params["name"]]);
             if ($params["is_active"] == 0) {
                 $s_coordinator->user->update(["is_active" => false]);
             }else if ($params["is_active"] == 1) {

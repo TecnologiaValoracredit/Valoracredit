@@ -43,7 +43,7 @@ class SPromotor extends Model
 
     
     //Relación que se tiene con las instituciones
-    public function institution_commisions(){
+    public function institutionCommissions(){
         return $this->hasMany(InstitutionCommission::class,'user_id', 'user_id');
     }
 

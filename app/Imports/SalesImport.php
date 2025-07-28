@@ -40,17 +40,26 @@ WithHeadingRow
             $sCreditType = null;
             $coordinator = null;
             $promotor = null;
+            $idCredit = null;
+
+            //Comprobar si esa venta no está registrada
+            $idCredit = trim($row["idsolicitud"]);
+            $saleExist = SSale::where("credit_id", $idCredit)->get();
+            //Si saleExist no está vacio
+            if(!$saleExist->isEmpty()) {
+                throw new \Exception("La venta número: '$idCredit' ya está registrada.");
+            }
 
             // dd($row);
             // Buscar o crear institucion
-            $institutionRow = $row["institucion"];
+            $institutionRow = trim($row["institucion"]);
             $institution = Institution::where("name", $institutionRow)->first();
             if($institution == null) {
                 $institution = Institution::create(["name" => $institutionRow]);
             }
 
             //Buscar o crear sucursal
-            $sBranchRow = $row["sucursal"];
+            $sBranchRow = trim($row["sucursal"]);
             $sBranch = SBranch::where("name", $sBranchRow)->first();
             if($sBranch == null) {
                 $sBranch = SBranch::create(["name"=> $sBranchRow]);
@@ -63,22 +72,22 @@ WithHeadingRow
             }
 
             //Buscar o crear Status
-            $sStatusRow = $row["estatuscredito"];
+            $sStatusRow = trim($row["estatuscredito"]);
             $sStatus = SStatus::where("name", $sStatusRow)->first();
             if($sStatus == null) {
                 $sStatus = SStatus::create(["name"=> $sStatusRow]);
             }
 
             //Buscar o crear Credit Type 
-            $sCreditTypeRow = $row["tipocredito"];
+            $sCreditTypeRow = trim($row["tipocredito"]);
             $sCreditType = SCreditType::where("name", $sCreditTypeRow)->first();
             if($sCreditType == null) {
                 $sCreditType = SCreditType::create(["name"=> $sCreditTypeRow]);
             }
 
             //Buscar o crear coordiandor
-            $coordinatorRow = $row["coordinador"];
-            if(empty($coordinatorRow)) {
+            $coordinatorRow = trim($row["coordinador"]);
+            if(empty($coordinatorRow) || $coordinatorRow == "SIN COORDINADOR") {
                 //Verificar que el id corresponda al usuario "No coordinador"
                 $coordinator = SCoordinator::find(User::where("name", "SIN COORDINADOR")->first()->coordinator->id)->first();
             }else{
@@ -95,9 +104,9 @@ WithHeadingRow
             }
 
             //Buscar o crear promotor
-            $promotorRow = $row["promotor"];
+            $promotorRow = trim($row["promotor"]);
 
-            if (empty($promotorRow)) {
+            if (empty($promotorRow) || $promotorRow == "PROMOTOR SIN") {
                 // Asignar usuario "No promotor"
                 $promotor = SPromotor::find(User::where("name", "PROMOTOR SIN")->first()->promotor->id)->first();
                 
@@ -122,7 +131,7 @@ WithHeadingRow
             if($sStatus->name !='Cancelado')
             {
                 $sSale = SSale::create([
-                    'credit_id' => trim($row["idsolicitud"]), 
+                    'credit_id' => $idCredit, 
                     'client_name' => trim($row["nombre_del_cliente"]),
                     'credit_amount' => trim($row["montocredito"]),
                     'opening_amount' => trim($row["montoentregar"]),
@@ -137,13 +146,13 @@ WithHeadingRow
                 ]);
 
                 // dd($sSale);
-
+                
                 //Obtenemos su porcentaje de comisión 
-                if($promotor->institutionCommisions && $promotor->institutionCommissions->contains('institution_id', $institution->id)){
+                if($promotor->institutionCommissions && $promotor->institutionCommissions->contains('institution_id', $institution->id)){
                     $institution_commission = $promotor->institutionCommissions
                                                 ->where('institution_id', $institution->id)
                                                 ->first();
-                    $commission_percentage = $institution_commission->commission_percentage;
+                    $commission_percentage = $institution_commission->percentage;
                 }else{
                     $commission_percentage = $promotor->commission_percentage;
                 }
@@ -151,7 +160,7 @@ WithHeadingRow
                     'user_id' => $promotor->user_id,
                     's_sale_id' => $sSale->id, 
                     'commission_percentage' => $commission_percentage,
-                    'amount_received' => $sSale->credit_amount * ($commission_percentage / 100),
+                    'amount_received' => number_format($sSale->opening_amount * ($commission_percentage / 100),2, '.', ''),
                     // 'id',
                     // 'user_id',
                     // 's_sale_id',
@@ -166,11 +175,11 @@ WithHeadingRow
                 //Si el user_id del coordinador es diferente al user_id del promotor (Que no se tiene a si mismo de coordenador)
                 if($promotor->coordinator->user_id != $promotor->user_id){
                     //Obtenemos su porcentaje de comisión
-                    if($coordinator->institutionCommisions && $coordinator->institutionCommissions->contains('institution_id', $institution->id)){
+                    if($coordinator->institutionCommissions && $coordinator->institutionCommissions->contains('institution_id', $institution->id)){
                         $institution_commission = $coordinator->institutionCommissions
                                                     ->where('institution_id', $institution->id)
                                                     ->first();
-                        $commission_percentage = $institution_commission->commission_percentage;
+                        $commission_percentage = $institution_commission->percentage;
                     }else{
                         $commission_percentage = $coordinator->commission_percentage;
                     }
@@ -179,7 +188,7 @@ WithHeadingRow
                         'user_id' => $coordinator->user_id,
                         's_sale_id' => $sSale->id, 
                         'commission_percentage' => $commission_percentage,
-                        'amount_received' => $sSale->credit_amount * ($commission_percentage / 100),
+                        'amount_received' => number_format($sSale->opening_amount * ($commission_percentage / 100),2, '.', ''),
                         // 'id',
                         // 'user_id',
                         // 's_sale_id',

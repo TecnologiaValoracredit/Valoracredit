@@ -1,65 +1,12 @@
 <div class="row mb-2">
     <div class="col">
-        @include("components.custom.forms.input", [
-            "id" => "name",
-            "name" => "name",
-            "type" => "text",
-            "placeholder" => "Nombre...",
-            "label" => "Nombre",
-            "required" => true,
-            "value" => isset($s_coordinator) ? $s_coordinator->user->name :  old("name"),
-            "invalid_feedback" => "El campo es requerido"
-        ])
-    </div>
-    {{-- <div class="col-4">
         @include("components.custom.forms.input-select", [
-            "id" => "role_id",
-            "name" => "role_id",
-            "elements" => $roles,
-            "placeholder" => "Descripción...",
-            "value" => isset($s_coordinator) ? $s_coordinator->user->role_id :  old("role_id"),
-            "label" => "Rol",
-            "required" => true,
-            "invalid_feedback" => "El campo es requerido"
-        ])
-    </div> --}}
-</div>
-
-@if (!$isEdit)
-<div class="mb-2">
-    @include("components.custom.forms.input", [
-        "id" => "email",
-        "name" => "email",
-        "type" => "email",
-        "placeholder" => "Email...",
-        "value" => isset($s_coordinator) ? $s_coordinator->user->email :  old("email"),
-        "label" => "Email",
-        "required" => true,
-        "invalid_feedback" => "El campo es requerido"
-    ])
-</div>
-
-
-<div class="mb-2">
-    @include("components.custom.forms.input", [
-        "id" => "password",
-        "name" => "password",
-        "type" => "password",
-        "placeholder" => "Contraseña...",
-        "label" => "Contraseña",
-    ])
-</div>
-@endif
-
-<div class="row mb-2">
-    <div class="col">
-        @include("components.custom.forms.input-select", [
-            "id" => "branch_id",
-            "name" => "branch_id",
-            "elements" => $branches,
-            "placeholder" => "Descripción...",
-            "value" => isset($s_coordinator) ? $s_coordinator->user->branch_id :  old("branch_id"),
-            "label" => "Sucursal",
+            "id" => "user_id",
+            "name" => "user_id",
+            "elements" => $users,
+            "placeholder" => "Usuario...",
+            "value" => isset($s_coordinator) ? $s_coordinator->user_id :  old("user_id"),
+            "label" => "Usuario",
             "required" => true,
             "invalid_feedback" => "El campo es requerido"
         ])
