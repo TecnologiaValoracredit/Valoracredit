@@ -51,5 +51,10 @@ class PermissionFunctionSeeder extends Seeder
             ]);
         }
 
+         PermissionFunction::create([
+            'name' => "exportReport", 
+            'description' => "Exportar excel de comisiones", 
+        ]);
+
     }
 }
