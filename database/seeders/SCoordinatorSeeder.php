@@ -31,9 +31,6 @@ class SCoordinatorSeeder extends Seeder
         {
             if ($key > 0) {
 
-
-               
-
                 //Crear coordinador si no existe
                 $sCoordinator = User::where("name", trim($row[20]))->where("role_id", 20)->first();
                 if ($sCoordinator == null) {
@@ -56,14 +53,14 @@ class SCoordinatorSeeder extends Seeder
 
 
                 //Usuario para promotor
-                $maternal_surname = $row[3];
-                if ($row[2] != "") {
-                    $maternal_surname = $row[2]." ".$row[3];
+                $paternal = $row[3];
+                if ($row[2] != "") { // Si tiene segundo nombre
+                    $paternal = $row[2]." ".$row[3];
                 }
 
-                if ($row[1]." ".$maternal_surname." ".$row[4] != $row[20]) {
+                if ($row[1]." ".$paternal." ".$row[4] != $row[20]) {
                     $userP = User::create([
-                        "name" => $row[1]." ".$maternal_surname." ".$row[4],
+                        "name" => $row[1]." ".$paternal." ".$row[4],
                         "email" => 'user_' . Str::random(6) . '@example.com',
                         "password" => Hash::make("123456"),
                         "role_id" => 19, //Promotor

@@ -23,7 +23,8 @@ class CommissionController extends Controller
     public function index(CommissionDataTable $dataTable)
     {
         //obtener todos los commissions, y permisos registrados
-        $allowExport = auth()->user()->hasPermissions("commissions.exportReport");
+        // $allowExport = auth()->user()->hasPermissions("commissions.exportReport");
+        $allowExport = true;
         return $dataTable->render('commissions.index', compact("allowExport"));
     }
 
