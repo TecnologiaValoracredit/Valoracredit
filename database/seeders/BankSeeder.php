@@ -16,32 +16,37 @@ class BankSeeder extends Seeder
      */
     public function run()
     {
-        Bank::create([
-            'name'=> 'BBVA',
-        ]);
-        Bank::create([
-            'name'=> 'Banorte',
-        ]);
-        Bank::create([
-            'name'=> 'HSBC',
-        ]);
-        Bank::create([
-            'name'=> 'Santander',
-        ]);
-        Bank::create([
-            'name'=> 'Citibanamex',
-        ]);
-        Bank::create([
-            'name'=> 'Banregio',
-        ]);
-        Bank::create([
-            'name'=> 'Hey Banco',
-        ]);
-        Bank::create([
-            'name'=> 'Banco Inbursa',
-        ]);
-        Bank::create([
-            'name'=> 'NU',
-        ]);
+        $banks = [
+            'BBVA México',
+            'Banorte',
+            'Santander México',
+            'Citibanamex',
+            'HSBC México',
+            'Scotiabank México',
+            'Inbursa',
+            'Banregio',
+            'Afirme',
+            'Banco del Bajío',
+            'Banco Azteca',
+            'BanCoppel',
+            'Monex',
+            'Invex',
+            'Interacciones',
+            'JP Morgan México',
+            'Deutsche Bank México',
+            'Barclays Bank México',
+            'Bancomext',
+            'Compartamos Banco',
+            'Bansi',
+            'Hey Banco',
+            'NU Banco',
+            // puedes agregar otros bancos como Ve por Más, Volkswagen Bank, etc.
+        ];
+
+        foreach ($banks as $name) {
+            Bank::create([
+                'name' => $name,
+            ]);
+        }
     }
 }

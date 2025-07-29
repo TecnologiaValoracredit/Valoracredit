@@ -56,6 +56,8 @@ class SCoordinatorController extends Controller
                 'is_broker' => $request->is_broker == "on" ?? true, false,
                 'user_id' => $request->user_id,
                 'is_active' => !is_null($request->is_active),
+                'created_by' =>  auth()->id(),
+                'updated_by' =>  auth()->id(),
             ]);
 
             $s_coordinator = SCoordinator::create($params);
@@ -101,6 +103,7 @@ class SCoordinatorController extends Controller
         $params = array_merge($request->all(), [
             'is_active' => $request->has('is_active') ? 1 : 0, 
             'is_broker' => $request->has('is_broker') ? 1 : 0, 
+            'updated_by' =>  auth()->id(),
         ]);
 
         try {

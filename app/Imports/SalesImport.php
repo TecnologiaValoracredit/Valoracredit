@@ -142,7 +142,9 @@ WithHeadingRow
                     's_branch_id' => $sBranch->id,
                     's_credit_type_id' => $sCreditType->id,
                     's_promotor_id' => $promotor->id ?? null,
-                    's_coordinator_id' => $coordinator->id ?? null
+                    's_coordinator_id' => $coordinator->id ?? null,
+                    'created_by' => auth()->id(), 
+                    'updated_by' => auth()->id(),
                 ]);
 
                 // dd($sSale);
@@ -168,8 +170,8 @@ WithHeadingRow
                     // 'amount_received',
                     // 'commission_percentage',
                     // 'is_active', 
-                    // 'created_by', 
-                    // 'updated_by',
+                    'created_by' => auth()->id(), 
+                    'updated_by' => auth()->id(),
                 ]);
 
                 //Si el user_id del coordinador es diferente al user_id del promotor (Que no se tiene a si mismo de coordenador)
@@ -196,8 +198,8 @@ WithHeadingRow
                         // 'amount_received',
                         // 'commission_percentage',
                         // 'is_active', 
-                        // 'created_by', 
-                        // 'updated_by',
+                        'created_by' => auth()->id(), 
+                        'updated_by' => auth()->id(),
                 ]);
 
                 }

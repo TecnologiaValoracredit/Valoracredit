@@ -110,6 +110,7 @@ class DatabaseSeeder extends Seeder
             
             // EmailAccountSeeder::class,
             // Database17072025Seeder::class
+            BankSeeder::class,
         ]);
     }
 }
