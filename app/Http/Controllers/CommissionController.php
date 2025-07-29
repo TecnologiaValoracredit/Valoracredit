@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 use App\Models\Commission;
 use App\Models\SSale;
+use App\Models\InstitutionCommission;
+use App\Models\SUserName;
+
 use App\DataTables\CommissionDataTable;
 use App\DataTables\InstitutionCommissionDataTable;
 use App\DataTables\SUserNameDataTable;
