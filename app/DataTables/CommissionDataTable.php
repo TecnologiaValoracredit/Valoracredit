@@ -53,15 +53,14 @@ class CommissionDataTable extends DataTable
         })->rawColumns(["is_active"]);
 
          $datatable->filter(function($query) {
-            if(request('initial_date') !== null){
-                $query->whereDate('s_sales.grant_date', '>=', request('initial_date'));
-            }
-            
-            if(request('final_date') !== null){
-                $query->whereDate('s_sales.grant_date', '<=', request('final_date'));
-            }
-            
-		}, true);
+        if (request('initial_date')) {
+            $query->whereDate('s_sales.grant_date', '>=', request('initial_date'));
+        }
+
+        if (request('final_date')) {
+            $query->whereDate('s_sales.grant_date', '<=', request('final_date'));
+        }
+    }, true);
 
         return $datatable;
     }
@@ -81,11 +80,12 @@ class CommissionDataTable extends DataTable
         return $model->select(
             'commissions.*',
             'users.name as user_name',
-            's_sales.*'
+            's_sales.*',
+            
         )
         ->leftJoin('users','commissions.user_id','=','users.id')
         ->leftJoin('s_sales','commissions.s_sale_id','=','s_sales.id')
-        ->newQuery();
+        ;
     }
 
     /**
@@ -125,12 +125,12 @@ class CommissionDataTable extends DataTable
     public function getColumns(): array
     {
         $columns = [
-            Column::make('grant_date')->title('Fecha'),
-            Column::make('user_name')->title('Beneficiario')->name("user_name"),
+            Column::make('grant_date')->title('Fecha')->name("s_sales.grant_date"),
+            Column::make('user_name')->title('Beneficiario')->name("users.name"),
             Column::make('beneficiary_type')->title('Tipo')->searchable(false),
-            Column::make('credit_id')->title('# Crédito'),
-            Column::make('credit_amount')->title('Venta'),
-            Column::make('opening_amount')->title('Monto entregado'),
+            Column::make('credit_id')->title('# Crédito')->name("s_sales.credit_id"),
+            Column::make('credit_amount')->title('Venta')->name("s_sales.credit_amount"),
+            Column::make('opening_amount')->title('Monto entregado')->name("s_sales.opening_amount"),
             Column::make('commission_percentage')->title('% comisión'),
             Column::make('amount_received')->title('Comisión'),
 

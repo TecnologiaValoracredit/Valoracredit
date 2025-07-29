@@ -43,7 +43,7 @@ WithHeadingRow
             $idCredit = null;
 
             //Comprobar si esa venta no está registrada
-            $idCredit = trim($row["idsolicitud"]);
+            $idCredit = trim($row["numerocredito"]);
             $saleExist = SSale::where("credit_id", $idCredit)->get();
             //Si saleExist no está vacio
             if(!$saleExist->isEmpty()) {

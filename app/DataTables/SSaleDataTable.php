@@ -140,8 +140,8 @@ class SSaleDataTable extends DataTable
             Column::make('total_amount')->title('Monto total'),
             Column::make('grant_date')->title('F. Otorgamiento'),
             Column::make('institution_name')->title('Institución')->name("institutions.name"),
-            Column::make('coordinator_name')->title('Coordinador')->name("coordinator_name"),
-            Column::make('promotor_name')->title('Promotor')->name("promotor_name"),
+            Column::make('coordinator_name')->title('Coordinador')->name("coordinator_users.name"),
+            Column::make('promotor_name')->title('Promotor')->name("promotor_users.name"),
 
             Column::make('s_branch_name')->title('Sucursal')->name("s_branches.name"),
             Column::make('s_status_name')->title('Estatus')->name("s_statuses.name"),
