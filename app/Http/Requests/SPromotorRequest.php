@@ -27,7 +27,7 @@ class SPromotorRequest extends FormRequest
 			// 'user_id' => 'required',
 			'coordinator_id' => 'required',
 			'promotor_credisoft_id' => 'numeric',
-			'commission_percentage' => 'required|numeric',
+			'commission_percentage' => 'numeric',
 			's_branch_id' => 'required|numeric',
 			
 		];

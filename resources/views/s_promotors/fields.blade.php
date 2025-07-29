@@ -13,18 +13,20 @@
     </div>
 </div>
 <div class="row mb-3">
-    <div class="col">
-        @include("components.custom.forms.input", [
-            "id" => "commission_percentage",
-            "name" => "commission_percentage",
-            "type" => "number",
-            "placeholder" => "Porcentaje de comisión...",
-            "label" => "Porcentaje de comisión",
-            "required" => true,
-            "value" => isset($s_promotor) ? $s_promotor->commission_percentage :  old("commission_percentage"),
-            "invalid_feedback" => "El campo es requerido"
-        ])
-    </div>
+    @if(auth()->user()->hasPermissions("commissions.editCommissionPercentages"))
+        <div class="col">
+            @include("components.custom.forms.input", [
+                "id" => "commission_percentage",
+                "name" => "commission_percentage",
+                "type" => "number",
+                "placeholder" => "Porcentaje de comisión...",
+                "label" => "Porcentaje de comisión",
+                "required" => true,
+                "value" => isset($s_promotor) ? $s_promotor->commission_percentage :  old("commission_percentage"),
+                "invalid_feedback" => "El campo es requerido"
+            ])
+        </div>
+    @endif
     <div class="col">
         @include("components.custom.forms.input-select", [
             "id" => "coordinator_id",

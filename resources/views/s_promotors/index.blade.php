@@ -1,5 +1,5 @@
 <x-base-layout :scrollspy="false">
-    <input type="hidden" id="route" value="s_coordinators">
+    <input type="hidden" id="route" value="s_promotors">
     <x-slot:pageTitle>
         Promotores 
     </x-slot>

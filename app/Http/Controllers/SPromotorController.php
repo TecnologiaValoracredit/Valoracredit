@@ -57,7 +57,7 @@ class SPromotorController extends Controller
         try {
 
             $params = array_merge($request->all(), [
-                'commission_percentage' => $request->commission_percentage,
+                'commission_percentage' => $request->commission_percentage ?? 0,
                 's_branch_id' => $request->s_branch_id,
                 'user_id' => $request->user_id,
                 's_coordinator_id' => $request->s_coordinator_id,

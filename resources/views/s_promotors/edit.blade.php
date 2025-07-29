@@ -31,34 +31,36 @@
                         <div class="w-100">
                             @include("s_promotors.fields")
 
-                            <hr>
-                            <h5>Comisiones diferentes por institución</h5>
-                            <div class="d-flex mt-2 mb-2">
-                                <div>
-                                    @include("components.custom.forms.input-inline-select", [
-                                        "id" => "institution_id",
-                                        "name" => "institution_id",
-                                        "elements" => $institutions,
-                                        "value" => isset($s_promotor) ? $s_promotor->user->institution_id :  old("institution_id"),
-                                        "label" => "Institución",
-                                        "invalid_feedback" => "El campo es requerido"
-                                    ])
+                            @if(auth()->user()->hasPermissions("commissions.editCommissionPercentages"))
+                                <hr>
+                                <h5>Comisiones diferentes por institución</h5>
+                                <div class="d-flex mt-2 mb-2">
+                                    <div>
+                                        @include("components.custom.forms.input-inline-select", [
+                                            "id" => "institution_id",
+                                            "name" => "institution_id",
+                                            "elements" => $institutions,
+                                            "value" => isset($s_promotor) ? $s_promotor->user->institution_id :  old("institution_id"),
+                                            "label" => "Institución",
+                                            "invalid_feedback" => "El campo es requerido"
+                                        ])
+                                    </div>
+                                    <div>
+                                        @include("components.custom.forms.input-inline", [
+                                            "id" => "percentage",
+                                            "name" => "percentage",
+                                            "type" => "number",
+                                            "label" => "Porcentaje",
+                                            "invalid_feedback" => "El campo es requerido",
+                                            "width" => 150,
+                                        ])
+                                    </div>
+                                    <div>
+                                        <a class="btn btn-success" onclick="addInstitution()">+</a>
+                                    </div>
                                 </div>
-                                <div>
-                                     @include("components.custom.forms.input-inline", [
-                                        "id" => "percentage",
-                                        "name" => "percentage",
-                                        "type" => "number",
-                                        "label" => "Porcentaje",
-                                        "invalid_feedback" => "El campo es requerido",
-                                        "width" => 150,
-                                    ])
-                                </div>
-                                <div>
-                                    <a class="btn btn-success" onclick="addInstitution()">+</a>
-                                </div>
-                            </div>
-                            {!! $institutionDT["view"] !!}
+                                {!! $institutionDT["view"] !!}
+                            @endif
 
                             <hr>
                             <h5>Nombres anteriores</h5>

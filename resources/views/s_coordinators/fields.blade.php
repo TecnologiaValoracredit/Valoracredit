@@ -27,18 +27,20 @@
 
 
 <div class="row mb-3">
-    <div class="col">
-        @include("components.custom.forms.input", [
-            "id" => "commission_percentage",
-            "name" => "commission_percentage",
-            "type" => "numeric",
-            "placeholder" => "Porcentaje de comisión...",
-            "label" => "Porcentaje de comisión",
-            "required" => true,
-            "value" => isset($s_coordinator) ? $s_coordinator->commission_percentage :  old("commission_percentage"),
-            "invalid_feedback" => "El campo es requerido"
-        ])
-    </div>
+    @if(auth()->user()->hasPermissions("commissions.editCommissionPercentages"))
+        <div class="col">
+            @include("components.custom.forms.input", [
+                "id" => "commission_percentage",
+                "name" => "commission_percentage",
+                "type" => "numeric",
+                "placeholder" => "Porcentaje de comisión...",
+                "label" => "Porcentaje de comisión",
+                "required" => true,
+                "value" => isset($s_coordinator) ? $s_coordinator->commission_percentage :  old("commission_percentage"),
+                "invalid_feedback" => "El campo es requerido"
+            ])
+        </div>
+    @endif
     <div class="col p-3 d-flex align-items-center justify-content-center">
         @include("components.custom.forms.input-check", [
         "id" => "is_broker",
