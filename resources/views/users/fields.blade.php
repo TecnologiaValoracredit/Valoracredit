@@ -75,6 +75,16 @@
     </div>
 </div>
 <div class="row mb-2">
+    <div class="col-3">
+         @include("components.custom.forms.input-select", [
+            "id" => "bank_id",
+            "name" => "bank_id",
+            "elements" => $banks,
+            "placeholder" => "Selecciona el banco...",
+            "value" => isset($user) ? $user->bank_id :  old("bank_id"),
+            "label" => "Banco",
+        ])
+    </div>
     <div class="col">
         @include("components.custom.forms.input", [
             "id" => "bank_account",

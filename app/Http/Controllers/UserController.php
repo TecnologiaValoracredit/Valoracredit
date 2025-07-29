@@ -65,7 +65,9 @@ class UserController extends Controller
         $roles = Role::where("is_active", 1)->pluck("name", "id");
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
-        return view('users.create', compact('roles', 'branches', 'departaments'));
+        $banks = Bank::where("is_active", 1)->pluck("name", "id");
+        
+        return view('users.create', compact('roles', 'branches', 'departaments', 'banks'));
     }
 
     public function store(UserRequest $request)
@@ -98,12 +100,7 @@ class UserController extends Controller
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
         $banks = Bank::where("is_active",1)->pluck("name", "id");
 
-        $bankDetailDataTable = new BankDetailDataTable($user);
-        $params = ['user' => $user];
-        $bankDetailDT = $this->getViewDataTable($bankDetailDataTable, 'users', [], 'users.getBankDetailDataTable', $params);
-
-
-        return view('users.edit', compact("user", "roles", "branches", "departaments", "banks", "bankDetailDT"));
+        return view('users.edit', compact("user", "roles", "branches", "departaments", "banks"));
     }
 
     public function update(UserRequest $request, User $user)
