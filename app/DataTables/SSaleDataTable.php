@@ -135,9 +135,9 @@ class SSaleDataTable extends DataTable
             
             Column::make('credit_id')->title('# Crédito'),
             Column::make('client_name')->title('Cliente'),
-            Column::make('credit_amount')->title('Monto entregado'),
-            Column::make('opening_amount')->title('Monto apertura'),
-            Column::make('total_amount')->title('Monto total'),
+            Column::make('credit_amount')->title('Monto de credito'),
+            Column::make('opening_amount')->title('Monto entregado'),
+            // Column::make('total_amount')->title('Monto total'),
             Column::make('grant_date')->title('F. Otorgamiento'),
             Column::make('institution_name')->title('Institución')->name("institutions.name"),
             Column::make('coordinator_name')->title('Coordinador')->name("coordinator_users.name"),
