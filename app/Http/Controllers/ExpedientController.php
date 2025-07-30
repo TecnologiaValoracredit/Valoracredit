@@ -19,7 +19,8 @@ class ExpedientController extends Controller
      */
     public function index(ExpedientDataTable $dataTable)
     {
-        $allowAdd = auth()->user()->hasPermissions("expedients.uploadExpedientsAbc");
+        // $allowAdd = true;
+        $allowAdd = auth()->user()->hasPermissions("expedients.importExcel");
         return $dataTable->render('expedients.index', compact("allowAdd"));
     }
 
@@ -45,7 +46,12 @@ class ExpedientController extends Controller
     }
 
     public function importExcel(Request $request){
-        dd("a");
-        Excel::import(new ExpedientImport, $request->file);
+         try{
+            Excel::import(new ExpedientImport, $request->file);
+            return redirect()->back()->with('success','');
+        }
+        catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

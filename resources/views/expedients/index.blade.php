@@ -29,15 +29,17 @@
                         </form> -->
                     @endif
                 </div>
-                <div class="d-flex justify-content-end m-3">
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
-                        Subir excel
-                    </button>
-                </div>
+                @if ($allowAdd)
+                    <div class="d-flex justify-content-end m-3">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
+                            Subir excel
+                        </button>
+                        {{-- Modal --}}
+                        @include('expedients.modal_excel')
+                    </div>
+                @endif
                 
-                {{-- Modal --}}
-                @include('s_sales.modal_excel')
                 {{ $dataTable->table() }}
             </div>
         </div>
