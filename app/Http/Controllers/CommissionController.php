@@ -60,12 +60,11 @@ class CommissionController extends Controller
             DATE(s_sales.grant_date) as sale_day,
             SUM(commissions.amount_received) as total_commission,
             banks.name as bank_name,
-            bank_details.account_number
+            users.bank_account as account_number
         ')
         ->leftJoin('s_sales', 'commissions.s_sale_id', '=', 's_sales.id')
         ->leftJoin('users', 'commissions.user_id', '=', 'users.id')
-        ->leftJoin('bank_details', 'users.id', '=', 'bank_details.user_id')
-        ->leftJoin('banks', 'bank_details.bank_id', '=', 'banks.id')
+        ->leftJoin('banks', 'users.bank_id', '=', 'banks.id')
         ->whereBetween('s_sales.grant_date', [$startDate, $endDate])
         ->groupBy('users.id', 'users.name', 'sale_day', "banks.name", "account_number")
         ->get();

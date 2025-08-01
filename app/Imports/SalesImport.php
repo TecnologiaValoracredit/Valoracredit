@@ -65,12 +65,6 @@ WithHeadingRow
                 $sBranch = SBranch::create(["name"=> $sBranchRow]);
             }
 
-            //Lógica de negocio, si las instituciones son Secc 5 || 38 y sucursal no es Saltillo, se asigna Torreon (? lol)
-            if (($institution->name == "SECCION 5" || $institution->name == "SECCION 38") && $sBranch->name != "SALTILLO"){
-                // dd($institution, $sBranch);
-                $sBranch = SBranch::where("name", "TORREON")->first();
-            }
-
             //Buscar o crear Status
             $sStatusRow = trim($row["estatuscredito"]);
             $sStatus = SStatus::where("name", $sStatusRow)->first();
@@ -89,7 +83,8 @@ WithHeadingRow
             $coordinatorRow = trim($row["coordinador"]);
             if(empty($coordinatorRow) || $coordinatorRow == "SIN COORDINADOR") {
                 //Verificar que el id corresponda al usuario "No coordinador"
-                $coordinator = SCoordinator::find(User::where("name", "SIN COORDINADOR")->first()->coordinator->id)->first();
+                $coordinator = User::where("name" , "SIN COORDINADOR")->first();
+                $coordinator = $coordinator->coordinator;
             }else{
                 $coordinator = SCoordinator::whereHas('user', function ($query) use ($coordinatorRow) {
                     $query->where('name', $coordinatorRow);
@@ -108,7 +103,8 @@ WithHeadingRow
 
             if (empty($promotorRow) || $promotorRow == "PROMOTOR SIN") {
                 // Asignar usuario "No promotor"
-                $promotor = SPromotor::find(User::where("name", "PROMOTOR SIN")->first()->promotor->id)->first();
+                $promotor = User::where("name", "PROMOTOR SIN")->first();
+                $promotor = $promotor->promotor;
                 
                 if (!$promotor) {
                     throw new \Exception("Promotor por defecto (ID: 17) no encontrado.");
@@ -149,45 +145,19 @@ WithHeadingRow
 
                 // dd($sSale);
                 
-                //Obtenemos su porcentaje de comisión 
-                if($promotor->institutionCommissions && $promotor->institutionCommissions->contains('institution_id', $institution->id)){
-                    $institution_commission = $promotor->institutionCommissions
-                                                ->where('institution_id', $institution->id)
-                                                ->first();
-                    $commission_percentage = $institution_commission->percentage;
-                }else{
-                    $commission_percentage = $promotor->commission_percentage;
-                }
-                $commissionPromotor = Commission::create([
-                    'user_id' => $promotor->user_id,
-                    's_sale_id' => $sSale->id, 
-                    'commission_percentage' => $commission_percentage,
-                    'amount_received' => number_format($sSale->opening_amount * ($commission_percentage / 100),2, '.', ''),
-                    // 'id',
-                    // 'user_id',
-                    // 's_sale_id',
-                    // 'beneficiary_type',
-                    // 'amount_received',
-                    // 'commission_percentage',
-                    // 'is_active', 
-                    'created_by' => auth()->id(), 
-                    'updated_by' => auth()->id(),
-                ]);
-
-                //Si el user_id del coordinador es diferente al user_id del promotor (Que no se tiene a si mismo de coordenador)
-                if($promotor->coordinator->user_id != $promotor->user_id){
-                    //Obtenemos su porcentaje de comisión
-                    if($coordinator->institutionCommissions && $coordinator->institutionCommissions->contains('institution_id', $institution->id)){
-                        $institution_commission = $coordinator->institutionCommissions
+                //Comprobamos que exista el promotor
+                if($promotor->user->name != "PROMOTOR SIN"){
+                    //Obtenemos su porcentaje de comisión 
+                    if($promotor->institutionCommissions && $promotor->institutionCommissions->contains('institution_id', $institution->id)){
+                        $institution_commission = $promotor->institutionCommissions
                                                     ->where('institution_id', $institution->id)
                                                     ->first();
                         $commission_percentage = $institution_commission->percentage;
                     }else{
-                        $commission_percentage = $coordinator->commission_percentage;
+                        $commission_percentage = $promotor->commission_percentage;
                     }
-
-                    $commissionCoordinator = Commission::create([
-                        'user_id' => $coordinator->user_id,
+                    $commissionPromotor = Commission::create([
+                        'user_id' => $promotor->user_id,
                         's_sale_id' => $sSale->id, 
                         'commission_percentage' => $commission_percentage,
                         'amount_received' => number_format($sSale->opening_amount * ($commission_percentage / 100),2, '.', ''),
@@ -200,9 +170,41 @@ WithHeadingRow
                         // 'is_active', 
                         'created_by' => auth()->id(), 
                         'updated_by' => auth()->id(),
-                ]);
-
+                    ]);
                 }
+                
+                //Comprobamos que exista el coordinador
+                if($coordinator->user->name != 'SIN COORDINADOR'){
+                    //Si el user_id del coordinador es diferente al user_id del promotor (Que no se tiene a si mismo de coordenador)
+                    if($promotor->coordinator->user_id != $promotor->user_id){
+                        //Obtenemos su porcentaje de comisión
+                        if($coordinator->institutionCommissions && $coordinator->institutionCommissions->contains('institution_id', $institution->id)){
+                            $institution_commission = $coordinator->institutionCommissions
+                                                        ->where('institution_id', $institution->id)
+                                                        ->first();
+                            $commission_percentage = $institution_commission->percentage;
+                        }else{
+                            $commission_percentage = $coordinator->commission_percentage;
+                        }
+
+                        $commissionCoordinator = Commission::create([
+                            'user_id' => $coordinator->user_id,
+                            's_sale_id' => $sSale->id, 
+                            'commission_percentage' => $commission_percentage,
+                            'amount_received' => number_format($sSale->opening_amount * ($commission_percentage / 100),2, '.', ''),
+                            // 'id',
+                            // 'user_id',
+                            // 's_sale_id',
+                            // 'beneficiary_type',
+                            // 'amount_received',
+                            // 'commission_percentage',
+                            // 'is_active', 
+                            'created_by' => auth()->id(), 
+                            'updated_by' => auth()->id(),
+                        ]);
+                    }
+                }
+                
             }
             // dd($sSale, $institution, $sBranch, $sStatus, $sCreditType, $coordinator, $promotor);
         }
