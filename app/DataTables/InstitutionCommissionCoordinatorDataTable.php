@@ -2,8 +2,10 @@
 
 namespace App\DataTables;
 
-use App\Models\InstitutionCommission;
+use App\Models\InstitutionCommissionCoordinator;
+use App\Models\SCoordinator;
 use App\Models\User;
+use App\Models\SPromotor;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,12 +15,12 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class InstitutionCommissionDataTable extends DataTable
+class InstitutionCommissionCoordinatorDataTable extends DataTable
 {
 
-    public function __construct(User $user)
+    public function __construct(SCoordinator $coordinator)
 	{
-		$this->user = $user;
+		$this->coordinator = $coordinator;
 	}
     
     /**
@@ -43,7 +45,7 @@ class InstitutionCommissionDataTable extends DataTable
         $result = null;
         if (auth()->user()->hasPermissions("commissions.destroy")) {
             $result .= '
-                <a onclick="deleteInstitution('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
+                <a onclick="deleteInstitutionFromCoordinator('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>        </a>
                 </a>
             ';
@@ -57,15 +59,15 @@ class InstitutionCommissionDataTable extends DataTable
      * @param \App\Models\InstitutionCommission $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(InstitutionCommission $model): QueryBuilder
+    public function query(InstitutionCommissionCoordinator $model): QueryBuilder
     {
         return $model->select(
-            "institution_commissions.*",
+            "institution_commission_coordinators.*",
             "institutions.id as institution_id",
             "institutions.name as institution_name",
         )
-        ->where("user_id", $this->user->id)
-        ->leftjoin('institutions', 'institution_commissions.institution_id', '=', 'institutions.id')
+        ->where("coordinator_id", $this->coordinator->id)
+        ->leftjoin('institutions', 'institution_commission_coordinators.institution_id', '=', 'institutions.id')
         ->newQuery();
     }
 
@@ -84,7 +86,7 @@ class InstitutionCommissionDataTable extends DataTable
                         'responsive' => true,
                         "scrollX"=> true,
                     ])
-                    ->setTableId('institution_commissions-table')
+                    ->setTableId('institution_commission_coordinators-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy(0, "asc")
@@ -109,7 +111,7 @@ class InstitutionCommissionDataTable extends DataTable
             Column::make('id')
             ->title('Id')
             ->searchable(false)
-            ->visible(false)->name("institution_commissions.id"),
+            ->visible(false)->name("institution_commission_coordinators.id"),
             Column::make('institution_name')->title('Institución')->name("institutions.name"),
             Column::make('percentage')->title('Porcentaje'),
 
@@ -138,6 +140,6 @@ class InstitutionCommissionDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'InstitutionCommissions_' . date('YmdHis');
+        return 'InstitutionCommissionCoordinators_' . date('YmdHis');
     }
 }

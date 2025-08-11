@@ -46,7 +46,7 @@ class SCoordinator extends Model
     
     //Relación que se tiene con las instituciones
     public function institutionCommissions(){
-        return $this->hasMany(InstitutionCommission::class,'user_id', 'user_id');
+        return $this->hasMany(InstitutionCommissionCoordinator::class,"coordinator_id","id");
     }
 
     //Relacion con ventas

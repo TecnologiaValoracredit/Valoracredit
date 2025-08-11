@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 use App\Models\Institution;
 
 use App\DataTables\SCoordinatorDataTable;
-use App\DataTables\InstitutionCommissionDataTable;
+use App\DataTables\InstitutionCommissionPromotorDataTable;
 use App\DataTables\SUserNameDataTable;
 
 class SPromotorController extends Controller
@@ -91,9 +91,9 @@ class SPromotorController extends Controller
 
         $isEdit = true;
 
-        $institutionDataTable = new InstitutionCommissionDataTable($s_promotor->user);
-        $params = ['user' => $s_promotor->user];
-        $institutionDT = $this->getViewDataTable($institutionDataTable, 'commissions', [], 'commissions.getInstitutionCommissionDataTable', $params);
+        $institutionDataTable = new InstitutionCommissionPromotorDataTable($s_promotor);
+        $params = ['promotor' => $s_promotor];
+        $institutionDT = $this->getViewDataTable($institutionDataTable, 'commissions', [], 'commissions.getInstitutionCommissionPromotorDataTable', $params);
 
         $sUserNameDataTable = new SUserNameDataTable($s_promotor->user);
         $params = ['user' => $s_promotor->user];

@@ -131,10 +131,12 @@ Route::middleware("auth")->group(function () {
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
     Route::get('s_promotor_reports/getTable/{year}', [SPromotorReportController::class, "getTable"])->name("s_promotor_reports.getTable");
 
-     Route::get('commissions/getInstitutionCommissionDataTable/{user}',  [CommissionController::class, 'getInstitutionCommissionDataTable'])->name('commissions.getInstitutionCommissionDataTable');
+     Route::get('commissions/getInstitutionCommissionPromotorDataTable/{promotor}',  [CommissionController::class, 'getInstitutionCommissionPromotorDataTable'])->name('commissions.getInstitutionCommissionPromotorDataTable');
+     Route::get('commissions/getInstitutionCommissionCoordinatorPromotorDataTable/{coordinator}',  [CommissionController::class, 'getInstitutionCommissionCoordinatorDataTable'])->name('commissions.getInstitutionCommissionCoordinatorDataTable');
     Route::get('commissions/getSUserNameDataTable/{user}',  [CommissionController::class, 'getSUserNameDataTable'])->name('commissions.getSUserNameDataTable');
 
-    Route::post('commissions/addInstitution/{user}',  [CommissionController::class, 'addInstitution'])->name('commissions.addInstitution');
+    Route::post('commissions/addInstitution/{promotor}',  [CommissionController::class, 'addInstitution'])->name('commissions.addInstitution');
+    Route::post('commissions/addInstitutionToCoordinator/{coordinator}',  [CommissionController::class, 'addInstitutionToCoordinator'])->name('commissions.addInstitutionToCoordinator');
     Route::post('commissions/addName/{user}',  [CommissionController::class, 'addName'])->name('commissions.addName');
 
     Route::get('users/getBankDetailDataTable/{user}',  [UserController::class, 'getBankDetailDataTable'])->name('users.getBankDetailDataTable');
@@ -142,6 +144,7 @@ Route::middleware("auth")->group(function () {
     Route::delete('users/deleteBankDetail/{bankDetail}',  [UserController::class, 'deleteBankDetail'])->name('users.deleteBankDetail');
 
     Route::delete('commissions/deleteInstitution/{institution_commission}',  [CommissionController::class, 'deleteInstitution'])->name('commissions.deleteInstitution');
+    Route::delete('commissions/deleteInstitutionFromCoordinator/{institution_commission}',  [CommissionController::class, 'deleteInstitutionFromCoordinator'])->name('commissions.deleteInstitutionFromCoordinator');
     Route::delete('commissions/deleteName/{s_user_name}',  [CommissionController::class, 'deleteName'])->name('commissions.deleteName');
     
     //DATATABLES
@@ -150,8 +153,8 @@ Route::middleware("auth")->group(function () {
 
    
 });
-// Route::get('pre_applications',  [PreApplicationController::class, 'index'])->name("pre_applications.index");
-// Route::get('pre_applications_calculator',  [PreApplicationController::class, 'index'])->name("pre_applications_calculator.index");
+Route::get('pre_applications',  [PreApplicationController::class, 'index'])->name("pre_applications.index");
+Route::get('pre_applications_calculator',  [PreApplicationController::class, 'index'])->name("pre_applications_calculator.index");
 
     Route::get('/phpinfo', function () {
         phpinfo();

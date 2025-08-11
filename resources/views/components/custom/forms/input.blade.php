@@ -1,4 +1,7 @@
 <label for="{{$id ?? $name}}" class="form-label">{{$label ?? $name}}</label>
+ @if(isset($required))
+    <b class="text-danger">*</b>
+@endif
 <input 
     name="{{$name}}" 
     type="{{$type ?? 'text'}}" 

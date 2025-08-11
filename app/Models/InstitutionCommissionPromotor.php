@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class InstitutionCommission extends Model
+class InstitutionCommissionPromotor extends Model
 {
     use HasFactory;
 
@@ -13,15 +13,15 @@ class InstitutionCommission extends Model
         'id',
         'percentage',
         'institution_id',
-        'user_id',
+        'promotor_id',
         'is_active',
         'created_by', 
         'updated_by',
     ];
 
     //Relación que se tiene con los usuarios (coordinador y promnotor)
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function promotor(){
+        return $this->belongsTo(SPromotor::class);
     }
 
     //Relación que se tiene con la instituciones 

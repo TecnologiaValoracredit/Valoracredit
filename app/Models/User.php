@@ -120,11 +120,6 @@ class User extends Authenticatable
     }
 
     //Relación que se tiene con las instituciones para comisiones extra
-    public function institutions(){
-        return $this->hasMany(InstitutionCommission::class,"user_id","id");
-    }
-
-    //Relación que se tiene con las instituciones para comisiones extra
     public function sUserNames(){
         return $this->hasMany(SUserName::class,"user_id","id");
     }

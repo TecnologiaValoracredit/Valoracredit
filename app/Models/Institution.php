@@ -18,7 +18,12 @@ class Institution extends Model
     ];
 
     //Relacion que se tiene con las comisiones por institución 
-    public function institutionCommissions(){
-        return $this->hasMany(InstitutionCommission::class, 'institution_id','id');
+    public function institutionCommissionPromotors(){
+        return $this->hasMany(InstitutionCommissionPromotor::class, 'institution_id','id');
+    }
+
+    
+    public function institutionCommissionCoordinators(){
+        return $this->hasMany(InstitutionCommissionCoordinator::class, 'institution_id','id');
     }
 }

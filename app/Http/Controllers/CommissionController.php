@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 use App\Models\Commission;
+use App\Models\SPromotor;
+use App\Models\SCoordinator;
 use App\Models\SSale;
-use App\Models\InstitutionCommission;
+use App\Models\InstitutionCommissionPromotor;
+use App\Models\InstitutionCommissionCoordinator;
 use App\Models\SUserName;
 
 use App\DataTables\CommissionDataTable;
-use App\DataTables\InstitutionCommissionDataTable;
+use App\DataTables\InstitutionCommissionPromotorDataTable;
+use App\DataTables\InstitutionCommissionCoordinatorDataTable;
 use App\DataTables\SUserNameDataTable;
 
 use App\Exports\Commissions\CommissionExport;
@@ -26,7 +30,7 @@ class CommissionController extends Controller
     public function index(CommissionDataTable $dataTable)
     {
         //obtener todos los commissions, y permisos registrados
-        $allowExport = auth()->user()->hasPermissions("commissions.exportReport");
+        // $allowExport = auth()->user()->hasPermissions("commissions.exportReport");
         $allowExport = true;
         return $dataTable->render('commissions.index', compact("allowExport"));
     }
@@ -87,15 +91,17 @@ class CommissionController extends Controller
         return $data;
     }
 
-    public function addInstitution(User $user, Request $request)
+    public function addInstitution(SPromotor $promotor, Request $request)
     {
+        $option = $request->query('option'); // o $request->query('option')
         $status = true;
         try {
-           $user->institutions()->updateOrCreate(
+           $promotor->institutionCommissions()->updateOrCreate(
                 ['institution_id' => $request->institution_id], // Campos para buscar
                 ['percentage' => $request->percentage,
                         'created_by' =>  auth()->id(),]          // Campos para crear o actualizar
             );
+
             $message = "Comisión actualizada correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
@@ -105,7 +111,7 @@ class CommissionController extends Controller
     }
 
     //Método para elimianr la institución
-    public function deleteInstitution(InstitutionCommission $institution_commission)
+    public function deleteInstitution(InstitutionCommissionPromotor $institution_commission)
     {
         $status = true;
         try {
@@ -113,12 +119,43 @@ class CommissionController extends Controller
             $message = "Institución eliminada correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
-            $message = $this->getErrorMessage($e, 'institution_commissions');
+            $message = $this->getErrorMessage($e, 'institution_commission_promotor');
+        }
+        return $this->getResponse($status, $message);
+    }
+    
+    public function addInstitutionToCoordinator(SCoordinator $coordinator, Request $request)
+    {
+        $status = true;
+        try {
+           $coordinator->institutionCommissions()->updateOrCreate(
+                ['institution_id' => $request->institution_id], // Campos para buscar
+                ['percentage' => $request->percentage,
+                        'created_by' =>  auth()->id(),]          // Campos para crear o actualizar
+            );
+
+            $message = "Comisión actualizada correctamente";
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'institution_commission_coordinator');
         }
         return $this->getResponse($status, $message);
     }
 
-    
+    //Método para elimianr la institución
+    public function deleteInstitutionFromCoordinator(InstitutionCommissionCoordinator $institution_commission)
+    {
+        $status = true;
+        try {
+            $institution_commission->delete();
+            $message = "Institución eliminada correctamente";
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'institution_commission_coordinator');
+        }
+        return $this->getResponse($status, $message);
+    }
+
     public function addName(User $user, Request $request)
     {
         $status = true;
@@ -129,7 +166,7 @@ class CommissionController extends Controller
             $message = "Nombre creado correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
-            $message = $this->getErrorMessage($e, 'institution_commissions');
+            $message = $this->getErrorMessage($e, 'institution_commission_promotors');
         }
         return $this->getResponse($status, $message);
     }
@@ -148,9 +185,14 @@ class CommissionController extends Controller
         return $this->getResponse($status, $message);
     }
 
-    public function getInstitutionCommissionDataTable(User $user)
+    public function getInstitutionCommissionPromotorDataTable(SPromotor $promotor)
     {
-        return (new InstitutionCommissionDataTable($user))->render('components.datatable');
+        return (new InstitutionCommissionPromotorDataTable($promotor))->render('components.datatable');
+    }
+
+    public function getInstitutionCommissionCoordinatorDataTable(SCoordinator $coordinator)
+    {
+        return (new InstitutionCommissionCoordinatorDataTable($coordinator))->render('components.datatable');
     }
 
     public function getSUserNameDataTable(User $user)

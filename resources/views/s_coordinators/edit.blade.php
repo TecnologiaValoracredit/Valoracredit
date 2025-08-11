@@ -19,6 +19,8 @@
     <div class="row layout-top-spacing">
         @include("components.custom.errors")
         <input type="hidden" name="user_id" id="user_id" value="{{$s_coordinator->user->id}}">
+        <input type="hidden" name="coordinator_id" id="coordinator_id" value="{{$s_coordinator->id}}">
+
         <!-- CONTENT HERE -->
         <div class="card">
             <div class="card-body">
@@ -54,7 +56,7 @@
                                         ])
                                     </div>
                                     <div>
-                                        <a class="btn btn-success" onclick="addInstitution()">+</a>
+                                        <a class="btn btn-success" onclick="addInstitutionToCoordinator()">+</a>
                                     </div>
                                 </div>
                                 {!! $institutionDT["view"] !!}

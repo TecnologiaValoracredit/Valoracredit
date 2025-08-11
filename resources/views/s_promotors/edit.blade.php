@@ -19,6 +19,7 @@
     <div class="row layout-top-spacing">
         @include("components.custom.errors")
         <input type="hidden" name="user_id" id="user_id" value="{{$s_promotor->user->id}}">
+        <input type="hidden" name="promotor_id" id="promotor_id" value="{{$s_promotor->id}}">
 
         <!-- CONTENT HERE -->
         <div class="card">

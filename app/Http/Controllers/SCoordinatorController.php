@@ -13,7 +13,7 @@ use App\Models\Institution;
 
 use App\Http\Requests\SCoordinatorRequest;
 use App\DataTables\SCoordinatorDataTable;
-use App\DataTables\InstitutionCommissionDataTable;
+use App\DataTables\InstitutionCommissionCoordinatorDataTable;
 use App\DataTables\SUserNameDataTable;
 
 use App\Models\PermissionModule;
@@ -83,9 +83,9 @@ class SCoordinatorController extends Controller
         $user = $s_coordinator->user;
         $isEdit = true;
 
-        $institutionDataTable = new InstitutionCommissionDataTable($s_coordinator->user);
-        $params = ['user' => $s_coordinator->user];
-        $institutionDT = $this->getViewDataTable($institutionDataTable, 'commissions', [], 'commissions.getInstitutionCommissionDataTable', $params);
+        $institutionDataTable = new InstitutionCommissionCoordinatorDataTable($s_coordinator);
+        $params = ['coordinator' => $s_coordinator];
+        $institutionDT = $this->getViewDataTable($institutionDataTable, 'commissions', [], 'commissions.getInstitutionCommissionCoordinatorDataTable', $params);
 
         $sUserNameDataTable = new SUserNameDataTable($s_coordinator->user);
         $params = ['user' => $s_coordinator->user];
