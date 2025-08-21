@@ -138,6 +138,7 @@ Route::middleware("auth")->group(function () {
      Route::get('commissions/getInstitutionCommissionManagerDataTable/{manager}',  [CommissionController::class, 'getInstitutionCommissionManagerDataTable'])->name('commissions.getInstitutionCommissionManagerDataTable');
     Route::get('commissions/getSUserNameDataTable/{user}',  [CommissionController::class, 'getSUserNameDataTable'])->name('commissions.getSUserNameDataTable');
 
+    Route::get('requisition_rows/getRequisitionRowsDataTable/{requisition}',  [RequisitionRowsController::class, 'getRequisitionRowsDataTable'])->name('requisition_rows.getRequisitionRowsDataTable');
     Route::post('commissions/addInstitution/{promotor}',  [CommissionController::class, 'addInstitution'])->name('commissions.addInstitution');
     Route::post('commissions/addInstitutionToCoordinator/{coordinator}',  [CommissionController::class, 'addInstitutionToCoordinator'])->name('commissions.addInstitutionToCoordinator');
     Route::post('commissions/addInstitutionToManager/{manager}',  [CommissionController::class, 'addInstitutionToManager'])->name('commissions.addInstitutionToManager');

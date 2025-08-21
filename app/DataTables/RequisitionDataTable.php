@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Requisition;
+use App\Models\RequisitionRow;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -14,6 +15,11 @@ use Yajra\DataTables\Services\DataTable;
 
 class RequisitionDataTable extends DataTable
 {
+
+    public function __construct(Requisition $requisition)
+	{
+		$this->requisition = $requisition;
+	}
     /**
      * Build DataTable class.
      *
@@ -89,36 +95,15 @@ class RequisitionDataTable extends DataTable
      */
     public function query(Requisition $model): QueryBuilder
 {
-    return $model->newQuery()
+    return $model
         ->select([
             'requisitions.*',
-            'users.name as created_by_name',  // Cambiar esto por 'users.name' para mostrar el nombre
-            \DB::raw('COALESCE(SUM(requisition_rows.unit_price), 0) as total_ammount')
+            'users.name as user_name',  // Cambiar esto por 'users.name' para mostrar el nombre
+            'requisition_statuses.name as status_name'
         ])
-        ->leftJoin('users', 'users.id', '=', 'requisitions.created_by')  // Asegúrate de usar el campo correcto
-        ->leftJoin('requisition_rows', 'requisition_rows.requisition_id', '=', 'requisitions.id')
-        ->groupBy([
-            'requisitions.id',
-            'users.name',  // Esta es la columna de nombre que viene de la tabla `users`
-            'requisitions.requisition_status_id',
-            'requisitions.is_active',
-            'requisitions.created_at',
-            'requisitions.updated_at',
-            'requisitions.payment_type_id',
-            'requisitions.departament_id',
-            'requisitions.branch_id',
-            'requisitions.application_date',
-            'requisitions.inmediate_boss_user_id',
-            'requisitions.administration_user_id',
-            'requisitions.general_direction_user_id',
-            'requisitions.is_approved_inmediante_boss',
-            'requisitions.is_approved_administration',
-            'requisitions.is_approved_general_direction',
-            'requisitions.created_by',  
-            'requisitions.updated_by',
-            'requisitions.notes',
-            'requisitions.user_id'
-        ]);
+        ->leftJoin('users', 'users.id', '=', 'requisitions.user_id')  // Asegúrate de usar el campo correcto
+        ->leftJoin('requisition_statuses', 'requisition_statuses.id', '=', 'requisitions.requisition_status_id')  // Asegúrate de usar el campo correcto
+        ->newQuery();
 }
 
     
@@ -162,10 +147,11 @@ class RequisitionDataTable extends DataTable
     {
         $columns = [
 
-            Column::make('id')->searchable(false)->title('Id'),
-            Column::make('created_by_name')->searchable(false)->title('Creada por'),
-            Column::make('application_date')->searchable(false)->title('Fecha creado'),
-            Column::make('is_active')->title("Activo"),
+            Column::make('id')->title('Id'),
+            Column::make('user_name')->title('Usuario')->name('user.name'),
+            Column::make('request_date')->title('Fecha de pedido'),
+            Column::make('status_name')->title('Estatus')->name('requisition_status.name'),
+            Column::make('amount')->title('Total'),
 
         ];
 

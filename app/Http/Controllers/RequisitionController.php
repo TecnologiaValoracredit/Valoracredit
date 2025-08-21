@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\RequisitionRowsDataTable;
 use Illuminate\Http\Request;
 use App\Models\Requisition;
 use App\Models\PaymentType;
 use App\Models\Branch;
+use App\Models\User;
 use App\Models\Departament;
 use App\Models\Supplier;
 use App\DataTables\RequisitionDataTable;
@@ -28,11 +30,37 @@ class RequisitionController extends Controller
 
     public function create()
     {
+        $user = auth()->user();
         $payment_types = PaymentType::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $suppliers = Supplier::all();
-         return view('requisitions.create', compact('departaments', 'payment_types', 'branches', 'suppliers'));
+
+        $user = auth()->user();
+        $boss = $user->boss ?? 1;
+        $admonF = User::where('email', 'admonfinanzas@valoracredit.mx')->first();
+        $chief = User::where('email', 'berlangahector@hotmail.com')->first();
+        $requisition = Requisition::create([
+            'user_id' => $user->id,
+            'requisition_status_id' => 1,
+            'payment_type_id' => 1,
+            'amount' => 0,
+            'request_date' => now(),
+            'departament_id' => $user->departament->id,
+            'branch_id' =>  $user->branch->id,
+            'approval_boss_id' => $boss->id ?? 1,
+            'approval_admin_id'=> $admonF->id,
+            'approval_chief_id' => $chief->id,
+            'is_active'  => true,
+            'created_by' => auth()->id(), 
+            'updated_by'=> auth()->id(),
+        ]);
+
+        $requisitionRowsDataTable = new RequisitionRowsDataTable($requisition);
+        $params = ['requisition' => $requisition];
+        $requisitionRowsDT = $this->getViewDataTable($requisitionRowsDataTable, 'requisition_rows', [], 'requisition_rows.getRequisitionRowsDataTable', $params);
+
+        return view('requisitions.create', compact('departaments', 'payment_types', 'branches', 'suppliers', 'user', 'requisitionRowsDT'));
     }
 
     public function store(Request $request)
@@ -40,14 +68,26 @@ class RequisitionController extends Controller
         // Convertir 'is_active' a valor booleano (1 o 0)
         $is_active = $request->input('is_active') === 'on' ? 1 : 0;
     
+        dd($request);
         // Crear la requisición principal
+        $user = User::where('id', $request->input('user_id'))->first();
+        $boss = $user->boss;
+        $admonF = User::where('email', 'admonfinanzas@valoracredit.mx')->first();
+        $chief = User::where('email', 'berlangahector@hotmail.com')->first();
         $requisition = Requisition::create([
-            'is_active' => $is_active,
-            'application_date' => $request->input('application_date', now()),
-            'created_by' => $request->input('created_by'),
-            'departament_id' => $request->input('departament_id'),
+            'user_id' => $user->id,
+            'requisition_status_id' => 1,
             'payment_type_id' => $request->input('payment_type_id'),
-            'branch_id' => $request->input('branch_id'),
+            'amount' => 0,
+            'request_date' => $request->input('request_date', now()),
+            'departament_id' => $request->input('departament_id'),
+            'branch_id' =>  $request->input('branch_id'),
+            'approval_boss_id' => $boss->id,
+            'approval_admin_id'=> $admonF->id,
+            'approval_chief_id' => $chief->id,
+            'is_active'  => $is_active,
+            'created_by' => auth()->id(), 
+            'updated_by'=> auth()->id(),
         ]);
     
         // Validar y procesar las filas del arreglo "rows" (fila inicial)
@@ -66,14 +106,22 @@ class RequisitionController extends Controller
                 $includeIva = isset($row['include_iva']) ? $row['include_iva'] : 0;
     
                 RequisitionRow::create([
+                    'product' => $row['product'],
+                    'product_description' => $row['description'],
+                    'product_quantity' => $row['amount'],
+                    'product_cost' => $row['unit_price'],
+                    'has_iva' => $includeIva,
+                    'total_cost' => 0,
+                    'reason',
+                    'evidence',
+                    'link'  => $row['url'],
+                    'requisition_id',
+                    'parent_id',
+                    'supplier_id' => $row['supplier_id'],
+                    'is_active' => true,
+                    'created_by'=> auth()->id(), 
+                    'updated_by' => auth()->id(),
                     'requisition_id' => $requisition->id,
-                    'supplier_id'    => $row['supplier_id'],
-                    'description'    => $row['description'],
-                    'unit_price'     => $row['unit_price'],
-                    'amount'         => $row['amount'],
-                    'subtotal'       => $row['subtotal'] ?? 0,
-                    'include_iva'    => $includeIva,
-                    'url'            => $row['url'],
                 ]);
             }
         }

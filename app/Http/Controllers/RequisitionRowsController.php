@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\RequisitionRowsDataTable;
+use App\Models\RequisitionRow;
+use App\Models\Requisition;
 use Illuminate\Http\Request;
 
 class RequisitionRowsController extends Controller
@@ -80,5 +83,10 @@ class RequisitionRowsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getRequisitionRowsDataTable(Requisition $requisition)
+    {
+        return (new RequisitionRowsDataTable($requisition))->render('components.datatable');
     }
 }

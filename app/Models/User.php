@@ -31,7 +31,8 @@ class User extends Authenticatable
         'is_active',
         'role_id',
         'departament_id',
-        'branch_id'
+        'branch_id',
+        'boss_id',
     ];
 
     /**
@@ -80,6 +81,13 @@ class User extends Authenticatable
         return $this->belongsTo("App\Models\ChkList", "chk_list_id", "id");
     }
 
+    public function boss(){
+        return $this->belongsTo("App\Models\User", "boss_id", "id");
+    }
+
+    public function employees(){
+        return $this->hasMany("App\Models\User", "boss_id", "id");
+    }
 
     public function permissions()
 	{

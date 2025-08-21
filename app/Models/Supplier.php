@@ -15,4 +15,7 @@ class Supplier extends Model
         'is_active'
     ];
 
+    public function requisition_rows(){
+        return $this->hasMany('App/Models/RequisitionRows', "supplier_id", "id");
+    }
 }

@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class RequisitionStatus extends Model
 {
     use HasFactory;
+    protected $fillable = [ 
+        'name',
+        'description',
+        'is_active',
+        'created_by', 
+        'updated_by',
+        'notes'
+    ];
+
 }

@@ -1,4 +1,7 @@
 <label for="{{$id ?? $name}}" class="form-label">{{$label ?? $name}}</label>
+@if(isset($required))
+    <b class="text-danger">*</b>
+@endif
 <select class="form-control {{$class ?? ''}}" id="{{$id ?? $name}}" name="{{$name}}" {{isset($required) ? "required" : ""}}>
     <option disabled selected value="">Seleccione una opción...</option>
     @foreach ($elements as $key => $element)

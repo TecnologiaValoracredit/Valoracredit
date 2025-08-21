@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\RequisitionRow;
+use App\Models\Requisition;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -14,6 +15,10 @@ use Yajra\DataTables\Services\DataTable;
 
 class RequisitionRowsDataTable extends DataTable
 {
+    public function __construct(Requisition $requisition)
+	{
+		$this->requisition = $requisition;
+	}
     /**
      * Build DataTable class.
      *
@@ -35,7 +40,15 @@ class RequisitionRowsDataTable extends DataTable
      */
     public function query(RequisitionRow $model): QueryBuilder
     {
-        return $model->newQuery();
+        $query = $model->select(
+            'requisition_rows.*',
+        )->newQuery();
+
+        if($this->requisition){
+            $query->leftJoin('requisitions','requisition_rows.requisition_id','=','requisitions.id');
+        }
+
+        return $query;
     }
 
     /**
@@ -46,19 +59,23 @@ class RequisitionRowsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('requisitionrows-table')
+                    ->parameters([
+                        'paging' => true,
+                        'searching' => true,
+                        'info' => true,
+                        'responsive' => true,
+                        "scrollX"=> true,
+                    ])
+                    ->setTableId('s_promotors-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0, "asc")
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
                         Button::make('pdf'),
                         Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
                     ]);
     }
 
@@ -69,17 +86,33 @@ class RequisitionRowsDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+        $columns = [
+           
+            Column::make('product')->title('Producto'),
+            Column::make('product_quantity')->title('Cantidad'),
+            Column::make('product_price')->title('Costo unitario'),
+            Column::make('has_iva')->title('Incluye IVA'),
+            Column::make('total')->title('Total'),
+           
+           
+            // Column::make('is_active')->title("Activo"),
+
         ];
+
+        if (auth()->user()->hasPermissions("requisitions.edit") ||
+            auth()->user()->hasPermissions("requisitions.create") ||
+            auth()->user()->hasPermissions("requisitions.destroy")) {
+            $columns = array_merge($columns, [
+                Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center')
+                ->title('Acciones')
+            ]);
+        }
+
+        return $columns;
     }
 
     /**

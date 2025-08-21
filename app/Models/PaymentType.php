@@ -13,4 +13,8 @@ class PaymentType extends Model
         'id', 'description','name','is_active',
         'created_by', 'updated_by','notes'
     ];
+
+    public function requisitions(){
+        return $this->hasMany('App/Models/Requisition', "requisition_id", "id");
+    }
 }
