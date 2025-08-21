@@ -51,6 +51,8 @@ use Database\Seeders\PermissionPermission11032025Seeder;
 use Database\Seeders\Database25062025Seeder;
 use Database\Seeders\Database17072025Seeder;
 use Database\Seeders\Database18072025Seeder;
+use Database\Seeders\Database20082025Seeder;
+
 use Database\Seeders\BankSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -113,6 +115,7 @@ class DatabaseSeeder extends Seeder
             // Database17072025Seeder::class
             BankSeeder::class,
             Database29072025Seeder::class,
+            Database20082025Seeder::class,
         ]);
     }
 }

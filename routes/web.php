@@ -26,6 +26,7 @@ use App\Http\Controllers\FAccountController;
 use App\Http\Controllers\FFluxController;
 use App\Http\Controllers\FClasificationController;
 use App\Http\Controllers\SCoordinatorController;
+use App\Http\Controllers\SManagerController;
 use App\Http\Controllers\SPromotorController;
 use App\Http\Controllers\CommissionController;
 use App\Http\Controllers\SCoordinatorReportController;
@@ -118,6 +119,7 @@ Route::middleware("auth")->group(function () {
         
         //Commissions 
         Route::resource('s_coordinators', SCoordinatorController::class);
+        Route::resource('s_managers', SManagerController::class);
         Route::resource('s_promotors', SPromotorController::class);
         Route::get('commissions',  [CommissionController::class, 'index'])->name("commissions.index");
 
@@ -133,10 +135,12 @@ Route::middleware("auth")->group(function () {
 
      Route::get('commissions/getInstitutionCommissionPromotorDataTable/{promotor}',  [CommissionController::class, 'getInstitutionCommissionPromotorDataTable'])->name('commissions.getInstitutionCommissionPromotorDataTable');
      Route::get('commissions/getInstitutionCommissionCoordinatorPromotorDataTable/{coordinator}',  [CommissionController::class, 'getInstitutionCommissionCoordinatorDataTable'])->name('commissions.getInstitutionCommissionCoordinatorDataTable');
+     Route::get('commissions/getInstitutionCommissionManagerDataTable/{manager}',  [CommissionController::class, 'getInstitutionCommissionManagerDataTable'])->name('commissions.getInstitutionCommissionManagerDataTable');
     Route::get('commissions/getSUserNameDataTable/{user}',  [CommissionController::class, 'getSUserNameDataTable'])->name('commissions.getSUserNameDataTable');
 
     Route::post('commissions/addInstitution/{promotor}',  [CommissionController::class, 'addInstitution'])->name('commissions.addInstitution');
     Route::post('commissions/addInstitutionToCoordinator/{coordinator}',  [CommissionController::class, 'addInstitutionToCoordinator'])->name('commissions.addInstitutionToCoordinator');
+    Route::post('commissions/addInstitutionToManager/{manager}',  [CommissionController::class, 'addInstitutionToManager'])->name('commissions.addInstitutionToManager');
     Route::post('commissions/addName/{user}',  [CommissionController::class, 'addName'])->name('commissions.addName');
 
     Route::get('users/getBankDetailDataTable/{user}',  [UserController::class, 'getBankDetailDataTable'])->name('users.getBankDetailDataTable');
@@ -145,6 +149,7 @@ Route::middleware("auth")->group(function () {
 
     Route::delete('commissions/deleteInstitution/{institution_commission}',  [CommissionController::class, 'deleteInstitution'])->name('commissions.deleteInstitution');
     Route::delete('commissions/deleteInstitutionFromCoordinator/{institution_commission}',  [CommissionController::class, 'deleteInstitutionFromCoordinator'])->name('commissions.deleteInstitutionFromCoordinator');
+    Route::delete('commissions/deleteInstitutionFromManager/{institution_commission}',  [CommissionController::class, 'deleteInstitutionFromManager'])->name('commissions.deleteInstitutionFromManager');
     Route::delete('commissions/deleteName/{s_user_name}',  [CommissionController::class, 'deleteName'])->name('commissions.deleteName');
     
     //DATATABLES

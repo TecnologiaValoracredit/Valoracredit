@@ -54,6 +54,31 @@ $(document).ready(function(){
         })
     }
 
+    window.addInstitutionToManager = () => {
+        const data = {
+            "institution_id": $("#institution_id").val(),
+            "percentage": $("#percentage").val()
+        }
+        $.ajax({
+            url: $('meta[name="app-url"]').attr('content')+`/commissions/addInstitutionToManager/${manager_id}`,
+            type: "POST",
+            data: data,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            success: function(response) {
+                //Cerrar el modal y actualizar el datatable
+                let dt = window.LaravelDataTables['institution_commission_managers-table'];
+                dt.draw(false)
+                $('#institution_id').prop('selectedIndex', 0);
+                $('#percentage').val("");
+
+                snackBar(response.message, response.status ? "success" : "danger")
+            },error: function(xhr, textStatus, errorThrown) {
+                errorMessage(xhr.status, errorThrown)
+            }
+        })
+    }
 
      window.addName = () => {
         const data = {
@@ -107,6 +132,32 @@ $(document).ready(function(){
 
 
     window.deleteInstitutionFromCoordinator = (id) => {
+        const confirm = alertYesNo(
+            'Eliminar institución',
+            '¿Estás seguro de eliminar la institución?'
+        );
+        confirm.then((result) => {
+            if (result) {
+                $.ajax({
+                    url: $('meta[name="app-url"]').attr('content')+`/commissions/deleteInstitutionFromManager/${id}`,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    success: function(response) {
+                        var table = window.LaravelDataTables[`institution_commission_managers-table`];
+                        table.draw(false);
+                        snackBar("Institución eliminada correctamente", "success")
+
+                    },error: function(xhr, textStatus, errorThrown) {
+                        errorMessage(xhr.status, errorThrown)
+                    }
+                });
+            }
+        })
+    }
+
+    window.deleteInstitutionFromManager = (id) => {
         const confirm = alertYesNo(
             'Eliminar institución',
             '¿Estás seguro de eliminar la institución?'

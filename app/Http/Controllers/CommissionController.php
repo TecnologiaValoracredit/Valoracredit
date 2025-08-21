@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Commission;
 use App\Models\SPromotor;
 use App\Models\SCoordinator;
+use App\Models\SManager;
 use App\Models\SSale;
 use App\Models\InstitutionCommissionPromotor;
 use App\Models\InstitutionCommissionCoordinator;
@@ -12,6 +13,7 @@ use App\Models\SUserName;
 use App\DataTables\CommissionDataTable;
 use App\DataTables\InstitutionCommissionPromotorDataTable;
 use App\DataTables\InstitutionCommissionCoordinatorDataTable;
+use App\DataTables\InstitutionCommissionManagerDataTable;
 use App\DataTables\SUserNameDataTable;
 
 use App\Exports\Commissions\CommissionExport;
@@ -142,6 +144,24 @@ class CommissionController extends Controller
         return $this->getResponse($status, $message);
     }
 
+public function addInstitutionToManager(SManager $manager, Request $request)
+    {
+        $status = true;
+        try {
+           $manager->institutionCommissions()->updateOrCreate(
+                ['institution_id' => $request->institution_id], // Campos para buscar
+                ['percentage' => $request->percentage,
+                        'created_by' =>  auth()->id(),]          // Campos para crear o actualizar
+            );
+
+            $message = "Comisión actualizada correctamente";
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'institution_commission_manager');
+        }
+        return $this->getResponse($status, $message);
+    }
+
     //Método para elimianr la institución
     public function deleteInstitutionFromCoordinator(InstitutionCommissionCoordinator $institution_commission)
     {
@@ -152,6 +172,19 @@ class CommissionController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
             $message = $this->getErrorMessage($e, 'institution_commission_coordinator');
+        }
+        return $this->getResponse($status, $message);
+    }
+
+    public function deleteInstitutionFromManager(InstitutionCommissionManager $institution_commission)
+    {
+        $status = true;
+        try {
+            $institution_commission->delete();
+            $message = "Institución eliminada correctamente";
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'institution_commission_manager');
         }
         return $this->getResponse($status, $message);
     }
@@ -193,6 +226,11 @@ class CommissionController extends Controller
     public function getInstitutionCommissionCoordinatorDataTable(SCoordinator $coordinator)
     {
         return (new InstitutionCommissionCoordinatorDataTable($coordinator))->render('components.datatable');
+    }
+
+    public function getInstitutionCommissionManagerDataTable(SManager $manager)
+    {
+        return (new InstitutionCommissionManagerDataTable($manager))->render('components.datatable');
     }
 
     public function getSUserNameDataTable(User $user)

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SCoordinator extends Model
+class SManager extends Model
 {
     use HasFactory;
 
@@ -14,8 +14,6 @@ class SCoordinator extends Model
         'user_id',
         'commission_percentage',
         's_branch_id',
-        'is_broker',
-        'manager_id',
         'created_by',
         'created_at',
         'updated_by',

@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\Departament;
 use App\Models\Branch;
 use App\Models\SBranch;
+use App\Models\SManager;
 use App\Models\User;
 use App\Models\Institution;
 
@@ -40,9 +41,13 @@ class SCoordinatorController extends Controller
         $s_branches = SBranch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
         $users = User::where("role_id", 20)->pluck("name","id");
+        $managers = SManager::where("is_active", 1)
+                                        ->with('user')
+                                        ->get()
+                                        ->pluck('user.name', 'id');
         $isEdit = false;
 
-        return view('s_coordinators.create', compact('roles', 'branches', 's_branches', 'departaments', 'isEdit', 'users'));
+        return view('s_coordinators.create', compact('roles', 'branches', 's_branches', 'departaments', 'isEdit', 'users', 'managers'));
     }
 
     public function store(SCoordinatorRequest $request)
@@ -53,6 +58,7 @@ class SCoordinatorController extends Controller
             $params = array_merge($request->all(), [
                 'commission_percentage' => $request->commission_percentage ?? 0,
                 's_branch_id' => $request->s_branch_id,
+                'manager_id' => $request->manager_id,
                 'is_broker' => $request->is_broker == "on" ?? true, false,
                 'user_id' => $request->user_id,
                 'is_active' => !is_null($request->is_active),
@@ -80,6 +86,11 @@ class SCoordinatorController extends Controller
         $s_branches = SBranch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
         $users = User::where("role_id", 20)->pluck("name","id");
+        $managers = SManager::where("is_active", 1)
+                                        ->with('user')
+                                        ->get()
+                                        ->pluck('user.name', 'id');
+
         $user = $s_coordinator->user;
         $isEdit = true;
 
@@ -93,8 +104,8 @@ class SCoordinatorController extends Controller
 
         $institutions = Institution::where("is_active", 1)->orderBy("name", "asc")->pluck("name", "id");
 
-        return view('s_coordinators.edit', compact("s_coordinator", "user", "roles", "branches", "s_branches", "departaments", "isEdit", "institutionDT", "institutions", "sUserNameDT", "users"));
-     
+        return view('s_coordinators.edit', compact("s_coordinator", "user", "roles", "branches", "s_branches", "departaments", "isEdit", "institutionDT", "institutions", "sUserNameDT", "users", "managers"));
+
     }
 
     public function update(SCoordinatorRequest $request, SCoordinator $s_coordinator)
