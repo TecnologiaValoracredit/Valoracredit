@@ -1,20 +1,20 @@
 <div class="row mt-2">
     <div class="col">
-        <input type="hidden" name="user_id" value="{{ $user->id }}">
+        <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">
         @include("components.custom.forms.input", [
             "id" => "user",
             "name" => "user",
             "type" => "text",
-            "placeholder" => $user->name,
+            "placeholder" => "Nombre",
             "label" => "Solicitante",
             "required" => true,
             "readonly" => true,
-            "value" => $user->name,
+            "value" => isset($requisition) ? $requisition->user->name : $user->name,
             "invalid_feedback" => "El campo es requerido"
         ])
     </div>
     <div class="col">
-        <input type="hidden" name="department_id" value="{{ $user->departament->id }}">
+        <input type="hidden" name="department_id" value="{{ isset($user) ? $user->departament->id : '' }}">
          @include("components.custom.forms.input", [
             "id" => "department",
             "name" => "department",
@@ -23,12 +23,12 @@
             "label" => "Departamento",
             "required" => true,
             "readonly" => true,
-            "value" => $user->departament->name,
+            "value" => isset($requisition) ? $requisition->user->departament->name : $user->departament->name,
             "invalid_feedback" => "El campo es requerido"
         ])
     </div>
     <div class="col">
-        <input type="hidden" name="branch_id" value="{{ $user->branch->id }}">
+        <input type="hidden" name="branch_id" value="{{ isset($user) ? $user->branch->id : '' }}">
          @include("components.custom.forms.input", [
             "id" => "branch",
             "name" => "branch",
@@ -37,7 +37,7 @@
             "label" => "Sucursal",
             "required" => true,
             "readonly" => true,
-            "value" => $user->branch->name,
+            "value" => isset($requisition) ? $requisition->user->branch->name : $user->branch->name,
             "invalid_feedback" => "El campo es requerido"
         ])
     </div>
@@ -52,7 +52,7 @@
             "label" => "Fecha de solicitud",
             "required" => true,
             "readonly" => true,
-            "value" => now(),
+            "value" => isset($requisition) ? $requisition->request_date : now(),
             "invalid_feedback" => "El campo es requerido"
         ])
     </div>
@@ -63,8 +63,9 @@
             "name" => "payment_type_id",
             "elements" => $payment_types,
             "placeholder" => "Tipo de pago...",
-            "value" => isset($order->payment_type_id) ? $order->payment_type_id :  old("payment_type_id"),
+            "value" => isset($requisition->payment_type_id) ? $requisition->payment_type_id :  old("payment_type_id"),
             "label" => "Tipo de pago",
+            "readonly" => isset($readonly) ? $readonly : false,
             "required" => true,
             "invalid_feedback" => "El campo es requerido"
         ])
@@ -82,4 +83,17 @@
             "invalid_feedback" => "El campo es requerido"
         ])
     </div>
+</div>
+<div class="col-12 mt-2">
+    @include("components.custom.forms.textarea",[
+        "id" => "notes",
+        "name" => "notes",
+        "type" => "textarea",
+        "placedolder" => "Notas de requisición",
+        "value" => isset($requisition) ? $requisition->notes : old("notes"),
+        "label" => "Notas de requisición",
+        "readonly" => isset($readonly) ? $readonly : '',
+        "required" => false,
+        "invalid_feedback" => "El campo es requerido",
+    ])
 </div>

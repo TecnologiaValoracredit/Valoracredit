@@ -53,6 +53,8 @@ export default defineConfig({
                 'resources/js/commissions/generals.js',
                 'resources/js/commissions/index.js',
 
+                'resources/js/requisitions/generals.js',
+
             ],
             refresh: true,
         }),

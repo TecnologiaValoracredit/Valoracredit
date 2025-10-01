@@ -2,6 +2,7 @@ $(document).ready(function(){
     const user_id = $("#user_id").val()
     const promotor_id = $("#promotor_id").val()
     const coordinator_id = $("#coordinator_id").val()
+    const manager_id = $("#manager_id").val()
     window.addInstitution = () => {
         const data = {
             "institution_id": $("#institution_id").val(),
@@ -59,6 +60,7 @@ $(document).ready(function(){
             "institution_id": $("#institution_id").val(),
             "percentage": $("#percentage").val()
         }
+        console.log(data, manager_id)
         $.ajax({
             url: $('meta[name="app-url"]').attr('content')+`/commissions/addInstitutionToManager/${manager_id}`,
             type: "POST",

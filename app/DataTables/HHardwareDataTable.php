@@ -179,6 +179,8 @@ class HHardwareDataTable extends DataTable
     public function getColumns(): array
     {
         $columns = [
+            Column::make('id')
+            ->title('ID'),
 
             Column::make('user_name')
             ->title('Responsable')

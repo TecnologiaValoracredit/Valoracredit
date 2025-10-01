@@ -142,9 +142,19 @@ class User extends Authenticatable
         return $this->hasOne(SCoordinator::class,"user_id", "id");
     }
 
+    //Relacion que tiene con el gerente
+    public function manager(){
+        return $this->hasOne(SManager::class,"user_id", "id");
+    }
+
+
     public function getUserTypeAttribute()
     {
-        if($this->coordinator != null || $this->promotor != null && $this->coordinator != null){
+
+        if($this->manager){
+            return 'Gerente';
+        }
+        elseif($this->coordinator != null || $this->promotor != null && $this->coordinator != null){
             if($this->coordinator->is_broker){
                 return 'Broker';
             }

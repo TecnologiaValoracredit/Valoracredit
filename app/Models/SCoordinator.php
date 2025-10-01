@@ -55,6 +55,11 @@ class SCoordinator extends Model
         return $this->hasMany(SSale::class,'s_coordinator_id', 'id');
     }
 
+    //Relación con su gerente
+    public function manager(){
+        return $this->belongsTo(SManager::class, 'manager_id', 'id');
+    }
+
     //Relación con promotores
     public function promotors(){
         return $this->hasMany(SPromotor::class,'coordinator_id','id');

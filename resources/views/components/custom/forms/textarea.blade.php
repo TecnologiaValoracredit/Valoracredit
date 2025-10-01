@@ -3,8 +3,11 @@
     <textarea id="{{ $id }}" 
               name="{{ $name }}" 
               class="form-control {{ $errors->has($name) ? 'is-invalid' : '' }}" 
-              placeholder="{{ $placeholder ?? '' }}" 
-              {{ $required ? 'required' : '' }}>{{ old($name, $value ?? '') }}</textarea>
+              rows="4" 
+              placeholder="{{ $placeholder ?? '' }}"
+              {{isset($readonly) ? $readonly == true ? "readonly" : "" : ""}}
+              {{ $required ? 'required' : '' }}>{{ old($name, $value ?? '') }}
+            </textarea>
     @if($errors->has($name))
         <div class="invalid-feedback">
             {{ $errors->first($name) }}

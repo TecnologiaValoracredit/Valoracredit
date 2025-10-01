@@ -154,7 +154,7 @@ public function addInstitutionToManager(SManager $manager, Request $request)
                         'created_by' =>  auth()->id(),]          // Campos para crear o actualizar
             );
 
-            $message = "Comisión actualizada correctamente";
+            $message = "Comisión creada correctamente";
         } catch (\Illuminate\Database\QueryException $e) {
             $status = false;
             $message = $this->getErrorMessage($e, 'institution_commission_manager');

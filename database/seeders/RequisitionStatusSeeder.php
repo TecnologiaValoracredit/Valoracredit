@@ -24,6 +24,8 @@ class RequisitionStatusSeeder extends Seeder
         RequisitionStatus::create([
             'name'=> 'Autorizado'
         ]);
-        
+        RequisitionStatus::create([
+            'name'=> 'Denegada'
+        ]);        
     }
 }

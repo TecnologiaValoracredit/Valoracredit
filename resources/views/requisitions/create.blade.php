@@ -4,6 +4,8 @@
         Agregar requisición
     </x-slot>
 
+    <input type="hidden" id="requisition_id" value="{{$requisition->id}}">
+
 
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
@@ -20,8 +22,9 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Crear requisición</h5>
-                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('requisitions.store') }}">
+                <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('requisitions.update', $requisition) }}">
                     @csrf
+                    @method("PUT")
                     <div class="d-flex justify-content-center">
                         <div class="w-100">
                             @include("requisitions.fields")
@@ -33,10 +36,10 @@
                                 </div>
                                 <div class="col">
                                     <div class="text-end">
-                                        <a href="{{route('requisition_rows.create')}}" class="btn btn-success text-end">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                                            Agregar Producto
-                                        </a>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" title="Agregar" class="btn btn-primary open-modal" onclick="createModal()">
+                                            Agregar producto
+                                        </button>
                                     </div>
                                     
                                 </div>
@@ -54,10 +57,19 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div id="exampleModal-body"><!-- contenido AJAX aquí --></div>
+            </div>
+        </div>
+    </div>
+
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>    
         {!! $requisitionRowsDT["scripts"] !!}
+        @vite(['resources/js/requisitions/generals.js'])
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

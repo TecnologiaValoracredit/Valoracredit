@@ -10,7 +10,7 @@
     value="{{$value ?? ''}}" 
     placeholder="{{$placeholder ?? ''}}"
     {{isset($required) ? "required" : ""}}
-    {{isset($readonly) ? "readonly" : ""}}
+    {{isset($readonly) ? $readonly == true ? "readonly" : "" : ""}}
 >
 
 @if(isset($valid_feedback))

@@ -19,6 +19,7 @@ class RequisitionRow extends Model
         'reason',
         'evidence',
         'link',
+        'currency_type_id',
         'requisition_id',
         'parent_id',
         'supplier_id',
@@ -27,6 +28,11 @@ class RequisitionRow extends Model
         'updated_by',
         'notes'
     ];
+
+    public function currencyType()
+    {
+        return $this->belongsTo("App\Models\CurrencyType", "currency_type_id", "id");
+    }
 
     public function supplier()
     {

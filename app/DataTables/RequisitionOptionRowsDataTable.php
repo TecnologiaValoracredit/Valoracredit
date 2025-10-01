@@ -13,17 +13,12 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class RequisitionRowsDataTable extends DataTable
+class RequisitionOptionRowsDataTable extends DataTable
 {
-    private $requisition;
-    private $requisitionRow;
-    private $is_show;
-    public function __construct(Requisition $requisition, RequisitionRow $requisitionRow = null, $is_show = false)
+    public function __construct(Requisition $requisition, RequisitionRow $requisitionRow = null)
 	{
         $this->requisitionRow = $requisitionRow;
-        $this->is_show = $is_show;
 		$this->requisition = $requisition;
-
 	}
     /**
      * Build DataTable class.
@@ -62,37 +57,28 @@ class RequisitionRowsDataTable extends DataTable
     }
 
      public function getActions($row){
-        $isShow = request()->get('is_show', false);
-
         $result = null;
-        if(!$isShow){
-            if (auth()->user()->hasPermissions("requisition_rows.edit")) {
-                $result .= '
-                    <button type="button" title="Editar" onclick="editModal('.$row->id.')" class="btn btn-outline-secondary btn-icon open-modal ps-2 px-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                    </button>
-                ';
-            }
-            if (auth()->user()->hasPermissions("requisition_rows.destroy")) {
-                $result .= '
-                    <a onclick="deleteRow('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>        </a>
-                    </a>
-                ';
-            }
-        }else{
-            if (auth()->user()->hasPermissions("requisition_rows.show")) {
-            $result .= 
-                    '<button type="button" title="Show" onclick="showModal('.$row->id.')" class="btn btn-outline-secondary btn-icon open-modal" data-id="'.$row->id.'">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal">
-                            <circle cx="10" cy="15" r="1"/>
-                            <circle cx="16" cy="15" r="1"/>
-                            <circle cx="22" cy="15" r="1"/>
-                        </svg>
-                    </button>';
-             }
+        if (auth()->user()->hasPermissions("requisition_rows.edit")) {
+            $result .= '
+                <a title="Editar" href='.route("requisition_rows.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                </a>
+            ';
         }
-            
+        if (auth()->user()->hasPermissions("requisition_rows.destroy")) {
+            $result .= '
+                <a onclick="deleteRow('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>        </a>
+                </a>
+            ';
+        }
+
+        if (auth()->user()->hasPermissions("requisition_rows.show")) {
+            $result .= 
+                     '<button type="button" class="btn btn-primary open-modal" data-id="'.$row->id.'">
+                        <svg ...>...</svg>
+                    </button>';
+        }
         return $result;
 	}
 
@@ -109,14 +95,7 @@ class RequisitionRowsDataTable extends DataTable
             'requisition_rows.*',
         )->newQuery();
 
-        if($this->requisition){
-            $query = $query->leftJoin('requisitions','requisition_rows.requisition_id','=','requisitions.id')
-                    ->where('requisition_id', $this->requisition->id)
-                    ->whereNull('parent_id'); 
-
-        }
         if ($this->requisitionRow) {
-            dd("hola");
             $query = $query->where('parent_id', $this->requisitionRow->id);
         }
 
@@ -140,7 +119,7 @@ class RequisitionRowsDataTable extends DataTable
                         "scrollX"=> true,
                         'retrieve'   => true,
                     ])
-                    ->setTableId('requisition_rows-table')
+                    ->setTableId('requisition_option_rows-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy(0, "asc")
@@ -196,6 +175,6 @@ class RequisitionRowsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'RequisitionRows_' . date('YmdHis');
+        return 'RequisitionOptionRows_' . date('YmdHis');
     }
 }

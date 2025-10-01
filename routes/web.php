@@ -11,7 +11,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ExpReportController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\RequisitionController;
-use App\Http\Controllers\RequisitionRowOptionalController;
+use App\Http\Controllers\RequisitionRowsController;
 use App\Http\Controllers\ChkChecklistController;
 use App\Http\Controllers\SSaleController;
 use App\Http\Controllers\SGeneralReportController;
@@ -79,8 +79,7 @@ Route::middleware("auth")->group(function () {
         Route::resource('suppliers', SupplierController::class);
         Route::resource('branches', BranchController::class);
         Route::resource('requisitions',RequisitionController::class);
-        Route::delete('/requisition_row_optionals/{id}', [RequisitionRowOptionalController::class, 'destroy'])
-        ->name('requisition_row_optionals.destroy');
+        Route::resource('requisition_rows',RequisitionRowsController::class);
 
         // Route::resource('s_sales', SSaleController::class);
 
@@ -130,6 +129,13 @@ Route::middleware("auth")->group(function () {
 
        
     });
+
+    Route::get("requisitions/export_report/{requisition}",  [RequisitionController::class, 'exportReport'])->name("requisitions.exportReport");
+    Route::get("requisition_rows/get_file/{requisition_row}",  [RequisitionRowsController::class, 'getFile'])->name("requisition_rows.getFile");
+    Route::get("requisition_rows/download_file/{requisition_row}",  [RequisitionRowsController::class, 'downloadFile'])->name("requisition_rows.downloadFile");
+
+    Route::get("requisitions/change_status/{requisition}/{status}", [RequisitionController::class, 'changeStatus'])->name("requisitions.changeStatus");
+
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
     Route::get('s_promotor_reports/getTable/{year}', [SPromotorReportController::class, "getTable"])->name("s_promotor_reports.getTable");
 
@@ -138,7 +144,13 @@ Route::middleware("auth")->group(function () {
      Route::get('commissions/getInstitutionCommissionManagerDataTable/{manager}',  [CommissionController::class, 'getInstitutionCommissionManagerDataTable'])->name('commissions.getInstitutionCommissionManagerDataTable');
     Route::get('commissions/getSUserNameDataTable/{user}',  [CommissionController::class, 'getSUserNameDataTable'])->name('commissions.getSUserNameDataTable');
 
-    Route::get('requisition_rows/getRequisitionRowsDataTable/{requisition}',  [RequisitionRowsController::class, 'getRequisitionRowsDataTable'])->name('requisition_rows.getRequisitionRowsDataTable');
+    Route::get('requisition_rows/modal/create',  [RequisitionRowsController::class, 'createModal'])->name("requisition_rows.modal.create");
+    Route::get('requisition_rows/modal/edit/{id}', [RequisitionRowsController::class, 'editModal'])->name('requisition_rows.modal.edit');
+    Route::get('requisition_rows/modal/show/{id}', [RequisitionRowsController::class, 'showModal'])->name('requisition_rows.modal.show');
+
+
+    Route::get('requisition_rows/getRequisitionRowsDataTable/{requisition}/{requisitionRow?}',  [RequisitionRowsController::class, 'getRequisitionRowsDataTable'])->name('requisition_rows.getRequisitionRowsDataTable');
+    Route::get('requisition_rows/getRequisitionOptionRowsDataTable/{requisition}/{requisitionRow?}',  [RequisitionRowsController::class, 'getRequisitionOptionRowsDataTable'])->name('requisition_rows.getRequisitionOptionRowsDataTable');
     Route::post('commissions/addInstitution/{promotor}',  [CommissionController::class, 'addInstitution'])->name('commissions.addInstitution');
     Route::post('commissions/addInstitutionToCoordinator/{coordinator}',  [CommissionController::class, 'addInstitutionToCoordinator'])->name('commissions.addInstitutionToCoordinator');
     Route::post('commissions/addInstitutionToManager/{manager}',  [CommissionController::class, 'addInstitutionToManager'])->name('commissions.addInstitutionToManager');

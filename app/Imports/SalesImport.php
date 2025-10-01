@@ -96,7 +96,11 @@ WithHeadingRow
                     throw new \Exception("Coordinador con nombre '$coordinatorRow' no encontrado.");
 
                 }
+                //Obtener el gerente del coordinador
+                $manager = $coordinator->manager ?? null;
             }
+
+            
 
             //Buscar o crear promotor
             $promotorRow = trim($row["promotor"]);
@@ -139,6 +143,7 @@ WithHeadingRow
                     's_credit_type_id' => $sCreditType->id,
                     's_promotor_id' => $promotor->id ?? null,
                     's_coordinator_id' => $coordinator->id ?? null,
+                    's_manager_id' => $manager->id ?? null,
                     'created_by' => auth()->id(), 
                     'updated_by' => auth()->id(),
                 ]);
@@ -202,6 +207,34 @@ WithHeadingRow
                             'created_by' => auth()->id(), 
                             'updated_by' => auth()->id(),
                         ]);
+
+                        //Creamos la comision del gerente
+                        if($manager){
+                            if($manager->institutionCommissions && $manager->institutionCommissions->contains('institution_id', $institution->id)){
+                                $institution_commission = $manager->institutionCommissions
+                                                            ->where('institution_id', $institution->id)
+                                                            ->first();
+                                $commission_percentage = $institution_commission->percentage;
+                            }else{
+                                $commission_percentage = $manager->commission_percentage;
+                            }
+
+                            $commissionManager = Commission::create([
+                                'user_id' => $manager->user_id,
+                                's_sale_id' => $sSale->id, 
+                                'commission_percentage' => $commission_percentage,
+                                'amount_received' => number_format($sSale->opening_amount * ($commission_percentage / 100),2, '.', ''),
+                                // 'id',
+                                // 'user_id',
+                                // 's_sale_id',
+                                // 'beneficiary_type',
+                                // 'amount_received',
+                                // 'commission_percentage',
+                                // 'is_active', 
+                                'created_by' => auth()->id(), 
+                                'updated_by' => auth()->id(),
+                            ]);
+                        }
                     }
                 }
                 

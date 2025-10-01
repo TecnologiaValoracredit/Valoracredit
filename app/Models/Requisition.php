@@ -47,6 +47,40 @@ class Requisition extends Model
     {
         return $this->hasMany("App\Models\RequisitionRow", "requisition_id", "id");
     }
+    public function departament()
+    {
+        return $this->belongsTo("App\Models\Departament", "departament_id", "id");
+    }
+    public function user()
+    {
+        return $this->belongsTo("App\Models\User", "user_id", "id");
+    }
+
+    public function totalRows()
+    {
+        $subtotal = 0;
+        $totalIva = 0;
+        $total = 0;
+        foreach($this->requisitionRows as $row){
+            $subtotal += $row->product_quantity * $row->product_cost; 
+            if(!$row->has_iva){
+                $totalIva += ($row->product_quantity * $row->product_cost) * 0.16;          
+            } 
+        }
+        $total = $subtotal + $totalIva;
+
+        return ['subtotal' => $subtotal, 'totalIva' => $totalIva, 'total' => $total];
+    }
+
+    public function isAuthor(User $user){
+        // dd($user->id,  $this->user_id);
+        dd($this);
+        if ($user->id == $this->user_id){
+            return true;
+        } else{
+            return false;
+        }
+    }
 
     
 

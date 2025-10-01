@@ -25,16 +25,17 @@ return new class extends Migration
             $table->string("evidence")->comment("Evidencia del producto");
             $table->string("link")->comment("Link del producto");
 
+            $table->unsignedSmallInteger('currency_type_id')->nullable();
+            $table->foreign('currency_type_id')->references('id')->on('currency_types')->comment('Tipo de moneda del precio');
+
             $table->unsignedBigInteger('requisition_id');
             $table->foreign('requisition_id')->references('id')->on('requisitions')->comment('Requisición a la que pretenece');
         
-            $table->unsignedBigInteger('parent_id');
-            $table->foreign('parent_id')->references('id')->on('requisition_rows')->nullable()->comment('Requisition row a la que pertenece');
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->foreign('parent_id')->references('id')->on('requisition_rows')->comment('Requisition row a la que pertenece');
 
             $table->unsignedSmallInteger('supplier_id');
             $table->foreign('supplier_id')->references('id')->on('suppliers')->comment('Proveedor del producto');
-
-            $table->float('');
 
             $table->timestamps(); 
             $table->string('notes', 1024)->nullable()->comment('Notas');    
