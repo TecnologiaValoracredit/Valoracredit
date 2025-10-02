@@ -17,6 +17,7 @@ use App\Models\FClasification;
 use App\Models\FCobClasification;
 use App\Models\SCreditType;
 use App\Models\SSale;
+use App\Models\FExpenseType;
 
 use App\Models\PermissionModule;
 use App\DataTables\FFluxDataTable;
@@ -49,12 +50,17 @@ class FFluxController extends Controller
 
         $f_accounts = FAccount::where("is_active", 1)->pluck("name", "id");
 
-        return $dataTable->render('f_fluxes.index', compact("allowAdd", "f_cartera_statuses", "f_accounts","f_movement_types","f_statuses","f_beneficiaries", "f_clasifications", "f_cob_clasifications"));
+        $f_expense_types = FExpenseType::where("is_active", 1)->pluck("name", "id");
+
+
+        return $dataTable->render('f_fluxes.index', compact("allowAdd", "f_cartera_statuses", "f_accounts","f_movement_types","f_statuses","f_beneficiaries", "f_clasifications", "f_cob_clasifications", "f_expense_types"));
     }
 
     public function create()
     {
         $f_movement_types = FMovementType::where("is_active", 1)->pluck("name", "id");
+        $f_expense_types = FExpenseType::where("is_active", 1)->pluck("name", "id");
+
         $f_accounts = FAccount::where("is_active", 1)->pluck("name", "id");
         $f_statuses = FStatus::where("is_active", 1)->pluck("name", "id");
         $f_clasifications = FClasification::where("is_active", 1)
@@ -68,7 +74,7 @@ class FFluxController extends Controller
         ')->pluck('name_description', 'id');
         $f_cob_clasifications = FCobClasification::where("is_active", 1)->pluck("name", "id");
 
-        return view('f_fluxes.create', compact("f_movement_types", "f_accounts", "f_statuses", "f_clasifications", "f_cob_clasifications"));
+        return view('f_fluxes.create', compact("f_movement_types", "f_accounts", "f_statuses", "f_clasifications", "f_cob_clasifications", "f_expense_types"));
     }
 
     public function createFromExcel()
@@ -86,10 +92,11 @@ class FFluxController extends Controller
             END as name_description, id
         ')->pluck('name_description', 'id');
         $f_cob_clasifications = FCobClasification::where("is_active", 1)->pluck("name", "id");
+        $f_expense_types = FExpenseType::where("is_active", 1)->pluck("name", "id");
 
         $allowAddBeneficiaries = auth()->user()->hasPermissions("f_beneficiaries.store");
 
-        return view('f_fluxes.createFromExcel', compact("f_movement_types", "f_accounts", "f_statuses", "f_clasifications", "f_cob_clasifications", "allowAddBeneficiaries"));
+        return view('f_fluxes.createFromExcel', compact("f_expense_types", "f_movement_types", "f_accounts", "f_statuses", "f_clasifications", "f_cob_clasifications", "allowAddBeneficiaries"));
     }
 
     public function importExcel(Request $request)
@@ -103,7 +110,7 @@ class FFluxController extends Controller
 
         $f_accounts = FAccount::where("is_active", 1)->get();
         $f_movement_types = FMovementType::where("is_active", 1)->get();
-        
+        $f_expense_types = FExpenseType::where("is_active", 1)->get();
         if ($extension == "txt") {
             $content = file($file->getRealPath()); // Obtener contenido del archivo
             $finalRows = $this->processTxtFile($content); // Procesar contenido del archivo txt
@@ -118,7 +125,7 @@ class FFluxController extends Controller
             }
         }
 
-        return view('f_fluxes.table-excel', compact('f_accounts', 'f_movement_types'), ['rows' => $finalRows])->render();
+        return view('f_fluxes.table-excel', compact('f_accounts', 'f_movement_types', "f_expense_types"), ['rows' => $finalRows])->render();
     }
 
     private function processTxtFile($content)
@@ -366,6 +373,7 @@ class FFluxController extends Controller
                 'f_clasification_id' => $datos['f_clasification_id'][$i],
                 'f_account_id' => $datos['f_account_id'][$i],
                 'f_movement_type_id' => $datos['f_movement_type_id'][$i],
+                'f_expense_type_id' => $datos['f_expense_type_id'][$i] == 0 ? null : $datos['f_expense_type_id'][$i],
                 'amount' => $datos['amount'][$i],
                 'concept' => $datos['concept'][$i],
                 'notes1' => $datos['notes1'][$i],
@@ -373,7 +381,6 @@ class FFluxController extends Controller
                 'updated_at' => now(),
             ];
         }
-
 		try {
             FFlux::insert($registros);
 			$message = "Flujo creada correctamente";
@@ -388,6 +395,8 @@ class FFluxController extends Controller
     public function edit(FFlux $f_flux)
     {
         $f_movement_types = FMovementType::where("is_active", 1)->pluck("name", "id");
+        $f_expense_types = FExpenseType::where("is_active", 1)->pluck("name", "id");
+
         $f_accounts = FAccount::where("is_active", 1)->pluck("name", "id");
         $f_statuses = FStatus::where("is_active", 1)->pluck("name", "id");
         $f_clasifications = FClasification::where("is_active", 1)
@@ -408,7 +417,7 @@ class FFluxController extends Controller
             $view = 'f_fluxes.editCartera';
         }
 
-        return view($view, compact("f_movement_types", "f_accounts", "f_statuses","f_flux", "f_clasifications", "f_cob_clasifications"));
+        return view($view, compact("f_movement_types", "f_accounts", "f_statuses","f_flux", "f_clasifications", "f_cob_clasifications", "f_expense_types"));
      
     }
 

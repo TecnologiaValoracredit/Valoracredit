@@ -23,6 +23,7 @@ class FFlux extends Model
         'f_cartera_status_id',
         'f_clasification_id',
         'f_cob_clasification_id',
+        'f_expense_type_id',
         'tracking_key',
         'is_active',
         'created_by',
@@ -63,6 +64,11 @@ class FFlux extends Model
     public function fCobClasification()
     {
         return $this->belongsTo("App\Models\FCobClasification", "f_cob_clasification_id", "id");
+    }
+
+    public function fExpenseType()
+    {
+        return $this->belongsTo("App\Models\FExpenseType", "f_expense_type_id", "id");
     }
 
     public function previousBalance()

@@ -5,6 +5,7 @@
         <th>Fecha acreditado</th>
         <th style="width:400px">Beneficiario</th>
         <th style="width: 100px">Clasificación admon.</th>
+        <th style="width: 100px">Tipo de gasto.</th>
         <th>Cuenta</th>
         <th>Tipo</th>
         <th>Monto</th>
@@ -47,6 +48,18 @@
                         @foreach($f_movement_types as $f_movement_type)
                         <option {{ $row['f_movement_type_id'] == $f_movement_type->id ? 'selected' : '' }} value="{{ $f_movement_type->id }}">
                             {{ $f_movement_type->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </td>
+                 <td class="f_expense_type">
+                    <select required name="f_expense_type_id[]" class="f_expense_type_select">
+                        <option value="0" selected>
+                            N/A
+                        </option>
+                        @foreach($f_expense_types as $f_expense_type)
+                        <option value="{{ $f_expense_type->id }}">
+                            {{ $f_expense_type->name }}
                         </option>
                         @endforeach
                     </select>

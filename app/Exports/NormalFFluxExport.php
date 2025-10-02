@@ -32,6 +32,7 @@ class NormalFFLuxExport implements FromCollection, WithHeadings, WithStyles
                 optional($item->fBeneficiary)->name,
                 $item->concept,
                 optional($item->fMovementType)->name,
+                optional($item->fExpenseType)->name,
                 $item->previousBalance(),
                 $item->amount,
                 $item->actualBalance(),
@@ -41,6 +42,7 @@ class NormalFFLuxExport implements FromCollection, WithHeadings, WithStyles
                 $item->notes2,
                 optional($item->fStatus)->name,
                 optional($item->fCarteraStatus)->name,
+                $item->id,
             ];
         });
     }
@@ -55,6 +57,7 @@ class NormalFFLuxExport implements FromCollection, WithHeadings, WithStyles
             'Beneficiario',
             'Concepto',
             'Tipo de Movimiento',
+            'Tipo de gasto',
             'Saldo inicial',
             'Monto',
             'Saldo final',
@@ -63,7 +66,8 @@ class NormalFFLuxExport implements FromCollection, WithHeadings, WithStyles
             'Notas Admin.',
             'Notas cartera',
             'Estatus contabilidad',
-            'Estatus cartera'
+            'Estatus cartera',
+            '# Mov.'
         ];
     }
 
