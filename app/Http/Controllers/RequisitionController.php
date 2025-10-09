@@ -141,16 +141,28 @@ class RequisitionController extends Controller
          return $this->getResponse($status, $message, $requisition);
     }    
 
-    public function destroy($id)
+    public function destroy(Requisition $requisition)
     {
-        $optionalRow = RequisitionRowOptional::find($id);
-        if (!$optionalRow) {
-            return response()->json(['error' => 'Fila opcional no encontrada'], 404);
+        $status = true;
+        try{
+            if($requisition->requisition_status_id == 1){
+                $requisitionRows = $requisition->requisitionRows;
+
+                foreach($requisitionRows as $key => $requisitionRow)
+                {
+                    $requisitionRow->delete();
+                }
+                    $requisition->delete();
+                    $message = "Requisición eliminada correctamente";
+
+            }
+        }catch(\Illuminate\Database\QueryException $e){
+            $status = false;
+            $message = $this->getErrorMessage($e, 'requisition');
         }
 
-        $optionalRow->delete();
 
-        return response()->json(['success' => 'Fila opcional eliminada correctamente']);
+          return $this->getResponse($status, $message);
     }
 
     public function show(Requisition $requisition)
