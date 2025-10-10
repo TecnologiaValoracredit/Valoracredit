@@ -147,6 +147,10 @@ class User extends Authenticatable
         return $this->hasOne(SManager::class,"user_id", "id");
     }
 
+    //Relacion que tiene con colaborador
+    public function collaborator(){
+        return $this->hasOne(SCollaborator::class, "user_id", "id");
+    }
 
     public function getUserTypeAttribute()
     {

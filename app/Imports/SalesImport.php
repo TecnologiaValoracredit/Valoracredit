@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Commission;
 use App\Models\Institution;
+use App\Models\SCollaborator;
 use App\Models\SSale;
 use App\Models\SPromotor;
 use App\Models\SCoordinator;
@@ -125,6 +126,21 @@ WithHeadingRow
                     throw new \Exception("Promotor con nombre '$promotorRow' no encontrado.");
                 }
             }
+
+            //Buscamos al colaborador 
+            $collaboratorRow = trim($row["colaborador"]);
+            $collaborator = null;
+            if(!empty($collaboratorRow)){
+                $collaborator = SCollaborator::whereHas('user', function ($query) use ($collaboratorRow){
+                    $query->where('name', $collaboratorRow);
+                })->first();
+
+                if(!$collaborator){
+                    throw new \Exception("Colaborador con nombre '$collaboratorRow' no encontrado");
+                }
+            }
+
+
             $f3 = (trim($row["fechaotorgamiento"]) - 25568) * 86400;
             $grant_date = date('Y-m-d', $f3);
             
@@ -144,6 +160,7 @@ WithHeadingRow
                     's_promotor_id' => $promotor->id ?? null,
                     's_coordinator_id' => $coordinator->id ?? null,
                     's_manager_id' => $manager->id ?? null,
+                    's_collaborator_id' => $collaborator->id ?? null,
                     'created_by' => auth()->id(), 
                     'updated_by' => auth()->id(),
                 ]);
@@ -236,6 +253,28 @@ WithHeadingRow
                             ]);
                         }
                     }
+                }
+
+                //Comprobamos que exista el colaborador
+                if($collaborator){
+                    //Obtenemos su porcentaje de comisión 
+                    $commission_percentage = $collaborator->commission_percentage;
+                    
+                    $commissionPromotor = Commission::create([
+                        'user_id' => $collaborator->user_id,
+                        's_sale_id' => $sSale->id, 
+                        'commission_percentage' => $commission_percentage,
+                        'amount_received' => number_format($sSale->opening_amount * ($commission_percentage / 100),2, '.', ''),
+                        // 'id',
+                        // 'user_id',
+                        // 's_sale_id',
+                        // 'beneficiary_type',
+                        // 'amount_received',
+                        // 'commission_percentage',
+                        // 'is_active', 
+                        'created_by' => auth()->id(), 
+                        'updated_by' => auth()->id(),
+                    ]);
                 }
                 
             }

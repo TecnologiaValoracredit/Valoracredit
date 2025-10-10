@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PreApplicationController;
+use App\Models\SCollaborator;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\SGeneralReportController;
 use App\Http\Controllers\SMensualReportController;
 use App\Http\Controllers\SInstitutionReportController;
 use App\Http\Controllers\SBranchController;
+use App\Http\Controllers\SCollaboratorController;
 use App\Http\Controllers\HBrandController;
 use App\Http\Controllers\HDeviceTypeController;
 use App\Http\Controllers\HHardwareController;
@@ -130,6 +132,8 @@ Route::middleware("auth")->group(function () {
        
     });
 
+    Route::resource("s_collaborators", SCollaboratorController::class);
+
     Route::get("requisitions/export_report/{requisition}",  [RequisitionController::class, 'exportReport'])->name("requisitions.exportReport");
     Route::get("requisition_rows/get_file/{requisition_row}",  [RequisitionRowsController::class, 'getFile'])->name("requisition_rows.getFile");
     Route::get("requisition_rows/download_file/{requisition_row}",  [RequisitionRowsController::class, 'downloadFile'])->name("requisition_rows.downloadFile");
@@ -171,6 +175,8 @@ Route::middleware("auth")->group(function () {
 
    
 });
+
+
 Route::get('pre_applications',  [PreApplicationController::class, 'index'])->name("pre_applications.index");
 Route::get('pre_applications_calculator',  [PreApplicationController::class, 'index'])->name("pre_applications_calculator.index");
 
