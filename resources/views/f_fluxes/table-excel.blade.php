@@ -5,9 +5,9 @@
         <th>Fecha acreditado</th>
         <th style="width:400px">Beneficiario</th>
         <th style="width: 100px">Clasificación admon.</th>
-        <th style="width: 100px">Tipo de gasto.</th>
         <th>Cuenta</th>
         <th>Tipo</th>
+        <th style="width: 100px">Tipo de gasto.</th>
         <th>Monto</th>
         <th>Concepto</th>
         <th>Notas admon.</th>

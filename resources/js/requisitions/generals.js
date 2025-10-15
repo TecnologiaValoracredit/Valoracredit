@@ -141,8 +141,8 @@ $(document).ready(function(){
         $.ajax({
             url: $('meta[name="app-url"]').attr('content')+`/requisition_rows/modal/create`,
             type: 'GET',
+            data: { requisition_id: requisition_id },
             headers: {
-                'requisition_id': requisition_id,
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
             success: function (response) {

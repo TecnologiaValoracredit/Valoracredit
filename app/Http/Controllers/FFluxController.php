@@ -117,9 +117,11 @@ class FFluxController extends Controller
         }else {
             $data = Excel::toArray(new ExcelImport(), $file)[0];
             $columnCount = count($data[0]); // Contar columnas en la primera fila
-            
             if ($columnCount == 12) {
                 $finalRows = $this->readStpExcel($data);
+                if ($finalRows[0] == "Error en créditos" && count($finalRows) > 1) {
+                    return $this->getResponse(false, "", $finalRows);
+                }
             }else if ($columnCount == 20) {
                 $finalRows = $this->readOtherBanksExcel($data);
             }
@@ -200,6 +202,7 @@ class FFluxController extends Controller
 
     private function readStpExcel($rows)
     {
+        $notFinded = ["Error en créditos"];
         $f_beneficiary = FBeneficiary::find(2); //Este es el ID beneficiario de ws promotora
         $finalRows = [];
         //Quitar las primeras 31 rows que no nos sirven
@@ -231,11 +234,15 @@ class FFluxController extends Controller
             // Si no hay número, evita la consulta
             if ($numero !== null) {
                 $sale = SSale::where("credit_id", $numero)->first();
-                $f_clasification = null;
-                if ($sale->s_credit_type_id == 1) {
-                    $f_clasification = FClasification::where("name", "Dispersiones")->first();
-                }else if ($sale->s_credit_type_id == 2) {
-                    $f_clasification = FClasification::where("name", "Reestructura de Clientes")->first();
+                if ($sale == null) {
+                    $notFinded[] = $numero;
+                }else{
+                    $f_clasification = null;
+                    if ($sale->s_credit_type_id == 1) {
+                        $f_clasification = FClasification::where("name", "Dispersiones")->first();
+                    }else if ($sale->s_credit_type_id == 2) {
+                        $f_clasification = FClasification::where("name", "Reestructura de Clientes")->first();
+                    }
                 }
 
             } else {
@@ -262,7 +269,11 @@ class FFluxController extends Controller
                 ];
             }
         }
-        return $finalRows; 
+        if (count($notFinded) > 1) {
+            return $notFinded;
+        }else{
+            return $finalRows; 
+        }
     }
     private function readOtherBanksExcel($rows)
     {

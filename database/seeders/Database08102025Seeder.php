@@ -22,6 +22,7 @@ class Database08102025Seeder extends Seeder
             PermissionModule08102025Seeder::class,
             PermissionPermission08102025Seeder::class,
             Menu08102025Seeder::class,
+            CurrencyTypeSeeder::class
         ]);
     }
 }
