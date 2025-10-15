@@ -8,13 +8,19 @@ $(document).ready(function(){
 
      let table = window.LaravelDataTables['requisition_rows-table'];
 
-    function updateAmount() {
-        let columnData = table.column(4, { search: 'applied' }).data();
-        let sum = columnData.reduce(function (a, b) {
-            return (parseFloat(a) || 0) + (parseFloat(b) || 0);
-        }, 0);
-        $('#amount').val(sum.toFixed(2));
-    }
+   function updateAmount() {
+    let columnData = table.column(4, { search: 'applied' }).data();
+
+    let sum = columnData.reduce(function (a, b) {
+        // Limpia símbolos y separadores de miles antes de parsear
+        let numA = parseFloat(String(a).replace(/[^0-9.-]+/g, '')) || 0;
+        let numB = parseFloat(String(b).replace(/[^0-9.-]+/g, '')) || 0;
+        return numA + numB;
+    }, 0);
+
+    // Muestra con formato de dinero
+    $('#amount').val(sum.toFixed(2));
+}
 
     // recalcular cada vez que se redibuja la tabla
     table.on('draw', function () {
@@ -24,7 +30,25 @@ $(document).ready(function(){
     // llamar al inicio
     updateAmount();
 
+    window.handleFormSubmit = (e) => {
+        e.preventDefault(); // evita el envío tradicional del form
 
+        // Detectar si hay un ID oculto (por ejemplo, para saber si es edición)
+        const isEdit = !!$('#requisition_row_id').val();
+
+        if (isEdit) {
+
+            updateProduct($('#requisition_row_id').val());
+        } else {
+
+            addProduct();
+        }
+    };
+
+    $(document).ready(() => {
+    // Remueve cualquier evento previo y asigna el nuevo
+        $(document).off('submit', '#upload-form').on('submit', '#upload-form', handleFormSubmit);
+    });
     window.addProduct = () => {
         const form = document.getElementById('upload-form');
         const formData = new FormData(form); // Incluye archivos automáticamente
@@ -54,7 +78,28 @@ $(document).ready(function(){
 
             snackBar(response.message, response.status ? "success" : "danger");
             },error: function(xhr, textStatus, errorThrown) {
-                errorMessage(xhr.status, errorThrown)
+                let message = "Ha ocurrido un error inesperado.";
+
+                // Si el servidor envía un JSON con mensaje
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                } 
+                // Si es error de validación de Laravel
+                else if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    const errors = xhr.responseJSON.errors;
+                    message = Object.values(errors).flat().join('<br>');
+                } 
+                // Si no hay mensaje, mostrar el tipo de error HTTP
+                else if (xhr.status) {
+                    message = `Error ${xhr.status}: ${errorThrown}`;
+                }
+
+                // Mostrar en snackbar o alerta
+                snackBar(message, "danger");
+
+                // También puedes hacer console.log para depuración
+                console.error("Error en addProduct:", xhr);
+            
             }
         })
     }
@@ -151,12 +196,12 @@ $(document).ready(function(){
 
 
                 initTotalCostListener(); 
-                $('#modal-action-btn')
-                .text('Crear')
-                .off('click') // quitamos cualquier evento previo
-                .on('click', function () {
-                    addProduct(); // función de creación
-                });
+                // $('#modal-action-btn')
+                // .text('Crear')
+                // // .off('click') // quitamos cualquier evento previo
+                // .on('click', function () {
+                //     addProduct(); // función de creación
+                // });
 
                 // Abrimos el modal
                 $('#exampleModal').modal('show');
@@ -179,12 +224,12 @@ $(document).ready(function(){
                 $('#exampleModal-body').html(response.html);
 
                 initTotalCostListener(); 
-                 $('#modal-action-btn')
-                .text('Actualizar')
-                .off('click')
-                .on('click', function () {
-                    updateProduct(id); // función de actualización
-                });
+                //  $('#modal-action-btn')
+                // .text('Actualizar')
+                // .off('click')
+                // .on('click', function () {
+                //     updateProduct(id); // función de actualización
+                // });
 
                 // Abrimos el modal
                 $('#exampleModal').modal('show');

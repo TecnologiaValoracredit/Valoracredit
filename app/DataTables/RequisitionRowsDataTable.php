@@ -35,6 +35,17 @@ class RequisitionRowsDataTable extends DataTable
     {
         $datatable = (new EloquentDataTable($query))
         ->setRowId('id')
+
+        ->editColumn('product_cost', function ($row) {
+            return '$' . number_format($row->product_cost, 2);
+        })
+        ->editColumn('total_cost', function ($row) {
+            return '$' . number_format($row->total_cost, 2);
+        })
+        ->editColumn('has_iva', function ($row) {
+            return $row->has_iva ? 'Sí' : 'No';
+        })
+
         ->editColumn('created_at', function(RequisitionRow $role) {
             return date("d/m/Y H:i", strtotime($role->created_at));
         })
@@ -116,7 +127,6 @@ class RequisitionRowsDataTable extends DataTable
 
         }
         if ($this->requisitionRow) {
-            dd("hola");
             $query = $query->where('parent_id', $this->requisitionRow->id);
         }
 

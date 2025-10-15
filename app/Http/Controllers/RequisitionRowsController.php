@@ -75,7 +75,9 @@ class RequisitionRowsController extends Controller
 			    'updated_at' => date("Y-m-d H:i:s")
             ]);
             // dd($params);
+
             $requisitionRow = RequisitionRow::create($params);
+
             // dd($requisitionRow);
             
             $message = "Fila de requisición creado correctamente";
@@ -123,7 +125,7 @@ class RequisitionRowsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RequisitionRow $requisition_row)
+    public function update(RequisitionRowsRequest $request, RequisitionRow $requisition_row)
     {
         $status = true;
         $evidence = $requisition_row->evidence;
@@ -149,7 +151,7 @@ class RequisitionRowsController extends Controller
                 'product_cost' => $request->product_cost,
                 'reason' => $request->reason,
                 'has_iva' => !is_null($request->has_iva),
-                'link' => $request->link,
+                'link' => $request->link ?? null,
                 'updated_by' =>  auth()->id(),
 			    'updated_at' => date("Y-m-d H:i:s")
             ]);

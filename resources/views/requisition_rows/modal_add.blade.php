@@ -20,7 +20,7 @@
 
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-    <button type="button" id="modal-action-btn" form="upload-form" class="btn btn-primary">
+    <button type="submit" type="button" id="modal-action-btn" form="upload-form" class="btn btn-primary">
         Guardar
     </button>
 

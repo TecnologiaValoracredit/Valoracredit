@@ -60,7 +60,6 @@
             "type" => "url",
             "placeholder" => "Url...",
             "label" => "Sitio web",
-            "required" => true,
             "readonly" => isset($readonly) ? $readonly : false,
             "value" => isset($requisitionRow) ? $requisitionRow->link :  old("link"),
             "invalid_feedback" => "El campo es requerido"
