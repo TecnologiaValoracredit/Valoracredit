@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ContractsDataTable;
+use App\Models\Contract;
+use App\Models\ContractType;
 use Illuminate\Http\Request;
 
 class ContractController extends Controller
@@ -17,18 +19,23 @@ class ContractController extends Controller
     public function create(){
         //Show a view and send data to create a contract
         //Contract type, etc
-        dd('create');
+        $types = ContractType::pluck('name', 'id');
+
+        return view('contracts.edit', compact('contract', 'types'));
     }
 
     public function store(){
         //Reached when submitting a created contract
     }
 
-    public function edit(){
+    public function edit(Contract $contract){
         //Show a view and send data to edit a contract
+        $types = ContractType::pluck('name', 'id');
+
+        return view('contracts.edit', compact('contract', 'types'));
     }
 
-    public function update(){
+    public function update(Contract $contract){
         //Reached when submitting an edited contract
     }
 

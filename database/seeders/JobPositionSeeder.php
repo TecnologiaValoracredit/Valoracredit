@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Departament;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\JobPosition;
@@ -16,30 +17,46 @@ class JobPositionSeeder extends Seeder
      */
     public function run()
     {
-        // JobPosition::create([
-        //     'name'=> 'Aux TI',
-        //     'description' =>'Auxiliar de TI'
-        // ]);
+        Departament::create([
+            'id' => 15,
+            'name' => 'Administración',
+            'is_active' => true,
+        ]);
 
         $positions = [
-            ["name" => "Analista de cartera", "description" => "Evalua el rendimiento de las inversiones", "departament_id" => "2"],
-            ["name" => "Contador", "description" => "Contador general", "departament_id" => "3"],
-            ["name" => "Cord Operaciones", "description" => "Coordinador de operaciones", "departament_id" => "4"],
-            ["name" => "Aux Tesoreria", "description" => "Auxiliar de Tesoreria", "departament_id" => "5"],
-            ["name" => "Reclutador", "description" => "Reclutador de Recursos Humanos", "departament_id" => "6"],
-            ["name" => "Cord Marketing", "description" => "Coordinador de marketing", "departament_id" => "7"],
-            ["name" => "Recepcionista", "description" => "Recepcionista", "departament_id" => "8"],
-
-            ["name" => "Cord Operaciones/Maxxas", "description" => "Coordinador de operaciones de Maxxas", "departament_id" => "9"],
-            ["name" => "Aux Tesoreria/Maxxas", "description" => "Auxiliar de Tesoreria de Maxxas", "departament_id" => "10"],
-            ["name" => "Contador/Maxxas", "description" => "Contador general de Maxxas", "departament_id" => "11"],
-            ["name" => "Aux Facturacion/Maxxas", "description" => "Auxiliar de facturacion", "departament_id" => "12"],
+            ["name" => "Contador",'is_active' => true, "departament_id" => "3"],
+            ["name" => "Auxiliar contable administrativa", 'is_active' => true, "departament_id" => "3"],
+            ["name" => "Coordinador de TI", 'is_active' => true, "departament_id" => "1"],
+            ["name" => "Tesorera", 'is_active' => true, "departament_id" => "5"],
+            ["name" => "Administrador de Cartera", 'is_active' => true, "departament_id" => "2"],
+            ["name" => "Analista de Cartera", 'is_active' => true, "departament_id" => "2"],
+            ["name" => "Ventas Telemarketing", 'is_active' => true, "departament_id" => "14"],
+            ["name" => "Auxiliar de procesos", 'is_active' => true, "departament_id" => "4"],
+            ["name" => "Coordinador de RH", 'is_active' => true, "departament_id" => "6"],
+            ["name" => "Analista de crédito", 'is_active' => true, "departament_id" => "2"],
+            ["name" => "Analista de Cartera", 'is_active' => true, "departament_id" => "2"],
+            ["name" => "Auxiliar tesorería", 'is_active' => true, "departament_id" => "5"],
+            ["name" => "Auxiliar contable administrativa", 'is_active' => true, "departament_id" => "3"],
+            ["name" => "Gerente de ventas", 'is_active' => true, "departament_id" => "14"],
+            ["name" => "Analista de pagos", 'is_active' => true, "departament_id" => "2"],
+            ["name" => "Aux contable", 'is_active' => true, "departament_id" => "3"],
+            ["name" => "Asistente dirección", 'is_active' => true, "departament_id" => "15"],
+            ["name" => "Validadora telefónica", 'is_active' => true, "departament_id" => "14"],
+            ["name" => "Bancos", 'is_active' => true, "departament_id" => "2"],
+            ["name" => "Controlador interno", 'is_active' => true, "departament_id" => "4"],
+            ["name" => "Controlador operativo", 'is_active' => true, "departament_id" => "4"],
+            ["name" => "Analista de egresos", 'is_active' => true, "departament_id" => "2"],
+            ["name" => "Analista de ingresos", 'is_active' => true, "departament_id" => "2"],
+            ["name" => "Gerente de Sucursal", 'is_active' => true, "departament_id" => "15"],
+            ["name" => "Ejecutiva de cobranza", 'is_active' => true, "departament_id" => "2"],
+            ["name" => "Aux de TI", 'is_active' => true, "departament_id" => "1"],
+            ["name" => "Vendedora", 'is_active' => true, "departament_id" => "14"],
+            ["name" => "Aux administrativo y caja", 'is_active' => true, "departament_id" => "15"],
         ];
 
         foreach ($positions as $key => $value) {
             JobPosition::create([
                 'name' => $value["name"],
-                'description' => $value["description"],
                 'departament_id' => $value["departament_id"],
             ]);
         }

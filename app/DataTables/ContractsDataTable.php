@@ -42,6 +42,7 @@ class ContractsDataTable extends DataTable
             'contracts.name',
             'contract_types.name as contract_type_id',
         )
+        ->leftjoin('contract_types', 'contracts.contract_type_id', '=', 'contract_types.id')
         ->newQuery();
     }
 
@@ -100,19 +101,27 @@ class ContractsDataTable extends DataTable
     public function getColumns(): array
     {
         $columns = [
-
+            Column::make('id')
+            ->title('Id')
+            ->searchable(false)
+            ->visible(false),
+            Column::make('name')
+            ->title('Nombre'),
+            Column::make('contract_type_id')
+            ->title('Tipo')
         ];
-        return [
+
+        $columns = array_merge($columns, [
+
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
-        ];
+                  ->addClass('text-center')
+                  ->title('Acciones')
+        ]);
+
+        return $columns;
     }
 
     /**
