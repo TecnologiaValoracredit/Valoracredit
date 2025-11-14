@@ -27,6 +27,7 @@ class Menu13112025Seeder extends Seeder
             'position' => 100.40,
             'permission_id' => $this->getPermissionId('contracts'),
         ]);
+       
     }
         public function getPermissionId($module_name){
         $module = PermissionModule::where("name", $module_name)->first();
