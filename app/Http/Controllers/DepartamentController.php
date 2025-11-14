@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JobPosition;
 use Illuminate\Http\Request;
 use App\Models\Departament;
 use App\Models\PermissionModule;
 use App\DataTables\DepartamentDataTable;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\DepartamentRequest;
+use ReturnTypeWillChange;
 
 class DepartamentController extends Controller
 {
@@ -89,5 +91,9 @@ class DepartamentController extends Controller
         return $this->getResponse($status, $message);
     }
 
-
+    public function getJobPositions($departamentId){
+       
+        $jobs = JobPosition::where('departament_id', $departamentId)->get();
+        return response()->json($jobs);
+    }
 }

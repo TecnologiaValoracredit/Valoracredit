@@ -15,35 +15,15 @@ $("#upload-form").submit(function(e) {
         processData: false,
         contentType: false,
         success: function(response) {
-            console.log(response);
-            
-            if (typeof response === "object" && response !== null && "status" in response) {
-                // Caso: JSON
-                if (!response.status) {
-                    alert(response.data[0] + ": " + getNotFoundedCredits(response.data));
-                }
-            } else {
-                // Caso: HTML
-                $("#table-excel").html(response);
-                loadAutocompleteBeneficiaries(getInputNameBeneficiaries("f_beneficiary"))
-                loadAutocompleteClasifications(getInputNamesClasifications("f_clasification"))
-            }
-            
+            $("#table-excel").html(response);
+            loadAutocompleteBeneficiaries(getInputNameBeneficiaries("f_beneficiary"))
+            loadAutocompleteClasifications(getInputNamesClasifications("f_clasification"))
         },
-        error: function(response) {
-            alert("error al subir el archivo")
+        error: function() {
+            alert("Error al cargar el archivo");
         }
     });
 });
-
-function getNotFoundedCredits(data){
-    let credits = "";
-    data.slice(1).forEach(item => {
-        credits += item + ", ";
-    });
-    return credits;
-}
-
 
 window.deleteRowExcel = (param) => {
     $(param).closest("tr").remove();

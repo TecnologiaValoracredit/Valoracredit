@@ -47,7 +47,7 @@ class PolizaSheet implements FromCollection, WithHeadings, WithStyles, WithTitle
 
         // Agrega la fila de total
         $data->push([
-            '20101433','', $total + $iva,
+            '20101316','', $total + $iva,
         ]);
 
         return $data;

@@ -37,9 +37,11 @@ $(document).ready(function(){
         const isEdit = !!$('#requisition_row_id').val();
 
         if (isEdit) {
+            console.log("aaaaaassss")
 
             updateProduct($('#requisition_row_id').val());
         } else {
+            console.log("aaaaaa")
 
             addProduct();
         }
@@ -50,6 +52,7 @@ $(document).ready(function(){
         $(document).off('submit', '#upload-form').on('submit', '#upload-form', handleFormSubmit);
     });
     window.addProduct = () => {
+        console.log("bbbbbbbbbbb")
         const form = document.getElementById('upload-form');
         const formData = new FormData(form); // Incluye archivos automáticamente
         $.ajax({
@@ -186,8 +189,8 @@ $(document).ready(function(){
         $.ajax({
             url: $('meta[name="app-url"]').attr('content')+`/requisition_rows/modal/create`,
             type: 'GET',
-            data: { requisition_id: requisition_id },
             headers: {
+                'requisition_id': requisition_id,
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
             success: function (response) {

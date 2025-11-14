@@ -30,9 +30,22 @@ class User extends Authenticatable
         'bank_account',
         'is_active',
         'role_id',
-        'departament_id',
+        'departament_id', // Se debe eliminar el department y conectarlo al position
         'branch_id',
         'boss_id',
+        'phone',
+        'emergency_phone',
+        'birthday',
+        'entry_date',
+        // 'resignation_date',
+        // 'extension',
+        'position_id',
+        'salary',
+        'path_ine',
+        'path_curp', 
+        'path_address',
+        'path_birth_document',
+        'path_account_status',
     ];
 
     /**
@@ -150,6 +163,11 @@ class User extends Authenticatable
     //Relacion que tiene con colaborador
     public function collaborator(){
         return $this->hasOne(SCollaborator::class, "user_id", "id");
+    }
+
+    //RPuesto de trabajo 
+    public function jobPosition(){
+        return $this->hasOne(JobPosition::class, "position_id", "id");
     }
 
     public function getUserTypeAttribute()

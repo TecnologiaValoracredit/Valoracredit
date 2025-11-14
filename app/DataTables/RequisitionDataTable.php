@@ -169,7 +169,7 @@ class RequisitionDataTable extends DataTable
                     ->setTableId('requisitions-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->orderBy(0, "asc")
+                    ->orderBy(0, "desc")
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),

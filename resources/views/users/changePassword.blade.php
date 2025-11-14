@@ -7,7 +7,7 @@
     <div class="p-0 mb-0 bg-dark-subtle" style="min-height: 100vh;">
     <div class="nav-item theme-text d-flex align-items-center">
         <img src="{{ Vite::asset('resources/images/logo.svg') }}" class="navbar-logo logo-light" alt="logo" style="width: 100px; height: auto;">
-        <a href="{{ getRouterValue(); }}/dashboard" class="nav-link fw-bold">VALORA</a>
+        <a href="{{ getRouterValue() }}/dashboard" class="nav-link fw-bold">VALORA</a>
     </div>
 
     <div class="container mt-5">

@@ -30,7 +30,6 @@ class SCoordinatorController extends Controller
     {
         //obtener todos los suppliers, y permisos registrados
         $allowAdd = auth()->user()->hasPermissions("s_coordinators.create");
-       
         return $dataTable->render('s_coordinators.index', compact("allowAdd"));
     }
 
@@ -46,8 +45,9 @@ class SCoordinatorController extends Controller
                                         ->get()
                                         ->pluck('user.name', 'id');
         $isEdit = false;
+        $sex = "sexo";
 
-        return view('s_coordinators.create', compact('roles', 'branches', 's_branches', 'departaments', 'isEdit', 'users', 'managers'));
+        return view('s_coordinators.create', compact('sex','roles', 'branches', 's_branches', 'departaments', 'isEdit', 'users', 'managers'));
     }
 
     public function store(SCoordinatorRequest $request)
@@ -134,6 +134,9 @@ class SCoordinatorController extends Controller
     }
     
 
+    public function kevin(){
+        dd("papoi");
+    }
     public function show(SCoordinator $s_coordinator)
     {
     }

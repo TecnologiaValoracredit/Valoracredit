@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\PreApplicationController;
+use App\Models\Contract;
 use App\Models\SCollaborator;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -64,6 +66,7 @@ Route::middleware("auth")->group(function () {
 
 
     // Route::get('/refresh-emails', [EmailController::class, 'refreshEmails'])->name('emails.refresh');
+    Route::get('departaments/{departamentId}/job-positions', [DepartamentController::class, 'getJobPositions'])->name('departaments.job_positions');
 
     Route::middleware(['permission'])->group(function () {
         Route::resource('users', UserController::class);
@@ -119,6 +122,7 @@ Route::middleware("auth")->group(function () {
         Route::resource('s_coordinators', SCoordinatorController::class);
         
         //Commissions 
+
         Route::resource('s_coordinators', SCoordinatorController::class);
         Route::resource('s_managers', SManagerController::class);
         Route::resource('s_promotors', SPromotorController::class);
@@ -173,9 +177,8 @@ Route::middleware("auth")->group(function () {
     Route::get('r_indicators/getRIndicatorFinalDataTable',  [RIndicatorController::class, 'getRIndicatorFinalDataTable'])->name('r_indicators.getRIndicatorFinalDataTable');
     Route::get('r_indicators/getRIndicatorDataTable',  [RIndicatorController::class, 'getRIndicatorDataTable'])->name('r_indicators.getRIndicatorDataTable');
 
-   
+    Route::resource('contracts', ContractController::class);
 });
-
 
 Route::get('pre_applications',  [PreApplicationController::class, 'index'])->name("pre_applications.index");
 Route::get('pre_applications_calculator',  [PreApplicationController::class, 'index'])->name("pre_applications_calculator.index");

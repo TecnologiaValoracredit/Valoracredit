@@ -43,11 +43,20 @@ class UserRequest extends FormRequest
             ],
 			'bank_account' => [
 				'nullable',
-				'numeric',
-				'digits:18', 
+				// 'numeric',
+				// 'digits:18', 
+				'string',
+				'min:18',
+				'regex:/^\d+$/'
 			],
 			'role_id' => 'required',
 			'password' => ($this->isMethod('put') ? 'nullable|' : 'required|') . 'max:255', // Hacer el campo password opcional en edición
+
+			'ine' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+			'curp' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+			'address' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+			'birth_document' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+			'account_status' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
 		];
 	}
 

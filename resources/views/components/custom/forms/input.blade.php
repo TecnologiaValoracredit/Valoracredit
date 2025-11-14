@@ -9,6 +9,7 @@
     id="{{$id ?? $name}}"
     value="{{$value ?? ''}}" 
     placeholder="{{$placeholder ?? ''}}"
+    accept="{{$accept ?? ''}}"
     {{isset($required) ? "required" : ""}}
     {{isset($readonly) ? $readonly == true ? "readonly" : "" : ""}}
 >

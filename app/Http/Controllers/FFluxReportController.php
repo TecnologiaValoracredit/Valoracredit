@@ -158,7 +158,7 @@ class FFluxReportController extends Controller
         $query = FFlux::whereBetween('accredit_date', [$startDate, $endDate])
         ->where('f_fluxes.is_active', 1)
         ->orderBy('accredit_date', 'asc');
-    
+      
         // Aplicar el filtro solo si se proporciona un movementTypeId
         //Si no puede ver egresos
         if (!auth()->user()->hasPermissions("f_fluxes.showExpenses")) {

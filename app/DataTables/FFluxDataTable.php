@@ -51,12 +51,6 @@ class FFluxDataTable extends DataTable
             }
             return '<span class="badge badge-danger">Pendiente</span>';
         })
-        ->editColumn('f_expense_type_name', function(FFlux $f_flux) {
-            if ($f_flux->f_expense_type_id == null) {
-                return 'N/A';
-            }
-            return $f_flux->fExpenseType->name;
-        })
         ->editColumn('f_cartera_status_name', function(FFlux $f_flux) {
             if ($f_flux->f_cartera_status_id == 2) {
                 return '<span class="badge badge-success">'.$f_flux->fCarteraStatus->name ?? "Aplicado".'</span>';
@@ -161,7 +155,6 @@ class FFluxDataTable extends DataTable
             'f_cartera_statuses.name as f_cartera_status_name',
             'f_beneficiaries.name as f_beneficiary_name',
 			'f_movement_types.name as f_movement_type_name',
-            'f_expense_types.name as f_expense_type_name',
             'f_clasifications.name as f_clasification_name',
             'f_cob_clasifications.name as f_cob_clasification_name',
 
@@ -171,7 +164,6 @@ class FFluxDataTable extends DataTable
         ->leftjoin('f_cartera_statuses', 'f_fluxes.f_cartera_status_id', '=', 'f_cartera_statuses.id')
         ->leftjoin('f_beneficiaries', 'f_fluxes.f_beneficiary_id', '=', 'f_beneficiaries.id')
         ->leftjoin('f_movement_types', 'f_fluxes.f_movement_type_id', '=', 'f_movement_types.id')
-        ->leftjoin('f_expense_types', 'f_fluxes.f_expense_type_id', '=', 'f_expense_types.id')
         ->leftjoin('f_clasifications', 'f_fluxes.f_clasification_id', '=', 'f_clasifications.id')
         ->leftjoin('f_cob_clasifications', 'f_fluxes.f_cob_clasification_id', '=', 'f_cob_clasifications.id')
 		->newQuery();
@@ -221,8 +213,6 @@ class FFluxDataTable extends DataTable
             Column::make('f_beneficiary_name')->title('Beneficiario')->name("f_beneficiaries.name")->className("text-wrap"),
             Column::make('concept')->title('Concepto')->className("text-wrap"),
             Column::make('f_movement_type_name')->title('Tipo de movimiento')->name("f_movement_types.name"),
-            Column::make('f_expense_type_name')->title('Tipo de gasto')->name("f_expense_types.name"),
-
             Column::make('amount')->title('Cantidad'),
             Column::make('f_clasification_name')->title('Calsificación Admin.')->name("f_clasifications.name")->className("text-wrap"),
             Column::make('f_cob_clasification_name')->title('Clasificación Cartera.')->name("f_cob_clasifications.name")->className("text-wrap"),
