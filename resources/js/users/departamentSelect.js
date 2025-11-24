@@ -1,7 +1,6 @@
-//Deactvate job position upon entering to avoid showing all options
-let jobSelect = document.getElementById('position_id');
-jobSelect.innerHTML = '<option disabled selected value="">Seleccione una opción...</option>';
-jobSelect.disabled = true;
+// //Deactvate job position upon entering to avoid showing all options
+// let jobSelect = document.getElementById('position_id');
+// jobSelect.innerHTML = '<option disabled selected value="">Seleccione una opción...</option>';
 
 document.getElementById('departament_id').addEventListener('change', function() {
     let departamentId = this.value;

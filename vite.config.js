@@ -50,8 +50,10 @@ export default defineConfig({
                 'resources/js/s_promotor_reports.js',
                                 
                 'resources/js/users/generals.js',
+                'resources/js/users/departamentSelect.js',
                 'resources/js/commissions/generals.js',
                 'resources/js/commissions/index.js',
+                'resources/js/contracts/c_contentEditor.js',
 
                 'resources/js/requisitions/generals.js',
 

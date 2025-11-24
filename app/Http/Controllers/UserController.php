@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\DataTables\BankDetailDataTable;
 use App\Models\BankDetail;
+use App\Models\CivilStatus;
+use App\Models\Gender;
 use App\Models\JobPosition;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -89,8 +91,9 @@ class UserController extends Controller
                 'path_address' => null,
                 'path_birth_document' => null,
                 'path_account_status' => null,
+                'path_rfc' => null,
+                'path_nss' => null,
 
-                'departament_id' =>  1,
                 "password" => Hash::make($request->password),
                 'is_active' => !is_null($request->is_active),
             ]);
@@ -101,35 +104,47 @@ class UserController extends Controller
             /** @var \Illuminate\Filesystem\FilesystemAdapter $fileSystem */
             $fileSystem = Storage::disk('public');
 
-            if($request->file('ine')){
-                $ineFile = $request->file('ine');
+            if($request->file('ine_file')){
+                $ineFile = $request->file('ine_file');
                 $ineFileExtension = '.' . $ineFile->getClientOriginalExtension();
                 $ineFileName = $user->id. '_' . 'INE' . $ineFileExtension;
                 $fileSystem->putFileAs('ines', $ineFile, $ineFileName);
             }
-            if($request->file('curp')){
-                $curpFile = $request->file('curp');
+            if($request->file('curp_file')){
+                $curpFile = $request->file('curp_file');
                 $curpFileExtension = $curpFile->getClientOriginalExtension();
                 $curpFileName = $user->id . '_' . 'CURP' . $curpFileExtension;
                 $fileSystem->putFileAs('curps', $curpFile, $curpFileName);
             }
-            if($request->file('address')){
-                $addressFile = $request->file('address');
+            if($request->file('address_file')){
+                $addressFile = $request->file('address_file');
                 $addressFileExtension = $addressFile->getClientOriginalExtension();
                 $addressFileName = $user->id . '_' . 'ADDRESS' . $addressFileExtension;
                 $fileSystem->putFileAs('addresses', $addressFile, $addressFileName);
             }
-            if($request->file('birth_document')){
-                $birthFile = $request->file('birth_document');
+            if($request->file('birth_document_file')){
+                $birthFile = $request->file('birth_document_file');
                 $birthFileExtension = $birthFile->getClientOriginalExtension();
                 $birthFileName = $user->id . '_' . 'BIRTH_DOCUMENT' . $birthFileExtension;
                 $fileSystem->putFileAs('birth_docs', $birthFile, $birthFileName);
             }
-            if($request->file('account_status')){
-                $accountFile = $request->file('account_status');
+            if($request->file('account_status_file')){
+                $accountFile = $request->file('account_status_file');
                 $accountFileExtension = $accountFile->getClientOriginalExtension();
                 $accountFileName = $user->id . '_' . 'ACCOUNT_STATUS' . $accountFileExtension;
                 $fileSystem->putFileAs('accounts', $accountFile, $accountFileName);
+            }
+            if($request->file('rfc_file')){
+                $rfcFile = $request->file('rfc_file');
+                $rfcFileExtension = $rfcFile->getClientOriginalExtension();
+                $rfcFileName = $user->id . '_' . 'RFC' . $rfcFileExtension;
+                $fileSystem->putFileAs('rfcs', $rfcFile, $rfcFileName);
+            }
+            if($request->file('nss_file')){
+                $nssFile = $request->file('nss_file');
+                $nssFileExtension = $nssFile->getClientOriginalExtension();
+                $nssFileName = $user->id . '_' . 'NSS' . $nssFileExtension;
+                $fileSystem->putFileAs('nsss', $nssFile, $nssFileName);
             }
 
             //Update User´s paths IF not null
@@ -139,6 +154,8 @@ class UserController extends Controller
                 'path_address' => $addressFileName ?? null,
                 'path_birth_document' => $birthFileName ?? null,
                 'path_account_status' => $accountFileName ?? null,
+                'path_rfc' => $rfcFileName ?? null,
+                'path_nss' => $nssFileName ?? null,
             ];
 
             try {
@@ -159,15 +176,16 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-
         $roles = Role::where("is_active", 1)->pluck("name", "id");
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
         $banks = Bank::where("is_active", 1)->pluck("name", "id");
         $job_positions = JobPosition::where("is_active", 1)->pluck("name", "id");
         $users = User::where("is_active", 1)->pluck("name", "id");
+        $genders = Gender::all()->pluck('name', 'id');
+        $civilStatuses = CivilStatus::all()->pluck('name', 'id');
 
-        return view('users.edit', compact('roles', 'user', 'branches', 'departaments', 'banks', 'job_positions', 'users'));
+        return view('users.edit', compact('roles', 'user', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses'));
 
     }
 
@@ -189,49 +207,67 @@ class UserController extends Controller
         /** @var \Illuminate\Filesystem\FilesystemAdapter $fileSystem */
         $fileSystem = Storage::disk('public');
 
-        unset($params["ine"]);
-        if($request->file('ine')){
-            $ineFile = $request->file('ine');
+        unset($params["ine_file"]);
+        if($request->file('ine_file')){
+            $ineFile = $request->file('ine_file');
             $ineFileExtension = '.' . $ineFile->getClientOriginalExtension();
             $ineFileName = $user->id. '_' . 'INE' . $ineFileExtension;
             $fileSystem->putFileAs('ines', $ineFile, $ineFileName);
             $params["path_ine"] = $ineFileName;
         }
 
-        unset($params["curp"]);
-        if($request->file('curp')){
-            $curpFile = $request->file('curp');
+        unset($params["curp_file"]);
+        if($request->file('curp_file')){
+            $curpFile = $request->file('curp_file');
             $curpFileExtension = '.' . $curpFile->getClientOriginalExtension();
             $curpFileName = $user->id . '_' . 'CURP' . $curpFileExtension;
             $fileSystem->putFileAs('curps', $curpFile, $curpFileName);
             $params["path_curp"] = $curpFileName;
         }
 
-        unset($params["address"]);
-        if($request->file('address')){
-            $addressFile = $request->file('address');
+        unset($params["address_file"]);
+        if($request->file('address_file')){
+            $addressFile = $request->file('address_file');
             $addressFileExtension = '.' . $addressFile->getClientOriginalExtension();
             $addressFileName = $user->id . '_' . 'ADDRESS' . $addressFileExtension;
             $fileSystem->putFileAs('addresses', $addressFile, $addressFileName);
             $params["path_address"] = $addressFileName;
         }
 
-        unset($params["birth_document"]);
-        if($request->file('birth_document')){
-            $birthFile = $request->file('birth_document');
+        unset($params["birth_document_file"]);
+        if($request->file('birth_document_file')){
+            $birthFile = $request->file('birth_document_file');
             $birthFileExtension = '.' . $birthFile->getClientOriginalExtension();
             $birthFileName = $user->id . '_' . 'BIRTH_DOCUMENT' . $birthFileExtension;
             $fileSystem->putFileAs('birth_docs', $birthFile, $birthFileName);
             $params["path_birth_document"] = $birthFileName;
         }
 
-        unset($params["account_status"]);
-        if($request->file('account_status')){
-            $accountFile = $request->file('account_status');
+        unset($params["account_status_file"]);
+        if($request->file('account_status_file')){
+            $accountFile = $request->file('account_status_file');
             $accountFileExtension = '.' . $accountFile->getClientOriginalExtension();
             $accountFileName = $user->id . '_' . 'ACCOUNT_STATUS' . $accountFileExtension;
             $fileSystem->putFileAs('accounts', $accountFile, $accountFileName);
             $params["path_account_status"] = $accountFileName;
+        }
+
+        unset($params["rfc_file"]);
+        if($request->file('rfc_file')){
+            $rfcFile = $request->file('rfc_file');
+            $rfcFileExtension = '.' . $rfcFile->getClientOriginalExtension();
+            $rfcFileName = $user->id . '_' . 'RFC' . $rfcFileExtension;
+            $fileSystem->putFileAs('rfcs', $rfcFile, $rfcFileName);
+            $params["path_rfc"] = $rfcFileName;
+        }
+
+        unset($params["nss_file"]);
+        if($request->file('nss_file')){
+            $nssFile = $request->file('nss_file');
+            $nssFileExtension = '.' . $nssFile->getClientOriginalExtension();
+            $nssFileName = $user->id . '_' . 'NSS' . $nssFileExtension;
+            $fileSystem->putFileAs('nsss', $nssFile, $nssFileName);
+            $params["path_nss"] = $nssFileName;
         }
 
         try {
@@ -299,6 +335,30 @@ class UserController extends Controller
     public function getBankDetailDataTable(User $user)
     {
         return (new BankDetailDataTable($user))->render('components.datatable');
+    }
+
+    //Delete a file from the user
+
+    //Needs to know WHICH file
+
+    //Return the name of the var
+
+    public function deleteSavedFile(User $user, Request $request){
+        $status = false;
+
+        try {
+            $params = [
+                $request->filePath => null, 
+            ];
+
+            $user->update($params);
+            $message = "Archivo eliminado correctamente";
+        } catch (QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'users');
+        }
+
+        return $this->getResponse($status, $message);
     }
 
 }

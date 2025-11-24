@@ -17,14 +17,14 @@ class JobPositionSeeder extends Seeder
      */
     public function run()
     {
-        Departament::create([
-            'id' => 15,
-            'name' => 'Administración',
-            'is_active' => true,
-        ]);
+        // Departament::create([
+        //     'id' => 15,
+        //     'name' => 'Administración',
+        //     'is_active' => true,
+        // ]);
 
         $positions = [
-            ["name" => "Contador",'is_active' => true, "departament_id" => "3"],
+            // ["name" => "Contador",'is_active' => true, "departament_id" => "3"],
             ["name" => "Auxiliar contable administrativa", 'is_active' => true, "departament_id" => "3"],
             ["name" => "Coordinador de TI", 'is_active' => true, "departament_id" => "1"],
             ["name" => "Tesorera", 'is_active' => true, "departament_id" => "5"],
@@ -49,7 +49,7 @@ class JobPositionSeeder extends Seeder
             ["name" => "Analista de ingresos", 'is_active' => true, "departament_id" => "2"],
             ["name" => "Gerente de Sucursal", 'is_active' => true, "departament_id" => "15"],
             ["name" => "Ejecutiva de cobranza", 'is_active' => true, "departament_id" => "2"],
-            ["name" => "Aux de TI", 'is_active' => true, "departament_id" => "1"],
+            // ["name" => "Aux de TI", 'is_active' => true, "departament_id" => "1"],
             ["name" => "Vendedora", 'is_active' => true, "departament_id" => "14"],
             ["name" => "Aux administrativo y caja", 'is_active' => true, "departament_id" => "15"],
         ];
