@@ -74,8 +74,10 @@ class UserController extends Controller
         $banks = Bank::where("is_active", 1)->pluck("name", "id");
         $job_positions = JobPosition::where("is_active", 1)->pluck("name", "id");
         $users = User::where("is_active", 1)->pluck("name", "id");
+        $genders = Gender::all()->pluck('name', 'id');
+        $civilStatuses = CivilStatus::all()->pluck('name', 'id');
 
-        return view('users.create', compact('roles', 'branches', 'departaments', 'banks', 'job_positions', 'users'));
+        return view('users.create', compact('roles', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses'));
     }
 
     public function store(Request $request)
@@ -180,7 +182,7 @@ class UserController extends Controller
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
         $banks = Bank::where("is_active", 1)->pluck("name", "id");
-        $job_positions = JobPosition::where("is_active", 1)->pluck("name", "id");
+        $job_positions = JobPosition::where("departament_id", $user->departament_id)->pluck("name", "id");
         $users = User::where("is_active", 1)->pluck("name", "id");
         $genders = Gender::all()->pluck('name', 'id');
         $civilStatuses = CivilStatus::all()->pluck('name', 'id');

@@ -76,6 +76,15 @@
         ])
     </div>
 
+<div class="mt-4 d-flex justify-content-center">
+    @include("components.custom.forms.input-check", [
+        "id" => "is_active",
+        "name" => "is_active",
+        "checked" => isset($user) ? $user->is_active :  true,
+        "label" => "Activo",
+    ])
+</div>
+
 </div>
 
 {{-- Datos domiciliarios --}}
@@ -329,7 +338,6 @@
             "value" => isset($user) ? $user->other_benefits :  old("other_benefits"),
         ])
     </div>
-
 </div>
 
 {{-- Datos Bancarios--}}
