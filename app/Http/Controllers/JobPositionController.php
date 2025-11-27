@@ -86,7 +86,7 @@ class JobPositionController extends Controller
             $job_position->update([
                 'is_active' => false,
             ]);
-            $message = "Puesto de trabajo desactivo correctamente";
+            $message = "Puesto de trabajo desactivado correctamente";
         } catch (QueryException $e) {
             $status = false;
             $message = $this->getErrorMessage($e, 'job_positions');

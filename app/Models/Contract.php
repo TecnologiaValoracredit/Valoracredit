@@ -12,6 +12,7 @@ class Contract extends Model
     protected $fillable = [
         'name',
         'contract_type_id',
-        'content'
+        'content',
+        'is_active',
     ];
 }

@@ -3,47 +3,92 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ContractsDataTable;
+use App\Http\Requests\ContractRequest;
 use App\Models\Contract;
 use App\Models\ContractType;
-use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class ContractController extends Controller
 {
     public function index(ContractsDataTable $dataTable){
-        //Show all contracts
-        //Call a view and send all the contracts
         $allowAdd = auth()->user()->hasPermissions("users.create");
         return $dataTable->render('contracts.index', compact("allowAdd"));
     }
 
     public function create(){
-        //Show a view and send data to create a contract
-        //Contract type, etc
         $types = ContractType::pluck('name', 'id');
 
-        return view('contracts.edit', compact('contract', 'types'));
+        return view('contracts.create', compact( 'types'));
     }
 
-    public function store(){
-        //Reached when submitting a created contract
+    public function store(ContractRequest $request){
+        $status = true;
+        $contract = null;
+
+        $params = array_merge($request->all(), [
+            'name' => $request->name,
+            'contract_type_id' => $request->contract_type_id,
+            'content' => $request->content,
+            'is_active' => !is_null($request->is_active),
+        ]);
+
+        try {
+            $contract = Contract::create($params);
+            $message = "Contrato creado correctamente";
+        } catch (QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'contracts');
+        }
+
+        return $this->getResponse($status, $message, $contract);
     }
 
     public function edit(Contract $contract){
-        //Show a view and send data to edit a contract
         $types = ContractType::pluck('name', 'id');
 
         return view('contracts.edit', compact('contract', 'types'));
     }
 
-    public function update(Contract $contract){
-        //Reached when submitting an edited contract
+    public function update(ContractRequest $request, Contract $contract){
+        $status = true;
+        $message = null;
+
+        $params = array_merge($request->all(), [
+            'name' => $request->name,
+            'contract_type_id' => $request->contract_type_id,
+            'content' => $request->content,
+            'is_active' => !is_null($request->is_active),
+        ]);
+
+        try {
+            $contract->update($params);
+            $message = "Contrato modificado correctamente";
+        } catch (QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'contracts');
+        }
+
+        return $this->getResponse($status, $message, $contract);
     }
 
     public function show(){
-        //Show a single contract upon given Id of it
+
     }
 
-    public function destroy(){
-        //Destroy the contract
+    public function destroy(Contract $contract){
+        $status = true;
+        $message = null;
+
+        try {
+            $contract->update([
+                'is_active' => 0,
+            ]);
+            $message = "Contrato desactivado correctamente";
+        } catch (QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'contracts');
+        }
+
+        return $this->getResponse($status, $message, $contract);
     }
 }

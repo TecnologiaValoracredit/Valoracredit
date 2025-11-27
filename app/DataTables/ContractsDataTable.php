@@ -22,11 +22,27 @@ class ContractsDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-            ->setRowId('id')
-            ->addColumn('action', function($row){
-               return $this->getActions($row); 
-            });
+        $datatable = (new EloquentDataTable($query))
+        ->setRowId('id')
+        ->editColumn('created_at', function(Contract $contract) {
+            return date("d/m/Y H:i", strtotime($contract->created_at));
+        })
+        ->editColumn('updated_at', function(Contract $contract) {
+            return date("d/m/Y H:i", strtotime($contract->updated_at));
+        })
+        ->editColumn('is_active', function(Contract $contract) {
+            if ($contract->is_active) {
+                return '<span class="badge badge-success mb-2 me-4">Sí</span>';
+            }
+            return '<span class="badge badge-danger mb-2 me-4">No</span>';
+        });
+
+
+        $datatable->addColumn('action', function($row){
+            return $this->getActions($row);
+        })->rawColumns(["action", "is_active"]);
+
+        return $datatable;
     }
 
     /**
@@ -40,6 +56,7 @@ class ContractsDataTable extends DataTable
         return $model->select(
             'contracts.id',
             'contracts.name',
+            'contracts.is_active',
             'contract_types.name as contract_type_id',
         )
         ->leftjoin('contract_types', 'contracts.contract_type_id', '=', 'contract_types.id')
@@ -106,9 +123,15 @@ class ContractsDataTable extends DataTable
             ->searchable(false)
             ->visible(false),
             Column::make('name')
-            ->title('Nombre'),
+            ->title('Nombre')
+            ->searchable(true)
+            ->orderable(true)
+            ->printable(true),
             Column::make('contract_type_id')
-            ->title('Tipo')
+            ->title('Tipo'),
+            Column::make('created_at')->searchable(false)->title('Fecha creado'),
+            Column::make('updated_at')->searchable(false)->title('Fecha editado'),
+            Column::make('is_active')->title("Activo"),
         ];
 
         $columns = array_merge($columns, [
