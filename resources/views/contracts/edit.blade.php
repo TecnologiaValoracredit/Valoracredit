@@ -39,6 +39,7 @@
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
+        @vite(['resources/js/app.js','resources/js/tinymce_editor.js'])
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

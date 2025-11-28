@@ -55,6 +55,8 @@ export default defineConfig({
                 'resources/js/commissions/index.js',
                 'resources/js/contracts/c_contentEditor.js',
 
+                'resources/js/tinymce_editor.js',
+
                 'resources/js/requisitions/generals.js',
 
             ],
