@@ -18,6 +18,10 @@ class Database24112025Seeder extends Seeder
             TerminationReasonsSeeder::class,
             GendersAndCivilStatusesSeeder::class,
             Menu13112025Seeder::class,
+            ContractTypesSeeder::class,
+            ContractsSeeder::class,
+            ContractVariableSeeder::class,
+            UserContractSeeder::class,
         ]);
     }
 }
