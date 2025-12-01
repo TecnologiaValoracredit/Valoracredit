@@ -37,8 +37,7 @@ class User extends Authenticatable
         'emergency_phone',
         'birthday',
         'entry_date',
-        // 'resignation_date',
-        // 'extension',
+        'extension',
         'position_id',
         'salary',
         'path_ine',
@@ -46,6 +45,31 @@ class User extends Authenticatable
         'path_address',
         'path_birth_document',
         'path_account_status',
+        'path_rfc',
+        'path_nss',
+        'curp',
+        'rfc',
+        'nss',
+        'employee_number',
+        'birthplace',
+        'gender_id',
+        'civil_status_id',
+        'residential_address',
+        'colony',
+        'municipality',
+        'postal_code',
+        'other_benefits',
+        'interbank_code',
+        'plastic_number',
+        'infonavit_credit_number',
+        'discount_factor',
+        'fonacot_credit_number',
+        'food_pension',
+        'termination_date',
+        'termination_reason_id',
+        'termination_description',
+        'is_replacing_on_hired',
+        'replacement_for_id',
     ];
 
     /**
@@ -71,6 +95,11 @@ class User extends Authenticatable
 {
     return $this->belongsToMany(EmailAccount::class, 'email_account_user');
 }
+
+    public function contracts()
+    {
+        return $this->hasMany(UserContract::class, 'user_id', 'id');
+    }
 
     public function role()
     {

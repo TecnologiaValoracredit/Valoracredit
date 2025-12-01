@@ -26,27 +26,63 @@ window.alertYesNo = (title, text, icon = 'question', confirmText = "Aceptar", ca
 window.deleteRow = (id) => {
     const confirm = alertYesNo(
         'Eliminar registro',
-        '¿Estás seguro de eliminar el registo?'
+        '¿Estás seguro de eliminar el registro?'
     );
+    
+    const appUrl = $('meta[name="app-url"]').attr('content');
+    const route = $("#route").val();
     confirm.then((result) => {
         if (result) {
             $.ajax({
-                url: $('meta[name="app-url"]').attr('content')+`/${$("#route").val()}/${id}`,
+                url: `${appUrl}/${route}/${id}`,
                 type: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'X-Requested-With': 'XMLHttpRequest',
                 },
                 success: function(response) {
-                    var table = window.LaravelDataTables[`${$("#route").val()}-table`];
+                    var table = window.LaravelDataTables[`${route}-table`];
                     table.draw(false);
-                    snackBar("Registro desactivado correctamente", "success")
-
-                },error: function(xhr, textStatus, errorThrown) {
-                    errorMessage(xhr.status, errorThrown)
+                    snackBar("Registro desactivado correctamente", "success");
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    errorMessage(xhr.status, errorThrown);
                 }
             });
         }
     })
+}
+
+
+window.deleteSavedFile = (id, filePath) => {
+    const confirm = alertYesNo(
+        `Eliminar archivo guardado`,
+        'Estas seguro de eliminar este archivo?'
+    );
+
+    confirm.then((result) => {
+        if (result){
+            $.ajax({
+                url: `/users/${id}/deleteFile`,
+                type: 'DELETE',
+                data: {
+                    filePath: filePath,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+                success: function(response) {
+                    const fileDiv = document.getElementById(filePath);
+                    if (fileDiv) fileDiv.remove();
+
+                    snackBar('Eliminado correctamete', 'success')
+                },
+                error: function(xhr, textStatus, errorThrown){
+                    errorMessage(xhr.status, errorThrown)
+                }
+            });
+        }
+    });
 }
 
 window.simpleAlert = (title, text, icon = 'success') => {

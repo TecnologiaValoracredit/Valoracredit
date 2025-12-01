@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\PreApplicationController;
 use App\Models\Contract;
 use App\Models\SCollaborator;
@@ -67,6 +68,7 @@ Route::middleware("auth")->group(function () {
 
     // Route::get('/refresh-emails', [EmailController::class, 'refreshEmails'])->name('emails.refresh');
     Route::get('departaments/{departamentId}/job-positions', [DepartamentController::class, 'getJobPositions'])->name('departaments.job_positions');
+    Route::delete('users/{user}/deleteFile', [UserController::class, 'deleteSavedFile'])->name('users.deleteFile');
 
     Route::middleware(['permission'])->group(function () {
         Route::resource('users', UserController::class);
@@ -74,6 +76,7 @@ Route::middleware("auth")->group(function () {
         Route::get('users/{user}/changePassword', [UserController::class, 'changePassword'])->name('users.changePassword');
         Route::put('users/{user}/setNewPassword', [UserController::class, 'setNewPassword'])->name('users.setNewPassword');
         
+
         Route::resource('roles', RoleController::class);
         Route::resource('departaments', DepartamentController::class);
 
@@ -178,6 +181,7 @@ Route::middleware("auth")->group(function () {
     Route::get('r_indicators/getRIndicatorDataTable',  [RIndicatorController::class, 'getRIndicatorDataTable'])->name('r_indicators.getRIndicatorDataTable');
 
     Route::resource('contracts', ContractController::class);
+    Route::resource('job_positions', JobPositionController::class);
 });
 
 Route::get('pre_applications',  [PreApplicationController::class, 'index'])->name("pre_applications.index");

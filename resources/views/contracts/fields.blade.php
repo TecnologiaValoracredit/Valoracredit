@@ -33,10 +33,19 @@
     <div class="col-12">
         <label for="contract_content" class="form-label">Contenido</label>
         <textarea name="content" 
-        class="form-control" 
+        class="tinymce form-control" 
         rows="20" 
         id="contract_content"
-        wrap="hard">{{ isset($contract) ? $contract->content : old('content') }}
-        </textarea>
+        wrap="hard">{{ isset($contract) ? $contract->content : old('content') }}</textarea>
     </div>
+
+    <div class="mt-4 d-flex justify-content-center">
+    @include("components.custom.forms.input-check", [
+        "id" => "is_active",
+        "name" => "is_active",
+        "checked" => isset($user) ? $user->is_active :  true,
+        "label" => "Activo",
+    ])
+    </div>
+
 </div>

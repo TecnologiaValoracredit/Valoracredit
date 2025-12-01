@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Contract extends Model
+class ContractVariable extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'contract_type_id',
-        'content',
-        'is_active',
+        'key_detection',
+        'model',
+        'model_column',
+        'description',
     ];
 }

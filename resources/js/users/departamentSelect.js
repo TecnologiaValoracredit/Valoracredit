@@ -1,13 +1,15 @@
-//Deactvate job position upon entering to avoid showing all options
+// //Deactvate job position upon entering to avoid showing all options
 let jobSelect = document.getElementById('position_id');
-jobSelect.innerHTML = '<option disabled selected value="">Seleccione una opción...</option>';
-jobSelect.disabled = true;
+
+if (!Number(jobSelect.value)){
+    jobSelect.innerHTML = '<option disabled selected value="">Seleccione un departamento...</option>';
+}
 
 document.getElementById('departament_id').addEventListener('change', function() {
     let departamentId = this.value;
 
     // Reset job positions
-    jobSelect.innerHTML = '<option disabled selected value="">Seleccione una opción...</option>';
+    jobSelect.innerHTML = '<option disabled selected value="">Cargando puestos de trabajo...</option>';
     jobSelect.disabled = true;
 
     if (departamentId) {
@@ -17,7 +19,6 @@ document.getElementById('departament_id').addEventListener('change', function() 
             .then(response => response.json())
             .then(data => {
                 data.forEach(job => {
-                    console.log(job);
                     let option = document.createElement('option');
                     option.value = job.id;
                     option.text = job.name;

@@ -20,13 +20,13 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Crear usuario</h5>
-                <form class="row g-3 needs-validation" novalidate method="POST"  enctype="multipart/form-data" action="{{ route('users.store')  }}" >
+                <form class="row g-3 needs-validation" novalidate method="POST"  enctype="multipart/form-data" action="{{ route('contracts.store')  }}" >
                     @csrf
                     <div class="d-flex justify-content-center">
                         <div class="w-100">
-                            @include("users.fields")
+                            @include("contracts.fields")
                             <div class="d-flex justify-content-end gap-2 mt-4">
-                                <a href="{{route('users.index')}}" class="btn btn-dark">Cancelar</a>
+                                <a href="{{route('contracts.index')}}" class="btn btn-dark">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>
@@ -38,7 +38,7 @@
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
-        @vite('resources/js/users/departamentSelect.js');
+        @vite('resources/js/tinymce.js')
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

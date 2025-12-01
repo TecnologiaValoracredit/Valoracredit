@@ -2,8 +2,9 @@
 
 namespace App\DataTables;
 
-use App\Models\Contract;
+use App\Models\JobPosition;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use PhpParser\Builder\Function_;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -12,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ContractsDataTable extends DataTable
+class JobPositionsDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -24,14 +25,14 @@ class ContractsDataTable extends DataTable
     {
         $datatable = (new EloquentDataTable($query))
         ->setRowId('id')
-        ->editColumn('created_at', function(Contract $contract) {
-            return date("d/m/Y H:i", strtotime($contract->created_at));
+        ->editColumn('created_at', function(JobPosition $role) {
+            return date("d/m/Y H:i", strtotime($role->created_at));
         })
-        ->editColumn('updated_at', function(Contract $contract) {
-            return date("d/m/Y H:i", strtotime($contract->updated_at));
+        ->editColumn('updated_at', function(JobPosition $role) {
+            return date("d/m/Y H:i", strtotime($role->updated_at));
         })
-        ->editColumn('is_active', function(Contract $contract) {
-            if ($contract->is_active) {
+        ->editColumn('is_active', function(JobPosition $role) {
+            if ($role->is_active) {
                 return '<span class="badge badge-success mb-2 me-4">Sí</span>';
             }
             return '<span class="badge badge-danger mb-2 me-4">No</span>';
@@ -48,31 +49,34 @@ class ContractsDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Contract $model
+     * @param \App\Models\JobPosition $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Contract $model): QueryBuilder
+    public function query(JobPosition $model): QueryBuilder
     {
         return $model->select(
-            'contracts.id',
-            'contracts.name',
-            'contracts.is_active',
-            'contract_types.name as contract_type_id',
+            'job_positions.id',
+            'job_positions.name',
+            'job_positions.description',
+            'job_positions.created_at',
+            'job_positions.updated_at',
+            'job_positions.is_active',
+            'departaments.name as departament_id',
         )
-        ->leftjoin('contract_types', 'contracts.contract_type_id', '=', 'contract_types.id')
+        ->leftjoin('departaments', 'job_positions.departament_id', '=', 'departaments.id')
         ->newQuery();
     }
 
     public function getActions($row){
         $result = null;
-        if (auth()->user()->hasPermissions("contracts.edit")) {
+        if (auth()->user()->hasPermissions("job_positions.edit")) {
             $result .= '
-                <a title="Editar" href='.route("contracts.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
+                <a title="Editar" href='.route("job_positions.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                 </a>
             ';
         }
-        if (auth()->user()->hasPermissions("contracts.destroy")) {
+        if (auth()->user()->hasPermissions("job_positions.destroy")) {
             $result .= '
                 <a onclick="deleteRow('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>        </a>
@@ -97,7 +101,7 @@ class ContractsDataTable extends DataTable
                         'responsive' => true,
                         'scrollX' => true,
                     ])
-                    ->setTableId('contracts-table')
+                    ->setTableId('job_positions-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy(0, 'asc')
@@ -127,21 +131,26 @@ class ContractsDataTable extends DataTable
             ->searchable(true)
             ->orderable(true)
             ->printable(true),
-            Column::make('contract_type_id')
-            ->title('Tipo'),
+            Column::make('description')
+            ->title('Descripcion')
+            ->searchable(true)
+            ->orderable(false)
+            ->className('text-wrap')
+            ->printable(true),
+            Column::make('departament_id')
+            ->title('Departamento'),
             Column::make('created_at')->searchable(false)->title('Fecha creado'),
             Column::make('updated_at')->searchable(false)->title('Fecha editado'),
             Column::make('is_active')->title("Activo"),
         ];
 
         $columns = array_merge($columns, [
-
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
                   ->addClass('text-center')
-                  ->title('Acciones')
+                  ->title('Acciones'),
         ]);
 
         return $columns;
@@ -154,6 +163,6 @@ class ContractsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Contracts_' . date('YmdHis');
+        return 'JobPositions_' . date('YmdHis');
     }
 }
