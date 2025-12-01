@@ -37,7 +37,7 @@ class User extends Authenticatable
         'emergency_phone',
         'birthday',
         'entry_date',
-        // 'extension',
+        'extension',
         'position_id',
         'salary',
         'path_ine',
@@ -95,6 +95,11 @@ class User extends Authenticatable
 {
     return $this->belongsToMany(EmailAccount::class, 'email_account_user');
 }
+
+    public function contracts()
+    {
+        return $this->hasMany(UserContract::class, 'user_id', 'id');
+    }
 
     public function role()
     {

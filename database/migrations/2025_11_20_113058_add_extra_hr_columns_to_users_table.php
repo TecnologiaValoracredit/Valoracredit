@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->string('extension')->nullable();
             
             $table->string('path_rfc')->nullable();
             $table->string('path_nss')->nullable();
@@ -77,6 +77,7 @@ public function down()
         $table->dropForeign(['civil_status_id']);
 
         $table->dropColumn([
+            'extension',
             'path_rfc',
             'path_nss',
             'curp',

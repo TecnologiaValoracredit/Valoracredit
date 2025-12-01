@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\BankDetailDataTable;
 use App\Models\BankDetail;
 use App\Models\CivilStatus;
+use App\Models\ContractType;
 use App\Models\Gender;
 use App\Models\JobPosition;
 use Illuminate\Database\QueryException;
@@ -74,9 +75,10 @@ class UserController extends Controller
         $banks = Bank::where("is_active", 1)->pluck("name", "id");
         $job_positions = JobPosition::where("is_active", 1)->pluck("name", "id");
         $users = User::where("is_active", 1)->pluck("name", "id");
+
         $genders = Gender::all()->pluck('name', 'id');
         $civilStatuses = CivilStatus::all()->pluck('name', 'id');
-
+        
         return view('users.create', compact('roles', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses'));
     }
 
@@ -186,8 +188,9 @@ class UserController extends Controller
         $users = User::where("is_active", 1)->pluck("name", "id");
         $genders = Gender::all()->pluck('name', 'id');
         $civilStatuses = CivilStatus::all()->pluck('name', 'id');
+        $contracts = ContractType::all()->pluck('name', 'id');
 
-        return view('users.edit', compact('roles', 'user', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses'));
+        return view('users.edit', compact('roles', 'user', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses', 'contracts'));
 
     }
 
@@ -338,13 +341,7 @@ class UserController extends Controller
     {
         return (new BankDetailDataTable($user))->render('components.datatable');
     }
-
-    //Delete a file from the user
-
-    //Needs to know WHICH file
-
-    //Return the name of the var
-
+    
     public function deleteSavedFile(User $user, Request $request){
         $status = false;
 

@@ -7,6 +7,7 @@ use App\Http\Requests\ContractRequest;
 use App\Models\Contract;
 use App\Models\ContractType;
 use Illuminate\Database\QueryException;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ContractController extends Controller
 {
@@ -90,5 +91,13 @@ class ContractController extends Controller
         }
 
         return $this->getResponse($status, $message, $contract);
+    }
+
+    public function exportContract(Contract $contract){
+        $pdf = PDF::loadView('contracts.pdf.userContract', [
+            'contract' => $contract,
+        ])->setPaper('letter', 'portrait');
+
+        return $pdf->download('contract'.$contract->id.'.pdf');
     }
 }
