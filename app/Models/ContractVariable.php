@@ -12,8 +12,12 @@ class ContractVariable extends Model
     protected $fillable = [
         'name',
         'key_detection',
+        'type',
         'model',
         'model_column',
+        'relation_name',
+        'relation_column',
+        'handler',
         'description',
     ];
 }

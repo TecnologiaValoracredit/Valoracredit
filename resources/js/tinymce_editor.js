@@ -20,7 +20,6 @@ tinymce.init({
 
     toolbar: `
         undo redo |
-        print |
         fontFamily |
         fontSize |
         fontSizeInput |
@@ -36,7 +35,7 @@ tinymce.init({
     skin: false,
     content_css: false,
 
-    height: 600,
+    height: 800,
     resize: 'both',
     branding: false,
 
@@ -47,8 +46,7 @@ tinymce.init({
     content_style: `
         body {
             font-family: Arial, sans-serif;
-            font-size: 15px;
-            padding: 20px;
+            font-size: 14px;
         }
     `,
 

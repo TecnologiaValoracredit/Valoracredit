@@ -136,8 +136,11 @@ Route::middleware("auth")->group(function () {
 
         Route::post('commissions/export_report',  [CommissionController::class, 'exportReport'])->name("commissions.exportReport");
 
-       
+        Route::resource('contracts', ContractController::class);
+        Route::resource('job_positions', JobPositionController::class);
+        
     });
+    Route::get('contracts/exportContract/{contract}/{modelId?}',  [ContractController::class, 'exportContract'])->name("contracts.exportContract"); //generarle el permiso
 
     Route::resource("s_collaborators", SCollaboratorController::class);
 
@@ -180,8 +183,7 @@ Route::middleware("auth")->group(function () {
     Route::get('r_indicators/getRIndicatorFinalDataTable',  [RIndicatorController::class, 'getRIndicatorFinalDataTable'])->name('r_indicators.getRIndicatorFinalDataTable');
     Route::get('r_indicators/getRIndicatorDataTable',  [RIndicatorController::class, 'getRIndicatorDataTable'])->name('r_indicators.getRIndicatorDataTable');
 
-    Route::resource('contracts', ContractController::class);
-    Route::resource('job_positions', JobPositionController::class);
+
 });
 
 Route::get('pre_applications',  [PreApplicationController::class, 'index'])->name("pre_applications.index");

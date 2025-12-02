@@ -6,8 +6,12 @@ use App\DataTables\ContractsDataTable;
 use App\Http\Requests\ContractRequest;
 use App\Models\Contract;
 use App\Models\ContractType;
+use App\Models\ContractVariable;
+use App\Models\User;
+
 use Illuminate\Database\QueryException;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class ContractController extends Controller
 {
@@ -18,8 +22,8 @@ class ContractController extends Controller
 
     public function create(){
         $types = ContractType::pluck('name', 'id');
-
-        return view('contracts.create', compact( 'types'));
+        $variables = ContractVariable::all();
+        return view('contracts.create', compact( 'types', 'variables'));
     }
 
     public function store(ContractRequest $request){
@@ -46,8 +50,9 @@ class ContractController extends Controller
 
     public function edit(Contract $contract){
         $types = ContractType::pluck('name', 'id');
+        $variables = ContractVariable::all();
 
-        return view('contracts.edit', compact('contract', 'types'));
+        return view('contracts.edit', compact('contract', 'types', 'variables'));
     }
 
     public function update(ContractRequest $request, Contract $contract){
@@ -93,11 +98,70 @@ class ContractController extends Controller
         return $this->getResponse($status, $message, $contract);
     }
 
-    public function exportContract(Contract $contract){
-        $pdf = PDF::loadView('contracts.pdf.userContract', [
-            'contract' => $contract,
-        ])->setPaper('letter', 'portrait');
+    public function exportContract(Contract $contract, $modelId = null){
+        $content = $contract->content;
+        if ($modelId == null) { //Si es para ver el preview en el la vista de contrato, sin vincular al usuario
+            $content = $contract->content;
+            $pdf = Pdf::loadView('contracts.pdf.userContract', [
+                'content' => $content
+            ]);
 
-        return $pdf->download('contract'.$contract->id.'.pdf');
+            return $pdf->stream('Contrato.pdf');
+        }else{
+            $user = User::findOrFail($modelId);
+            $content = $this->processContract($content, $user);
+
+             $pdf = Pdf::loadView('contracts.pdf.userContract', [
+                'content' => $content
+            ]);
+
+            // 3. Nombrar archivo
+            $fileName = 'Contrato-'.$contract->name.'-' . now()->format('YmdHis') . '.pdf';
+
+            // 4. Ruta donde se guardará
+            $path = "contracts/{$user->id}/" . $fileName;
+
+            // 5. Guardar en storage/app/contracts/{userId}/
+            Storage::disk('local')->put($path, $pdf->output());
+
+            $user->contracts()->create([
+                'contract_id' => $contract->id,
+                'file_path' => $path,
+            ]);
+
+            return response()->download(storage_path("app/{$path}"));
+        }
+
+       
     }
+
+
+    public function processContract($contractContent, $modelInstance)
+    {
+        $variables = ContractVariable::all();
+
+        foreach ($variables as $var) {
+
+            switch ($var->type) {
+
+                case 'column':
+                    $value = data_get($modelInstance, $var->model_column);
+                    break;
+
+                case 'relation':
+                    $value = data_get($modelInstance, "{$var->relation_name}.{$var->relation_column}");
+                    break;
+
+                case 'custom':
+                    $handler = new $var->handler();
+                    $value = $handler($modelInstance);
+                    break;
+            }
+
+            $contractContent = str_replace($var->key_detection, $value, $contractContent);
+        }
+
+        return $contractContent;
+    }
+
 }

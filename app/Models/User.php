@@ -196,7 +196,7 @@ class User extends Authenticatable
 
     //RPuesto de trabajo 
     public function jobPosition(){
-        return $this->hasOne(JobPosition::class, "position_id", "id");
+        return $this->belongsTo(JobPosition::class, "position_id", "id");
     }
 
     public function getUserTypeAttribute()

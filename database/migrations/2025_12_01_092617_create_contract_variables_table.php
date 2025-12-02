@@ -16,16 +16,31 @@ return new class extends Migration
         Schema::create('contract_variables', function (Blueprint $table) {
             $table->smallIncrements('id');
 
-            $table->string('name');
-            $table->string('key_detection');
+            $table->string('name');              // Nombre legible
+            $table->string('key_detection');     // Ej: {{CURP}}
 
-            $table->string('model');
-            $table->string('model_column');
-            
+            $table->string('type')->default('column');
+            // 'column' → se obtiene de una columna
+            // 'relation' → viene de una relación
+            // 'custom' → variable calculada
+
+            // Para type = 'column'
+            $table->string('model')->nullable();        // App\Models\User
+            $table->string('model_column')->nullable(); // curp
+
+            // Para type = 'relation'
+            $table->string('relation_name')->nullable(); // Ej: department
+            $table->string('relation_column')->nullable(); // Ej: name
+
+            // Para type = 'custom'
+            $table->string('handler')->nullable();
+            // Ej handler = App\ContractVariables\FechaEnLetras
+
             $table->string('description')->nullable();
 
             $table->timestamps();
         });
+
     }
 
     /**

@@ -18,7 +18,7 @@ class Database14112025Seeder extends Seeder
             PermissionModule14112025Seeder::class,
             PermissionPermission14112025Seeder::class,
             PermissionPermissionRole14112025Seeder::class,
-            JobPositionSeeder::class,
+            // JobPositionSeeder::class,
         ]);
     }
 }
