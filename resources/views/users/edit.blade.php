@@ -23,7 +23,7 @@
                 <form class="row g-3 needs-validation" novalidate method="POST" enctype="multipart/form-data" action="{{ route('users.update', $user->id) }}">
                     @csrf
                     @method("PUT")
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex flex-column justify-content-center">
                         <div class="w-100">
                             @include("users.fields")
                             <div class="d-flex justify-content-end gap-2">
