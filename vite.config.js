@@ -53,7 +53,6 @@ export default defineConfig({
                 'resources/js/users/departamentSelect.js',
                 'resources/js/commissions/generals.js',
                 'resources/js/commissions/index.js',
-                'resources/js/contracts/c_contentEditor.js',
 
                 'resources/js/tinymce_editor.js',
 

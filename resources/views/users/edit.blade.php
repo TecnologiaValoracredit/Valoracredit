@@ -23,7 +23,7 @@
                 <form class="row g-3 needs-validation" novalidate method="POST" enctype="multipart/form-data" action="{{ route('users.update', $user->id) }}">
                     @csrf
                     @method("PUT")
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex flex-column justify-content-center">
                         <div class="w-100">
                             <a href="{{route('contracts.exportContract', [$user->id, 1])}}" class="btn btn-dark">Cancelar</a>
                             @include("users.fields")
