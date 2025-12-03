@@ -12,7 +12,10 @@ class UserContract extends Model
     protected $fillable = [
         'user_id',
         'contract_id',
+        'initial_date',
+        'final_date',
         'path_contract',
+        'path_contract_signed'
     ];
 
     public function contract(){

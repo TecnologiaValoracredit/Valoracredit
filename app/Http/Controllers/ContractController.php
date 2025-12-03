@@ -8,6 +8,8 @@ use App\Models\Contract;
 use App\Models\ContractType;
 use App\Models\ContractVariable;
 use App\Models\User;
+use App\Models\UserContract;
+use Illuminate\Http\Request;
 
 use Illuminate\Database\QueryException;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -126,13 +128,87 @@ class ContractController extends Controller
 
             $user->contracts()->create([
                 'contract_id' => $contract->id,
-                'file_path' => $path,
+                'path_contract' => $path,
             ]);
 
-            return response()->download(storage_path("app/{$path}"));
+            return response()->json([
+                "message" => "Contrato generado correctamente",
+                "status" =>true,
+                "user" => $user,
+                "table" => $this->getTableContractUser($user)
+            ]);
         }
+    }
 
+    //El type es signed o unsigned
+    public function downloadContract(UserContract $user_contract, $type)
+    {
+        if ($type == "unsigned") {
+            $path = $user_contract->path_contract;
+        }else{
+            $path = $user_contract->path_contract_signed;
+        }
+        $mimeType = Storage::disk('local')->mimeType($path);
+        $fileContent = Storage::disk('local')->get($path);
+
+        // Devolver la respuesta con el contenido del archivo y los encabezados adecuados
+        return response($fileContent, 200)
+                ->header('Content-Type', $mimeType)
+                ->header('Content-Disposition', 'inline; filename="'.basename($path).'"');
+    }
+
+     //El type es signed o unsigned
+    public function deleteContract(UserContract $user_contract)
+    {
+        $user = $user_contract->user;
+        $user_contract->delete();
+        return response()->json([
+            "message" => "Contrato eliminado correctamente",
+            "status" =>true,
+            "user" => $user,
+            "table" => $this->getTableContractUser($user)
+        ]);
+    }
+
+    public function addUserContractSigned(UserContract $user_contract, Request $request)
+    {
+        $status = false;
+        $file = $request->file("contract_signed");
+        $message = "No se cargó el comprobante de pago";
+        if ($file) {
+            $user = $user_contract->user;
+            $contract = $user_contract->contract;
+
+            // 3. Nombrar archivo
+            $fileName = 'Contrato firmado-'.$contract->name.'-' . now()->format('YmdHis') . '.pdf';
+
+            // 4. Ruta donde se guardará
+            $path = "contracts/{$user->id}/" . $fileName;
+
+            Storage::disk('local')->putFileAs("contracts/{$user->id}", $file, $fileName);
+            $params['path_contract_signed'] = $path;
+
+            try {
+                $user_contract->update($params);
+                $message = "Contrato firmado cargado correctamente";
+                $status = true;
+            } catch (\Illuminate\Database\QueryException $e) {
+                $status = false;
+                $message = "Algo salió mal ". $e->getMessage();
+            }
+        }
        
+        return response()->json([
+            "message" => $message,
+            "status" => $status,
+            "user" => $user,
+            "table" => $this->getTableContractUser($user)
+        ]);
+    }
+
+    private function getTableContractUser(User $user)
+    {
+        return view("users.contracts-table", compact("user"))->render();
     }
 
 

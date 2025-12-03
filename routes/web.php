@@ -140,7 +140,10 @@ Route::middleware("auth")->group(function () {
         Route::resource('job_positions', JobPositionController::class);
         
     });
-    Route::get('contracts/exportContract/{contract}/{modelId?}',  [ContractController::class, 'exportContract'])->name("contracts.exportContract"); //generarle el permiso
+    Route::post('contracts/exportContract/{contract}/{modelId?}',  [ContractController::class, 'exportContract'])->name("contracts.exportContract"); //generarle el permiso
+    Route::get('contracts/downloadContract/{user_contract}/{type}',  [ContractController::class, 'downloadContract'])->name("contracts.downloadContract"); //generarle el permiso
+    Route::delete('users_contracts/deleteContract/{user_contract}',  [ContractController::class, 'deleteContract'])->name("users_contracts.deleteContract"); //generarle el permiso
+    Route::post('users_contracts/addUserContractSigned/{user_contract}',  [ContractController::class, 'addUserContractSigned'])->name("contracts.addUserContractSigned"); //generarle el permiso
 
     Route::resource("s_collaborators", SCollaboratorController::class);
 

@@ -9,13 +9,14 @@
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <x-slot:headerFiles>
         <!--  BEGIN CUSTOM STYLE FILE  -->
-        
+        @vite(['resources/sass/input-inline.scss'])
         <!--  END CUSTOM STYLE FILE  -->
     </x-slot>
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <div class="row layout-top-spacing">
         @include("components.custom.errors")
+        <input type="hidden" id="user_id" value="{{$user->id}}">
         <!-- CONTENT HERE -->
         <div class="card">
             <div class="card-body">
@@ -25,7 +26,6 @@
                     @method("PUT")
                     <div class="d-flex flex-column justify-content-center">
                         <div class="w-100">
-                            <a href="{{route('contracts.exportContract', [$user->id, 1])}}" class="btn btn-dark">Cancelar</a>
                             @include("users.fields")
 
                             <div class="d-flex justify-content-end gap-2">
@@ -42,6 +42,8 @@
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
         @vite('resources/js/users/departamentSelect.js')
+        @vite('resources/js/users/contracts.js')
+
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

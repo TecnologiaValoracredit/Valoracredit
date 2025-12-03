@@ -22,7 +22,11 @@ return new class extends Migration
             $table->unsignedSmallInteger('contract_id');
             $table->foreign('contract_id')->references('id')->on('contracts');
 
+            $table->date("initial_date");
+            $table->date("final_date");
+
             $table->string('path_contract')->nullable();
+            $table->string('path_contract_signed')->nullable(); //Para el url del contrato firmado y escaneado
 
             $table->timestamps();
         });

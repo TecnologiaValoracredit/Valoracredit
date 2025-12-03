@@ -51,6 +51,7 @@ export default defineConfig({
                 
                 'resources/js/users/generals.js',
                 'resources/js/users/departamentSelect.js',
+                'resources/js/users/contracts.js',
                 'resources/js/commissions/generals.js',
                 'resources/js/commissions/index.js',
 
