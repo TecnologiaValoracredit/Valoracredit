@@ -15,4 +15,9 @@ class Contract extends Model
         'content',
         'is_active',
     ];
+
+    public function contractType()
+    {
+        return $this->belongsTo("App\Models\ContractType", "contract_type_id", "id");
+    }
 }

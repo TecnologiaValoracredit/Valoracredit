@@ -1,7 +1,7 @@
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
-        Crear usuario
+        Crear contrato
     </x-slot>
 
 
@@ -19,7 +19,7 @@
         <!-- CONTENT HERE -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Crear usuario</h5>
+                <h5 class="card-title">Crear contrato</h5>
                 <form class="row g-3 needs-validation" novalidate method="POST"  enctype="multipart/form-data" action="{{ route('contracts.store')  }}" >
                     @csrf
                     <div class="d-flex justify-content-center">

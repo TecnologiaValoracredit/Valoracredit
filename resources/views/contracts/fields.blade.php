@@ -34,6 +34,7 @@
             "invalid_feedback" => "El campo es requerido"
         ])
     </div>
+
     <hr>
     <!-- Variables disponibles -->
     <h3>Variables disponibles</h3>

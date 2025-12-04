@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ContractController extends Controller
 {
@@ -23,7 +25,23 @@ class ContractController extends Controller
     }
 
     public function create(){
-        $types = ContractType::pluck('name', 'id');
+        $types = ContractType::select(
+            'id',
+            DB::raw("
+                CONCAT(
+                    name, 
+                    ' - ',
+                    CASE 
+                        WHEN duration = -1 THEN 'Indeterminado'
+                        ELSE CONCAT(duration, ' días')
+                    END
+                ) AS full_name
+            ")
+        )
+        ->pluck('full_name', 'id');
+
+
+
         $variables = ContractVariable::all();
         return view('contracts.create', compact( 'types', 'variables'));
     }
@@ -51,7 +69,22 @@ class ContractController extends Controller
     }
 
     public function edit(Contract $contract){
-        $types = ContractType::pluck('name', 'id');
+       $types = ContractType::select(
+            'id',
+            DB::raw("
+                CONCAT(
+                    name, 
+                    ' - ',
+                    CASE 
+                        WHEN duration = -1 THEN 'Indeterminado'
+                        ELSE CONCAT(duration, ' días')
+                    END
+                ) AS full_name
+            ")
+        )
+        ->pluck('full_name', 'id');
+
+
         $variables = ContractVariable::all();
 
         return view('contracts.edit', compact('contract', 'types', 'variables'));
@@ -100,8 +133,9 @@ class ContractController extends Controller
         return $this->getResponse($status, $message, $contract);
     }
 
-    public function exportContract(Contract $contract, $modelId = null){
+    public function exportContract(Contract $contract, $modelId = null, Request $request){
         $content = $contract->content;
+        
         if ($modelId == null) { //Si es para ver el preview en el la vista de contrato, sin vincular al usuario
             $content = $contract->content;
             $pdf = Pdf::loadView('contracts.pdf.userContract', [
@@ -110,6 +144,16 @@ class ContractController extends Controller
 
             return $pdf->stream('Contrato.pdf');
         }else{
+            $initial_date = Carbon::parse($request->initial_date);
+            $duration = $contract->contractType->duration; // o del tipo de contrato
+
+            if ($duration == -1) {
+                // 99 años desde la fecha inicial
+                $final_date = $initial_date->copy()->addYears(99);
+            } else {
+                $final_date = $initial_date->copy()->addDays($duration);
+            }
+
             $user = User::findOrFail($modelId);
             $content = $this->processContract($content, $user);
 
@@ -129,6 +173,8 @@ class ContractController extends Controller
             $user->contracts()->create([
                 'contract_id' => $contract->id,
                 'path_contract' => $path,
+                'initial_date' => $initial_date,
+                'final_date' => $final_date
             ]);
 
             return response()->json([

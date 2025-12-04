@@ -12,5 +12,6 @@ class ContractType extends Model
     protected $fillable = [
         'name',
         'description',
+        'duration'
     ];
 }

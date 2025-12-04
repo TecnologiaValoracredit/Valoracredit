@@ -6,6 +6,8 @@ use App\DataTables\BankDetailDataTable;
 use App\Models\BankDetail;
 use App\Models\CivilStatus;
 use App\Models\ContractType;
+use App\Models\Contract;
+
 use App\Models\Gender;
 use App\Models\JobPosition;
 use Illuminate\Database\QueryException;
@@ -78,7 +80,22 @@ class UserController extends Controller
 
         $genders = Gender::all()->pluck('name', 'id');
         $civilStatuses = CivilStatus::all()->pluck('name', 'id');
-        
+        $contracts = Contract::with('contractType')
+        ->get()
+        ->mapWithKeys(function ($contract) {
+
+            $duration = $contract->contractType->duration;
+
+            // Si es -1 → Indeterminado
+            $durationText = ($duration == -1)
+                ? 'Indeterminado'
+                : $duration . ' días';
+
+            return [
+                $contract->id => $contract->name . ' - ' . $durationText,
+            ];
+        });
+
         return view('users.create', compact('roles', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses'));
     }
 
@@ -188,7 +205,21 @@ class UserController extends Controller
         $users = User::where("is_active", 1)->pluck("name", "id");
         $genders = Gender::all()->pluck('name', 'id');
         $civilStatuses = CivilStatus::all()->pluck('name', 'id');
-        $contracts = ContractType::all()->pluck('name', 'id');
+        $contracts = Contract::with('contractType')
+        ->get()
+        ->mapWithKeys(function ($contract) {
+
+            $duration = $contract->contractType->duration;
+
+            // Si es -1 → Indeterminado
+            $durationText = ($duration == -1)
+                ? 'Indeterminado'
+                : $duration . ' días';
+
+            return [
+                $contract->id => $contract->name . ' - ' . $durationText,
+            ];
+        });
 
         return view('users.edit', compact('roles', 'user', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses', 'contracts'));
 

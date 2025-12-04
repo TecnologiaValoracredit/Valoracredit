@@ -3,10 +3,14 @@ $(document).ready(function(){
     $("#btnGenerateContract").on("click", function() {
         const user_id = $("#user_id").val()
         const contract_id = $("#contract_id").val()
+        let data = {
+            "initial_date": $("#initial_date").val()
+        }
 
         $.ajax({
             url: $('meta[name="app-url"]').attr('content')+`/contracts/exportContract/${contract_id}/${user_id}`,
             type: "POST",
+            data: data,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },

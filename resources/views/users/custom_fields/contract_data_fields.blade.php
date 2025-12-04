@@ -2,7 +2,7 @@
     CONTRATOS
 </div>
 
-<div class="col-6">
+<div class="col-5">
     @include("components.custom.forms.input-inline-select", [
         "id" => "contract_id",
         "name" => "contract_id",
@@ -13,7 +13,18 @@
     ])
 
 </div>
-<div class="col-6">
+<div class="col-4">
+        @include("components.custom.forms.input-inline", [
+            "id" => "initial_date",
+            "name" => "initial_date",
+            "type" => "date",
+            "label" => "Inicio de contrato",
+            "required" => true,
+            "value" => old("initial_date"),
+            "invalid_feedback" => "El campo es requerido",
+        ])
+    </div>
+<div class="col-3">
     <a id="btnGenerateContract" class="btn btn-primary">
         Generar contrato
     </a>
