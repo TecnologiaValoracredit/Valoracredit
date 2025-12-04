@@ -112,54 +112,54 @@ class UserController extends Controller
                 $ineFile = $request->file('ine_file');
                 $ineFileExtension = '.' . $ineFile->getClientOriginalExtension();
                 $ineFileName = $user->id. '_' . 'INE' . $ineFileExtension;
-                $fileSystem->putFileAs('ines', $ineFile, $ineFileName);
+                $path_ine = $fileSystem->putFileAs('ines', $ineFile, $ineFileName);
             }
             if($request->file('curp_file')){
                 $curpFile = $request->file('curp_file');
                 $curpFileExtension = $curpFile->getClientOriginalExtension();
                 $curpFileName = $user->id . '_' . 'CURP' . $curpFileExtension;
-                $fileSystem->putFileAs('curps', $curpFile, $curpFileName);
+                $path_curp = $fileSystem->putFileAs('curps', $curpFile, $curpFileName);
             }
             if($request->file('address_file')){
                 $addressFile = $request->file('address_file');
                 $addressFileExtension = $addressFile->getClientOriginalExtension();
                 $addressFileName = $user->id . '_' . 'ADDRESS' . $addressFileExtension;
-                $fileSystem->putFileAs('addresses', $addressFile, $addressFileName);
+                $path_address = $fileSystem->putFileAs('addresses', $addressFile, $addressFileName);
             }
             if($request->file('birth_document_file')){
                 $birthFile = $request->file('birth_document_file');
                 $birthFileExtension = $birthFile->getClientOriginalExtension();
                 $birthFileName = $user->id . '_' . 'BIRTH_DOCUMENT' . $birthFileExtension;
-                $fileSystem->putFileAs('birth_docs', $birthFile, $birthFileName);
+                $path_birth_document = $fileSystem->putFileAs('birth_docs', $birthFile, $birthFileName);
             }
             if($request->file('account_status_file')){
                 $accountFile = $request->file('account_status_file');
                 $accountFileExtension = $accountFile->getClientOriginalExtension();
                 $accountFileName = $user->id . '_' . 'ACCOUNT_STATUS' . $accountFileExtension;
-                $fileSystem->putFileAs('accounts', $accountFile, $accountFileName);
+                $path_account_status = $fileSystem->putFileAs('accounts', $accountFile, $accountFileName);
             }
             if($request->file('rfc_file')){
                 $rfcFile = $request->file('rfc_file');
                 $rfcFileExtension = $rfcFile->getClientOriginalExtension();
                 $rfcFileName = $user->id . '_' . 'RFC' . $rfcFileExtension;
-                $fileSystem->putFileAs('rfcs', $rfcFile, $rfcFileName);
+                $path_rfc = $fileSystem->putFileAs('rfcs', $rfcFile, $rfcFileName);
             }
             if($request->file('nss_file')){
                 $nssFile = $request->file('nss_file');
                 $nssFileExtension = $nssFile->getClientOriginalExtension();
                 $nssFileName = $user->id . '_' . 'NSS' . $nssFileExtension;
-                $fileSystem->putFileAs('nsss', $nssFile, $nssFileName);
+                $path_nss = $fileSystem->putFileAs('nsss', $nssFile, $nssFileName);
             }
 
             //Update User´s paths IF not null
             $pathParams = [
-                'path_ine' => $ineFileName ?? null,
-                'path_curp' => $curpFileName ?? null,
-                'path_address' => $addressFileName ?? null,
-                'path_birth_document' => $birthFileName ?? null,
-                'path_account_status' => $accountFileName ?? null,
-                'path_rfc' => $rfcFileName ?? null,
-                'path_nss' => $nssFileName ?? null,
+                'path_ine' => $path_ine ?? null,
+                'path_curp' => $path_curp ?? null,
+                'path_address' => $path_address ?? null,
+                'path_birth_document' => $path_birth_document ?? null,
+                'path_account_status' => $path_account_status ?? null,
+                'path_rfc' => $path_rfc ?? null,
+                'path_nss' => $path_nss ?? null,
             ];
 
             try {
@@ -217,8 +217,8 @@ class UserController extends Controller
             $ineFile = $request->file('ine_file');
             $ineFileExtension = '.' . $ineFile->getClientOriginalExtension();
             $ineFileName = $user->id. '_' . 'INE' . $ineFileExtension;
-            $fileSystem->putFileAs('ines', $ineFile, $ineFileName);
-            $params["path_ine"] = $ineFileName;
+            $path_ine = $fileSystem->putFileAs('ines', $ineFile, $ineFileName);
+            $params["path_ine"] = $path_ine;
         }
 
         unset($params["curp_file"]);
@@ -226,8 +226,8 @@ class UserController extends Controller
             $curpFile = $request->file('curp_file');
             $curpFileExtension = '.' . $curpFile->getClientOriginalExtension();
             $curpFileName = $user->id . '_' . 'CURP' . $curpFileExtension;
-            $fileSystem->putFileAs('curps', $curpFile, $curpFileName);
-            $params["path_curp"] = $curpFileName;
+            $path_curp = $fileSystem->putFileAs('curps', $curpFile, $curpFileName);
+            $params["path_curp"] = $path_curp;
         }
 
         unset($params["address_file"]);
@@ -235,8 +235,8 @@ class UserController extends Controller
             $addressFile = $request->file('address_file');
             $addressFileExtension = '.' . $addressFile->getClientOriginalExtension();
             $addressFileName = $user->id . '_' . 'ADDRESS' . $addressFileExtension;
-            $fileSystem->putFileAs('addresses', $addressFile, $addressFileName);
-            $params["path_address"] = $addressFileName;
+            $path_address = $fileSystem->putFileAs('addresses', $addressFile, $addressFileName);
+            $params["path_address"] = $path_address;
         }
 
         unset($params["birth_document_file"]);
@@ -244,8 +244,8 @@ class UserController extends Controller
             $birthFile = $request->file('birth_document_file');
             $birthFileExtension = '.' . $birthFile->getClientOriginalExtension();
             $birthFileName = $user->id . '_' . 'BIRTH_DOCUMENT' . $birthFileExtension;
-            $fileSystem->putFileAs('birth_docs', $birthFile, $birthFileName);
-            $params["path_birth_document"] = $birthFileName;
+            $path_birth_document = $fileSystem->putFileAs('birth_docs', $birthFile, $birthFileName);
+            $params["path_birth_document"] = $path_birth_document;
         }
 
         unset($params["account_status_file"]);
@@ -253,8 +253,8 @@ class UserController extends Controller
             $accountFile = $request->file('account_status_file');
             $accountFileExtension = '.' . $accountFile->getClientOriginalExtension();
             $accountFileName = $user->id . '_' . 'ACCOUNT_STATUS' . $accountFileExtension;
-            $fileSystem->putFileAs('accounts', $accountFile, $accountFileName);
-            $params["path_account_status"] = $accountFileName;
+            $path_account_status = $fileSystem->putFileAs('accounts', $accountFile, $accountFileName);
+            $params["path_account_status"] = $path_account_status;
         }
 
         unset($params["rfc_file"]);
@@ -262,8 +262,8 @@ class UserController extends Controller
             $rfcFile = $request->file('rfc_file');
             $rfcFileExtension = '.' . $rfcFile->getClientOriginalExtension();
             $rfcFileName = $user->id . '_' . 'RFC' . $rfcFileExtension;
-            $fileSystem->putFileAs('rfcs', $rfcFile, $rfcFileName);
-            $params["path_rfc"] = $rfcFileName;
+            $path_rfc = $fileSystem->putFileAs('rfcs', $rfcFile, $rfcFileName);
+            $params["path_rfc"] = $path_rfc;
         }
 
         unset($params["nss_file"]);
@@ -271,8 +271,8 @@ class UserController extends Controller
             $nssFile = $request->file('nss_file');
             $nssFileExtension = '.' . $nssFile->getClientOriginalExtension();
             $nssFileName = $user->id . '_' . 'NSS' . $nssFileExtension;
-            $fileSystem->putFileAs('nsss', $nssFile, $nssFileName);
-            $params["path_nss"] = $nssFileName;
+            $path_nss = $fileSystem->putFileAs('nsss', $nssFile, $nssFileName);
+            $params["path_nss"] = $path_nss;
         }
 
         try {
@@ -358,6 +358,10 @@ class UserController extends Controller
         }
 
         return $this->getResponse($status, $message);
+    }
+
+    public function show(User $user){
+        return view('users.show', compact('user'));
     }
 
 }

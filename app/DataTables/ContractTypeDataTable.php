@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Contract;
+use App\Models\ContractType;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ContractsDataTable extends DataTable
+class ContractTypeDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -24,17 +24,20 @@ class ContractsDataTable extends DataTable
     {
         $datatable = (new EloquentDataTable($query))
         ->setRowId('id')
-        ->editColumn('created_at', function(Contract $contract) {
-            return date("d/m/Y H:i", strtotime($contract->created_at));
-        })
-        ->editColumn('updated_at', function(Contract $contract) {
-            return date("d/m/Y H:i", strtotime($contract->updated_at));
-        })
-        ->editColumn('is_active', function(Contract $contract) {
-            if ($contract->is_active) {
+        // ->editColumn('created_at', function(ContractType $contractType) {
+        //     return date("d/m/Y H:i", strtotime($contractType->created_at));
+        // })
+        // ->editColumn('updated_at', function(ContractType $contractType) {
+        //     return date("d/m/Y H:i", strtotime($contractType->updated_at));
+        // })
+        ->editColumn('is_active', function(ContractType $contractType) {
+            if ($contractType->is_active) {
                 return '<span class="badge badge-success mb-2 me-4">Sí</span>';
             }
             return '<span class="badge badge-danger mb-2 me-4">No</span>';
+        })
+        ->editColumn('duration', function(ContractType $contractType) {
+            return $contractType->duration == -1 ? "Indeterminado" : $contractType->duration . " dias";
         });
 
 
@@ -48,33 +51,33 @@ class ContractsDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Contract $model
+     * @param \App\Models\ContractType $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Contract $model): QueryBuilder
+    public function query(ContractType $model): QueryBuilder
     {
         return $model->select(
-            'contracts.id',
-            'contracts.name',
-            'contracts.is_active',
-            'contracts.created_at',
-            'contracts.updated_at',
-            'contract_types.name as contract_type_id',
+            'id',
+            'name',
+            'description',
+            'duration',
+            'created_at',
+            'updated_at',
+            'is_active',
         )
-        ->leftjoin('contract_types', 'contracts.contract_type_id', '=', 'contract_types.id')
         ->newQuery();
     }
 
     public function getActions($row){
         $result = null;
-        if (auth()->user()->hasPermissions("contracts.edit")) {
+        if (auth()->user()->hasPermissions("contract_types.edit")) {
             $result .= '
-                <a title="Editar" href='.route("contracts.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
+                <a title="Editar" href='.route("contract_types.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                 </a>
             ';
         }
-        if (auth()->user()->hasPermissions("contracts.destroy")) {
+        if (auth()->user()->hasPermissions("contract_types.destroy")) {
             $result .= '
                 <a onclick="deleteRow('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>        </a>
@@ -84,6 +87,7 @@ class ContractsDataTable extends DataTable
 
         return $result;
 	}
+
     /**
      * Optional method if you want to use html builder.
      *
@@ -99,7 +103,7 @@ class ContractsDataTable extends DataTable
                         'responsive' => true,
                         'scrollX' => true,
                     ])
-                    ->setTableId('contracts-table')
+                    ->setTableId('contract_types-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy(0, 'asc')
@@ -129,10 +133,17 @@ class ContractsDataTable extends DataTable
             ->searchable(true)
             ->orderable(true)
             ->printable(true),
-            Column::make('contract_type_id')
-            ->title('Tipo'),
-            Column::make('created_at')->searchable(false)->title('Fecha creado'),
-            Column::make('updated_at')->searchable(false)->title('Fecha editado'),
+            Column::make('description')
+            ->title('Descripción')
+            ->searchable(true)
+            ->orderable(true)
+            ->printable(true),
+            Column::make('duration')
+            ->title('Duración')
+            ->searchable(true)
+            ->orderable(),
+            // Column::make('created_at')->searchable(false)->title('Fecha creado'),
+            // Column::make('updated_at')->searchable(false)->title('Fecha editado'),
             Column::make('is_active')->title("Activo"),
         ];
 
@@ -156,6 +167,6 @@ class ContractsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Contracts_' . date('YmdHis');
+        return 'ContractType_' . date('YmdHis');
     }
 }

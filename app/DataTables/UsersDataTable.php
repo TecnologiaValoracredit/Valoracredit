@@ -95,6 +95,17 @@ class UsersDataTable extends DataTable
                 </a>
             ';
         }
+        if (auth()->user()->hasPermissions("users.show")) {
+            $result .= '
+                <a href="'. route('users.show', $row->id) . '" title="Ver Más" class="btn btn-outline-info btn-icon ps-2 px-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal">
+                        <circle cx="12" cy="12" r="1"/>
+                        <circle cx="18" cy="12" r="1"/>
+                        <circle cx="24" cy="12" r="1"/>
+                    </svg>
+                </a>
+            ';
+        }
 
         return $result;
 	}

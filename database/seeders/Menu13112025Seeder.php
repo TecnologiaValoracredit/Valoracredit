@@ -22,18 +22,25 @@ class Menu13112025Seeder extends Seeder
         $users = Menu::where('name', 'Usuarios')->first();
 
         
-        Menu::create([
-            'name' => 'Puestos de Trabajo',
-            'parent_id' => $users->id,
-            'position' => 100.40,
-            'permission_id' => $this->getPermissionId('job_positions'),
-        ]);
+        // Menu::create([
+        //     'name' => 'Puestos de Trabajo',
+        //     'parent_id' => $users->id,
+        //     'position' => 100.40,
+        //     'permission_id' => $this->getPermissionId('job_positions'),
+        // ]);
         
+        // Menu::create([
+        //     'name' => 'Contratos',
+        //     'parent_id' => $users->id,
+        //     'position' => 100.50,
+        //     'permission_id' => $this->getPermissionId('contracts'),
+        // ]);
+
         Menu::create([
-            'name' => 'Contratos',
+            'name' => 'Tipos de contratos',
             'parent_id' => $users->id,
-            'position' => 100.50,
-            'permission_id' => $this->getPermissionId('contracts'),
+            'position' => 100.60,
+            'permission_id' => $this->getPermissionId('contract_types'),
         ]);
     }
         public function getPermissionId($module_name){

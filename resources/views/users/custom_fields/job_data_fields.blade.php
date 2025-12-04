@@ -81,8 +81,8 @@
         "id" => "salary",
         "name" => "salary",
         "type" => "number",
-        "placeholder" => "Salario...",
-        "label" => "Salario",
+        "placeholder" => "Salario mensual...",
+        "label" => "Salario mensual",
         "value" => isset($user) ? $user->salary :  old("salary"),
     ])
 </div>

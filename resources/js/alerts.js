@@ -53,7 +53,6 @@ window.deleteRow = (id) => {
     })
 }
 
-
 window.deleteSavedFile = (id, filePath) => {
     const confirm = alertYesNo(
         `Eliminar archivo guardado`,

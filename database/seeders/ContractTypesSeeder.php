@@ -16,15 +16,16 @@ class ContractTypesSeeder extends Seeder
     public function run()
     {
         $values = [
-            ['name' => 'Tiempo Indeterminado', 'description' => 'Contrato por tiempo indefinido'],
-            ['name' => 'Tiempo Determinado', 'description' => 'Contrato por tiempo definido'],
-            ['name' => 'Tiempo de Prueba', 'description' => 'Contrato por tiempo un tiempo de prueba'],
+            ['name' => 'Tiempo Indeterminado', 'description' => 'Contrato por tiempo indefinido', 'duration' => -1],
+            ['name' => 'Tiempo Determinado', 'description' => 'Contrato por tiempo definido', 'duration' => 180],
+            ['name' => 'Tiempo de Prueba', 'description' => 'Contrato por tiempo un tiempo de prueba', 'duration '=> 30],
         ];
 
         foreach ($values as $key => $value) {
             ContractType::create([
                 'name' => $value['name'],
-                'description' => $value['description']
+                'description' => $value['description'],
+                'duration' => $value['duration'],
             ]);
         }
     }

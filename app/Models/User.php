@@ -131,6 +131,10 @@ class User extends Authenticatable
         return $this->hasMany("App\Models\User", "boss_id", "id");
     }
 
+    public function h_hardwares(){
+        return $this->hasMany(HHardware::class, 'user_id', 'id');
+    }
+
     public function permissions()
 	{
 		return $this->role->permissionsRole();
@@ -238,6 +242,4 @@ class User extends Authenticatable
             $this->coordinator->update(["is_active" => false]);
         }
     }
-
-
 }

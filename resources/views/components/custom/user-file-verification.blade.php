@@ -1,50 +1,39 @@
 @php
-
 if (!isset($user)) return;
-//Determina el folder de donde sacara las imagenes, dependiendo
-//del tipo de documento dado.
-$fileExtension = '';
-$altText = '';
 
+$altText = '';
 switch($type){
     case 'ine': 
-    $fileExtension = 'ines';
     $altText = 'Imagen de la INE'; 
     break;
 
     case 'curp': 
-    $fileExtension = 'curps';
     $altText = 'Imagen de la CURP'; 
     break;
 
     case 'address': 
-    $fileExtension = 'addresses';
     $altText = 'Imagen del comprobante de domicilio'; 
     break;
 
     case 'birth_document': 
-    $fileExtension = 'birth_docs';
     $altText = 'Imagen de la acta de nacimiento'; 
     break;
 
     case 'account_status': 
-    $fileExtension = 'accounts';
     $altText = 'Imagen del estado de cuenta'; 
     break;
 
     case 'rfc': 
-    $fileExtension = 'rfcs';
     $altText = 'Imagen del estado del rfc'; 
     break;
 
     case 'nss': 
-    $fileExtension = 'nsss';
     $altText = 'Imagen del estado del nss'; 
     break;
 }
 
 $filePath = 'path_'. $type;
-$path = 'storage/'.$fileExtension.'/'.$user->{$filePath};
+$path = 'storage/' . $user->{$filePath};
 $fileFormat = substr($path, -3);
 @endphp
 
