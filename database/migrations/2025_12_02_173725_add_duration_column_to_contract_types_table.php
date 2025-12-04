@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('contract_types', function (Blueprint $table) {
             $table->smallInteger('duration')->nullable();
+            $table->boolean('is_active')->nullable();
         });
     }
 
@@ -28,6 +29,7 @@ return new class extends Migration
         Schema::table('contract_types', function (Blueprint $table) {
             $table->dropColumn([
                 'duration',
+                'is_active',
             ]);
         });
     }

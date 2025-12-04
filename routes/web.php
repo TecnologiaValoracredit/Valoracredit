@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\PreApplicationController;
 use App\Models\Contract;
@@ -138,6 +139,7 @@ Route::middleware("auth")->group(function () {
 
         Route::resource('contracts', ContractController::class);
         Route::resource('job_positions', JobPositionController::class);
+        Route::resource('contract_types', ContractTypeController::class);
         
     });
     Route::post('contracts/exportContract/{contract}/{modelId?}',  [ContractController::class, 'exportContract'])->name("contracts.exportContract"); //generarle el permiso

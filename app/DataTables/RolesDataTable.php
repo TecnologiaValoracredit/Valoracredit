@@ -138,7 +138,6 @@ class RolesDataTable extends DataTable
             Column::make('created_at')->searchable(false)->title('Fecha creado'),
             Column::make('updated_at')->searchable(false)->title('Fecha editado'),
             Column::make('is_active')->title("Activo"),
-
         ];
 
         if (auth()->user()->hasPermissions("roles.edit") ||
