@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('contract_types', function (Blueprint $table) {
             $table->smallInteger('duration')->nullable();
-            $table->boolean('is_active')->nullable();
+            $table->boolean('is_active')->default(1)->comment('Muestra si la fila está activa');
         });
     }
 

@@ -19,7 +19,6 @@
             "name" => "initial_date",
             "type" => "date",
             "label" => "Inicio de contrato",
-            "required" => true,
             "value" => old("initial_date"),
             "invalid_feedback" => "El campo es requerido",
         ])

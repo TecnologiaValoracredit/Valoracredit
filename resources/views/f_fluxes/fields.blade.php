@@ -79,6 +79,20 @@
 
     ])
 </div>    
+<!-- Tipo de gasto-->
+<div class= "mb-2">
+    @include("components.custom.forms.input-inline-select", [
+        "id" => "f_expense_type_id",
+        "name" => "f_expense_type_id",
+        "elements" => $f_expense_types,
+        "placeholder" => "Tipo de gasto",
+        "value" => isset($f_flux) ? $f_flux->f_expense_type_id : old("f_expense_type_id"),
+        "label" => "Tipo de gasto",
+        "required" => true,
+        "invalid_feedback" => "El campo es requerido",
+
+    ])
+</div> 
 <div class= "mb-2">
     @include("components.custom.forms.input-inline", [
         "id" => "f_clasification_name",

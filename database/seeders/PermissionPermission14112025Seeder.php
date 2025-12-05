@@ -20,7 +20,12 @@ class PermissionPermission14112025Seeder extends Seeder
         $this->createPermissions(['job_positions']);
         
         //Seeder de permisos de contratos corregido
-        $this->createPermissions(['contracts']);
+        $this->createPermissions(['contracts'], [
+            "exportContract",
+            "downloadContract",
+            "deleteContract",
+            "addUserContractSigned"
+        ], false);
     }
 
     public function createPermissions($moduleNames = [], $functionNames = [], $addCrudFunctions = true) {

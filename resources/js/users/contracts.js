@@ -1,30 +1,55 @@
 $(document).ready(function(){
 
-    $("#btnGenerateContract").on("click", function() {
-        const user_id = $("#user_id").val()
-        const contract_id = $("#contract_id").val()
-        let data = {
-            "initial_date": $("#initial_date").val()
+    $("#btnGenerateContract").on("click", function(e) {
+        e.preventDefault();
+
+        const btn = $(this);
+
+        // Bloquear clics
+        if (btn.data("processing") === true) {
+            return; // Si ya está procesando, ignorar clics
         }
+        btn.data("processing", true);
+        btn.prop("disabled", true).text("Generando...");
 
-        $.ajax({
-            url: $('meta[name="app-url"]').attr('content')+`/contracts/exportContract/${contract_id}/${user_id}`,
-            type: "POST",
-            data: data,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            },
-            success: function(response) {
-                //Cerrar el modal y actualizar el datatable
-                $("#contracts-table").html(response.table)
-                
+        const user_id = $("#user_id").val();
+        const contract_id = $("#contract_id").val();
+        const initial_date = $("#initial_date").val();
 
-                snackBar(response.message, response.status ? "success" : "danger")
-            },error: function(xhr, textStatus, errorThrown) {
-                errorMessage(xhr.status, errorThrown)
-            }
-        })
-    })
+        if (initial_date !== "" && contract_id !== "") {
+
+            $.ajax({
+                url: $('meta[name="app-url"]').attr('content') + `/contracts/exportContract/${contract_id}/${user_id}`,
+                type: "GET",
+                data: { initial_date },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+
+                success: function(response) {
+                    $("#contracts-table").html(response.table);
+                    snackBar(response.message, response.status ? "success" : "danger");
+                },
+
+                error: function(xhr, textStatus, errorThrown) {
+                    errorMessage(xhr.status, errorThrown);
+                },
+
+                complete: function () {
+                    //Rehabilitar solo cuando la petición termina
+                    btn.data("processing", false);
+                    btn.prop("disabled", false).text("Generar contrato");
+                }
+            });
+
+        } else {
+            // Si faltan datos, permitir usar el botón de nuevo
+            btn.data("processing", false);
+            btn.prop("disabled", false).text("Generar contrato");
+        }
+    });
+
+
 
 
     window.deleteContract = (contract_id) => {
@@ -36,7 +61,7 @@ $(document).ready(function(){
         confirm.then((result) => {
             if (result) {
                 $.ajax({
-                    url: $('meta[name="app-url"]').attr('content')+`/users_contracts/deleteContract/${contract_id}`,
+                    url: $('meta[name="app-url"]').attr('content')+`/contracts/deleteContract/${contract_id}`,
                     type: "DELETE",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
