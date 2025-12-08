@@ -19,6 +19,6 @@ class PermissionModule14112025Seeder extends Seeder
         PermissionModule::create(["name" => "job_positions", "description" => "Puestos de trabajo", "module_type_id" => 2, "parent_id" => $personal->id]);
         
         //Seeder corregido de modulo de contratos
-        PermissionModule::create(["name" => "contracts", "description" => "Contratos", "module_type_id" => 2, "parent_id" => $personal->id]);
+        // PermissionModule::create(["name" => "contracts", "description" => "Contratos", "module_type_id" => 2, "parent_id" => $personal->id]);
     }
 }

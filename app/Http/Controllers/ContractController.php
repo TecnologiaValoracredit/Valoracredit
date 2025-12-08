@@ -133,7 +133,7 @@ class ContractController extends Controller
         return $this->getResponse($status, $message, $contract);
     }
 
-    public function exportContract(Contract $contract, $modelId = null, Request $request){
+    public function exportContract(Contract $contract, $modelId = null){
         $content = $contract->content;
         
         if ($modelId == null) { //Si es para ver el preview en el la vista de contrato, sin vincular al usuario
@@ -144,7 +144,7 @@ class ContractController extends Controller
 
             return $pdf->stream('Contrato.pdf');
         }else{
-            $initial_date = Carbon::parse($request->initial_date);
+            $initial_date = Carbon::parse(request()->initial_date);
             $duration = $contract->contractType->duration; // o del tipo de contrato
 
             if ($duration == -1) {

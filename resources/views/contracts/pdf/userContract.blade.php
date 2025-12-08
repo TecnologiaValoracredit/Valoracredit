@@ -24,7 +24,7 @@
 </head>
 <body>
 
-    <img src="{{ public_path('images/logo 2 tintas.png') }}" class="logo">
+    <img src="{{ public_path('images/Logo 2 Tintas.png') }}" class="logo">
 
     <div id="content">
         {!! nl2br($content) !!}

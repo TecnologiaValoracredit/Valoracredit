@@ -34,12 +34,13 @@
             DOCUMENTOS ANEXADOS
         </button>
     </li>
-
+    @if (isset($contracts))
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="contracts-tab" data-bs-toggle="tab" data-bs-target="#contracts-pane" type="button" role="tab">
             CONTRATOS
         </button>
     </li>
+    @endif
 </ul>
 
 <div class="tab-content mb-2">
@@ -73,11 +74,13 @@
     </div>
   </div>
 
+  @if (isset($contracts))
     <div class="tab-pane fade" id="contracts-pane" role="tabpanel" aria-labelledby="contracts-tab">
         <div class="row gy-3 mt-2">
             @include('users.custom_fields.contract_data_fields')
         </div>
     </div>
+    @endif
 
   <div class="tab-pane fade" id="appended-pane" role="tabpanel" aria-labelledby="appended-tab">
     <div class="row gy-3 mt-2">

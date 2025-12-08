@@ -9,6 +9,8 @@ use App\Imports\ExcelImport;
 use Illuminate\Http\Request;
 use App\Models\FFlux;
 use App\Models\FMovementType;
+use App\Models\FExpenseType;
+
 use App\Models\FAccount;
 use App\Models\FStatus;
 use App\Models\FCarteraStatus;
@@ -48,8 +50,9 @@ class FFluxController extends Controller
         ->prepend("Sin clasificar", -1);
 
         $f_accounts = FAccount::where("is_active", 1)->pluck("name", "id");
+        $f_expense_types = FExpenseType::where("is_active", 1)->pluck("name", "id");
 
-        return $dataTable->render('f_fluxes.index', compact("allowAdd", "f_cartera_statuses", "f_accounts","f_movement_types","f_statuses","f_beneficiaries", "f_clasifications", "f_cob_clasifications"));
+        return $dataTable->render('f_fluxes.index', compact("allowAdd", "f_expense_types", "f_cartera_statuses", "f_accounts","f_movement_types","f_statuses","f_beneficiaries", "f_clasifications", "f_cob_clasifications"));
     }
 
     public function create()
@@ -67,8 +70,9 @@ class FFluxController extends Controller
             END as name_description, id
         ')->pluck('name_description', 'id');
         $f_cob_clasifications = FCobClasification::where("is_active", 1)->pluck("name", "id");
+        $f_expense_types = FExpenseType::where("is_active", 1)->pluck("name", "id");
 
-        return view('f_fluxes.create', compact("f_movement_types", "f_accounts", "f_statuses", "f_clasifications", "f_cob_clasifications"));
+        return view('f_fluxes.create', compact("f_expense_types", "f_movement_types", "f_accounts", "f_statuses", "f_clasifications", "f_cob_clasifications"));
     }
 
     public function createFromExcel()
@@ -400,6 +404,7 @@ class FFluxController extends Controller
             END as name_description, id
         ')->pluck('name_description', 'id');
         $f_cob_clasifications = FCobClasification::where("is_active", 1)->pluck("name", "id");
+        $f_expense_types = FExpenseType::where("is_active", 1)->pluck("name", "id");
 
         //Vista de admin o de cartera
         $rol_id = auth()->user()->role_id;
@@ -408,7 +413,7 @@ class FFluxController extends Controller
             $view = 'f_fluxes.editCartera';
         }
 
-        return view($view, compact("f_movement_types", "f_accounts", "f_statuses","f_flux", "f_clasifications", "f_cob_clasifications"));
+        return view($view, compact("f_expense_types", "f_movement_types", "f_accounts", "f_statuses","f_flux", "f_clasifications", "f_cob_clasifications"));
      
     }
 

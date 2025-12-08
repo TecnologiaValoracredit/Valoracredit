@@ -16,6 +16,7 @@ class FFlux extends Model
         'concept',
         'amount',
         'f_movement_type_id', 
+        'f_expense_type_id',
         'notes1',
         'notes2',
         'comments',
@@ -53,6 +54,11 @@ class FFlux extends Model
     public function fMovementType()
     {
         return $this->belongsTo("App\Models\FMovementType", "f_movement_type_id", "id");
+    }
+
+    public function fExpenseType()
+    {
+        return $this->belongsTo("App\Models\FExpenseType", "f_expense_type_id", "id");
     }
 
     public function fClasification()

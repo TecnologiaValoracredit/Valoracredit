@@ -41,6 +41,7 @@ class NormalFFLuxExport implements FromCollection, WithHeadings, WithStyles
                 $item->notes2,
                 optional($item->fStatus)->name,
                 optional($item->fCarteraStatus)->name,
+                $item->id,
             ];
         });
     }
@@ -63,7 +64,8 @@ class NormalFFLuxExport implements FromCollection, WithHeadings, WithStyles
             'Notas Admin.',
             'Notas cartera',
             'Estatus contabilidad',
-            'Estatus cartera'
+            'Estatus cartera',
+            'ID'
         ];
     }
 

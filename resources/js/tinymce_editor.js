@@ -43,13 +43,6 @@ tinymce.init({
 
     statusbar: false,
 
-    content_style: `
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-        }
-    `,
-
     toolbar_mode: 'wrap',
     promotion: false,
 });
