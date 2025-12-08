@@ -22,7 +22,8 @@
         "value" => isset($user) ? $user->branch_id :  old("branch_id"),
         "label" => "Sucursal",
         "required" => true,
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "dataTab" => "job",
     ])
 </div>
 
@@ -38,16 +39,17 @@
 </div>
 
 <div class="col-4">
-@include("components.custom.forms.input-select", [
-    "id" => "departament_id",
-    "name" => "departament_id",
-    "elements" => $departaments,
-    "placeholder" => "Departamento...",
-    "value" => isset($user) ? $user->departament_id :  old("departament_id"),
-    "label" => "Departamento",
-    "required" => true,
-    "invalid_feedback" => "El campo es requerido"
-])
+    @include("components.custom.forms.input-select", [
+        "id" => "departament_id",
+        "name" => "departament_id",
+        "elements" => $departaments,
+        "placeholder" => "Departamento...",
+        "value" => isset($user) ? $user->departament_id :  old("departament_id"),
+        "label" => "Departamento",
+        "required" => true,
+        "invalid_feedback" => "El campo es requerido",
+        "dataTab" => "job",
+    ])
 </div>
 
 <div class="col-4">
@@ -59,7 +61,8 @@
         "value" => isset($user) ? $user->position_id :  old("position_id"),
         "label" => "Puesto de trabajo",
         "required" => true,
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "dataTab" => "job",
     ])
 </div>
 
@@ -68,11 +71,12 @@
         "id" => "boss_id",
         "name" => "boss_id",
         "elements" => $users,
-        "placeholder" => "Puesto de trabajo...",
+        "placeholder" => "Jefe directo...",
         "value" => isset($user) ? $user->boss_id :  old("boss_id"),
         "label" => "Jefe directo",
         "required" => true,
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "dataTab" => "job",
     ])
 </div>
 

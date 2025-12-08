@@ -5,7 +5,7 @@
 <div class="col-4">
     @include("components.custom.forms.input", [
         "id" => "residential_address",
-        "name" => "residencial_address",
+        "name" => "residential_address",
         "type" => "text",
         "placeholder" => "Calle y numero...",
         "value" => isset($user) ? $user->residential_address :  old("residential_address"),

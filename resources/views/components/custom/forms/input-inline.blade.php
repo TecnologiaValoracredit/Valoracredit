@@ -11,6 +11,7 @@
         {{isset($required) ? ($required == true ? 'required' : '') : ""}}
         {{isset($readonly) ? "readonly" : ""}}
         {{$type == "number" ? "step=0.0001" : ""}}
+        data-Tab="{{ $dataTab ?? '' }}"
         
         type="{{$type}}" id="{{$id}}" class="form-control {{$class ?? ''}}" name="{{$id}}" value="{{$value ?? ''}}" >
         @if ($type == "autocomplete")

@@ -12,6 +12,7 @@
     accept="{{$accept ?? ''}}"
     {{isset($required) ? "required" : ""}}
     {{isset($readonly) ? $readonly == true ? "readonly" : "" : ""}}
+    data-tab="{{ $dataTab ?? '' }}"
 >
 
 @if(isset($valid_feedback))

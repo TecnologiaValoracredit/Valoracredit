@@ -9,7 +9,7 @@ document.getElementById('departament_id').addEventListener('change', function() 
     let departamentId = this.value;
 
     // Reset job positions
-    jobSelect.innerHTML = '<option disabled selected value="">Cargando puestos de trabajo...</option>';
+    jobSelect.innerHTML = '<option disabled selected value="">Seleccione un puesto de trabajo...</option>';
     jobSelect.disabled = true;
 
     if (departamentId) {

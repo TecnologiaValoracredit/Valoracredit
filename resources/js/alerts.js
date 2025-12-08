@@ -53,6 +53,40 @@ window.deleteRow = (id) => {
     })
 }
 
+window.assignNewEmail = (email) => {
+    console.log(email);
+    const confirm = alertYesNo(
+        "Este email ya esta ocupado",
+        "Quieres asignar este email a este nuevo usuario?"
+    );
+
+    confirm.then((result) => {
+        if (result){
+            $.ajax({
+                url: `/users/cleanEmail`,
+                type: "POST",
+                data:{
+                    email: email,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+                success: function(response){
+                    let emailInput = document.getElementById('email');
+                    console.log(response);
+                    emailInput.value = response.data;
+
+                    const userForm = document.getElementById('user_form');
+                    userForm.submit();
+                },
+                error: function(xhr, textStatus, errorThrown){
+                    errorMessage(xhr.status, errorThrown)
+                }
+            });
+        }
+    });
+}
+
 window.deleteSavedFile = (id, filePath) => {
     const confirm = alertYesNo(
         `Eliminar archivo guardado`,
@@ -74,7 +108,7 @@ window.deleteSavedFile = (id, filePath) => {
                     const fileDiv = document.getElementById(filePath);
                     if (fileDiv) fileDiv.remove();
 
-                    snackBar('Eliminado correctamete', 'success')
+                    snackBar('Eliminado correctamete', 'success');
                 },
                 error: function(xhr, textStatus, errorThrown){
                     errorMessage(xhr.status, errorThrown)
