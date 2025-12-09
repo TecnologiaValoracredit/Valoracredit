@@ -1,48 +1,18 @@
 @php
 if (!isset($user)) return;
 
-$altText = '';
-switch($type){
-    case 'ine': 
-    $altText = 'Imagen de la INE'; 
-    break;
-
-    case 'curp': 
-    $altText = 'Imagen de la CURP'; 
-    break;
-
-    case 'address': 
-    $altText = 'Imagen del comprobante de domicilio'; 
-    break;
-
-    case 'birth_document': 
-    $altText = 'Imagen de la acta de nacimiento'; 
-    break;
-
-    case 'account_status': 
-    $altText = 'Imagen del estado de cuenta'; 
-    break;
-
-    case 'rfc': 
-    $altText = 'Imagen del estado del rfc'; 
-    break;
-
-    case 'nss': 
-    $altText = 'Imagen del estado del nss'; 
-    break;
-}
-
-$filePath = 'path_'. $type;
+list($filePath, $altText) = $user->getFilePath($type);
 $path = 'storage/' . $user->{$filePath};
+
 $fileFormat = substr($path, -3);
 @endphp
 
 @if ($user->{$filePath})
     <div id={{ $filePath }} class="mt-2 d-flex flex-column justify-content-center align-items-center gap-3">
         <a href="{{ asset($path) }}" target="_blank" 
-        class="link-primary fs-5 text-center">
+        class="link-primary text-center">
             @if ($fileFormat == 'pdf')
-                Presiona aqui para visualizar el documento PDF en una nueva pestaña
+                Ver PDF
             @else
                 <img src="{{ asset($path) }}" alt="{{ $altText }}"
                 style="max-width: 200px; max-height: 200px;"><br>

@@ -20,7 +20,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Crear usuario</h5>
-                <form class="row g-3 needs-validation" novalidate method="POST"  enctype="multipart/form-data" action="{{ route('users.store')  }}" >
+                <form id="user_form" class="row g-3 needs-validation" novalidate method="POST"  enctype="multipart/form-data" action="{{ route('users.store')  }}" >
                     @csrf
                     <div class="d-flex flex-column justify-content-center">
                         <div class="w-100">
@@ -39,6 +39,7 @@
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
         @vite('resources/js/users/departamentSelect.js');
+        @vite('resources/js/users/user_fields.js')
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

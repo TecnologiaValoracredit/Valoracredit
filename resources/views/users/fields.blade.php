@@ -87,7 +87,5 @@
         @include('users.custom_fields.appended_data_fields')
     </div>
   </div>
-
- 
   
 </div>

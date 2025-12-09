@@ -11,7 +11,8 @@
         "label" => "Nombre",
         "required" => true,
         "value" => isset($user) ? $user->name :  old("name"),
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "dataTab" => "user",
     ])
 </div>
 
@@ -24,7 +25,8 @@
         "value" => isset($user) ? $user->email :  old("email"),
         "label" => "Email",
         "required" => true,
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "dataTab" => "user",
     ])
 </div>
 
@@ -37,7 +39,8 @@
         "value" => isset($user) ? $user->role_id :  old("role_id"),
         "label" => "Rol",
         "required" => true,
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "dataTab" => "user",
     ])
 </div>
 
@@ -47,7 +50,9 @@
         "name" => "password",
         "type" => "password",
         "placeholder" => "Contraseña...",
+        "value" => session("old_password"),
         "label" => "Contraseña",
+        "dataTab" => "user",
     ])
 </div>
 

@@ -144,7 +144,7 @@
 
                             <div>
                                 <label for="user_salary"><strong>Salario mensual: </strong></label>
-                                <span id="user_salary">{{ "$". $user->salary ?? "No definido" }}</span>
+                                <span id="user_salary">{{ $user->salary ? '$'.$user->salary : 'No definido' }}</span>
                             </div>
 
                             <div>

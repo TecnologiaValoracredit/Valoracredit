@@ -70,6 +70,7 @@ Route::middleware("auth")->group(function () {
     // Route::get('/refresh-emails', [EmailController::class, 'refreshEmails'])->name('emails.refresh');
     Route::get('departaments/{departamentId}/job-positions', [DepartamentController::class, 'getJobPositions'])->name('departaments.job_positions');
     Route::delete('users/{user}/deleteFile', [UserController::class, 'deleteSavedFile'])->name('users.deleteFile');
+    Route::post('users/cleanEmail', [UserController::class, 'cleanEmail']);
 
     Route::middleware(['permission'])->group(function () {
         Route::resource('users', UserController::class);

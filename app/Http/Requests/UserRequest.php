@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Models\Bank;
@@ -43,8 +45,6 @@ class UserRequest extends FormRequest
             ],
 			'bank_account' => [
 				'nullable',
-				// 'numeric',
-				// 'digits:18', 
 				'string',
 				'min:18',
 				'regex:/^\d+$/'
@@ -69,5 +69,15 @@ class UserRequest extends FormRequest
 		];
 	}
 
+	public function failedValidation(Validator $validator){
+		//Manda la contraseña de esta manera ya que Laravel por seguridad previene que se mande el campo de password automaticamente
+		session()->flash("old_password", $this->input('password'));
 
+		throw new HttpResponseException(
+			redirect()
+			->back()
+			->withErrors($validator)
+			->withInput()
+		);
+	}
 }

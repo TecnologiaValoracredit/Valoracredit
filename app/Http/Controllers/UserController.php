@@ -96,10 +96,10 @@ class UserController extends Controller
             ];
         });
 
-        return view('users.create', compact('roles', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses'));
+        return view('users.create', compact('roles', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses', 'contracts'));
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $status = true;
         $user = null;
@@ -393,6 +393,30 @@ class UserController extends Controller
 
     public function show(User $user){
         return view('users.show', compact('user'));
+    }
+
+    public function cleanEmail(Request $request){
+        $status = true;
+        $message = '';
+        $email = $request['email'];
+        $availableEmail = null;
+
+        try {
+            $previousUser = User::where('email', $email)->first();
+            $availableEmail = $previousUser['email'];
+            
+            $customDisabledNumber = uniqid("DN-");
+
+            $previousUser->update([
+                'email' => $customDisabledNumber,
+            ]);
+            $message = "Email reemplazado correctamente.";
+        } catch (QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'users');
+        }
+
+        return $this->getResponse($status, $message, $availableEmail);
     }
 
 }

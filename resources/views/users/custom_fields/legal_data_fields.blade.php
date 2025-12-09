@@ -11,7 +11,8 @@
         "label" => "CURP",
         "required" => true,
         "value" => isset($user) ? $user->curp :  old("curp"),
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "dataTab" => "legal",
     ])
 </div>
 
@@ -24,7 +25,8 @@
         "label" => "RFC",
         "required" => true,
         "value" => isset($user) ? $user->rfc :  old("rfc"),
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "dataTab" => "legal",
     ])
 </div>
 
@@ -37,7 +39,8 @@
         "label" => "Numero de Seguro Social",
         "required" => true,
         "value" => isset($user) ? $user->nss :  old("nss"),
-        "invalid_feedback" => "El campo es requerido"
+        "invalid_feedback" => "El campo es requerido",
+        "dataTab" => "legal",
     ])
 </div>
 
