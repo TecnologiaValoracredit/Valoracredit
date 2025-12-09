@@ -40,16 +40,16 @@
     <h3>Variables disponibles</h3>
     <p>Clic para copiar en el contenido</p>
 
-    <div class="col-12">
+    <div class="col-3">
         @foreach ($variables as $variable)
-            <span  class="btn m-1 variable-copy"
+            <span class="btn m-1 variable-copy text-start"
                 data-value="{{ $variable->key_detection }}">
                 {{ $variable->name }} - {{ $variable->key_detection }}
             </span>
         @endforeach
     </div>
 
-    <div class="d-flex justify-content-center">
+    <div class="col-9">
         <div style="width: 816px">
             <label for="contract_content" class="form-label">Contenido</label>
             <textarea name="content" 

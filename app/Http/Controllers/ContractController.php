@@ -275,15 +275,67 @@ class ContractController extends Controller
                     break;
 
                 case 'custom':
-                    $handler = new $var->handler();
-                    $value = $handler($modelInstance);
-                    break;
+                    $handler = $var->handler;
+                    // Obtener el valor del column por si el handler lo necesita
+                    $rawValue = data_get($modelInstance, $var->model_column);
+
+                    // Llamada correcta al handler
+                    $value = $handler::handle($rawValue, $modelInstance);
+            }
+
+            // Aplicar formato si existe
+            if (!empty($var->format)) {
+                $value = $this->applyFormat($value, $var->format);
             }
 
             $contractContent = str_replace($var->key_detection, $value, $contractContent);
         }
 
         return $contractContent;
+    }
+
+    private function applyFormat($value, $format)
+    {
+        if (!$value) {
+            return $value;
+        }
+
+        switch ($format) {
+
+            case 'date':
+                // 2025-02-05 → 05/02/2025
+                return \Carbon\Carbon::parse($value)->format('d/m/Y');
+
+            case 'datetime':
+                // 2025-02-05 → 05/02/2025
+                return \Carbon\Carbon::parse($value)->format('d/m/Y H:i');
+
+            case 'date_long':
+                // 2025-02-05 → 5 de febrero de 2025
+                return \Carbon\Carbon::parse($value)
+                    ->locale('es')
+                    ->isoFormat('D [de] MMMM [de] YYYY');
+
+            case 'money':
+                // 12345.5 → $12,345.50
+                return number_format((float)$value, 2, '.', ',');
+
+            case 'integer':
+                // 12345.56 → 12,346
+                return number_format((float)$value);
+
+            case 'uppercase':
+                return mb_strtoupper($value, 'UTF-8');
+
+            case 'lowercase':
+                return mb_strtolower($value, 'UTF-8');
+
+            case 'capitalize':
+                return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
+
+            default:
+                return $value;
+        }
     }
 
 }

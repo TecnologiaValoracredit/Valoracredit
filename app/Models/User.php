@@ -118,6 +118,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo("App\Models\Branch", "branch_id", "id");
     }
+    public function gender()
+    {
+        return $this->belongsTo("App\Models\Gender", "gender_id", "id");
+    }
     public function chk_list()
     {
         return $this->belongsTo("App\Models\ChkList", "chk_list_id", "id");
