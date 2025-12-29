@@ -17,8 +17,8 @@ class GendersAndCivilStatusesSeeder extends Seeder
     public function run()
     {
         $genderValues = [
-            ['name' => 'Hombre'],
-            ['name' => 'Mujer'],
+            ['name' => 'Masculino'],
+            ['name' => 'Femenino'],
         ];
 
         foreach ($genderValues as $key => $value) {

@@ -48,22 +48,32 @@ class ContractVariableSeeder extends Seeder
 
             ['name' => 'Fecha de ingreso', 'key_detection' => '{{FECHA DE INGRESO}}',
                 'model' => 'App\Models\User', 'type' => 'column',
-                'model_column' => 'entry_date', 'description' => 'Fecha de ingreso'],
+                'model_column' => 'entry_date', 'description' => 'Fecha de ingreso', "format" => 'date'],
 
             ['name' => 'Fecha de nacimiento', 'key_detection' => '{{FECHA DE NACIMIENTO}}',
                 'model' => 'App\Models\User', 'type' => 'column',
-                'model_column' => 'birthday', 'description' => 'Fecha de nacimiento'],
+                'model_column' => 'birthday', 'description' => 'Fecha de nacimiento', 'format' => 'date'],
 
             ['name' => 'Sueldo mensual', 'key_detection' => '{{SUELDO MENSUAL}}',
                 'model' => 'App\Models\User', 'type' => 'column',
-                'model_column' => 'salary', 'description' => 'Sueldo mensual'],
+                'model_column' => 'salary', 'description' => 'Sueldo mensual', 'format' => 'money'],
 
+
+            // ------- CUSTOM -------
+            ['name' => 'Edad', 'key_detection' => '{{EDAD}}',
+                'model' => 'App\Models\User', 'type' => 'custom',
+                'model_column' => 'birthday', 'description' => 'Edad', 'handler' => 'App\Http\Helpers\ContractVariables\Edad'],
 
             // ------- RELACIONADOS -------
             ['name' => 'Puesto de trabajo', 'key_detection' => '{{PUESTO DE TRABAJO}}',
                 'model' => 'App\Models\User', 'type' => 'relation',
                 'relation_name' => 'jobPosition', 'relation_column' => 'name',
                 'description' => 'Nombre del puesto del usuario'],
+
+            ['name' => 'Género', 'key_detection' => '{{GENERO}}',
+                'model' => 'App\Models\User', 'type' => 'relation',
+                'relation_name' => 'gender', 'relation_column' => 'name',
+                'description' => 'Género del empleado'],
         ];
 
         foreach ($values as $value) {

@@ -18,6 +18,16 @@ class ContractVariable extends Model
         'relation_name',
         'relation_column',
         'handler',
+        'format',
         'description',
     ];
+
+    //type
+    // 'column' → se obtiene de una columna
+    // 'relation' → viene de una relación
+    // 'custom' → variable calculada
+
+    
+
+
 }
