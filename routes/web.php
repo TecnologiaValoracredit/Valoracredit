@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\JobPositionController;
+use App\Http\Controllers\PermitController;
 use App\Http\Controllers\PreApplicationController;
 use App\Models\Contract;
 use App\Models\SCollaborator;
@@ -71,6 +72,12 @@ Route::middleware("auth")->group(function () {
     Route::get('departaments/{departamentId}/job-positions', [DepartamentController::class, 'getJobPositions'])->name('departaments.job_positions');
     Route::delete('users/{user}/deleteFile', [UserController::class, 'deleteSavedFile'])->name('users.deleteFile');
     Route::post('users/cleanEmail', [UserController::class, 'cleanEmail']);
+
+    Route::get('permits/{permit}/changePermitStatus', [PermitController::class, 'changePermitStatus'])->name('permits.changePermitStatus');
+    Route::put('permits/{permit}/sendPermit', [PermitController::class, 'sendPermit']);
+    Route::put('permits/{permit}/sign', [PermitController::class, 'sign'])->name('permits.sign');
+    Route::put('permits/{permit}/deny', [PermitController::class, 'deny'])->name('permits.deny');
+    Route::get('permits/{permit}/exportPermit', [PermitController::class, 'exportPermit'])->name('permits.exportPermit');
 
     Route::middleware(['permission'])->group(function () {
         Route::resource('users', UserController::class);
@@ -141,7 +148,8 @@ Route::middleware("auth")->group(function () {
         Route::resource('contracts', ContractController::class);
         Route::resource('job_positions', JobPositionController::class);
         Route::resource('contract_types', ContractTypeController::class);
-        
+
+        Route::resource('permits', PermitController::class);
     });
 
     Route::get('contracts/exportContract/{contract}/{modelId?}',  [ContractController::class, 'exportContract'])->name("contracts.exportContract"); //generarle el permiso

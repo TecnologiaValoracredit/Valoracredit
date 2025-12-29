@@ -87,6 +87,66 @@ window.assignNewEmail = (email) => {
     });
 }
 
+window.sendPermit = (id) => {
+    const confirm = alertYesNo(
+        "Enviar permiso a revisión",
+        "Estas seguro de mandar este permiso?"
+    );
+
+    confirm.then((result) => {
+        let sendBtn = document.getElementById("send_permit_btn");
+        if (result){
+            sendBtn.setAttribute('disabled', '');
+            $.ajax({
+                url: `/permits/${id}/sendPermit`,
+                type: 'PUT',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                success: function (response){
+                    let statusValue = document.querySelector("span#permit_status");
+
+                    statusValue.textContent = "Enviado";
+                    window.location.href = '/permits';
+
+                    snackBar('Enviado correctamente', 'success');
+                },
+                error: function(xhr, textStatus, errorThrown){
+                    errorMessage(xhr.status, errorThrown)
+                }          
+            })
+        }
+    })
+}
+
+window.deletePermit = (id) => {
+    const confirm = alertYesNo(
+        "Eliminar permiso",
+        "Estas seguro de eliminar este permiso?"
+    );
+
+    confirm.then((result) => {
+        if (result){
+            $.ajax({
+                url: `/permits/${id}`,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+                success: function (response){
+                    window.location.href = '/permits';
+
+                    snackBar('Eliminado correctamente', 'success');
+                },
+                error: function(xhr, textStatus, errorThrown){
+                    errorMessage(xhr.status, errorThrown)
+                }          
+            })
+        }
+    })
+}
+
 window.deleteSavedFile = (id, filePath) => {
     const confirm = alertYesNo(
         `Eliminar archivo guardado`,

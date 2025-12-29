@@ -74,8 +74,6 @@
         "placeholder" => "Jefe directo...",
         "value" => isset($user) ? $user->boss_id :  old("boss_id"),
         "label" => "Jefe directo",
-        "required" => true,
-        "invalid_feedback" => "El campo es requerido",
         "dataTab" => "job",
     ])
 </div>

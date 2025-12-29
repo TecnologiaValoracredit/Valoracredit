@@ -2,34 +2,14 @@ const form = document.getElementById('user_form');
 const navTabs = document.querySelectorAll('button.nav-link');
 
 const clickEvent = new Event('click');
-
-const user_tab_fields = [
-    'name',
-    'email',
-    'role',
-];
-
-const legal_tab_fields = [
-    'curp',
-    'rfc',
-    'nss',
-];
-
-const job_tab_fields = [
-    'branch_id',
-    'position_id',
-    'boss_id',
-];
-
-
+console.log(navTabs);
 
 form.addEventListener('submit', function(e) {
     if (!this.checkValidity()){
         const invalidFields = [...this.elements].filter((e) => !e.checkValidity());
-
+        
         disableTabs();
-        enableInvalidTab(invalidFields[0].getAttribute('data-Tab'));
-
+        enableInvalidTab(invalidFields[0].getAttribute('data-tab'));
         console.log(invalidFields);
     }
 });

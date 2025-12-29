@@ -24,7 +24,7 @@
 
                 <div class="row mb-2">
                     <div class="row mb-2">
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <div class="mb-2 mt-2">
                                 DATOS DE USUARIO
                             </div>
@@ -62,7 +62,7 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <!-- DATOS LEGALES -->
 
                             <div class="mb-2 mt-2">
@@ -108,7 +108,7 @@
 
                         </div>
                         
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <!-- DATOS LABORALES -->
 
                             <div class="mb-2 mt-2">
@@ -155,7 +155,7 @@
                     </div>
 
                     <div class="row mb-2">
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <div class="mb-2 mt-2">
                                 DOCUMENTOS ANEXADOS
                             </div>
@@ -247,7 +247,7 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <!-- DATOS DOMICILIARIOS -->
 
                             <div class="mb-2 mt-2">
@@ -278,7 +278,7 @@
 
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-md-4">
 
                             <div class="mb-2 mt-2">
                                 DATOS BANCARIOS

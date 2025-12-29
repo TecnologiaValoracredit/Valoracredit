@@ -20,7 +20,7 @@ use Carbon\Carbon;
 class ContractController extends Controller
 {
     public function index(ContractsDataTable $dataTable){
-        $allowAdd = auth()->user()->hasPermissions("users.create");
+        $allowAdd = auth()->user()->hasPermissions("contracts.create");
         return $dataTable->render('contracts.index', compact("allowAdd"));
     }
 

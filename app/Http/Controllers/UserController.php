@@ -189,7 +189,7 @@ class UserController extends Controller
 
         } catch (QueryException $e) {
             $status = false;
-            $message = $this->getErrorMessage($e, 'roles');
+            $message = $this->getErrorMessage($e, 'users');
         }
 
         return $this->getResponse($status, $message, $user);

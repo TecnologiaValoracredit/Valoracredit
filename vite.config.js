@@ -59,6 +59,8 @@ export default defineConfig({
                 'resources/js/tinymce_editor.js',
                 'resources/js/contract_types.js',
 
+                'resources/js/signature.js',
+
                 'resources/js/requisitions/generals.js',
 
             ],
