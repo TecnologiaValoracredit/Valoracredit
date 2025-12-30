@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\TerminationReasons;
+use App\Models\TerminationReason;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TerminationReasonsSeeder extends Seeder
+class TerminationReasonSeeder extends Seeder
 {
-    /**
+    /** 
      * Run the database seeds.
      *
      * @return void
@@ -24,13 +24,13 @@ class TerminationReasonsSeeder extends Seeder
         ];
 
         foreach ($values as $key => $value) {
-            TerminationReasons::create([
+            TerminationReason::create([
                 'name' => $value['name'],
                 'description' => $value['description'],
             ]);
         }
 
-        $volunteeredResignationId = TerminationReasons::where('name', 'Renuncia voluntaria')->first()->id;
+        $volunteeredResignationId = TerminationReason::where('name', 'Renuncia voluntaria')->first()->id;
 
         $subValues = [
             ['name' => 'Motivos familiares/personales', 'parent_id' => $volunteeredResignationId],
@@ -42,7 +42,7 @@ class TerminationReasonsSeeder extends Seeder
         ];
 
         foreach ($subValues as $key => $subReason) {
-            TerminationReasons::create([
+            TerminationReason::create([
                 'name' => $subReason['name'],
                 'parent_id' => $subReason['parent_id'],
             ]);

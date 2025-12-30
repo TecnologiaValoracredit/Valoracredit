@@ -7,6 +7,7 @@ use App\Models\BankDetail;
 use App\Models\CivilStatus;
 use App\Models\ContractType;
 use App\Models\Contract;
+use App\Models\TerminationReason;
 
 use App\Models\Gender;
 use App\Models\JobPosition;
@@ -321,6 +322,12 @@ class UserController extends Controller
         return $this->getResponse($status, $message, $user);
     }
 
+    public function delete(User $user)
+    {
+        $terminationReasons = TerminationReason::whereNull("parent_id")->get();
+        return view('users.delete', compact('user', 'terminationReasons'));
+    }
+
     public function destroy(User $user)
     {
         $status = true;
@@ -417,6 +424,15 @@ class UserController extends Controller
         }
 
         return $this->getResponse($status, $message, $availableEmail);
+    }
+
+    public function profile(User $user)
+    {
+        if ($user->id == auth()->user()->id) {
+            return view("users.profile", compact("user"));
+        }else{
+            return redirect()->route("unauthorized");
+        }
     }
 
 }

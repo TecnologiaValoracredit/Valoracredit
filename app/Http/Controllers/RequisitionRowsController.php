@@ -186,7 +186,7 @@ class RequisitionRowsController extends Controller
 
     public function createModal(Request $request)
     {
-        $requisition = Requisition::findOrFail($request->header('requisition_id'));
+        $requisition = Requisition::findOrFail($request->requisition_id);
         // $row = RequisitionRow::findOrFail($id); // Trae el registro
         $suppliers = Supplier::where("is_active", 1)->pluck("name", "id");
         $currency_types = CurrencyType::where("is_active", 1)->pluck("name", "id");
