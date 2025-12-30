@@ -25,6 +25,19 @@
             ])
     </div>
 
+    <div class="col-md-4">
+        @include("components.custom.forms.input", [
+            "id" => "pending_hours",
+            "name" => "pending_hours",
+            "type" => "number",
+            "placeholder" => "Horas pendientes",
+            "value" => isset($permit) ? $permit->pending_hours :  old("pending_hours"),
+            "label" => "Horas pendientes",
+            "readonly" => isset($permit) && $permit->permitStatus->name != "Creado" ? true : false,
+            "required" => true,
+            ])
+    </div>
+
 </div>
 
 <div class="row mb-2">
@@ -71,13 +84,17 @@
 </div>
 
 @if (!isset($permit) && !auth()->user()->path_signature)
-    <div class="row mb-4 d-flex flex-column align-items-center justify-content-center">
+    <div class="row mb-4 d-flex flex-column align-items-center justify-content-center gap-2">
         <div class="col-md-3">
             <canvas id="canvas" class="border border-white rounded" style="width:100%;"></canvas>
             <div class="text-center">
                 <label for="canvas"><strong>Firma</strong></label>
             </div>
             <input type="hidden" id="signature_data" name="signature_data">
+        </div>
+
+        <div class="col-md-1">
+            <div id="clear_signature" class="btn btn-danger">Borrar</div>
         </div>
     </div>
     

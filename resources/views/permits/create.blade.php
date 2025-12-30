@@ -25,15 +25,13 @@
                     <div class="d-flex flex-column justify-content-center">
                         <div class="w-100">
                             <div class="row mb-2">
-                                <b>PARA SALIDAS TEMPRANAS O RETARDOS:</b>
-                                <p>Ingrese la hora de entrada y hora de salida, su motivo y la característica de descuento que aplique.
+                                <b class="mb-2">INSTRUCCIONES:</b>
+                                <p>Para <b>salidas tempranas / retardos,</b> ingrese la fecha de entrada, fecha de salida, su motivo y la característica de descuento que aplique.
                                 </p>
+                                <p>Para <b>ausentarse durante uno o mas días</b>, ingrese la fecha de entrada como el primer día ausentado, la fecha de salida como su ultimo día ausentado, 
+                                    su motivo, y la característica de descuento que aplique.</p>
 
-                                <b>PARA AUSENTARSE UNO, O MAS DÍAS:</b>
-                                <p>Ingrese en hora de entrada el dia que faltará, y en fecha de salida el último día que se ausentará. <br>
-                                Por ejemplo, si llega a faltar desde el 12/12/2025, hasta el 14/12/2025, ingresará en fecha de entrada 12/12/2025 9:00 AM, y en fecha de salida 14/12/2025 9:00 AM. <br>
-                                <b>MUY IMPORTANTE</b> marcar la hora de entrada de ambos dias como inicio del turno, 9 AM, para un correcto calculo de horas pendientes. <br>
-                                Por ultimo, en caso de faltar solamente un día, siga los mismos pasos anteriores, pero usando el mismo día en que planea faltar.</p>
+                                <p>Incluya las notas de horas pendientes en observaciones.</p>
                             </div>
 
                             @include("permits.fields")

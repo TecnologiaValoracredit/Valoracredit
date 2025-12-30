@@ -41,7 +41,7 @@
     <div class="message-container">
         <p>Hola {{ $permit->user->name ?? 'Usuario' }},</p>
         <p>Su solicitud generada en {{ $permit->permit_date ? date('d/m/Y') : 'Fecha' }}, fue aprobada.</p>
-        <p>Acceda al sitiio para verificar observaciones hechas por su Jefe Inmediato u Recursos Humanos.</p>
+        <p>Acceda al sitio para verificar observaciones hechas por su Jefe Inmediato u Recursos Humanos.</p>
 
         <span style="display: inline-block; text-align: center; background-color: #1760ff; border: 1px solid #1760ff; color: white;">
             <span style="display: inline-block; background-color: #1760ff; color: #ffffff; border-width: 1px 0 0 1px; border-color: #1760ff; border-style: solid;">
