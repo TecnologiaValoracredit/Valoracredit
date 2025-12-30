@@ -63,7 +63,7 @@ class PermitController extends Controller
                 'permit_date' => $request->permit_date ?? now()->toDateString(),
                 'entry_hour' => $request->entry_hour,
                 'exit_hour' => $request->exit_hour,
-                'pending_hours' => $this->calculatePendingHours($request->entry_hour, $request->exit_hour),
+                'pending_hours' => $request->pending_hours,
     
                 'motive_id' => $request->motive_id,
                 'discount_characteristic_id' => $request->discount_characteristic_id,
@@ -132,12 +132,6 @@ class PermitController extends Controller
         $message = null;
 
         $params = array_merge($request->all(), [
-            'user_id' => $permit->user_id,
-            'departament_id' => $permit->departament_id,
-            'job_position_id' => $permit->job_position_id,
-            'boss_id' => $permit->boss_id,
-
-            'permit_date' => $request->permit_date,
             'entry_hour' => $request->entry_hour,
             'exit_hour' => $request->exit_hour,
             'pending_hours' => $request->pending_hours,
@@ -378,7 +372,6 @@ class PermitController extends Controller
     }
 
     //MAILS
-
     public function sendPermitSentMail(Permit $permit){
         $hrRole = Role::where('name', 'Recursos Humanos')->first();
         $hrUser = User::where('role_id', $hrRole->id)->first();
@@ -409,56 +402,5 @@ class PermitController extends Controller
         if ($receiver->email && !str_contains($receiver->email, 'DN')){
             Mail::send(new PermitDeniedMail($receiver, $permit));
         }
-    }
-
-    //HELPERS
-
-    private function calculatePendingHours($start, $end){
-        $startDate = new DateTime($start);
-        $endDate = new DateTime($end);
-        
-        //Establece horas a laborar por dia
-        $hoursPerDay = 9;
-
-        //Saca la diferencia de dias mas 1
-        $modifiedStartDate = (clone $startDate)->setTime(0,0);
-        $modifiedEndDate = (clone $endDate)->setTime(0,0);
-        $days = ($modifiedStartDate->diff($modifiedEndDate)->days + 1);
-
-        //Le resta las horas trabajadas a las horas requeridas a laborar por dia
-        $requiredShiftHours = $days * $hoursPerDay;
-        $totalWorkedHours = $this->getWorkedHours($startDate, $endDate);
-
-        return $requiredShiftHours - $totalWorkedHours;
-    }
-
-    private function getWorkedHours(DateTime $start, DateTime $end){
-        if ($start >= $end) return 0;
-        $hours = 0;
-        $entryHour = 9;
-        $exitHour = 18;
-
-        $days = new DatePeriod
-        (clone $start, new DateInterval('P1D'), (clone $end)->modify('+1 day'));
-
-        foreach ($days as $day) {
-            //No toma en cuenta sabado y domingo
-            if (in_array($day->format('N'), [6,7])){
-                continue;
-            }
-
-            $shiftStart = (clone $day)->setTime($entryHour, 0);
-            $shiftEnd = (clone $day)->setTime($exitHour, 0);
-
-            $realEntry = max($start, $shiftStart);
-            $realExit = min($end, $shiftEnd);
-
-            if ($realEntry < $realExit){
-                $diff = $realEntry->diff($realExit);
-                $hours += $diff->h + ($diff->i/60);
-            }
-        }
-
-        return $hours;
     }
 }
