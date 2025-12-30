@@ -3,12 +3,16 @@ import SignaturePad from "signature_pad";
 const canvas = document.getElementById('canvas');
 
 if (canvas){
-    const signaturePad = new SignaturePad(canvas);
+    const signaturePad = new SignaturePad(canvas, {
+        maxWidth: 1.8,
+    });
     const clearSignatureBtn = document.getElementById('clear_signature');
     
     const form = document.getElementById('permit_form');
     const pathSignatureInput = document.getElementById('signature_data');
     
+    canvas.height = 265;
+
     clearSignatureBtn.addEventListener('click', clearSignature);
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();

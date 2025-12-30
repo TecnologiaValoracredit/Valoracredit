@@ -148,7 +148,7 @@ class PermitDataTable extends DataTable
                     ->setTableId('permits-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->orderBy(0, 'asc')
+                    ->orderBy(0, 'desc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -167,9 +167,8 @@ class PermitDataTable extends DataTable
     {
         $columns = [
             Column::make('id')
-            ->title('Id')
-            ->searchable(false)
-            ->visible(false),
+            ->title('Folio')
+            ->searchable(true),
             Column::make('permit_user_name')
             ->title('Solicitante')
             ->searchable(true)
