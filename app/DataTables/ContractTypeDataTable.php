@@ -142,8 +142,6 @@ class ContractTypeDataTable extends DataTable
             ->title('Duración')
             ->searchable(true)
             ->orderable(),
-            // Column::make('created_at')->searchable(false)->title('Fecha creado'),
-            // Column::make('updated_at')->searchable(false)->title('Fecha editado'),
             Column::make('is_active')->title("Activo"),
         ];
 

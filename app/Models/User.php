@@ -70,6 +70,7 @@ class User extends Authenticatable
         'termination_description',
         'is_replacing_on_hired',
         'replacement_for_id',
+        'path_signature',
     ];
 
     /**
