@@ -85,8 +85,9 @@
 
 @if (!isset($permit) && !auth()->user()->path_signature)
     <div class="row mb-4 d-flex flex-column align-items-center justify-content-center gap-2">
-        <div class="col-md-3">
-            <canvas id="canvas" class="border border-white rounded" style="width:100%;"></canvas>
+        <div class="col-md-5">
+            <canvas id="canvas" class="border border-white rounded" style="width: 100%;"></canvas>
+
             <div class="text-center">
                 <label for="canvas"><strong>Firma</strong></label>
             </div>
