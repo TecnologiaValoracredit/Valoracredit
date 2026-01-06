@@ -84,9 +84,9 @@ Route::middleware("auth")->group(function () {
     
     Route::get('users/{user}/profile', [UserController::class, 'profile'])->name('users.profile');
     Route::put('users/{user}/setNewSignature', [UserController::class, 'setNewSignature'])->name('users.setNewSignature');
+    Route::get('users/{user}/delete', [UserController::class, 'delete'])->name('users.delete');
     
     Route::middleware(['permission'])->group(function () {
-        Route::get('users/delete/{user}', [UserController::class, 'delete'])->name('users.delete');
         Route::resource('users', UserController::class);
         
         Route::get('users/{user}/changePassword', [UserController::class, 'changePassword'])->name('users.changePassword');

@@ -371,15 +371,24 @@ class UserController extends Controller
 
     public function delete(User $user)
     {
-        $terminationReasons = TerminationReason::whereNull("parent_id")->get();
+        $terminationReasons = TerminationReason::where("parent_id", null)->pluck("name", "id");
         return view('users.delete', compact('user', 'terminationReasons'));
     }
 
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
         $status = true;
+
+        $deactivatedEmail = $user->email .'-'. uniqid("DN-");
+
         try {
-            $user->update(["is_active" => false]);
+            $user->update([
+                "is_active" => false,
+                "termination_reason_id" => $request->termination_reason_id,
+                "termination_date" => $request->termination_date,
+                "termination_description" => $request->termination_description,
+                "email" => $deactivatedEmail,
+            ]);
             $user->deactivate();
 
             $message = "Usuario desactivado correctamente";
