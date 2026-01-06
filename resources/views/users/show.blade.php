@@ -19,14 +19,14 @@
             <div class="card-body">
                 @include("components.custom.session-errors")
                 <div class="d-flex justify-content-between align-items-center mb-2 p-2">
-                    <h5 class="card-title">Detalles de Usuario</h5>
+                    <h5 class="card-title">Detalles de Empleado</h5>
                 </div>
 
                 <div class="row mb-2">
                     <div class="row mb-2">
                         <div class="col-md-4">
                             <div class="mb-2 mt-2">
-                                DATOS DE USUARIO
+                                DATOS DE EMPLEADO
                             </div>
 
                             <hr>
@@ -63,10 +63,10 @@
                         </div>
 
                         <div class="col-md-4">
-                            <!-- DATOS LEGALES -->
+                            <!-- DATOS GENERALES -->
 
                             <div class="mb-2 mt-2">
-                                DATOS LEGALES
+                                DATOS GENERALES
                             </div>
 
                             <hr>

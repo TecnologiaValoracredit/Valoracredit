@@ -81,14 +81,16 @@ Route::middleware("auth")->group(function () {
     Route::put('permits/{permit}/sign', [PermitController::class, 'sign'])->name('permits.sign');
     Route::put('permits/{permit}/deny', [PermitController::class, 'deny'])->name('permits.deny');
     Route::get('permits/{permit}/exportPermit', [PermitController::class, 'exportPermit'])->name('permits.exportPermit');
-
+    
+    Route::get('users/{user}/profile', [UserController::class, 'profile'])->name('users.profile');
+    Route::put('users/{user}/setNewSignature', [UserController::class, 'setNewSignature'])->name('users.setNewSignature');
+    
     Route::middleware(['permission'])->group(function () {
         Route::get('users/delete/{user}', [UserController::class, 'delete'])->name('users.delete');
         Route::resource('users', UserController::class);
         
         Route::get('users/{user}/changePassword', [UserController::class, 'changePassword'])->name('users.changePassword');
         Route::put('users/{user}/setNewPassword', [UserController::class, 'setNewPassword'])->name('users.setNewPassword');
-        
 
         Route::resource('roles', RoleController::class);
         Route::resource('departaments', DepartamentController::class);

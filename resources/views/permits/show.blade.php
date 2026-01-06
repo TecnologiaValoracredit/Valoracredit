@@ -126,7 +126,7 @@
                                     onclick="sendPermit({{ $permit->id }})">Mandar a revisión
                                 </button>
                                     
-                                <button class="btn btn-danger w-15" onclick="deletePermit({{ $permit->id }})">Eliminar permiso</button>
+                                <button id="delete_permit_btn" class="btn btn-danger w-15" onclick="deletePermit({{ $permit->id }})">Eliminar permiso</button>
                             </div>
                         </div>
                     @endif
