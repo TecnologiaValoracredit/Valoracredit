@@ -95,8 +95,10 @@ window.sendPermit = (id) => {
 
     confirm.then((result) => {
         let sendBtn = document.getElementById("send_permit_btn");
+        let deleteBtn = document.getElementById('delete_permit_btn');
         if (result){
             sendBtn.setAttribute('disabled', '');
+            deleteBtn.setAttribute('disabled', '');
             $.ajax({
                 url: `/permits/${id}/sendPermit`,
                 type: 'PUT',
@@ -125,9 +127,12 @@ window.deletePermit = (id) => {
         "Eliminar permiso",
         "Estas seguro de eliminar este permiso?"
     );
-
+    let sendBtn = document.getElementById("send_permit_btn");
+    let deleteBtn = document.getElementById('delete_permit_btn');
     confirm.then((result) => {
         if (result){
+            sendBtn.setAttribute('disabled', '');
+            deleteBtn.setAttribute('disabled', '');
             $.ajax({
                 url: `/permits/${id}`,
                 type: 'DELETE',

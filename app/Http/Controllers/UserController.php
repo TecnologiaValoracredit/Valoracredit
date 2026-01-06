@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\BankDetailDataTable;
+use App\Http\Requests\UpdateSignatureRequest;
 use App\Models\BankDetail;
 use App\Models\CivilStatus;
 use App\Models\ContractType;
@@ -38,6 +39,52 @@ class UserController extends Controller
     public function changePassword(User $user)
     {
         return view('users.changePassword', compact('user'));
+    }
+
+    public function profile(User $user){
+        if (auth()->id() !== $user->id) {
+            abort(403, 'No tienes permiso para ver el perfil de este usuario.');
+        }
+
+        return view('users.profile', compact('user'));
+    }
+
+    public function setNewSignature(UpdateSignatureRequest $request, User $user){
+        if (auth()->id() !== $user->id || !$user->hasPermissions('users.setNewSignature')) {
+            abort(403, 'No tienes permiso para cambiar la firma de este usuario.');
+        }
+
+        $message = null;
+
+        //Store files
+        /** @var \Illuminate\Filesystem\FilesystemAdapter $fileSystem */
+        $fileSystem = Storage::disk('public');
+        
+        if ($request->file('signature_file')){
+            $signatureFile = $request->file('signature_file');
+            $fileName = 'Firma_Usuario_' . $user->id . '.png';
+            $pathValue = $fileSystem->putFileAs('signatures', $signatureFile, $fileName);
+        }
+        else{
+            $codedString = str_replace('data:image/png;base64,','',$request->signature_data);
+            $signatureFile = base64_decode($codedString);
+            $fileName = 'Firma_Usuario_' . $user->id . '.png';
+            $pathValue = 'signatures/' . $fileName;
+
+            $fileSystem->put($pathValue, $signatureFile);
+        }
+
+        try {
+            $user->update([
+                'path_signature' => $pathValue,
+            ]);
+            $message = "La firma se ha guardado con éxito.";
+        } catch (QueryException $e) {
+            $message = $this->getErrorMessage($e, 'users');
+            return back()->withErrors(['error' => $message]);
+        }
+
+        return redirect()->route('dashboard.index')->with('success', $message);
     }
 
     public function setNewPassword(Request $request, User $user)
