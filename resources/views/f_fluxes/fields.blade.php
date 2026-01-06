@@ -88,9 +88,7 @@
         "placeholder" => "Tipo de gasto",
         "value" => isset($f_flux) ? $f_flux->f_expense_type_id : old("f_expense_type_id"),
         "label" => "Tipo de gasto",
-        "required" => true,
         "invalid_feedback" => "El campo es requerido",
-
     ])
 </div> 
 <div class= "mb-2">

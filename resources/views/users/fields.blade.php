@@ -41,6 +41,14 @@
         </button>
     </li>
     @endif
+
+    @if (!$isEdit)
+    <li class="nav-item" role="presentation">
+        <button class="nav-link text-primary" id="replacement-tab" data-bs-toggle="tab" data-bs-target="#replacement-pane" type="button" role="tab">
+            REMPLAZO
+        </button>
+    </li>
+    @endif
 </ul>
 
 <div class="tab-content mb-2">
@@ -74,10 +82,18 @@
     </div>
   </div>
 
-  @if (isset($contracts))
+    @if (isset($contracts))
     <div class="tab-pane fade" id="contracts-pane" role="tabpanel" aria-labelledby="contracts-tab">
         <div class="row gy-3 mt-2">
             @include('users.custom_fields.contract_data_fields')
+        </div>
+    </div>
+    @endif
+
+    @if (!$isEdit)
+    <div class="tab-pane fade" id="replacement-pane" role="tabpanel" aria-labelledby="replacement-tab">
+        <div class="row gy-3 mt-2">
+            @include('users.custom_fields.replacement_data_fields')
         </div>
     </div>
     @endif
@@ -87,5 +103,7 @@
         @include('users.custom_fields.appended_data_fields')
     </div>
   </div>
+
+
   
 </div>

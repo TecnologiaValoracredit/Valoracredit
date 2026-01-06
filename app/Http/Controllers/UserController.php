@@ -115,8 +115,6 @@ class UserController extends Controller
         return redirect()->route('dashboard.index')->with('success', 'Contraseña cambiada exitosamente.');
     }
 
-    
-
     public function create()
     {
         $roles = Role::where("is_active", 1)->pluck("name", "id");
@@ -144,7 +142,10 @@ class UserController extends Controller
             ];
         });
 
-        return view('users.create', compact('roles', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses', 'contracts'));
+        $isEdit = false;
+        $replacementUsers = User::where("is_active", 0)->pluck("name", "id");
+
+        return view('users.create', compact('replacementUsers', 'isEdit','roles', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses', 'contracts'));
     }
 
     public function store(UserRequest $request)
@@ -165,6 +166,7 @@ class UserController extends Controller
 
                 "password" => Hash::make($request->password),
                 'is_active' => !is_null($request->is_active),
+                'is_replacing_on_hired' => !is_null($request->is_replacing_on_hired),
             ]);
 
             $user = User::create($params);
@@ -229,6 +231,14 @@ class UserController extends Controller
 
             try {
                 $user->update($pathParams);
+
+                if (!is_null($request->is_replacing_on_hired)){
+                    $userReplacement = User::find($request->replacement_for_id);
+                    $userReplacement->h_hardwares()->update([
+                        "user_id" => $user->id
+                    ]);
+                }
+
                 $message = "Usuario creado correctamente";
             } catch (QueryException $e) {
                 $status = false;
@@ -269,7 +279,10 @@ class UserController extends Controller
             ];
         });
 
-        return view('users.edit', compact('roles', 'user', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses', 'contracts'));
+        $isEdit = true;
+
+
+        return view('users.edit', compact('isEdit', 'roles', 'user', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses', 'contracts'));
 
     }
 

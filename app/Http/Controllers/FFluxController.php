@@ -107,7 +107,8 @@ class FFluxController extends Controller
 
         $f_accounts = FAccount::where("is_active", 1)->get();
         $f_movement_types = FMovementType::where("is_active", 1)->get();
-        
+        $f_expense_types = FExpenseType::where("is_active", 1)->get();
+
         if ($extension == "txt") {
             $content = file($file->getRealPath()); // Obtener contenido del archivo
             $finalRows = $this->processTxtFile($content); // Procesar contenido del archivo txt
@@ -122,7 +123,7 @@ class FFluxController extends Controller
             }
         }
 
-        return view('f_fluxes.table-excel', compact('f_accounts', 'f_movement_types'), ['rows' => $finalRows])->render();
+        return view('f_fluxes.table-excel', compact('f_accounts', 'f_movement_types', 'f_expense_types'), ['rows' => $finalRows])->render();
     }
 
     private function processTxtFile($content)
@@ -188,6 +189,7 @@ class FFluxController extends Controller
                     "f_clasification_id" => null,
                     "f_clasification_name" => null,
                     "tracking_key" => $tracking_key,
+                    "f_expense_type_id" => $f_movement_type_id == 1 ? 6 : null, //El 6 es N/A
                     "amount" => $monto
                 ];
             }
@@ -254,6 +256,7 @@ class FFluxController extends Controller
                     "f_movement_type_id" => $f_movement_type_id,
                     "f_clasification_id" => $f_clasification->id ?? null,
                     "f_clasification_name" => $f_clasification->name ?? null,
+                    "f_expense_type_id" => $f_movement_type_id == 1 ? 6 : null, //El 6 es N/A
                     "tracking_key" => trim($row[5]),
                     "amount" => $amount
                 ];
@@ -314,6 +317,7 @@ class FFluxController extends Controller
                 "f_clasification_id" => null,
                 "f_clasification_name" => null,
                 "tracking_key" => $tracking_key,
+                "f_expense_type_id" => $f_movement_type_id == 1 ? 6 : null, //El 6 es N/A
                 'notes1' => trim($row[14]),
                 "amount" => $amount
             ];
@@ -370,6 +374,7 @@ class FFluxController extends Controller
                 'f_clasification_id' => $datos['f_clasification_id'][$i],
                 'f_account_id' => $datos['f_account_id'][$i],
                 'f_movement_type_id' => $datos['f_movement_type_id'][$i],
+                'f_expense_type_id' => $datos['f_movement_type_id'][$i] == 1 ? 6 : null,
                 'amount' => $datos['amount'][$i],
                 'concept' => $datos['concept'][$i],
                 'notes1' => $datos['notes1'][$i],
