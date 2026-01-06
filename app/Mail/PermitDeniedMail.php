@@ -39,11 +39,8 @@ class PermitDeniedMail extends Mailable
     {
         return new Envelope(
             subject: 'Permiso Denegado',
-            // to: [
-            //     $this->receiver->email,
-            // ],
             to: [
-                'auxtecnologia@valoracredit.mx',
+                $this->receiver->email,
             ],
         );
     }

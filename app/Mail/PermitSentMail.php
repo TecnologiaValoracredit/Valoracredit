@@ -39,11 +39,8 @@ class PermitSentMail extends Mailable
     {
         return new Envelope(
             subject: 'Permiso enviado a revisión - Acción necesaria',
-            // to: [
-            //     $this->receiver->email,
-            // ],
             to: [
-                'auxtecnologia@valoracredit.mx',
+                $this->receiver->email,
             ],
         );
     }

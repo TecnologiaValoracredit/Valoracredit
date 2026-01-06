@@ -182,7 +182,7 @@ class PermitDataTable extends DataTable
             ->title('Fecha de solicitud')
             ->addClass('text-center'),
             Column::make('permit_status_name')
-            ->title("Status")
+            ->title("Estatus")
             ->addClass('text-center'),
         ];
 
