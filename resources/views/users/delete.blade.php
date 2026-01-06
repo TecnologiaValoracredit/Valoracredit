@@ -21,7 +21,15 @@
                 <form id="user_form" class="row g-3 needs-validation" novalidate method="POST"  enctype="multipart/form-data" action="{{ route('users.destroy', $user->id)  }}" >
                     @csrf
                     @method("DELETE")
-                    @include("users.deleteFields")
+                    <div class="d-flex flex-column justify-content-center">
+                        <div class="w-100">
+                            @include("users.deleteFields")
+                            <div class="d-flex justify-content-end gap-2 mt-4">
+                                <a href="{{route('users.index')}}" class="btn btn-dark">Cancelar</a>
+                                <button type="submit" class="btn btn-danger">Dar de baja</button>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

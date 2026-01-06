@@ -106,7 +106,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo("App\Models\Role", "role_id", "id");
     }
-
+    public function terminationReason(){
+        return $this->belongsTo("App\Models\TerminationReason", "termination_reason_id", "id");
+    }
     public function departament()
     {
         return $this->belongsTo("App\Models\Departament", "departament_id", "id");

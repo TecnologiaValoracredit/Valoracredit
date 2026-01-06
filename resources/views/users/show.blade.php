@@ -18,11 +18,36 @@
         <div class="card">
             <div class="card-body">
                 @include("components.custom.session-errors")
+
+                @if (!$user->is_active)
+                <hr>
+                <h5 class="text-danger">DESACTIVADO</h5>
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <div>
+                            <label for="termination_reason"><strong>Razón de baja: </strong></label>
+                            <span id="termination_reason">{{ $user->terminationReason->name }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                            <label for="termination_description"><strong>Descripción de baja: </strong></label>
+                            <span id="termination_description">{{ $user->termination_description }}</span>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="termination_date"><strong>Fecha de baja: </strong></label>
+                        <span id="termination_date">{{ date("d/m/Y", strtotime($user->termination_date)) }}</span>
+                    </div>
+                </div>
+                <hr>                
+                @endif
+
                 <div class="d-flex justify-content-between align-items-center mb-2 p-2">
-                    <h5 class="card-title">Detalles de Empleado</h5>
+                    <div class="card-title">Detalles de Empleado</div>
                 </div>
 
+                                
                 <div class="row mb-2">
+
                     <div class="row mb-2">
                         <div class="col-md-4">
                             <div class="mb-2 mt-2">
