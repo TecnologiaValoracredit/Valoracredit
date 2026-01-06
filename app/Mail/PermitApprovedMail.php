@@ -39,11 +39,8 @@ class PermitApprovedMail extends Mailable
     {
         return new Envelope(
             subject: 'Permiso Aprobado',
-            // to: [
-            //     $this->receiver->email,
-            // ],
             to: [
-                'auxtecnologia@valoracredit.mx',
+                $this->receiver->email,
             ],
         );
     }

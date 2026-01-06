@@ -119,8 +119,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo("App\Models\Branch", "branch_id", "id");
     }
-    public function gender()
-    {
+    public function gender(){
         return $this->belongsTo("App\Models\Gender", "gender_id", "id");
     }
     public function chk_list()
@@ -138,6 +137,10 @@ class User extends Authenticatable
 
     public function h_hardwares(){
         return $this->hasMany(HHardware::class, 'user_id', 'id');
+    }
+
+    public function permits(){
+        return $this->hasMany(Permit::class, 'user_id', 'id');
     }
 
     public function permissions()

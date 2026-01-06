@@ -5,33 +5,22 @@
     
     <table class="table">
         <thead>
-            <th scope="col">Tipo de activo</th>
-            <th scope="col">Marca</th>
-            <th scope="col">Color</th>
-            <th scope="col">Fecha de compra</th>
-            <th scope="col">Número de Serie Generado</th>
-            <th scope="col">Imagen del activo</th>
+            <th scope="col">Folio</th>
+            <th scope="col">Motivo</th>
+            <th scope="col">Estatus</th>
+            <th scope="col">Fecha de solicitud</th>
             <th scope="col">Origen</th>
         </thead>
 
         <tbody>
-            @foreach ($user->h_hardwares as $hardware )
+            @foreach ($user->permits as $permit )
                 <tr>
-                    <td>{{ $hardware->hDeviceType->name }}</td>
-                    <td>{{ $hardware->hBrand->name }}</td>
-                    <td>{{ $hardware->color ?? "Color no definido" }}</td>
-                    <td>{{ $hardware->purchase_date ? date("d/m/Y", strtotime($hardware->purchase_date)) : "Fecha no definida" }}</td>
-                    <td>{{ $hardware->serial_number ?? "Numero serial original no definido" }}</td>
+                    <td>{{ $permit->id }}</td>
+                    <td>{{ $permit->motive->name }}</td>
+                    <td><span class="badge {{ $permit->permitStatus->color }}">{{ $permit->permitStatus->name }}</span></td>
+                    <td>{{ date("d/m/Y", strtotime($permit->permit_date)) }}</td>
                     <td>
-                        @if ($hardware->image)
-                        <a href="{{ asset('storage/' . $hardware->image) }}" target="_blank"
-                            class="link-primary">Ver imagen</a>
-                        @else
-                        No anexada
-                        @endif
-                    </td>
-                    <td>
-                        <a href="{{ route('h_hardwares.show',[$hardware->id]) }}" target="_blank"
+                        <a href="{{ route('permits.show',[$permit->id]) }}" target="_blank"
                             class="link-primary">Ver más
                         </a>
                     </td>
