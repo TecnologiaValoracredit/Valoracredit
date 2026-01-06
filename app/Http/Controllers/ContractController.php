@@ -170,13 +170,14 @@ class ContractController extends Controller
             // 5. Guardar en storage/app/contracts/{userId}/
             Storage::disk('local')->put($path, $pdf->output());
 
+            
             $user->contracts()->create([
                 'contract_id' => $contract->id,
                 'path_contract' => $path,
                 'initial_date' => $initial_date,
                 'final_date' => $final_date
             ]);
-
+            
             return response()->json([
                 "message" => "Contrato generado correctamente",
                 "status" =>true,

@@ -19,7 +19,7 @@
                     <td>{{date("d/m/Y", strtotime($contract->final_date))}}</td>
 
                     <td>
-                        <u><a target="_blank" href="{{route('contracts.downloadContract', [$contract->id, 'unsigned'])}}">Descargar</a></u>
+                        <a target="_blank" class="link-primary" href="{{route('contracts.downloadContract', [$contract->id, 'unsigned'])}}">Descargar</a>
                     </td>
                     <td>
                         @if($contract->path_contract_signed != "")
