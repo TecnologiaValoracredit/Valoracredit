@@ -58,7 +58,7 @@ class FFluxDataTable extends DataTable
             return '<span class="badge badge-danger">'.$f_flux->fCarteraStatus->name ?? "Pendiente".'</span>';
         })
         ->editColumn('f_expense_type_name', function(FFlux $f_flux) {
-            return $f_flux->f_expense_type_id == null ? "N/A" : $f_flux->fExpenseType->name;
+            return $f_flux->f_expense_type_id == null ? "" : $f_flux->fExpenseType->name;
         })
         ->addColumn('action', function($row){
             return $this->getActions($row);

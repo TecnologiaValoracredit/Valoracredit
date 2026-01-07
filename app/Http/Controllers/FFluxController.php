@@ -118,7 +118,7 @@ class FFluxController extends Controller
             
             if ($columnCount == 12) {
                 $finalRows = $this->readStpExcel($data);
-            }else if ($columnCount == 20) {
+            }else if ($columnCount == 21) {
                 $finalRows = $this->readOtherBanksExcel($data);
             }
         }

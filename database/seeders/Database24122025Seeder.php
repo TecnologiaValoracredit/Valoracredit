@@ -26,6 +26,10 @@ class Database24122025Seeder extends Seeder
             MotiveAndDiscountCharacteristicSeeder::class,
             PermitStatusSeeder::class,
             // PermitSeeder::class,
+
+            PermissionFunction31122025Seeder::class,
+            PermissionPermission31122025Seeder::class,
+            PermissionPermissionRole31122025Seeder::class,
         ]);
     }
 }
