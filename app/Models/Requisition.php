@@ -26,7 +26,7 @@ class Requisition extends Model
         'is_active',
         'created_by', 
         'updated_by',
-        'notes'
+        'notes',
     ];
 
 
