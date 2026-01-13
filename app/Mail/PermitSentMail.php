@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Permit;
 use App\Models\User;
 
-class PermitSentMail extends Mailable
+class PermitSentMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -39,9 +39,6 @@ class PermitSentMail extends Mailable
     {
         return new Envelope(
             subject: 'Permiso enviado a revisión - Acción necesaria',
-            to: [
-                $this->receiver->email,
-            ],
         );
     }
 

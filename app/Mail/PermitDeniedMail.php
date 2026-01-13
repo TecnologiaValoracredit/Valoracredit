@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\User;
 use App\Models\Permit;
 
-class PermitDeniedMail extends Mailable
+class PermitDeniedMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -39,9 +39,6 @@ class PermitDeniedMail extends Mailable
     {
         return new Envelope(
             subject: 'Permiso Denegado',
-            to: [
-                $this->receiver->email,
-            ],
         );
     }
 

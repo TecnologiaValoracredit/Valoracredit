@@ -15,7 +15,7 @@ class UserContract extends Model
         'initial_date',
         'final_date',
         'path_contract',
-        'path_contract_signed'
+        'path_contract_signed',
     ];
 
     public function contract(){

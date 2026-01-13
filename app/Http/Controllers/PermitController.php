@@ -7,6 +7,13 @@ use App\Http\Requests\PermitRequest;
 use App\Mail\PermitSentMail;
 use App\Mail\PermitDeniedMail;
 use App\Mail\PermitApprovedMail;
+
+use App\Notifications\WhatsApp\PermissionRequestTemplate;
+use App\Notifications\WhatsApp\PermissionApDnTemplate;
+
+use App\Services\WhatsAppService;
+
+use App\Models\WhatsAppLog;
 use App\Models\DiscountCharacteristic;
 use App\Models\Permit;
 use App\Models\Departament;
@@ -26,6 +33,7 @@ use Illuminate\Mail\Mailable;
 
 use Illuminate\Support\Facades\Mail;
 use function PHPUnit\Framework\isNull;
+use App\Exceptions\WhatsAppException;
 
 class PermitController extends Controller
 {
@@ -203,8 +211,7 @@ class PermitController extends Controller
 
             $permit->update($params);
             $message = "Permiso enviado correctamente";
-            
-            $this->sendPermitSentMail($permit);
+            $this->sendPermitSentNotifications($permit);
         } catch (QueryException $e) {
             $status = false;
             $message = $this->getErrorMessage($e, 'permits');
@@ -342,7 +349,7 @@ class PermitController extends Controller
             $permit->update($params);
             $message = "El permiso ha sido denegado correctamente por ". ($isHr ? "Recursos Humanos" : "Jefe Inmediato");
             
-            $this->sendDeniedMail($permit);
+            $this->sendDeniedNotification($permit);
         } catch (QueryException $e) {
             $status = false;
             $message = $this->getErrorMessage($e, 'permits');
@@ -360,7 +367,9 @@ class PermitController extends Controller
             'permit_status_id' => $approvedStatus->id,
         ]);
 
-        $this->sendApprovedMail($permit);
+        
+        $this->sendApprovedNotification($permit);
+    
     }
 
     public function exportPermit(Permit $permit){
@@ -372,7 +381,7 @@ class PermitController extends Controller
     }
 
     //MAILS
-    public function sendPermitSentMail(Permit $permit){
+    public function sendPermitSentNotifications(Permit $permit){
         $hrRole = Role::where('name', 'Recursos Humanos')->first();
         $hrUser = User::where('role_id', $hrRole->id)->first();
 
@@ -381,26 +390,138 @@ class PermitController extends Controller
             $permit->boss,
         ];
 
-        foreach ($receivers as $receiver) {
-            if (!$receiver || !$receiver->email) continue;
-            if (!str_contains('DN', $receiver->email)){
-                Mail::send(new PermitSentMail( $receiver,$permit));
+        if (config('app.sent_mails')){
+            foreach ($receivers as $receiver) {
+                if (!$receiver || !$receiver->email) continue;
+                if (!str_contains('DN', $receiver->email)){
+                    Mail::to($receiver->email)->queue((new PermitSentMail( $receiver,$permit))->onQueue("mails"));
+                }
+            }
+        }
+
+        if (config('app.sent_wpp')){
+            foreach ($receivers as $receiver) {
+                if (!$receiver || !$receiver->phone) continue;
+                if (!str_contains('DN', $receiver->email) || !$receiver->is_active){
+
+                    $payload = PermissionRequestTemplate::build($receiver, $permit);
+
+                     $log = WhatsAppLog::create([
+                        'related_type' => Permit::class,
+                        'related_id' => $permit->id,
+                        'to' => $receiver->phone,
+                        'template_name' => $payload["template"]["name"],
+                        'payload' => $payload,
+                    ]);
+
+                    try {
+                        
+                        $result = app(WhatsAppService::class)->sendTemplate(
+                            to: $receiver->phone,
+                            payload: $payload
+                        );
+                        
+                        $log->markAsSent($result);
+
+                    } catch (WhatsAppException $e) {
+                        $log->markAsFailed(
+                            $e->getMessage(),
+                            $e->response
+                        );
+
+                    } catch (\Throwable $e) {
+                        $log->markAsFailed($e->getMessage());
+                    }
+                    
+                }
             }
         }
     }
 
-    public function sendApprovedMail(Permit $permit){
+    public function sendApprovedNotification(Permit $permit){
         $receiver = $permit->user;
+        if (config('app.sent_mails')) {
+            if ($receiver->email && !str_contains($receiver->email, 'DN')) {
+                Mail::to($receiver->email)->queue((new PermitApprovedMail($receiver, $permit))->onQueue("mails"));
+            }
+        }
 
-        if ($receiver->email && !str_contains($receiver->email, 'DN')) {
-            Mail::send(new PermitApprovedMail($receiver, $permit));
+        if (config('app.sent_wpp')) {
+            if ($receiver->phone && str_contains($receiver->phone, '52')) {
+
+                $payload = PermissionApDnTemplate::build($receiver, $permit, "APROBADO");
+
+                $log = WhatsAppLog::create([
+                    'related_type' => Permit::class,
+                    'related_id' => $permit->id,
+                    'to' => $receiver->phone,
+                    'template_name' => $payload["template"]["name"],
+                    'payload' => $payload,
+                ]);
+
+                try {
+                    
+                    $result = app(WhatsAppService::class)->sendTemplate(
+                        to: $receiver->phone,
+                        payload: $payload
+                    );
+                    
+                    $log->markAsSent($result);
+
+                } catch (WhatsAppException $e) {
+                    $log->markAsFailed(
+                        $e->getMessage(),
+                        $e->response
+                    );
+
+                } catch (\Throwable $e) {
+                    $log->markAsFailed($e->getMessage());
+                }
+            }
         }
     }
-    public function sendDeniedMail(Permit $permit){
+
+    public function sendDeniedNotification(Permit $permit){
         $receiver = $permit->user;
 
-        if ($receiver->email && !str_contains($receiver->email, 'DN')){
-            Mail::send(new PermitDeniedMail($receiver, $permit));
+        if (config('app.sent_mails')) {
+            if ($receiver->email && !str_contains($receiver->email, 'DN')){
+                Mail::to($receiver->email)->queue((new PermitDeniedMail($receiver, $permit))->onQueue("mails"));
+            }
+        }
+
+         if (config('app.sent_wpp')) {
+            if ($receiver->phone && str_contains($receiver->phone, '52')) {
+
+                $payload = PermissionApDnTemplate::build($receiver, $permit, "RECHAZADO");
+
+                $log = WhatsAppLog::create([
+                    'related_type' => Permit::class,
+                    'related_id' => $permit->id,
+                    'to' => $receiver->phone,
+                    'template_name' => $payload["template"]["name"],
+                    'payload' => $payload,
+                ]);
+
+                try {
+                    
+                    $result = app(WhatsAppService::class)->sendTemplate(
+                        to: $receiver->phone,
+                        payload: $payload
+                    );
+                    
+                    $log->markAsSent($result);
+
+                } catch (WhatsAppException $e) {
+                    $log->markAsFailed(
+                        $e->getMessage(),
+                        $e->response
+                    );
+
+                } catch (\Throwable $e) {
+                    $log->markAsFailed($e->getMessage());
+                }
+            }
         }
     }
 }

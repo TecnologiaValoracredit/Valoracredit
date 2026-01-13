@@ -10,23 +10,30 @@ class Requisition extends Model
     use HasFactory;
 
     protected $fillable = [ 
-        'user_id',
-        'requisition_status_id',
+        //Agregar columna 'folio' como texto
+        'user_id', //Cambia por request_id -- la relacion sigue igual a users
+        'requisition_status_id', //Cambia por current_status_id -- la relacion sigue igual
+        // 'current_owner_permission' es para saber quien debe actuar (rechazar, autorizar, etc) pero sobre quien tenga ese permiso, no sobre rol. Es un texto directo con module.permission, por ejemplo: requisitions.tesoreria
         'payment_type_id',
         'amount',
-        'request_date',
+        'request_date', //solo informativo de cuando se solicitó -- no se usa para el flujo
         'departament_id',
         'branch_id',
-        'approval_boss_id',
-        'boss_approval_date',
-        'approval_admin_id',
-        'admin_approval_date',
-        'approval_chief_id',
-        'chief_approval_date',
-        'is_active',
+        //'requisition_global_id' si está dentro de una requisicion global, es una relacion a requisitions_globals
+        'approval_boss_id', //Quitarlo
+        'boss_approval_date', //Quitarlo
+        'approval_admin_id', //Quitarlo
+        'admin_approval_date', //Quitarlo
+        'approval_chief_id', //Quitarlo
+        'chief_approval_date', //Quitarlo
+        'is_active',  //Quitarlo
         'created_by', 
         'updated_by',
-        'notes'
+        //cancelled_at nullable - datetime
+        //cancelled_by nullable - relacion a users
+        // 'is_urgent' booleano
+        'notes',
+        //Todo lo demas quitarlo lo de las firmas
     ];
 
 

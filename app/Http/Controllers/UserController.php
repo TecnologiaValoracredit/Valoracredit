@@ -26,12 +26,32 @@ use App\Models\Email;
 use Webklex\PHPIMAP\ClientManager;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use App\Services\WhatsAppService;
 
 
 class UserController extends Controller
 {
     public function index(UsersDataTable $dataTable)
     {
+        // $whatsapp = app(WhatsAppService::class);
+
+        // $ok = $whatsapp->sendTemplate(
+        //     '528126291795', // tu número con LADA, SIN +
+        //     'actualizacion_requisicion', // nombre EXACTO de la plantilla
+        //     [
+        //         'Iván Rodriguez Silva',
+        //         '1',
+        //         'Cancelada',
+        //         'Cesar',
+        //         'Auxiliar TI',
+        //         '07/01/2026 11:25am',
+        //     ],
+        //     '1',
+        //     '1'
+        // );
+
+        // dd($ok);
+
         $allowAdd = auth()->user()->hasPermissions("users.create");
         return $dataTable->render('users.index', compact("allowAdd"));
     }
