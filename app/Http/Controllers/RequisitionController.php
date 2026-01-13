@@ -22,7 +22,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\RequisitionRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RequisitionMail;
 
 
 class RequisitionController extends Controller
@@ -30,7 +31,6 @@ class RequisitionController extends Controller
     
     public function index(RequisitionDataTable $dataTable)
     {
-        
         $allowAdd = auth()->user()->hasPermissions("requisitions.create");
         return $dataTable->render('requisitions.index', compact("allowAdd"));
     }
@@ -44,39 +44,15 @@ class RequisitionController extends Controller
         $suppliers = Supplier::where("is_active", 1)->pluck("name", "id");
         $currency_types = CurrencyType::where("is_active", 1)->pluck("name", "id");
 
-        $user = auth()->user();
-        $boss = $user->boss ?? 1;
-        $admonF = User::where('email', 'admonfinanzas@valoracredit.mx')->first();
-        $chief = User::where('email', 'berlangahector@hotmail.com')->first();
-        $requisition = Requisition::create([
-            'user_id' => $user->id,
-            'requisition_status_id' => 1,
-            'payment_type_id' => 1,
-            'amount' => 0,
-            'request_date' => now(),
-            'departament_id' => $user->departament->id,
-            'branch_id' =>  $user->branch->id,
-            'approval_boss_id' => $boss->id ?? 1,
-            'approval_admin_id'=> $admonF->id,
-            'approval_chief_id' => $chief->id,
-            'is_active'  => true,
-            'created_by' => auth()->id(), 
-            'updated_by'=> auth()->id(),
-        ]);
-
-        $requisitionRowsDataTable = new RequisitionRowsDataTable($requisition);
-        $params = ['requisition' => $requisition];
-        $requisitionRowsDT = $this->getViewDataTable($requisitionRowsDataTable, 'requisition_rows', [], 'requisition_rows.getRequisitionRowsDataTable', $params);
-
-        return view('requisitions.create', compact('departaments', 'payment_types', 'branches', 'suppliers', 'currency_types', 'user', 'requisition', 'requisitionRowsDT'));
+        return view('requisitions.create', compact('user','departaments', 'payment_types', 'branches', 'suppliers', 'currency_types'));
     }
 
     public function store(Request $request)
     {
+        dd(true);
         // Convertir 'is_active' a valor booleano (1 o 0)
         $is_active = $request->input('is_active') === 'on' ? 1 : 0;
     
-        // dd($request);
         // Crear la requisición principal
         $user = User::where('id', $request->input('user_id'))->first();
         $boss = $user->boss;
@@ -114,11 +90,8 @@ class RequisitionController extends Controller
         $user = auth()->user();
         $boss = $user->boss ?? 1;
 
-        $requisitionRowsDataTable = new RequisitionRowsDataTable($requisition);
-        $params = ['requisition' => $requisition];
-        $requisitionRowsDT = $this->getViewDataTable($requisitionRowsDataTable, 'requisition_rows', [], 'requisition_rows.getRequisitionRowsDataTable', $params);
 
-        return view('requisitions.edit', compact('requisition', 'payment_types', 'branches', 'suppliers', 'currency_types', 'departaments', 'user', 'boss', 'requisition', 'requisitionRowsDT'));
+        return view('requisitions.edit', compact('requisition', 'payment_types', 'branches', 'suppliers', 'currency_types', 'departaments', 'user', 'boss', 'requisition'));
     }
     
     public function update(Request $request, Requisition $requisition)
@@ -214,7 +187,10 @@ class RequisitionController extends Controller
 		}
     }
 
+    //HELPERS
+
+    private function sendMail(User $receiver, string $message, Requisition $requisition){
+        Mail::send(new RequisitionMail($receiver, $message, $requisition));
+    }
+
 }
-
-
-

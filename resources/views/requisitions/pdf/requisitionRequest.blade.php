@@ -51,6 +51,30 @@
             right: 10px;
             width: 120px;
         }
+        .signature-box{
+            text-align: center;
+            vertical-align: middle;
+            width: 200px;
+            height: 200px;
+        }
+        .signature-img{
+            max-width: 150px;
+        }
+        @media print {
+            .fixed-footer {
+                position: fixed;
+                bottom: 0;
+                width: 100%; /* Ensures the footer spans the full width of the page */
+            }
+        }
+
+        /* .fixed-footer{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+        } */
     </style>
 </head>
 <body>
@@ -61,8 +85,8 @@
 
     <table class="no-border">
         <tr>
-            <td><strong>Fecha:</strong></td>
-            <td>{{ date("d-m-Y",strtotime($requisition->request_date)) }}</td>
+            <td><strong>Fecha de creación de solicitud:</strong></td>
+            <td>{{ date("d/m/Y",strtotime($requisition->request_date)) }}</td>
         </tr>
         <tr>
             <td><strong>Nombre del Solicitante:</strong></td>
@@ -71,6 +95,10 @@
         <tr>
             <td><strong>Departamento:</strong></td>
             <td>{{ $requisition->departament->name ?? '' }}</td>
+        </tr>
+        <tr>
+            <td><strong>Puesto:</strong></td>
+            <td>{{ $requisition->user->jobPosition->name ?? '' }}</td>
         </tr>
         <tr>
             <td><strong>Forma de Pago:</strong></td>
@@ -117,39 +145,58 @@
 
     <h3>Especificaciones de la Requisición</h3>
     <p style="border: 1px solid #000; height: 80px;">{{ $requisition->notes ?? '' }}</p>
-
-    <table class="no-border">
+            
+    <table style="table-layout: fixed; margin-top: 30px; margin-bottom: 30px;">
         <tr>
-            <td><strong>Solicita:</strong></td>
-            <td class="signature">
-                __________________________________ <br>
+            <td class="signature-box">
+                @if ($requisition->path_chief_signature)
+                    <img src="{{ public_path('storage/'. $requisition->path_chief_signature) }}" alt="Firma de Dirección General" class="signature-img">
+                @endif
+            </td>
+            <td class="signature-box">
+                @if ($requisition->path_admin_signature)
+                    <img src="{{ public_path('storage/'. $requisition->path_hr_signature) }}" alt="Firma de Administración" class="signature-img">                
+                @endif
+            </td>
+            <td class="signature-box">
+                @if ($requisition->path_boss_signature)
+                    <img src="{{ public_path('storage/'. $requisition->path_boss_signature) }}" alt="Firma de Jefe Inmediato" class="signature-img">
+                @endif
+            </td>
+            <td class="signature-box">
+                @if ($requisition->path_user_signature)
+                    <img src="{{ public_path('storage/'. $requisition->path_user_signature) }}" alt="Firma de Solicitante" class="signature-img">
+                @endif
+            </td>
+        </tr>
+        <tr class="no-boder">
+            <td class="center">
+                {{ $requisition->approvalChief->name ?? '' }}
+                <br>
+                <strong>Firma de Dirección General</strong>
+            </td>
+            <td class="center">
+                {{ $requisition->approvalAdmin->name ?? '' }}
+                <br>
+                <strong>Firma de Administrador</strong>
+            </td>
+            <td class="center">
+                {{ $requisition->approvalBoss->name ?? 'Sin jefe asignado' }}
+                <br>
+                <strong>Firma de Jefe Inmediato</strong>
+            </td>
+            <td class="center">
                 {{ $requisition->user->name ?? '' }}
-            </td>
-        </tr>
-        <tr>
-            <td><strong>Jefe Inmediato Autorizó:</strong></td>
-            <td class="signature">
-                __________________________________ <br>
-                {{ $requisition->approval_boss->name ?? '' }}
-            </td>
-        </tr>
-        <tr>
-            <td><strong>Administración:</strong></td>
-            <td class="signature">
-                __________________________________ <br>
-                {{ $requisition->approval_admin->name ?? '' }}
-            </td>
-        </tr>
-        <tr>
-            <td><strong>Dirección General:</strong></td>
-            <td class="signature">
-                __________________________________ <br>
-                Héctor Berlanga
+                <br>
+                <strong>Firma de Solicitante</strong>
             </td>
         </tr>
     </table>
 
-    <div style="page-break-before: always;">
+    <hr>
+    <h3>Evidencia</h3>
+    
+    <div>
         @foreach($requisition->requisitionRows as $row)
             @if($row->evidence)
                 <div style="text-align:center; margin-top:20px;">
@@ -157,10 +204,12 @@
 
                     
                     <img src="file://{{ storage_path('app/public/requisitions/'.$row->evidence) }}" 
-                        style="max-width:600px; max-height:800px;">
+                    style="max-width:600px; max-height:800px;">
                 </div>
-            @endif
-        @endforeach
+                @endif
+                @endforeach
     </div>
+
+    <hr>
 </body>
 </html>

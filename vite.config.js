@@ -62,6 +62,7 @@ export default defineConfig({
                 'resources/js/signature.js',
 
                 'resources/js/requisitions/generals.js',
+                'resources/js/requisitions/addProduct.js',
 
             ],
             refresh: true,

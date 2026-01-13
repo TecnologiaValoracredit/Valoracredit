@@ -1,63 +1,36 @@
 <div class="row mt-2">
-    <div class="col">
+    <div class="col-md-4 d-flex flex-column">
         <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">
-        @include("components.custom.forms.input", [
-            "id" => "user",
-            "name" => "user",
-            "type" => "text",
-            "placeholder" => "Nombre",
-            "label" => "Solicitante",
-            "required" => true,
-            "readonly" => true,
-            "value" => isset($requisition) ? $requisition->user->name : $user->name,
-            "invalid_feedback" => "El campo es requerido"
-        ])
+        <div>
+            <label for="user"><strong>Solicitante:</strong></label>
+            <span id="user">{{ isset($requisition) ? $requisition->user->name : $user->name }}</span>
+        </div>
     </div>
-    <div class="col">
+    <div class="col-md-4 d-flex align-items-center">
         <input type="hidden" name="department_id" value="{{ isset($user) ? $user->departament->id : '' }}">
-         @include("components.custom.forms.input", [
-            "id" => "department",
-            "name" => "department",
-            "type" => "text",
-            "placeholder" => "Departamento",
-            "label" => "Departamento",
-            "required" => true,
-            "readonly" => true,
-            "value" => isset($requisition) ? $requisition->user->departament->name : $user->departament->name,
-            "invalid_feedback" => "El campo es requerido"
-        ])
+        <div>
+            <label for="departament"><strong>Departamento:</strong></label>
+            <span id="departament">{{ isset($requisition) ? $requisition->departament->name : $user->departament->name }}</span>
+        </div>
     </div>
-    <div class="col">
+    <div class="col-md-4 d-flex align-items-center">
         <input type="hidden" name="branch_id" value="{{ isset($user) ? $user->branch->id : '' }}">
-         @include("components.custom.forms.input", [
-            "id" => "branch",
-            "name" => "branch",
-            "type" => "text",
-            "placeholder" => "Sucursal",
-            "label" => "Sucursal",
-            "required" => true,
-            "readonly" => true,
-            "value" => isset($requisition) ? $requisition->user->branch->name : $user->branch->name,
-            "invalid_feedback" => "El campo es requerido"
-        ])
+        <div>
+            <label for="branch"><strong>Sucursal:</strong></label>
+            <span id="branch">{{ isset($requisition) ? $requisition->user->branch->name : $user->branch->name }}</span>
+        </div>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col-md-4 d-flex align-items-center">
+        <div>
+            <label for="request_date"><strong>Fecha de solicitud:</strong></label>
+            <span id="request_date">{{ isset($requisition) ? $requisition->request_date : now() }}</span>
+        </div>
     </div>
 </div>
 <div class="row mt-2">
-    <div class="col">
-         @include("components.custom.forms.input", [
-            "id" => "request_date",
-            "name" => "request_date",
-            "type" => "text",
-            "placeholder" => "Fecha de solicitud",
-            "label" => "Fecha de solicitud",
-            "required" => true,
-            "readonly" => true,
-            "value" => isset($requisition) ? $requisition->request_date : now(),
-            "invalid_feedback" => "El campo es requerido"
-        ])
-    </div>
-    
-    <div class="col">
+    <div class="col-md-4">
         @include("components.custom.forms.input-select", [
             "id" => "payment_type_id",
             "name" => "payment_type_id",
@@ -70,30 +43,25 @@
             "invalid_feedback" => "El campo es requerido"
         ])
     </div>
-    <div class="col">
-        @include("components.custom.forms.input", [
-            "id" => "amount",
-            "name" => "amount",
-            "type" => "numeric",
-            "placeholder" => "Costo Total",
-            "label" => "Costo Total",
-            "required" => true,
-            "readonly" => true,
-            "value" => 0,
-            "invalid_feedback" => "El campo es requerido"
+    <div class="col-md-8">
+        @include("components.custom.forms.textarea",[
+            "id" => "notes",
+            "name" => "notes",
+            "type" => "textarea",
+            "placedolder" => "Notas de requisición",
+            "value" => isset($requisition) ? $requisition->notes : old("notes"),
+            "label" => "Notas de requisición",
+            "readonly" => isset($readonly) ? $readonly : '',
+            "required" => false,
+            "invalid_feedback" => "El campo es requerido",
         ])
     </div>
 </div>
-<div class="col-12 mt-2">
-    @include("components.custom.forms.textarea",[
-        "id" => "notes",
-        "name" => "notes",
-        "type" => "textarea",
-        "placedolder" => "Notas de requisición",
-        "value" => isset($requisition) ? $requisition->notes : old("notes"),
-        "label" => "Notas de requisición",
-        "readonly" => isset($readonly) ? $readonly : '',
-        "required" => false,
-        "invalid_feedback" => "El campo es requerido",
-    ])
+<div class="row mt-3 mb-2 m-0">
+    <div class="col d-flex justify-content-end">
+        <div>
+            <label for="amount" class="text-decoration-underline"><strong>Costo Total:</strong></label>
+            <span id="amount">0.00</span>
+        </div>
+    </div>
 </div>

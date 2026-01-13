@@ -49,16 +49,8 @@ class RequisitionDataTable extends DataTable
 
         // Estatus con colores (ejemplo básico)
         ->editColumn('status_name', function(Requisition $role) {
-            switch (strtolower($role->status_name)) {
-                case 'autorizado':
-                    return '<span class="badge badge-success">'.$role->status_name.'</span>';
-                case 'creado':
-                    return '<span class="badge badge-warning">'.$role->status_name.'</span>';
-                case 'rechazado':
-                    return '<span class="badge badge-danger">'.$role->status_name.'</span>';
-                default:
-                    return '<span class="badge badge-secondary">'.$role->status_name.'</span>';
-            }
+            return '<span class="badge '. $role->status_color . ' text-light">' . 
+            $role->status_name . '</span>';
         });
 
     $datatable->addColumn('action', function($row){
@@ -133,7 +125,8 @@ class RequisitionDataTable extends DataTable
                 'requisitions.*',
                 'requisitions.user_id',
                 'users.name as user_name',  // Cambiar esto por 'users.name' para mostrar el nombre
-                'requisition_statuses.name as status_name'
+                'requisition_statuses.name as status_name',
+                'requisition_statuses.color as status_color',
             ])
             ->leftJoin('users', 'users.id', '=', 'requisitions.user_id')  // Asegúrate de usar el campo correcto
             ->leftJoin('requisition_statuses', 'requisition_statuses.id', '=', 'requisitions.requisition_status_id')  // Asegúrate de usar el campo correcto
