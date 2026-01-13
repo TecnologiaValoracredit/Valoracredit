@@ -3,6 +3,22 @@ html {
   min-height: 100%;
 }
 
+.badge-returned{
+  background-color: #a82020; 
+}
+
+.badge-on-hold{
+  background-color: #e7820e; 
+}
+
+.badge-paid{
+  background-color: #20c997; 
+}
+
+.badge-payment-pending{
+  background-color: #6a31f0; 
+}
+
 body {
   color: #888ea8;
   height: 100%;

@@ -1,3 +1,5 @@
+let formSubmitted = false;
+
 $(document).ready(function(){
     const user_id = $("#user_id").val()
     const promotor_id = $("#promotor_id").val()
@@ -5,8 +7,13 @@ $(document).ready(function(){
     const manager_id = $("#manager_id").val()
     const requisition_id = $("#requisition_id").val()
 
+    const requisitionForm = document.getElementById('requisition_form');
+    requisitionForm.addEventListener('submit', (e) => {
+        console.log('testing');
+        formSubmitted = true;
+    });
 
-     let table = window.LaravelDataTables['requisition_rows-table'];
+    let table = window.LaravelDataTables['requisition_rows-table'];
 
    function updateAmount() {
     let columnData = table.column(4, { search: 'applied' }).data();
@@ -52,7 +59,6 @@ $(document).ready(function(){
         $(document).off('submit', '#upload-form').on('submit', '#upload-form', handleFormSubmit);
     });
     window.addProduct = () => {
-        console.log("bbbbbbbbbbb")
         const form = document.getElementById('upload-form');
         const formData = new FormData(form); // Incluye archivos automáticamente
         $.ajax({
@@ -184,7 +190,10 @@ $(document).ready(function(){
     };
 
     window.createModal = function () {
+        const addProductBtn = document.getElementById('add_product_btn');
         const requisition_id = $("#requisition_id").val()
+
+        // addProductBtn.setAttribute('disabled', '');
         $.ajax({
             url: $('meta[name="app-url"]').attr('content')+`/requisition_rows/modal/create`,
             type: 'GET',
@@ -198,14 +207,7 @@ $(document).ready(function(){
                 // Inyectamos el HTML en el modal
                 $('#exampleModal-body').html(response.html);
 
-
                 initTotalCostListener(); 
-                // $('#modal-action-btn')
-                // .text('Crear')
-                // // .off('click') // quitamos cualquier evento previo
-                // .on('click', function () {
-                //     addProduct(); // función de creación
-                // });
 
                 // Abrimos el modal
                 $('#exampleModal').modal('show');
@@ -228,12 +230,6 @@ $(document).ready(function(){
                 $('#exampleModal-body').html(response.html);
 
                 initTotalCostListener(); 
-                //  $('#modal-action-btn')
-                // .text('Actualizar')
-                // .off('click')
-                // .on('click', function () {
-                //     updateProduct(id); // función de actualización
-                // });
 
                 // Abrimos el modal
                 $('#exampleModal').modal('show');
@@ -254,14 +250,6 @@ $(document).ready(function(){
             success: function (response) {
                 // Inyectamos el HTML en el modal
                 $('#exampleModal-body').html(response.html);
-
-                // initTotalCostListener(); 
-                //  $('#modal-action-btn')
-                // .text('Actualizar')
-                // .off('click')
-                // .on('click', function () {
-                //     updateProduct(id); // función de actualización
-                // });
 
                 // Abrimos el modal
                 $('#exampleModal').modal('show');
@@ -286,8 +274,6 @@ $(document).ready(function(){
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     },
                     success: function(response) {
-                        // var table = window.LaravelDataTables[`institution_commission_promotors-table`];
-                        // table.draw(false);
                         snackBar("Requisicón aprobada correctamente", "success")
 
                     },error: function(xhr, textStatus, errorThrown) {
@@ -312,8 +298,6 @@ $(document).ready(function(){
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     },
                     success: function(response) {
-                        // var table = window.LaravelDataTables[`institution_commission_promotors-table`];
-                        // table.draw(false);
                         snackBar("Requisicón rechazada correctamente", "success")
 
                     },error: function(xhr, textStatus, errorThrown) {
@@ -324,7 +308,31 @@ $(document).ready(function(){
         })
     };
 
+    
+    
 })
+
+window.addEventListener('beforeunload', (e) => {
+    const id = document.getElementById('requisition_id').value;
+    console.log(id);
+
+    if (!formSubmitted){
+        $.ajax({
+            url: $('meta[name="app-url"]').attr('content')+`/requisitions/${id}`,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            success: function (response){
+                console.log(`Deleted requisition ${id}`);
+            },
+            error: function (xhr, errorThrwon){
+                
+            }
+        });
+    }
+});
+
 function initTotalCostListener() {
     const qtyInput   = document.getElementById("product_quantity");
     const costInput  = document.getElementById("product_cost");
@@ -347,35 +355,3 @@ function initTotalCostListener() {
     costInput.addEventListener("input", updateTotalCost);
     ivaInput.addEventListener("change", updateTotalCost);
 }
-
-//  $(document).on('click', '.open-modal edit', function() {
-//     var id = $(this).data('id');
-//     document.getElementById("parent_id").value = id; // asigna al input hidden
-//     console.log(id);
-
-//     $.get('/requisition-rows/modal/' + id, function(html) {
-//         $('body').append(html); // Agrega el modal al body
-//         $('#exampleModal').modal('show');
-
-//         // Opcional: remover el modal al cerrarlo para no duplicarlo
-//         $('#exampleModal').on('hidden.bs.modal', function () {
-//             $(this).remove();
-//         });
-//     });
-// });
-
-// $('#exampleModal').on('show.bs.modal', function (event) {
-//     var button = $(event.relatedTarget)
-//     var id = button.data('id')
-//     var modal = $(this)
-
-//     if (id) {
-//         $.get('/requisition_rows/editModal' + id , function(html) {
-//             modal.find('#upload-form .w-75').html(html) // sustituye los fields
-//             modal.find('.modal-title').text('Editar producto')
-//         })
-//     } else {
-//         modal.find('#upload-form')[0].reset()
-//         modal.find('.modal-title').text('Crear producto')
-//     }
-// })

@@ -131,7 +131,7 @@
 
     <br>
 
-    <table class="" style="table-layout: fixed">
+    <table style="table-layout: fixed">
         <tr>
             <td class="signature-box">
                 @if ($permit->path_hr_signature)

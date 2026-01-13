@@ -74,12 +74,25 @@ class PermitDataTable extends DataTable
         ->where('permits.is_active', 1);
 
         if (auth()->user()->hasPermissions('permits.seeAllPermits')){
-            return $query;
+            return $query->where(function ($q) {
+                $q->where('permits.user_id', auth()->id())
+
+                ->orWhere(function ($q2) {
+                    $q2->whereNot('permits.user_id', auth()->id())
+                    ->whereNot('permits.permit_status_id', 1);
+                });
+            });
         }
         else if (auth()->user()->hasPermissions('permits.seeUserPermits'))
         {
-            return $query->where('permits.user_id', auth()->id())
-            ->orWhere('permits.boss_id', auth()->id());
+            return $query->where(function ($q) {
+                $q->where('permits.user_id', auth()->id())
+
+                ->orWhere(function ($q2) {
+                    $q2->where('permits.boss_id', auth()->id())
+                    ->whereNot('permits.permit_status_id', 1);
+                });
+            });
         }
         else{
             return $query->newQuery();

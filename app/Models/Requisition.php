@@ -62,6 +62,17 @@ class Requisition extends Model
     {
         return $this->belongsTo("App\Models\User", "user_id", "id");
     }
+    public function approvalAdmin(){
+        return $this->belongsTo("App\Models\User", 'approval_admin_id', 'id');
+    }
+    public function approvalChief(){
+        return $this->belongsTo("App\Models\User", 'approval_chief_id', 'id');
+       
+    }
+    public function approvalBoss(){
+        return $this->belongsTo("App\Models\User", 'approval_boss_id', 'id');
+       
+    }
 
     public function totalRows()
     {
