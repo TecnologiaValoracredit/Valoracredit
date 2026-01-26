@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\RequisitionRowsDataTable;
 use App\Exports\RequisitionRequestExport;
+use App\Models\RequisitionMonthRegistry;
 use App\Models\RequisitionResponse;
 use App\Models\RequisitionStatus;
 use Illuminate\Http\Request;
@@ -24,7 +25,10 @@ use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequisitionMail;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\QueryException;
+use Webklex\PDFMerger\PDFMerger;
+use Illuminate\Filesystem\Filesystem;
 
 class RequisitionController extends Controller
 {
@@ -49,32 +53,82 @@ class RequisitionController extends Controller
 
     public function store(Request $request)
     {
-        dd(true);
-        // Convertir 'is_active' a valor booleano (1 o 0)
-        $is_active = $request->input('is_active') === 'on' ? 1 : 0;
-    
-        // Crear la requisición principal
-        $user = User::where('id', $request->input('user_id'))->first();
-        $boss = $user->boss;
-        $admonF = User::where('email', 'admonfinanzas@valoracredit.mx')->first();
-        $chief = User::where('email', 'berlangahector@hotmail.com')->first();
-        $requisition = Requisition::create([
-            'user_id' => $user->id,
-            'requisition_status_id' => 1,
-            'payment_type_id' => $request->input('payment_type_id'),
-            'amount' => 0,
-            'request_date' => $request->input('request_date', now()),
-            'departament_id' => $request->input('departament_id'),
-            'branch_id' =>  $request->input('branch_id'),
-            'approval_boss_id' => $boss->id,
-            'approval_admin_id'=> $admonF->id,
-            'approval_chief_id' => $chief->id,
-            'is_active'  => $is_active,
-            'created_by' => auth()->id(), 
-            'updated_by'=> auth()->id(),
-        ]);
-    
-        return redirect()->route('requisitions.index')->with('success', 'Requisición creada correctamente');
+        $status = true;
+        $message = null;
+        $requisition = null;
+
+        // Limpia los datos de los productos de la requisición y agrupa en un arreglo
+        $products = [];
+        $counter = $request->products_length;
+        for ($i = 0; $i < $counter; $i++) {
+            foreach ($request->all() as $key => $value) {
+                if (str_contains($key, 'product_'. $i)){
+                    $products[$i][$key] = $value;
+                }
+            }
+        }
+
+        // Agrupa en un arreglo todos los archivos de evidencia
+        $files = [];
+        for ($i=0; $i < count($products); $i++) {
+            $evidenceLength = $products[$i]['product_'.$i.'_evidence_length'];
+            
+            for ($j=0; $j < $evidenceLength; $j++) { 
+                $value = $products[$i]['product_'.$i.'_evidence_'.$j];
+                array_push($files, $value);
+            }
+        }
+
+        
+        try {
+            $user = User::where('id', $request->request_id)->first();        
+            $params = array_merge($request->all(), [
+                'folio' => $this->generateFolio() ?? null,
+                'request_id' => $request->request_id,
+                'boss_id' => $user->boss ?? $user->id, // SI EL USUARIO ES SU MISMO JEFE, EL MISMO PUEDE AUTORIZAR
+                'current_status_id' => 1,
+                'payment_type_id' => $request->payment_type_id,
+                'amount' => $request->amount,
+                'request_date' => now(),
+                'departament_id' => $request->departament_id,
+                'branch_id' => $request->branch_id,
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+                'is_urgent' => $request->is_urgent ? 1 : 0,
+                'notes' => $request->notes,
+            ]);
+            $requisition = Requisition::create($params);
+            
+            try {
+                $evidencePath = $this->saveEvidenceToPdf($files, $requisition);
+                for ($i=0; $i < count($products); $i++) { 
+                    RequisitionRow::create([
+                        'product' => $products[$i]['product_'.$i.'_product'],
+                        'product_description' => $products[$i]['product_'.$i.'_product_description'],
+                        'product_quantity' => $products[$i]['product_'.$i.'_product_quantity'],
+                        'product_cost' => $products[$i]['product_'.$i.'_product_cost'],
+                        'has_iva' => $products[$i]['product_'.$i.'_has_iva'] == 'on' ? 1 : 0,
+                        'total_cost' => $products[$i]['product_'.$i.'_total_cost'],
+                        'reason' => $products[$i]['product_'.$i.'_reason'],
+                        'evidence' => $evidencePath,
+                        'link' => $products[$i]['product_'.$i.'_link'],
+                        'currency_type_id' => $products[$i]['product_'.$i.'_currency_type_id'],
+                        'requisition_id' => $requisition->id,
+                        'supplier_id' => $products[$i]['product_'.$i.'_supplier_id'],
+                    ]);
+                }
+                $message = "Requisición creada correctamente";
+            } catch (QueryException $e) {
+                $status = false;
+                $message = $this->getErrorMessage($e, 'requisition_rows');
+            }
+
+        } catch (QueryException $e) {
+            $status = false;
+            $message = $this->getErrorMessage($e, 'requisitions');
+        }
+
+        return $this->getResponse($status, $message, $requisition);
     }
     
     
@@ -90,8 +144,9 @@ class RequisitionController extends Controller
         $user = auth()->user();
         $boss = $user->boss ?? 1;
 
+        $requisition_rows = $requisition->requisitionRows()->get();
 
-        return view('requisitions.edit', compact('requisition', 'payment_types', 'branches', 'suppliers', 'currency_types', 'departaments', 'user', 'boss', 'requisition'));
+        return view('requisitions.edit', compact('requisition', 'payment_types', 'branches', 'suppliers', 'currency_types', 'departaments', 'user', 'boss', 'requisition', 'requisition_rows'));
     }
     
     public function update(Request $request, Requisition $requisition)
@@ -181,7 +236,7 @@ class RequisitionController extends Controller
 			$requisition->requisition_status_id = $requisition_status->id;
             $requisition->save();
 			$message = "Requisición modificada correctamente";
-		} catch (\Illuminate\Database\QueryException $e) {
+		} catch (QueryException $e) {
 			$status = false;
 			$message = $this->getErrorMessage($e, 'requisition');
 		}
@@ -190,7 +245,90 @@ class RequisitionController extends Controller
     //HELPERS
 
     private function sendMail(User $receiver, string $message, Requisition $requisition){
-        Mail::send(new RequisitionMail($receiver, $message, $requisition));
+        Mail::send(new RequisitionMail($receiver, $requisition));
     }
 
+    private function saveEvidenceToPdf($files, $requisition){
+        $hasPdf = false;
+        $pdfFiles = [];
+        
+        // Detecta si hay PDFs entre las evidencias dadas
+        $count = count($files);
+        for ($i = 0; $i < $count; $i++) {
+            $extension = substr($files[$i]->getClientOriginalName(), -3);
+            if ($extension == 'pdf'){
+                $hasPdf = true;
+                array_push($pdfFiles, $files[$i]);
+                unset($files[$i]);
+            }
+        }
+
+        $encodedImages = [];
+        foreach ($files as $file) {
+            $encodedImages[] = [
+                'mime' => $file->getMimeType(),
+                'data' => base64_encode(file_get_contents($file->getRealPath())),
+            ];
+        }
+
+        $pdf = Pdf::loadView('requisitions.pdf.evidence', [
+            'encodedImages' => $encodedImages,
+            'requisition' => $requisition,
+        ]);
+
+        $fileName = 'Evidencia_Requisición_'.$requisition->id.'_.pdf';
+        $path = "requisitions/evidences/{$requisition->id}/" . $fileName;
+
+        Storage::disk('public')->put($path, $pdf->output());
+        
+        if ($hasPdf){
+            $merger = new PDFMerger(new Filesystem());
+
+            // Añade al merger el pdf anterior junto con todas sus paginas
+            $merger->addPDF(storage_path('app/public/' . $path), 'all');
+
+            $pathsToErase = [];
+            for ($i=0; $i < count($pdfFiles); $i++) { 
+                $pdfPath = "requisitions/evidences/{$requisition->id}/PDF_Evidence_{$i}.pdf";
+                array_push($pathsToErase, $pdfPath);
+
+                Storage::disk('public')->put($pdfPath, file_get_contents($pdfFiles[$i]->getRealPath()));
+    
+                // Añade la evidencia de la evidencia en PDF
+                $merger->addPDF(storage_path('app/public/' . $pdfPath), 'all');
+            }
+
+            $merger->merge();
+            $merger->save(storage_path('app/public/' . $path));
+
+            foreach ($pathsToErase as $key) {
+                Storage::disk('public')->delete($key);
+            }
+        }
+
+        return $path;
+    }
+
+    private function generateFolio(){
+        $currentMonth = strtoupper(date('M'));
+
+        $lastRegistry = RequisitionMonthRegistry::latest()->first();
+        $lastRegistryMonth = strtoupper($lastRegistry->created_at->format('M'));
+
+        $newIndex = '';
+        if ($lastRegistryMonth == $currentMonth){
+            $newIndex = str_pad(((int)$lastRegistry->last_index + 1), 2, '0', STR_PAD_LEFT);
+        }
+        else{
+            $newIndex = '00';
+        }
+
+        RequisitionMonthRegistry::create([
+            'last_index' => $newIndex
+        ]);
+
+        $folio = "REQ-{$currentMonth}-{$newIndex}";
+
+        return $folio;
+    }
 }

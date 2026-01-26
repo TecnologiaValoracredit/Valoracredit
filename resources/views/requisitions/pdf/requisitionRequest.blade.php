@@ -64,17 +64,9 @@
             .fixed-footer {
                 position: fixed;
                 bottom: 0;
-                width: 100%; /* Ensures the footer spans the full width of the page */
+                width: 100%;
             }
         }
-
-        /* .fixed-footer{
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-        } */
     </style>
 </head>
 <body>

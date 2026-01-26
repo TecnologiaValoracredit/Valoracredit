@@ -21,11 +21,7 @@ class RequisitionRow extends Model
         'link',
         'currency_type_id',
         'requisition_id',
-        'parent_id',
         'supplier_id',
-        'is_active',
-        'created_by', 
-        'updated_by',
         'notes'
     ];
 

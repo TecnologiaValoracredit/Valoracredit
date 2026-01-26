@@ -63,10 +63,10 @@ class RequisitionDataTable extends DataTable
 
     public function getActions($row){
     $result = null;
-    $isCreator = ($row->user_id == auth()->id());
+    $isCreator = ($row->request_id == auth()->id());
     $isNotChecked = strtolower($row->status_name) == "creado";
 
-    if ($isCreator && $isNotChecked && auth()->user()->hasPermissions("requisitions.edit")) {
+    if (auth()->user()->hasPermissions("requisitions.edit")) {
         $result .= '
             <a title="Editar" href='.route("requisitions.edit", $row->id).' class="btn btn-outline-secondary btn-icon p-auto">
                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2">
@@ -119,30 +119,27 @@ class RequisitionDataTable extends DataTable
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Requisition $model): QueryBuilder
-{
+    {
         $query = $model
             ->select([
                 'requisitions.*',
-                'requisitions.user_id',
+                'requisitions.request_id',
                 'users.name as user_name',  // Cambiar esto por 'users.name' para mostrar el nombre
                 'requisition_statuses.name as status_name',
                 'requisition_statuses.color as status_color',
             ])
-            ->leftJoin('users', 'users.id', '=', 'requisitions.user_id')  // Asegúrate de usar el campo correcto
-            ->leftJoin('requisition_statuses', 'requisition_statuses.id', '=', 'requisitions.requisition_status_id')  // Asegúrate de usar el campo correcto
+            ->leftJoin('users', 'users.id', '=', 'requisitions.request_id')  // Asegúrate de usar el campo correcto
+            ->leftJoin('requisition_statuses', 'requisition_statuses.id', '=', 'requisitions.current_status_id')  // Asegúrate de usar el campo correcto
             ->newQuery();
 
 
         //Si el rol del usuario no es tesorero
         if(auth()->user()->role_id != 3){
-            $query = $query->where('requisitions.user_id', auth()->user()->id);
+            $query = $query->where('requisitions.request_id', auth()->user()->id);
         }
 
         return $query;
-}
-
-    
-    
+    }
     
     /**
      * Optional method if you want to use html builder.

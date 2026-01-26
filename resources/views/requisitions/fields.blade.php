@@ -1,13 +1,13 @@
 <div class="row mt-2">
     <div class="col-md-4 d-flex flex-column">
-        <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">
+        <input type="hidden" name="request_id" value="{{ isset($user) ? $user->id : '' }}">
         <div>
             <label for="user"><strong>Solicitante:</strong></label>
             <span id="user">{{ isset($requisition) ? $requisition->user->name : $user->name }}</span>
         </div>
     </div>
     <div class="col-md-4 d-flex align-items-center">
-        <input type="hidden" name="department_id" value="{{ isset($user) ? $user->departament->id : '' }}">
+        <input type="hidden" name="departament_id" value="{{ isset($user) ? $user->departament->id : '' }}">
         <div>
             <label for="departament"><strong>Departamento:</strong></label>
             <span id="departament">{{ isset($requisition) ? $requisition->departament->name : $user->departament->name }}</span>
@@ -57,11 +57,22 @@
         ])
     </div>
 </div>
+<div class="row">
+    <div class="col d-flex justify-content-center">
+        @include("components.custom.forms.input-check", [
+            "id" => "is_urgent",
+            "name" => "is_urgent",
+            "checked" => isset($requisition) ? $requisition->is_urgent :  true,
+            "label" => "Urgente",
+        ])
+    </div>
+</div>
 <div class="row mt-3 mb-2 m-0">
     <div class="col d-flex justify-content-end">
         <div>
-            <label for="amount" class="text-decoration-underline"><strong>Costo Total:</strong></label>
-            <span id="amount">0.00</span>
+            <label for="visible_amount" class="text-decoration-underline"><strong>Costo Total:</strong></label>
+            <span id="visible_amount">0.00</span>
+            <input type="hidden" name="amount" value="0"> 
         </div>
     </div>
 </div>

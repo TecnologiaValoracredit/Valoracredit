@@ -10,6 +10,7 @@ use App\Models\SCollaborator;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StorageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DepartamentController;
 use App\Http\Controllers\ExpedientController;
@@ -156,6 +157,8 @@ Route::middleware("auth")->group(function () {
 
         Route::resource('permits', PermitController::class);
     });
+
+    Route::get('storage/{path}', [StorageController::class, 'show'])->where('path', '.*');
 
     Route::get('contracts/exportContract/{contract}/{modelId?}',  [ContractController::class, 'exportContract'])->name("contracts.exportContract"); //generarle el permiso
     Route::get('contracts/downloadContract/{user_contract}/{type}',  [ContractController::class, 'downloadContract'])->name("contracts.downloadContract"); //generarle el permiso

@@ -87,8 +87,7 @@ class UserController extends Controller
             $pathValue = $fileSystem->putFileAs('signatures', $signatureFile, $fileName);
         }
         else{
-            $codedString = str_replace('data:image/png;base64,','',$request->signature_data);
-            $signatureFile = base64_decode($codedString);
+            $signatureFile = base64_decode(preg_replace('#^data:image/\w+;base64,#i','',$request->signature_data));
             $fileName = 'Firma_Usuario_' . $user->id . '.png';
             $pathValue = 'signatures/' . $fileName;
 

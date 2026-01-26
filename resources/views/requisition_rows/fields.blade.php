@@ -89,35 +89,27 @@
 
 <div>Evidencia</div>
 <div class="row mb-2">
-        @if (isset($readonly))
-            <div class="col-12 col-md-6 mt-2">
-                <label for="Evidencia" class="form-label">Evidencia</label>
-                <a href="{{route("requisition_rows.downloadFile", $requisitionRow->id)}}" class="btn btn-outline-primary">
-                    Descargar
-                </a>
-            </div>
-        @else
-            <div class="col-12 col-md-6 mt-2">
-                <label for="evidence" class="form-label">Captura de pantalla</label>
-                <b class="text-danger">*</b>
-                <input name="evidence" type="file" class="form-control"
-                 id="evidence" value="{{ old("evidence") }}" placeholder="Archivo..."
-                  accept="image/*" required multiple>
-            </div>
-        @endif  
-    
-        <div class="col-12 col-md-6 mt-2">
-            @include("components.custom.forms.input", [
-                "id" => "link",
-                "name" => "link",
-                "type" => "url",
-                "placeholder" => "Url...",
-                "label" => "Sitio web",
-                "readonly" => isset($readonly) ? $readonly : false,
-                "value" => isset($requisitionRow) ? $requisitionRow->link :  old("link"),
-                "invalid_feedback" => "El campo es requerido"
-            ])
-        </div>
+    <p id="evidence_message"></p>
+    <div class="col-12 col-md-6 mt-2">
+        <label for="evidence" class="form-label">Captura de pantalla</label>
+        <b class="text-danger">*</b>
+        <input name="evidence" type="file" class="form-control"
+            id="evidence" value="{{ old("evidence") }}" placeholder="Archivo..."
+            accept="image/*,.pdf" required multiple>
+    </div>
+
+    <div class="col-12 col-md-6 mt-2">
+        @include("components.custom.forms.input", [
+            "id" => "link",
+            "name" => "link",
+            "type" => "url",
+            "placeholder" => "Url...",
+            "label" => "Sitio web",
+            "readonly" => isset($readonly) ? $readonly : false,
+            "value" => isset($requisitionRow) ? $requisitionRow->link :  old("link"),
+            "invalid_feedback" => "El campo es requerido"
+        ])
+    </div>
 </div>
 
 <hr class="border border-dark">

@@ -1,3 +1,4 @@
+
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
@@ -40,19 +41,20 @@
                                 </div>
                             </div>
 
-                            <table class="table">
-                                <thead>
-                                    <th>Producto</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio Unitario</th>
-                                    <th>Total</th>
-                                    <th>Incluya IVA</th>
-                                    <th>Acciones</th>
-                                </thead>
-                                <tbody id="table_body">
-
-                                </tbody>
-                            </table>
+                            <div class="overflow-auto">
+                                <table class="table">
+                                    <thead>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio Unitario</th>
+                                        <th>Incluya IVA</th>
+                                        <th>Total</th>
+                                        <th>Acciones</th>
+                                    </thead>
+                                    <tbody id="table_body">
+                                    </tbody>
+                                </table>
+                            </div>
 
                             @if (!auth()->user()->path_signature)
                                 @include('components.custom.forms.input-signature')
@@ -60,7 +62,7 @@
 
                             <div class="d-flex justify-content-end gap-2 mt-4">
                                 <a href="{{route('requisitions.index')}}" class="btn btn-dark">Cancelar</a>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button id="submit_btn" type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>
                     </div>
@@ -78,7 +80,7 @@
 
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
-    <x-slot:footerFiles>    
+    <x-slot:footerFiles>
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

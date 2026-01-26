@@ -9,31 +9,26 @@ class Requisition extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 
-        //Agregar columna 'folio' como texto
-        'user_id', //Cambia por request_id -- la relacion sigue igual a users
-        'requisition_status_id', //Cambia por current_status_id -- la relacion sigue igual
-        // 'current_owner_permission' es para saber quien debe actuar (rechazar, autorizar, etc) pero sobre quien tenga ese permiso, no sobre rol. Es un texto directo con module.permission, por ejemplo: requisitions.tesoreria
+    protected $fillable = [
+        'folio', 
+        'request_id',
+        'boss_id',
+        'current_status_id',
+        'current_owner_permission',
         'payment_type_id',
         'amount',
-        'request_date', //solo informativo de cuando se solicitó -- no se usa para el flujo
+        'request_date',
         'departament_id',
         'branch_id',
-        //'requisition_global_id' si está dentro de una requisicion global, es una relacion a requisitions_globals
-        'approval_boss_id', //Quitarlo
-        'boss_approval_date', //Quitarlo
-        'approval_admin_id', //Quitarlo
-        'admin_approval_date', //Quitarlo
-        'approval_chief_id', //Quitarlo
-        'chief_approval_date', //Quitarlo
-        'is_active',  //Quitarlo
         'created_by', 
         'updated_by',
-        //cancelled_at nullable - datetime
-        //cancelled_by nullable - relacion a users
-        // 'is_urgent' booleano
+        'cancelled_at',
+        'cancelled_by',
+        'is_urgent',
         'notes',
-        //Todo lo demas quitarlo lo de las firmas
+        'created_at',
+        'updated_at',
+        'requisition_global_id',
     ];
 
 
@@ -48,7 +43,7 @@ class Requisition extends Model
     }
     public function requisitionStatus()
     {
-        return $this->belongsTo("App\Models\RequisitionStatus", "requisition_status_id", "id");
+        return $this->belongsTo("App\Models\RequisitionStatus", "current_status_id", "id");
     }
     public function requisitionRows()
     {
@@ -60,18 +55,7 @@ class Requisition extends Model
     }
     public function user()
     {
-        return $this->belongsTo("App\Models\User", "user_id", "id");
-    }
-    public function approvalAdmin(){
-        return $this->belongsTo("App\Models\User", 'approval_admin_id', 'id');
-    }
-    public function approvalChief(){
-        return $this->belongsTo("App\Models\User", 'approval_chief_id', 'id');
-       
-    }
-    public function approvalBoss(){
-        return $this->belongsTo("App\Models\User", 'approval_boss_id', 'id');
-       
+        return $this->belongsTo("App\Models\User", "request_id", "id");
     }
 
     public function totalRows()
@@ -93,13 +77,10 @@ class Requisition extends Model
     public function isAuthor(User $user){
         // dd($user->id,  $this->user_id);
         dd($this);
-        if ($user->id == $this->user_id){
+        if ($user->id == $this->request_id){
             return true;
         } else{
             return false;
         }
     }
-
-    
-
 }
