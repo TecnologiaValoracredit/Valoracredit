@@ -23,10 +23,11 @@ return new class extends Migration
             $table->decimal('product_cost', 10, 2);
 
             $table->boolean('has_iva');
+            $table->integer('iva_percentage')->nullable();
 
             $table->decimal('total_cost', 10, 2);
 
-            $table->string('reason');
+            $table->string('reason')->nullable();
             $table->string('evidence')->nullable();
             $table->string('link')->nullable();
 
@@ -35,9 +36,6 @@ return new class extends Migration
 
             $table->unsignedBigInteger('requisition_id');
             $table->foreign('requisition_id')->references('id')->on('requisitions');
-
-            $table->unsignedSmallInteger('supplier_id');
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
 
             $table->string('notes')->nullable();
 

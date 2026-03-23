@@ -141,7 +141,7 @@
                             <div class="details-section">
                                 <label for="image" class="form-label"><strong>Imagen</strong></label>
                                 <div>
-                                    <img src="{{ asset('storage/' . $h_hardware->image) }}" alt="Imagen del hardware" class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal">
+                                    <img src="{{ route('files.showPublic', $h_hardware->image) }}" alt="Imagen del hardware" class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal">
                                 </div>
                             </div>
                         @endif
@@ -166,7 +166,7 @@
             </div>
             <div class="modal-body">
                 <!-- Imagen ampliada -->
-                <img src="{{ asset('storage/' . $h_hardware->image) }}" alt="Imagen del hardware" class="img-fluid">
+                <img src="{{ route('files.showPublic', $h_hardware->image) }}" alt="Imagen del hardware" class="img-fluid">
             </div>
         </div>
     </div>

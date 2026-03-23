@@ -38,17 +38,6 @@ class UsersDataTable extends DataTable
             return '<span class="badge badge-success mb-2 me-4">Sí</span>';
         });
 
-        // $datatable->filter(function($query) {
-        //     if(request('initial_date') !== null){
-		// 		$query->whereDate('users.created_at', '>=', request('initial_date'));
-		// 	}
-
-        //     if(request('final_date') !== null){
-		// 		$query->whereDate('users.created_at', '<=', request('final_date'));
-		// 	}
-           
-		// }, true);
-
         $datatable->addColumn('action', function($row){
             return $this->getActions($row);
         })->rawColumns(["action", "is_active"]);

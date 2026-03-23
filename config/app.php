@@ -16,7 +16,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'sent_mails' => env('SENT_MAILS', false),
+    'sent_mails' => env('SENT_MAILS', false), //CAMBIAR A FALSE
     'sent_wpp' => env('SENT_WPP', false),
 
     /*

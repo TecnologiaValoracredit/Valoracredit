@@ -142,7 +142,7 @@
                 <label for="user_ine_file"><strong>INE: </strong></label>
                 <span id="user_ine_file">
                     @if ($user->path_ine)
-                        <a href="{{ asset('storage/' . $user->path_ine) }}" target="_blank"
+                        <a href="{{ route('files.showUserFile', $user->path_ine) }}" target="_blank"
                         class="link-primary">Ver imagen</a>
                     @else
                     No anexado
@@ -154,7 +154,7 @@
                 <label for="user_curp_file"><strong>CURP: </strong></label>
                 <span id="user_curp_file">
                     @if ($user->path_curp)
-                        <a href="{{ asset('storage/' . $user->path_curp) }}" target="_blank"
+                        <a href="{{ route('files.showUserFile', $user->path_curp) }}" target="_blank"
                         class="link-primary">Ver imagen</a>
                     @else
                     No anexado
@@ -166,7 +166,7 @@
                 <label for="user_rfc_file"><strong>RFC: </strong></label>
                 <span id="user_rfc_file">
                     @if ($user->path_rfc)
-                        <a href="{{ asset('storage/' . $user->path_rfc) }}" target="_blank"
+                        <a href="{{ route('files.showUserFile', $user->path_rfc) }}" target="_blank"
                         class="link-primary">Ver imagen</a>
                     @else
                     No anexado
@@ -178,7 +178,7 @@
                 <label for="user_nss_file"><strong>Numero de seguro social: </strong></label>
                 <span id="user_nss_file">
                     @if ($user->path_nss)
-                        <a href="{{ asset('storage/' . $user->path_nss) }}" target="_blank"
+                        <a href="{{ route('files.showUserFile', $user->path_nss) }}" target="_blank"
                         class="link-primary">Ver imagen</a>
                     @else
                     No anexado
@@ -190,7 +190,7 @@
                 <label for="user_address_file"><strong>Comprobante de domicilio: </strong></label>
                 <span id="user_address_file">
                     @if ($user->path_address)
-                        <a href="{{ asset('storage/' . $user->path_address) }}" target="_blank"
+                        <a href="{{ route('files.showUserFile', $user->path_address) }}" target="_blank"
                         class="link-primary">Ver imagen</a>
                     @else
                     No anexado
@@ -202,7 +202,7 @@
                 <label for="user_birth_document_file"><strong>Acta de nacimiento: </strong></label>
                 <span id="user_birth_document_file">
                     @if ($user->path_birth_document)
-                        <a href="{{ asset('storage/' . $user->path_birth_document) }}" target="_blank"
+                        <a href="{{ route('files.showUserFile', $user->path_birth_document) }}" target="_blank"
                         class="link-primary">Ver imagen</a>
                     @else
                     No anexado
@@ -214,7 +214,7 @@
                 <label for="user_account_status_file"><strong>Estado de cuenta: </strong></label>
                 <span id="user_account_status_file">
                     @if ($user->path_account_status)
-                        <a href="{{ asset('storage/' . $user->path_account_status) }}" target="_blank"
+                        <a href="{{ route('files.showUserFile', $user->path_account_status) }}" target="_blank"
                         class="link-primary">Ver imagen</a>
                     @else
                     No anexado

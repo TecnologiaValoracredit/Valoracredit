@@ -168,9 +168,9 @@ class PermitController extends Controller
         $status = true;
         $message = null;
 
-        if (!in_array($permit->permitStatus->name, ["Creado", "Enviado", "En revisión"])){
+        if (!in_array($permit->permitStatus->name, ["Creado"])){
             $status = false;
-            $message = "No se puede eliminar un permiso ya aprobado/denegado";
+            $message = "No se puede eliminar un permiso ya enviado";
 
             return abort(422, $message);
         }
@@ -191,7 +191,7 @@ class PermitController extends Controller
         return $this->getResponse($status, $message, $permit);
     }
 
-    public function sendPermit(PermitRequest $request, Permit $permit){
+    public function send(PermitRequest $request, Permit $permit){
         $status = true;
         $message = null;
         $sentStatus = PermitStatus::where('name', 'Enviado')->first();
@@ -219,7 +219,7 @@ class PermitController extends Controller
         return $this->getResponse($status, $message, $permit);
     }
 
-    public function changePermitStatus(Permit $permit){
+    public function changeStatus(Permit $permit){
 
         try {
             $this->authorize('changePermitStatus', $permit);
@@ -241,7 +241,7 @@ class PermitController extends Controller
             ]);
         }
 
-        return view('permits.changePermitStatus', compact('permit', 'userSignature', 'userObservations'));
+        return view('permits.changeStatus', compact('permit', 'userSignature', 'userObservations'));
     }
 
     public function sign(PermitRequest $request, Permit $permit){
@@ -365,12 +365,19 @@ class PermitController extends Controller
             'permit_status_id' => $approvedStatus->id,
         ]);
 
-        
         $this->sendApprovedNotification($permit);
-    
     }
 
-    public function exportPermit(Permit $permit){
+    public function exportPdf(Permit $permit){
+        $ableToDownload = 
+        (auth()->id() == $permit->user_id) ||
+        (auth()->id() == $permit->boss_id) ||
+        (auth()->user()->role->name == 'Recursos Humanos');
+
+        if (!$ableToDownload){
+            abort(403, "No tienes permiso para exportar este permiso.");
+        }
+
         $pdf = Pdf::loadView('permits.pdf.permit', [
             'permit' => $permit,
         ])->setPaper('letter', 'portrait');
@@ -380,6 +387,7 @@ class PermitController extends Controller
 
     //MAILS
     public function sendPermitSentNotifications(Permit $permit){
+        return;
         $hrRole = Role::where('name', 'Recursos Humanos')->first();
         $hrUser = User::where('role_id', $hrRole->id)->first();
 
@@ -437,6 +445,7 @@ class PermitController extends Controller
     }
 
     public function sendApprovedNotification(Permit $permit){
+        return;
         $receiver = $permit->user;
         if (config('app.sent_mails')) {
             if ($receiver->email && !str_contains($receiver->email, 'DN')) {
@@ -480,6 +489,7 @@ class PermitController extends Controller
     }
 
     public function sendDeniedNotification(Permit $permit){
+        return;
         $receiver = $permit->user;
 
         if (config('app.sent_mails')) {

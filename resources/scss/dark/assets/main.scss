@@ -4,6 +4,19 @@ html {
   min-height: 100%;
 }
 
+.add-supplier-btn{
+  background-color: #0d6efd;
+  display: inline-block;
+  width: 7%;
+  text-align: center;
+  color: white;
+  border-radius: 4px;
+}
+
+.add-supplier-btn:hover{
+  cursor: pointer;
+}
+
 .badge-returned{
   background-color: #a82020; 
 }

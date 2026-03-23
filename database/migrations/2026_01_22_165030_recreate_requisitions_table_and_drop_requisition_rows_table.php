@@ -35,15 +35,12 @@ return new class extends Migration
             $table->unsignedSmallInteger('boss_id');
             $table->foreign('boss_id')->references('id')->on('users');
             
-            $table->unsignedSmallInteger('current_status_id');
-            $table->foreign('current_status_id')->references('id')->on('requisition_statuses');
-            
             $table->string('current_owner_permission')->nullable();
             
             $table->unsignedSmallInteger('payment_type_id');
             $table->foreign('payment_type_id')->references('id')->on('payment_types');
             
-            $table->unsignedBigInteger('amount');
+            $table->decimal('amount', 10, 2);
             
             $table->dateTime('request_date');
             
@@ -53,6 +50,9 @@ return new class extends Migration
             $table->unsignedSmallInteger('branch_id');
             $table->foreign('branch_id')->references('id')->on('branches');
             
+            $table->unsignedSmallInteger('supplier_id');
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
+
             $table->unsignedSmallInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
 
@@ -65,6 +65,7 @@ return new class extends Migration
             $table->foreign('cancelled_by')->references('id')->on('users');
 
             $table->boolean('is_urgent')->default(false);
+            $table->boolean('is_active')->default(true);
 
             $table->string('notes')->nullable();
 

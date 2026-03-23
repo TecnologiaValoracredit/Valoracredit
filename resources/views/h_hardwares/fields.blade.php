@@ -149,7 +149,7 @@
     @if(isset($h_hardware) && $h_hardware->image)
       <div class="mt-2">
         <label>Imagen actual</label><br>
-        <img src="{{ asset('storage/' . $h_hardware->image) }}" alt="Imagen del hardware" style="max-width: 200px; max-height: 200px;">
+        <img src="{{ route('files.showPublic', $h_hardware->image) }}" alt="Imagen del hardware" style="max-width: 200px; max-height: 200px;">
       </div>
     @endif
   </div>

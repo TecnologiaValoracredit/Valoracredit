@@ -1,17 +1,9 @@
-let formSubmitted = false;
-
 $(document).ready(function(){
     const user_id = $("#user_id").val()
     const promotor_id = $("#promotor_id").val()
     const coordinator_id = $("#coordinator_id").val()
     const manager_id = $("#manager_id").val()
     const requisition_id = $("#requisition_id").val()
-
-    const requisitionForm = document.getElementById('requisition_form');
-    requisitionForm.addEventListener('submit', (e) => {
-        console.log('testing');
-        formSubmitted = true;
-    });
 
     let table = window.LaravelDataTables['requisition_rows-table'];
 
@@ -312,26 +304,6 @@ $(document).ready(function(){
     
 })
 
-window.addEventListener('beforeunload', (e) => {
-    const id = document.getElementById('requisition_id').value;
-    console.log(id);
-
-    if (!formSubmitted){
-        $.ajax({
-            url: $('meta[name="app-url"]').attr('content')+`/requisitions/${id}`,
-            type: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            },
-            success: function (response){
-                console.log(`Deleted requisition ${id}`);
-            },
-            error: function (xhr, errorThrwon){
-                
-            }
-        });
-    }
-});
 
 function initTotalCostListener() {
     const qtyInput   = document.getElementById("product_quantity");

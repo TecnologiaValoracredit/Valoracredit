@@ -3,21 +3,86 @@ html {
   min-height: 100%;
 }
 
-.badge-returned{
-  background-color: #a82020; 
+.add-supplier-btn{
+  background-color: #0d6efd;
+  display: inline-block;
+  padding: 0px 10px;
+  text-align: center;
+  color: white;
+  border-radius: 4px;
 }
 
-.badge-on-hold{
-  background-color: #e7820e; 
+.add-supplier-btn:hover{
+  cursor: pointer;
 }
 
-.badge-paid{
-  background-color: #20c997; 
+/* CUSTOMIZADOS */
+.badge-created {
+    background-color: #0d6efd;
 }
 
-.badge-payment-pending{
-  background-color: #6a31f0; 
+.badge-cancelled {
+    background-color: #842029;
 }
+
+.badge-sent {
+    background-color: #055160;
+}
+
+.badge-returned {
+    background-color: #664d03;
+}
+
+.badge-rejected {
+    background-color: #842029;
+}
+
+.badge-approved {
+    background-color: #0f5132;
+}
+
+.badge-review {
+    background-color: #41464b;
+}
+
+.badge-on-hold {
+    background-color: #664d03;
+}
+
+.badge-loaded {
+    background-color: #055160;
+}
+
+.badge-global {
+    background-color: #5e35b1;
+}
+
+.badge-ready {
+    background-color: #084298;
+}
+
+.badge-authorized {
+    background-color: #0f5132;
+}
+
+.badge-paid {
+    background-color: #155724;
+}
+
+/* Extras del segundo flujo */
+.badge-reviewed {
+    background-color: #055160;
+}
+
+.badge-finalized {
+    background-color: #0f5132;
+}
+
+.badge-modified {
+    background-color: #7a3e00;
+}
+
+/* CUSTOMIZADOS */
 
 body {
   color: #888ea8;

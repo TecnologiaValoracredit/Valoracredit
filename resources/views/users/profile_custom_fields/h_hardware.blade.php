@@ -24,7 +24,7 @@
                     <td>{{ $hardware->serial_number ?? "Numero serial original no definido" }}</td>
                     <td>
                         @if ($hardware->image)
-                        <a href="{{ asset('storage/' . $hardware->image) }}" target="_blank"
+                        <a href="{{ route('files.showPublic', $hardware->image) }}" target="_blank"
                             class="link-primary">Ver imagen</a>
                         @else
                         No anexada

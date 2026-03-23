@@ -5,7 +5,7 @@
         <div class="col-md-9 text-center">
             @if ($user->path_signature)
                     <div class="border">
-                        <img src="{{ asset('storage/' . $user->path_signature) }}" alt="Imagen de la firma"
+                        <img src="{{ route('files.showUserFile', $user->path_signature) }}" alt="Imagen de la firma"
                         style="max-width: 100%;"><br>
                     </div>
             @else
