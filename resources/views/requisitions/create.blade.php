@@ -1,3 +1,4 @@
+
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
@@ -7,9 +8,11 @@
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <x-slot:headerFiles>
-        <!--  BEGIN CUSTOM STYLE FILE  -->
-        
-        <!--  END CUSTOM STYLE FILE  -->
+        <style>
+            html {
+                scrollbar-gutter: stable;
+            }
+        </style>
     </x-slot>
     <!-- END GLOBAL MANDATORY STYLES -->
 
@@ -23,44 +26,23 @@
                     @csrf
                     <div class="d-flex justify-content-center">
                         <div class="w-100">
-                            @include("requisitions.fields")
-
-                            <hr>
-                            <div class="row my-3 m-0 mb-4">
-                                <div class="col">
-                                    <h5>Productos</h5>
-                                </div>
-                                <div class="col">
-                                    <div class="text-end">
-                                        <!-- Button trigger modal -->
-                                        <button id="show_btn" type="button" title="Agregar" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reg-modal">
-                                            Agregar producto
-                                        </button>
+                            @if (count($fixed_expenses) > 0)                                
+                                <div class="row m-0 mb-4">
+                                    <div class="col">
+                                        <div class="text-center">
+                                            <button id="fixed_expense_modal_btn" type="button" title="Usar Gasto Fijo" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fixed-expense-modal">
+                                                Usar Gasto Fijo
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <table class="table">
-                                <thead>
-                                    <th>Producto</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio Unitario</th>
-                                    <th>Total</th>
-                                    <th>Incluya IVA</th>
-                                    <th>Acciones</th>
-                                </thead>
-                                <tbody id="table_body">
-
-                                </tbody>
-                            </table>
-
-                            @if (!auth()->user()->path_signature)
-                                @include('components.custom.forms.input-signature')
                             @endif
+
+                            @include("requisitions.fields")
 
                             <div class="d-flex justify-content-end gap-2 mt-4">
                                 <a href="{{route('requisitions.index')}}" class="btn btn-dark">Cancelar</a>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button id="submit_btn" type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>
                     </div>
@@ -75,10 +57,24 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="supplier-add-modal" aria-labelledby="supplier-add-modal-title" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                @include('suppliers.modal.modal_add')
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="fixed-expense-modal" aria-labelledby="fixed-expense-modal-title" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                @include('requisitions.modal.modal_fixed_expense')
+            </div>
+        </div>
+    </div>
 
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
-    <x-slot:footerFiles>    
+    <x-slot:footerFiles>
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

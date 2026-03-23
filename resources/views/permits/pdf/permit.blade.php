@@ -135,17 +135,17 @@
         <tr>
             <td class="signature-box">
                 @if ($permit->path_hr_signature)
-                    <img src="{{ public_path('storage/'. $permit->path_hr_signature) }}" alt="Firma de RH" class="signature-img">                
+                    <img src="{{ storage_path("app/public/{$permit->path_hr_signature}") }}" alt="Firma de RH" class="signature-img">                
                 @endif
             </td>
             <td class="signature-box">
                 @if ($permit->path_boss_signature)
-                    <img src="{{ public_path('storage/'. $permit->path_boss_signature) }}" alt="Firma de Jefe Inmediato" class="signature-img">
+                    <img src="{{ storage_path("app/public/{$permit->path_boss_signature}") }}" alt="Firma de Jefe Inmediato" class="signature-img">
                 @endif
             </td>
             <td class="signature-box">
                 @if ($permit->path_user_signature)
-                    <img src="{{ public_path('storage/'. $permit->path_user_signature) }}" alt="Firma de Usuario" class="signature-img">
+                    <img src="{{ storage_path("app/public/{$permit->path_user_signature}") }}" alt="Firma de Usuario" class="signature-img">
                 @endif
             </td>
         </tr>

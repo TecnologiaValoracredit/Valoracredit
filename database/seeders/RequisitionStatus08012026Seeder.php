@@ -15,20 +15,40 @@ class RequisitionStatus08012026Seeder extends Seeder
      */
     public function run()
     {
-        //Actualiza los valores previos
-        $previousStatuses = RequisitionStatus::all();
-        $previousStatuses[0]->update(["name" => "Creada", "color" => "badge-secondary"]);
-        $previousStatuses[1]->update(["name" => "En revisión", "color" => "badge-warning"]);
-        $previousStatuses[2]->update(["name" => "Autorizada", "color" => "badge-success"]);
-        $previousStatuses[3]->update(["name" => "Rechazada", "color" => "badge-danger"]);
+        //Borra todos los estatus anteriores
+        RequisitionStatus::query()->delete();
 
         $values = [
-            ["name" => "Enviada", "color" => "badge-primary"],
-            ["name" => "Devuelta", "color" => "badge-returned"],
-            ["name" => "Cancelada", "color" => "badge-secondary"],
-            ["name" => "En espera", "color" => "badge-on-hold"],
-            ["name" => "Pagada", "color" => "badge-paid"],
-            ["name" => "Pendiente de pago", "color" => "badge-payment-pending"],
+        ["name" => "Creada", "color" => "badge-created"],
+        ["name" => "Cancelada", "color" => "badge-cancelled"],
+
+        ["name" => "Enviada a Jefe Inmediato", "color" => "badge-sent"],
+        ["name" => "Devuelta por Jefe Inmediato", "color" => "badge-returned"],
+        ["name" => "Rechazada por Jefe Inmediato", "color" => "badge-rejected"],
+        ["name" => "Aprobada por Jefe Inmediato", "color" => "badge-approved"],
+
+        ["name" => "Enviada a Tesoreria", "color" => "badge-sent"],
+        ["name" => "En revisión - Tesoreria", "color" => "badge-review"],
+        ["name" => "En espera - Tesoreria", "color" => "badge-on-hold"],
+        ["name" => "Devuelta por Tesoreria", "color" => "badge-returned"],
+        
+        ["name" => "Enviada a Contabilidad", "color" => "badge-sent"],
+        ["name" => "Poliza cargada", "color" => "badge-loaded"],
+        ["name" => "Rechazada por Contabilidad", "color" => "badge-rejected"],
+        
+        ["name" => "Revisión Global", "color" => "badge-global"],
+        ["name" => "Devuelta de Revisión Global", "color" => "badge-returned"],
+        
+        ["name" => "Rechazada por Administración", "color" => "badge-rejected"],
+
+        ["name" => "Enviada a D.G.", "color" => "badge-sent"],
+        ["name" => "Lista para D.G.", "color" => "badge-ready"],
+        ["name" => "En revisión - D.G.", "color" => "badge-review"],
+        ["name" => "Autorizada por D.G.", "color" => "badge-authorized"],
+        ["name" => "Devuelta por D.G.", "color" => "badge-returned"],
+        ["name" => "Rechazada por D.G.", "color" => "badge-rejected"],
+
+        ["name" => "Pagada", "color" => "badge-paid"],
         ];
 
         foreach ($values as $key => $value){

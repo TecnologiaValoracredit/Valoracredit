@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RequisitionApprovalDecisionEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,46 +10,59 @@ class Requisition extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 
-        //Agregar columna 'folio' como texto
-        'user_id', //Cambia por request_id -- la relacion sigue igual a users
-        'requisition_status_id', //Cambia por current_status_id -- la relacion sigue igual
-        // 'current_owner_permission' es para saber quien debe actuar (rechazar, autorizar, etc) pero sobre quien tenga ese permiso, no sobre rol. Es un texto directo con module.permission, por ejemplo: requisitions.tesoreria
+    protected $fillable = [
+        'folio', 
+        'request_id',
+        'boss_id',
+        'current_status_id',
+        'current_owner_permission',
         'payment_type_id',
         'amount',
-        'request_date', //solo informativo de cuando se solicitó -- no se usa para el flujo
+        'request_date',
         'departament_id',
         'branch_id',
-        //'requisition_global_id' si está dentro de una requisicion global, es una relacion a requisitions_globals
-        'approval_boss_id', //Quitarlo
-        'boss_approval_date', //Quitarlo
-        'approval_admin_id', //Quitarlo
-        'admin_approval_date', //Quitarlo
-        'approval_chief_id', //Quitarlo
-        'chief_approval_date', //Quitarlo
-        'is_active',  //Quitarlo
+        'supplier_id',
         'created_by', 
         'updated_by',
-        //cancelled_at nullable - datetime
-        //cancelled_by nullable - relacion a users
-        // 'is_urgent' booleano
+        'cancelled_at',
+        'cancelled_by',
+        'is_urgent',
+        'is_active',
         'notes',
-        //Todo lo demas quitarlo lo de las firmas
+        'created_at',
+        'updated_at',
+        'requisition_global_id',
+        'expense_type_id',
+        'bank_id',
     ];
-
 
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by','id');
     }
-
+    public function boss()
+    {
+        return $this->belongsTo(User::class, 'boss_id','id');
+    }
     public function paymentType()
     {
         return $this->belongsTo("App\Models\PaymentType", "payment_type_id", "id");
     }
+    public function bank()
+    {
+        return $this->belongsTo("App\Models\Bank", "bank_id", "id");
+    }
     public function requisitionStatus()
     {
-        return $this->belongsTo("App\Models\RequisitionStatus", "requisition_status_id", "id");
+        return $this->belongsTo("App\Models\RequisitionStatus", "current_status_id", "id");
+    }
+    public function expenseType()
+    {
+        return $this->belongsTo("App\Models\ExpenseType", "expense_type_id", "id");
+    }
+    public function supplier()
+    {
+        return $this->belongsTo("App\Models\Supplier", "supplier_id", "id");
     }
     public function requisitionRows()
     {
@@ -58,20 +72,80 @@ class Requisition extends Model
     {
         return $this->belongsTo("App\Models\Departament", "departament_id", "id");
     }
+    public function global()
+    {
+        return $this->belongsTo("App\Models\RequisitionGlobal", "requisition_global_id", "id");
+    }
     public function user()
     {
-        return $this->belongsTo("App\Models\User", "user_id", "id");
+        return $this->belongsTo("App\Models\User", "request_id", "id");
     }
-    public function approvalAdmin(){
-        return $this->belongsTo("App\Models\User", 'approval_admin_id', 'id');
+    public function lastLog(){
+        return $this->hasOne("App\Models\RequisitionLog", "requisition_id", "id")
+        ->latestOfMany();
     }
-    public function approvalChief(){
-        return $this->belongsTo("App\Models\User", 'approval_chief_id', 'id');
-       
+    public function lastApproval(){
+        return $this->hasOne("App\Models\RequisitionApproval", "requisition_id", "id")
+        ->latestOfMany();
     }
-    public function approvalBoss(){
-        return $this->belongsTo("App\Models\User", 'approval_boss_id', 'id');
-       
+    public function policy(){
+        return $this->hasOne("App\Models\RequisitionEntry", "requisition_id", "id")
+        ->latestOfMany();
+    }
+    public function payment(){
+        return $this->hasOne("App\Models\RequisitionPayment", "requisition_id", "id")
+        ->latestOfMany();
+    }
+    public function logs(){
+        return $this->hasMany("App\Models\RequisitionLog", 'requisition_id', 'id');
+    }
+    public function roleApprovedApproval(string $roleName){
+        $role = Role::where('name', $roleName)->first();
+        
+        return $this->approvals
+        ->where('role_id', $role->id)
+        ->where('decision', RequisitionApprovalDecisionEnum::APPROVED->value)
+        ->where('requisition_global_id', $this->requisition_global_id)
+        ->where('is_valid', true)
+        ->first();
+    }
+    public function latestRoleApproval(string $roleName){
+        $role = Role::where('name', $roleName)->first();
+
+        return $this->approvals
+            ->where('role_id', $role->id)
+            ->where('requisition_global_id', $this->requisition_global_id)
+            ->where('is_valid', true)
+            ->sortByDesc('id')
+            ->first();
+    }
+    public function roleReturnedApproval(string $roleName){
+        $role = Role::where('name', $roleName)->first();
+
+        return $this->approvals
+        ->where('role_id', $role->id)
+        ->where('decision', RequisitionApprovalDecisionEnum::RETURNED->value)
+        ->where('requisition_global_id', $this->requisition_global_id)
+        ->where('is_valid', true)
+        ->first();
+    }
+    public function reviewedByRole(string $roleName){
+        $role = Role::where('name', $roleName)->first();
+
+        return $this->approvals
+        ->where('role_id', $role->id)
+        ->where('is_valid', true)
+        ->first();
+    }
+    public function adminSignatureApproval(){
+        return $this->approvals
+        ->where('decision', 'Aprobada')
+        ->where('requisition_global_id', $this->requisition_global_id)
+        ->where('is_valid', true)
+        ->first(fn ($approval) => $approval->user->hasPermissions('requisition_globals.adminSignature'));
+    }
+    public function approvals(){
+        return $this->hasMany("App\Models\RequisitionApproval", 'requisition_id', 'id');
     }
 
     public function totalRows()
@@ -93,13 +167,22 @@ class Requisition extends Model
     public function isAuthor(User $user){
         // dd($user->id,  $this->user_id);
         dd($this);
-        if ($user->id == $this->user_id){
+        if ($user->id == $this->request_id){
             return true;
         } else{
             return false;
         }
     }
 
-    
+    public function getProductsCount(){
+        return count($this->requisitionRows);
+    }
 
+    public function invalidPreviousDecisions(){
+        foreach ($this->approvals as $key => $approval) {
+            $approval->update([
+                'is_valid' => false,
+            ]);
+        }
+    }
 }

@@ -21,8 +21,6 @@ window.alertYesNo = (title, text, icon = 'question', confirmText = "Aceptar", ca
     });
 };
 
-
-
 window.deleteRow = (id) => {
     const confirm = alertYesNo(
         'Eliminar registro',
@@ -100,7 +98,7 @@ window.sendPermit = (id) => {
             sendBtn.setAttribute('disabled', '');
             deleteBtn.setAttribute('disabled', '');
             $.ajax({
-                url: `/permits/${id}/sendPermit`,
+                url: `/permits/${id}/send`,
                 type: 'PUT',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -202,7 +200,7 @@ window.errorMessage = (errorCode, errorThrown) => {
     }
 }
 
-const tpyes = {
+const types = {
     "success": "#00ab55",
     "warning": "#e2a03f",
     "info": "#4361ee",
@@ -213,7 +211,7 @@ window.snackBar = (text, type, color) => {
     Snackbar.show({ 
         text: text,
         actionTextColor: '#fff',
-        backgroundColor: color ?? (tpyes[type] ?? "#4361ee"),
+        backgroundColor: color ?? (types[type] ?? "#4361ee"),
         duration: 1500
     });
 }

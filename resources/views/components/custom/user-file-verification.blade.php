@@ -2,19 +2,19 @@
 if (!isset($user)) return;
 
 list($filePath, $altText) = $user->getFilePath($type);
-$path = 'storage/' . $user->{$filePath};
+$path = $user->{$filePath};
 
 $fileFormat = substr($path, -3);
 @endphp
 
 @if ($user->{$filePath})
     <div id={{ $filePath }} class="mt-2 d-flex flex-column justify-content-center align-items-center gap-3">
-        <a href="{{ asset($path) }}" target="_blank" 
+        <a href="{{ route('files.showUserFile', $path) }}" target="_blank" 
         class="link-primary text-center">
             @if ($fileFormat == 'pdf')
                 Ver PDF
             @else
-                <img src="{{ asset($path) }}" alt="{{ $altText }}"
+                <img src="{{ route('files.showUserFile', $path) }}" alt="{{ $altText }}"
                 style="max-width: 200px; max-height: 200px;"><br>
             @endif
         </a>

@@ -3,6 +3,7 @@
             type="checkbox" 
             name="{{$name}}" 
             id="{{$id ?? $name}}"
-            {{$checked ? 'checked' : ''}}>
+            {{$checked ? 'checked' : ''}}
+            >
     <label class="form-check-label" for="{{$id ?? $name}}">{{$label}}</label>
 </div>

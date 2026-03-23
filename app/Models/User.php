@@ -289,4 +289,12 @@ class User extends Authenticatable
 
         return [$filePath, $altText];
     }
+
+    public function getFirstName(){
+        $fullName = $this->name;
+        $nameArr = explode(' ', $fullName);
+
+        // Regresa el primer nombre o el unico que tiene
+        return $nameArr[0];
+    }
 }

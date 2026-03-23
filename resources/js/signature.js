@@ -25,7 +25,7 @@ if (canvas) {
         if(signaturePad.isEmpty() && signatureFile.value == null) {
             e.preventDefault();
             canvas.classList.add('border-danger');
-            simpleAlert("Firma no ingresada", "El permiso debe ser firmado", 'warning')
+            simpleAlert("Firma no ingresada", "El permiso debe ser firmado", 'warning');
             return;
         }
     

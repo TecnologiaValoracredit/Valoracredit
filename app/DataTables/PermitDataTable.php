@@ -52,6 +52,7 @@ class PermitDataTable extends DataTable
      */
     public function query(Permit $model): QueryBuilder
     {
+        /** @var \Illuminate\Database\Eloquent\Builder $query */
         $query = $model->newQuery()
         ->select(
             'permits.id',
@@ -127,7 +128,7 @@ class PermitDataTable extends DataTable
         //Solo puede cambiar el estatus SI es el jefe O RH Y el permiso no ha sido aprobado/denegado Y si no ha autorizado
         if ((auth()->user()->hasPermissions("permits.seeAllPermits") || auth()->id() == $row->boss_id) && (in_array($row->permit_status_name, ["Enviado", "En revisión"])) && !$row->$signature) {
             $result .= '
-                <a href="'.route('permits.changePermitStatus', $row->id).'" title="Cambiar estatus de permiso" class="btn btn-outline-primary btn-icon ps-2 px-1">
+                <a href="'.route('permits.changeStatus', $row->id).'" title="Cambiar estatus de permiso" class="btn btn-outline-primary btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>                </a>
             ';
         }

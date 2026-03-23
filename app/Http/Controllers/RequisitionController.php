@@ -3,9 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\RequisitionRowsDataTable;
+use App\Enums\RequisitionOwnerPermissionEnum;
 use App\Exports\RequisitionRequestExport;
+use App\Models\Bank;
+use App\Models\ExpenseDuration;
+use App\Models\ExpenseType;
+use App\Models\FixedExpense;
+use App\Models\RequisitionMonthRegistry;
 use App\Models\RequisitionResponse;
 use App\Models\RequisitionStatus;
+use App\Enums\RequisitionStatusEnum;
 use Illuminate\Http\Request;
 use App\Models\Requisition;
 use App\Models\PaymentType;
@@ -14,9 +21,12 @@ use App\Models\User;
 use App\Models\Departament;
 use App\Models\Supplier;
 use App\Models\CurrencyType;
+use App\Services\RequisitionService;
 use App\DataTables\RequisitionDataTable;
 use App\Models\PermissionModule;
 use App\Models\RequisitionRow;
+use App\Models\RequisitionRowEvidence;
+use App\Models\RequisitionLog;
 use App\Models\RequisitionRowOptional;
 use Illuminate\Support\Facades\Auth; 
 use App\Http\Requests\RequisitionRequest;
@@ -24,10 +34,14 @@ use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequisitionMail;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\QueryException;
+use Webklex\PDFMerger\PDFMerger;
+use Illuminate\Filesystem\Filesystem;
 
 class RequisitionController extends Controller
 {
+    //BASE CRUD
     
     public function index(RequisitionDataTable $dataTable)
     {
@@ -43,41 +57,25 @@ class RequisitionController extends Controller
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $suppliers = Supplier::where("is_active", 1)->pluck("name", "id");
         $currency_types = CurrencyType::where("is_active", 1)->pluck("name", "id");
+        $expense_types = ExpenseType::all()->pluck('name', 'id');
+        $fixed_expenses = FixedExpense::all()->pluck('name', 'id');
+        $expense_durations = ExpenseDuration::all()->pluck('name', 'id');
 
-        return view('requisitions.create', compact('user','departaments', 'payment_types', 'branches', 'suppliers', 'currency_types'));
+        return view('requisitions.create', compact('user','departaments', 'payment_types', 'branches', 'suppliers', 'currency_types', 'expense_types', 'fixed_expenses', 'expense_durations'));
     }
 
     public function store(Request $request)
     {
-        dd(true);
-        // Convertir 'is_active' a valor booleano (1 o 0)
-        $is_active = $request->input('is_active') === 'on' ? 1 : 0;
-    
-        // Crear la requisición principal
-        $user = User::where('id', $request->input('user_id'))->first();
-        $boss = $user->boss;
-        $admonF = User::where('email', 'admonfinanzas@valoracredit.mx')->first();
-        $chief = User::where('email', 'berlangahector@hotmail.com')->first();
-        $requisition = Requisition::create([
-            'user_id' => $user->id,
-            'requisition_status_id' => 1,
-            'payment_type_id' => $request->input('payment_type_id'),
-            'amount' => 0,
-            'request_date' => $request->input('request_date', now()),
-            'departament_id' => $request->input('departament_id'),
-            'branch_id' =>  $request->input('branch_id'),
-            'approval_boss_id' => $boss->id,
-            'approval_admin_id'=> $admonF->id,
-            'approval_chief_id' => $chief->id,
-            'is_active'  => $is_active,
-            'created_by' => auth()->id(), 
-            'updated_by'=> auth()->id(),
-        ]);
-    
-        return redirect()->route('requisitions.index')->with('success', 'Requisición creada correctamente');
+        $service = new RequisitionService();
+        list($status, $error, $requisition) = $service->store($request);
+        $message = "Requisición creada correctamente";
+
+        if (!$status){
+            $message = $this->getErrorMessage($error, 'requisitions');
+        }
+
+        return $this->getResponse($status, $message, $requisition);
     }
-    
-    
     
     public function edit(Requisition $requisition)
     {
@@ -86,111 +84,147 @@ class RequisitionController extends Controller
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $suppliers = Supplier::where("is_active", 1)->pluck("name", "id");
         $currency_types = CurrencyType::where("is_active", 1)->pluck("name", "id");
+        $banks = Bank::where("is_active", 1)->pluck("name", "id");
+        $expense_types = ExpenseType::all()->pluck('name', 'id');
+        $expense_durations = ExpenseDuration::all()->pluck('name', 'id');
 
         $user = auth()->user();
         $boss = $user->boss ?? 1;
 
+        $requisition_rows = $requisition->requisitionRows()->get();
 
-        return view('requisitions.edit', compact('requisition', 'payment_types', 'branches', 'suppliers', 'currency_types', 'departaments', 'user', 'boss', 'requisition'));
+        return view('requisitions.edit', compact('requisition', 'payment_types', 'branches', 'suppliers', 'currency_types', 'departaments', 'user', 'boss', 'requisition', 'requisition_rows', 'expense_types', 'banks', 'expense_durations'));
     }
     
     public function update(Request $request, Requisition $requisition)
     {
-        $status = true;
-        
-        $params = array_merge($request->all(), [
-            'is_active' => !is_null($request->is_active),
-            'update_at' => now(),
-            'update_by' => auth()->user()
-		]);
-        try {
-			$requisition->update($params);
-			$message = "Requisición modificada correctamente";
-		} catch (\Illuminate\Database\QueryException $e) {
-			$status = false;
-			$message = $this->getErrorMessage($e, 'requisition');
-		}
+        $service = new RequisitionService();
+        list($status, $error, $requisition) = $service->update($request, $requisition);
+        $message = "Requisición actualizada correctamente";
 
-         return $this->getResponse($status, $message, $requisition);
-    }    
+        if (!$status){
+            $message = $this->getErrorMessage($error, 'requisitions');
+        }
+
+        return $this->getResponse($status, $message, $requisition);
+    }
 
     public function destroy(Requisition $requisition)
     {
-        $status = true;
-        try{
-            if($requisition->requisition_status_id == 1){
-                $requisitionRows = $requisition->requisitionRows;
+        $service = new RequisitionService();
+        list($status, $error) = $service->destroy($requisition);
+        $message = "Requisición enviada correctamente";
 
-                foreach($requisitionRows as $key => $requisitionRow)
-                {
-                    $requisitionRow->delete();
-                }
-                    $requisition->delete();
-                    $message = "Requisición eliminada correctamente";
-
-            }
-        }catch(\Illuminate\Database\QueryException $e){
-            $status = false;
-            $message = $this->getErrorMessage($e, 'requisition');
+        if (!$status){
+            $message = $this->getErrorMessage($error, 'requisitions');
         }
 
-
-          return $this->getResponse($status, $message);
+        return $this->getResponse($status, $message);
     }
 
     public function show(Requisition $requisition)
     {
-        $payment_types = PaymentType::where("is_active", 1)->pluck("name", "id");
-        $departaments = Departament::where("is_active", 1)->pluck("name", "id");
-        $branches = Branch::where("is_active", 1)->pluck("name", "id");
-        
+        $lastStatus = $requisition->lastLog->toStatusId->name;
+        $isAbleToSendAndDelete = $lastStatus == RequisitionStatusEnum::CREATED->value;
+        $isAbleToSendAndCancel = $lastStatus == RequisitionStatusEnum::RETURNED_BY_BOSS->value;
 
-        $requisitionRowsDataTable = new RequisitionRowsDataTable($requisition, null, true);
-        $params = ['requisition' => $requisition, 'requisitionRow' => null, 'is_show' => true];
-        $requisitionRowsDT = $this->getViewDataTable($requisitionRowsDataTable, 'requisition_rows', [], 'requisition_rows.getRequisitionRowsDataTable', $params);
-
-        // Retornamos la vista 'requisitions.show' pasando las variables necesarias
-        return view('requisitions.show', compact('requisition', 'payment_types', 'departaments', 'branches', 'requisitionRowsDT'));
+    return view('requisitions.show', compact('requisition', 'isAbleToSendAndDelete', 'isAbleToSendAndCancel'));
     }
-    
-    
-    public function exportReport(Requisition $requisition) {
-        $pdf = Pdf::loadView('requisitions.pdf.requisitionRequest', [
+      
+    public function exportPdf(Request $request, Requisition $requisition) {
+        $pdf = Pdf::loadView('requisitions.pdf.layout', [
             'requisition' => $requisition
         ])->setPaper('letter', 'portrait');
 
         return $pdf->download('requisition'.$requisition->id.'.pdf');
     }
+
+    //FLUX
     
-    public function changeStatus(Requisition $requisition,  $requisition_status){
-        $message = "";
-        $requisition_status = RequisitionStatus::findOrFail($requisition_status);
-        $user = auth()->user();
-        try {
-            $requistion_response = RequisitionResponse::create([
-                "requisition_id" => $requisition->id,
-                "requisition_status_id" => $requisition_status->id,
-                "reason" => "example",
-                "user_id" => $user->id,
-                "created_at" => now(),
-                "updated_at" => now(),
-                "created_by" => $user->id,
-                "updated_by" => $user->id,
+    public function changeStatus(Request $request, Requisition $requisition){
+        $currentOwnerPermission = $requisition->current_owner_permission;
 
-            ]);
-			$requisition->requisition_status_id = $requisition_status->id;
-            $requisition->save();
-			$message = "Requisición modificada correctamente";
-		} catch (\Illuminate\Database\QueryException $e) {
-			$status = false;
-			$message = $this->getErrorMessage($e, 'requisition');
-		}
+        return view('requisitions.changeStatus', compact('requisition', 'currentOwnerPermission'));
+    }
+    
+    public function payment(Request $request, Requisition $requisition){
+        $currentOwnerPermission = $requisition->current_owner_permission;
+
+        return view('requisitions.payment', compact('requisition', 'currentOwnerPermission'));
     }
 
-    //HELPERS
+    public function uploadPayment(Request $request, Requisition $requisition){
+        $service = new RequisitionService();
+        list($status, $error) = $service->uploadPayment($request, $requisition);
+        $message = "Comprobante de pago subido correctamente";
 
-    private function sendMail(User $receiver, string $message, Requisition $requisition){
-        Mail::send(new RequisitionMail($receiver, $message, $requisition));
+        if (!$status){
+            $message = $this->getErrorMessage($error, 'requisitions');
+        }
+
+        return $this->getResponse($status, $message);
     }
 
+    public function send(Request $request, Requisition $requisition){
+        $service = new RequisitionService();
+        list($status, $error) = $service->send($request, $requisition);
+        $message = "Requisición enviada correctamente";
+
+        if (!$status){
+            $message = $this->getErrorMessage($error, 'requisitions');
+        }
+
+        return $this->getResponse($status, $message);
+    }
+
+    public function return(Request $request, Requisition $requisition){
+        $service = new RequisitionService();
+        list($status, $error) = $service->return($request, $requisition);
+        $message = "Requisición devuelta correctamente";
+
+        if (!$status){
+            $message = $this->getErrorMessage($error, 'requisitions');
+        }
+
+        return $this->getResponse($status, $message);
+    }
+    public function cancel(Request $request, Requisition $requisition){
+        $service = new RequisitionService();
+        list($status, $error) = $service->cancel($request, $requisition);
+        $message = "Requisición cancelada correctamente";
+
+        if (!$status){
+            $message = $this->getErrorMessage($error, 'requisitions');
+        }
+
+        return $this->getResponse($status, $message);
+    }
+    public function deny(Request $request, Requisition $requisition){
+        $service = new RequisitionService();
+        list($status, $error) = $service->deny($request, $requisition);
+        $message = "Requisición denegada correctamente";
+
+        if (!$status){
+            $message = $this->getErrorMessage($error, 'requisitions');
+        }
+
+        return $this->getResponse($status, $message);
+    }
+    public function approve(Request $request, Requisition $requisition){
+        //AUN NO IMPLEMENTADO EL APROBAR UNA REQUISICION INDIVIDUAL, PERO ESTE SERIA EL METODO
+    
+        dd('Aprobar');
+    }
+
+    public function chargePolicy(RequisitionRequest $request, Requisition $requisition){
+        $service = new RequisitionService();
+        list($status, $error) = $service->chargePolicy($request, $requisition);
+        $message = "Poliza cargada correctamente";
+
+        if (!$status){
+            $message = $this->getErrorMessage($error, 'requisitions');
+        }
+
+        return $this->getResponse($status, $message);
+    }
 }

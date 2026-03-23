@@ -10,8 +10,10 @@
     value="{{$value ?? ''}}" 
     placeholder="{{$placeholder ?? ''}}"
     accept="{{$accept ?? ''}}"
+    step="{{ $step ?? '' }}"
     {{isset($required) ? "required" : ""}}
     {{isset($readonly) ? $readonly == true ? "readonly" : "" : ""}}
+    min = {{ $min ?? "" }}
     data-tab = {{ $dataTab ?? '' }}
 >
 

@@ -1,4 +1,7 @@
 <label for="{{$id ?? $name}}" class="form-label">{{$label ?? $name}}</label>
+@if (isset($addModalBtn) && $addModalBtn == true)
+<span class="add-supplier-btn" data-bs-toggle="modal" data-bs-target={{ $targetModal ?? '' }}>+</span>
+@endif
 @if(isset($required))
     <b class="text-danger">*</b>
 @endif
@@ -10,6 +13,6 @@
 </select>
 @if(isset($invalid_feedback))
     <div class="invalid-feedback">
-        {{$invalid_feedback}}        
+        {{$invalid_feedback}}
     </div>
 @endif

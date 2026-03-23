@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContractTypeController;
+use App\Http\Controllers\ExpenseTypeController;
+use App\Http\Controllers\FixedExpenseController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\PermitController;
 use App\Http\Controllers\PreApplicationController;
@@ -18,6 +21,9 @@ use App\Http\Controllers\ExpReportController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\RequisitionRowsController;
+use App\Http\Controllers\RequisitionRowController;
+use App\Http\Controllers\RequisitionRowEvidenceController;
+use App\Http\Controllers\RequisitionGlobalController;
 use App\Http\Controllers\ChkChecklistController;
 use App\Http\Controllers\SSaleController;
 use App\Http\Controllers\SGeneralReportController;
@@ -72,20 +78,28 @@ Route::middleware("auth")->group(function () {
     Route::get('users/profile/{user}', [UserController::class, 'profile'])->name('users.profile');
     
     Route::get('departaments/{departamentId}/job-positions', [DepartamentController::class, 'getJobPositions'])->name('departaments.job_positions');
-    Route::delete('users/{user}/deleteFile', [UserController::class, 'deleteSavedFile'])->name('users.deleteFile');
+    Route::delete('users/{user}/deleteFile', [UserController::class, 'deleteFile'])->name('users.deleteFile');
     Route::post('users/cleanEmail', [UserController::class, 'cleanEmail']);
-
-    Route::get('permits/{permit}/changePermitStatus', [PermitController::class, 'changePermitStatus'])->name('permits.changePermitStatus');
-    Route::put('permits/{permit}/sendPermit', [PermitController::class, 'sendPermit']);
-    Route::put('permits/{permit}/sign', [PermitController::class, 'sign'])->name('permits.sign');
-    Route::put('permits/{permit}/deny', [PermitController::class, 'deny'])->name('permits.deny');
-    Route::get('permits/{permit}/exportPermit', [PermitController::class, 'exportPermit'])->name('permits.exportPermit');
     
     Route::get('users/{user}/profile', [UserController::class, 'profile'])->name('users.profile');
     Route::put('users/{user}/setNewSignature', [UserController::class, 'setNewSignature'])->name('users.setNewSignature');
     Route::get('users/{user}/delete', [UserController::class, 'delete'])->name('users.delete');
     
+    Route::get('requisition_row_evidences/{requisition_row}/evidences', [RequisitionRowEvidenceController::class, 'evidences'])->name('requisition_row_evidences.evidences');
+    Route::resource('requisition_row_evidences', RequisitionRowEvidenceController::class);
+
+    Route::get('files/showPublic/{path}', [FileController::class, 'showPublic'])->where('path', '.*')->name('files.showPublic');
+    Route::get('files/showUserFile/{path}', [FileController::class, 'showUserFile'])->where('path', '.*')->name('files.showUserFile');
+    Route::get('files/showPermitFile/{permit}/{path}', [FileController::class, 'showPermitFile'])->where('path', '.*')->name('files.showPermitFile');
+    Route::get('files/showRequisitionFile/{requisition}/{path}', [FileController::class, 'showRequisitionFile'])->where('path', '.*')->name('files.showRequisitionFile');
+
     Route::middleware(['permission'])->group(function () {
+        Route::get('permits/{permit}/changeStatus', [PermitController::class, 'changeStatus'])->name('permits.changeStatus');
+        Route::put('permits/{permit}/send', [PermitController::class, 'send'])->name('permits.send');
+        Route::put('permits/{permit}/sign', [PermitController::class, 'sign'])->name('permits.sign');
+        Route::put('permits/{permit}/deny', [PermitController::class, 'deny'])->name('permits.deny');
+        Route::get('permits/{permit}/exportPdf', [PermitController::class, 'export'])->name('permits.export');
+        
         Route::resource('users', UserController::class);
         
         Route::get('users/{user}/changePassword', [UserController::class, 'changePassword'])->name('users.changePassword');
@@ -100,8 +114,27 @@ Route::middleware("auth")->group(function () {
 
         Route::resource('suppliers', SupplierController::class);
         Route::resource('branches', BranchController::class);
+
+        Route::get('requisitions/{requisition}/changeStatus', [RequisitionController::class, 'changeStatus'])->name('requisitions.changeStatus');
+        Route::put('requisitions/{requisition}/send', [RequisitionController::class, 'send'])->name('requisitions.send');
+        Route::put('requisitions/{requisition}/deny', [RequisitionController::class, 'deny'])->name('requisitions.deny');
+        Route::put('requisitions/{requisition}/return', [RequisitionController::class, 'return'])->name('requisitions.return');
+        Route::put('requisitions/{requisition}/cancel', [RequisitionController::class, 'cancel'])->name('requisitions.cancel');
+        Route::put('requisitions/{requisition}/chargePolicy', [RequisitionController::class, 'chargePolicy'])->name('requisitions.chargePolicy');
+        Route::get('requisitions/{requisition}/payment', [RequisitionController::class, 'payment'])->name('requisitions.payment');
+        Route::put('requisitions/{requisition}/uploadPayment', [RequisitionController::class, 'uploadPayment'])->name('requisitions.uploadPayment');
+        Route::get("requisitions/{requisition}/exportPdf",  [RequisitionController::class, 'exportPdf'])->name("requisitions.exportPdf");
         Route::resource('requisitions',RequisitionController::class);
-        Route::resource('requisition_rows',RequisitionRowsController::class);
+        
+        Route::resource('requisition_rows',RequisitionRowController::class);
+        
+        Route::put('requisition_globals/{requisition_global}/send', [RequisitionGlobalController::class, 'send'])->name('requisition_globals.send');
+        Route::get('requisition_globals/{requisition_global}/changeStatus', [RequisitionGlobalController::class, 'changeStatus'])->name('requisition_globals.changeStatus');
+        Route::put('requisition_globals/{requisition_global}/updateStatus', [RequisitionGlobalController::class, 'updateStatus'])->name('requisition_globals.updateStatus');
+        Route::get('requisition_globals/{requisition_global}/review', [RequisitionGlobalController::class, 'review'])->name('requisition_globals.review');
+        Route::put('requisition_globals/{requisition_global}/approve', [RequisitionGlobalController::class, 'approve'])->name('requisition_globals.approve');
+        Route::get('requisition_globals/{requisition_global}/exportPdf', [RequisitionGlobalController::class, 'exportPdf'])->name('requisition_globals.exportPdf');
+        Route::resource('requisition_globals', RequisitionGlobalController::class);
 
         // Route::resource('s_sales', SSaleController::class);
 
@@ -155,7 +188,12 @@ Route::middleware("auth")->group(function () {
         Route::resource('contract_types', ContractTypeController::class);
 
         Route::resource('permits', PermitController::class);
+        Route::resource('expense_types', ExpenseTypeController::class);
+
+        Route::get('fixed_expenses/{fixedExpense}/getFields', [FixedExpenseController::class, 'getFields'])->name('fixed_expenses.getFields');
+        Route::resource('fixed_expenses', FixedExpenseController::class);
     });
+
 
     Route::get('contracts/exportContract/{contract}/{modelId?}',  [ContractController::class, 'exportContract'])->name("contracts.exportContract"); //generarle el permiso
     Route::get('contracts/downloadContract/{user_contract}/{type}',  [ContractController::class, 'downloadContract'])->name("contracts.downloadContract"); //generarle el permiso
@@ -164,11 +202,10 @@ Route::middleware("auth")->group(function () {
 
     Route::resource("s_collaborators", SCollaboratorController::class);
 
-    Route::get("requisitions/export_report/{requisition}",  [RequisitionController::class, 'exportReport'])->name("requisitions.exportReport");
     Route::get("requisition_rows/get_file/{requisition_row}",  [RequisitionRowsController::class, 'getFile'])->name("requisition_rows.getFile");
     Route::get("requisition_rows/download_file/{requisition_row}",  [RequisitionRowsController::class, 'downloadFile'])->name("requisition_rows.downloadFile");
 
-    Route::get("requisitions/change_status/{requisition}/{status}", [RequisitionController::class, 'changeStatus'])->name("requisitions.changeStatus");
+    // Route::get("requisitions/change_status/{requisition}/{status}", [RequisitionController::class, 'changeStatus'])->name("requisitions.changeStatus");
 
     Route::put("roles/savePermissions/{role}", [RoleController::class, "savePermissions"])->name("roles.savePermissions");
     Route::get('s_promotor_reports/getTable/{year}', [SPromotorReportController::class, "getTable"])->name("s_promotor_reports.getTable");

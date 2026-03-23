@@ -20,7 +20,7 @@
         <div class="card">
             <div class="card-body">
                 @include("components.custom.session-errors")
-                <div class="d-flex justify-content-between align-items-center mb-2 p-2">
+                <div class="d-flex justify-content-between align-items-center p-2">
                     <h5 class="card-title">Requisiciones</h5>
                     @if($allowAdd)
                     

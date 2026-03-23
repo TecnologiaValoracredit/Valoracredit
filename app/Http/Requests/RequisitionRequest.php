@@ -25,23 +25,26 @@ class RequisitionRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'payment_type_id' => 'required|exists:payment_types,id',
-			'branch_id' => 'required|exists:branches,id',
-			'application_date' => 'required|date',
+			// 'payment_type_id' => 'required|exists:payment_types,id',
+			// 'branch_id' => 'required|exists:branches,id',
+			// 'application_date' => 'required|date',
 
-			// Validación para filas principales
-			'rows' => 'required|array',
-			'rows.*.supplier_id' => 'required|exists:suppliers,id',
-			'rows.*.description' => 'required|string',
-			'rows.*.unit_price' => 'required|numeric',
-			'rows.*.url' => 'nullable|url',
+			// // Validación para filas principales
+			// 'rows' => 'required|array',
+			// 'rows.*.supplier_id' => 'required|exists:suppliers,id',
+			// 'rows.*.description' => 'required|string',
+			// 'rows.*.unit_price' => 'required|numeric',
+			// 'rows.*.url' => 'nullable|url',
 			
-			// Validación para filas opcionales
-			'optional_rows' => 'nullable|array',
-			'optional_rows.*.supplier_id' => 'required|exists:suppliers,id',
-			'optional_rows.*.description' => 'required|string',
-			'optional_rows.*.unit_price' => 'required|numeric',
-			'optional_rows.*.url' => 'nullable|url',
+			// // Validación para filas opcionales
+			// 'optional_rows' => 'nullable|array',
+			// 'optional_rows.*.supplier_id' => 'required|exists:suppliers,id',
+			// 'optional_rows.*.description' => 'required|string',
+			// 'optional_rows.*.unit_price' => 'required|numeric',
+			// 'optional_rows.*.url' => 'nullable|url',
+
+			'evidence' => 'required|array',
+			'evidence.*' => 'file|mimes:jpg,jpeg,png,pdf'
 		];
 	}
 

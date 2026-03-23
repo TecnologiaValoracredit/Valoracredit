@@ -468,7 +468,7 @@ class UserController extends Controller
         return (new BankDetailDataTable($user))->render('components.datatable');
     }
     
-    public function deleteSavedFile(User $user, Request $request){
+    public function deleteFile(User $user, Request $request){
         $status = false;
 
         try {

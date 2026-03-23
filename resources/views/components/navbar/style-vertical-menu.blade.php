@@ -1,12 +1,12 @@
 
 <div class="header-container {{ $classes }} d-block d-lg-none">
-    <header class="navbar navbar-expand-lg navbar-light bg-light p-3 overflow-auto"  style="max-height: 80vh; ">
+    <header class="navbar navbar-expand-lg navbar-light bg-light p-3 overflow-auto d-flex justify-content-center"  style="max-height: 80vh; ">
         {{-- Breadcrumbs --}}
         @foreach (breadcrumbs() as $breadcrumb)
             {{-- <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 {{ $breadcrumb['label'] }}
             </a> --}}
-            <a class="nav-link" href="#" aria-expanded="false">
+            <a class="nav-link d-none" href="#" aria-expanded="false">
                 {{ $breadcrumb['label'] }}
             </a>
         @endforeach

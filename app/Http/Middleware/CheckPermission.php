@@ -9,7 +9,6 @@ class CheckPermission
 {
     public function handle(Request $request, Closure $next)
     {
-
         if (!auth()->user()->hasPermissions($request->route()->getName())) {
 			if(request()->expectsJson()) {
 				return response()->json([

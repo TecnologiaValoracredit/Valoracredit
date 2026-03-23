@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Evidencia extra - Requisición {{$requisition->id}}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+        .center {
+            text-align: center;
+        }
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 120px;
+        }
+        .file-container{
+            margin: 30px auto;
+            width: 200px;
+            border-color: 1px solid #000000;
+        }
+        .evidence{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    @if (isset($encodedImages))
+    
+    @foreach ($encodedImages as $encodedImage)
+    
+    <div class="file-container">
+        <img src="data:{{ $encodedImage['mime'] }};base64,{{ $encodedImage['data'] }}" alt="Image of evidence" class="evidence">
+    </div>
+    <br>
+
+    @endforeach
+
+    @endif
+    
+</body>
+</html>
