@@ -159,7 +159,7 @@
 
                             <div>
                                 <label for="user_job_position"><strong>Puesto de trabajo: </strong></label>
-                                <span id="user_job_position">{{ $user->job_position->name ?? "No definido" }}</span>
+                                <span id="user_job_position">{{ $user->jobPosition->name ?? "No definido" }}</span>
                             </div>
 
                             <div>

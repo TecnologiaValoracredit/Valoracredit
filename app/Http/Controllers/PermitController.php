@@ -81,14 +81,13 @@ class PermitController extends Controller
             ]);
 
             //Si el usuario no cuenta con firma guardada
-            if ($currentUser->signature_path == null){
+             if ($currentUser->signature_path == null){
                 /** @var \Illuminate\Filesystem\FilesystemAdapter $fileSystem */
                 $fileSystem = Storage::disk('public');
                 
                 //Decodifica firma para convertirla a PNG.
                 //Genera nombre de firma y ruta
-                $codedString = str_replace('data:image/png;base64,','',$request->signature_data);
-                $signatureFile = base64_decode($codedString);
+                $signatureFile = base64_decode(preg_replace('#^data:image/\w+;base64,#i','',$request->signature_data));
                 $fileName = 'Firma_Usuario_' . $currentUser->id . '.png';
                 $path_user_signature = 'signatures/' . $fileName;
                 
@@ -288,8 +287,7 @@ class PermitController extends Controller
             /** @var \Illuminate\Filesystem\FilesystemAdapter $fileSystem */
             $fileSystem = Storage::disk('public');
     
-            $codedString = str_replace('data:image/png;base64,','',$request->signature_data);
-            $signatureFile = base64_decode($codedString);
+            $signatureFile = base64_decode(preg_replace('#^data:image/\w+;base64,#i','',$request->signature_data));
             $fileName = 'Firma_Usuario_' . $currentUser->id . '.png';
             $pathValue = 'signatures/' . $fileName;
 

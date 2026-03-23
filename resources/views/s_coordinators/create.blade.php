@@ -36,13 +36,6 @@
             </div>
         </div>
     </div>
-    @php
-     $cesar = ["A", "b", "c"];
-    @endphp
-<h1>{{ $sex }}</h1>
-    @foreach ($departaments as $d)
-        <h3>{{ $d }}</h3>
-    @endforeach
 
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
