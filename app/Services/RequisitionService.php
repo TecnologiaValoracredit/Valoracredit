@@ -288,7 +288,7 @@ class RequisitionService
 
                 //DEFINE A LOS USUARIOS DE TESORERIA COMO DESTINATARIOS
                 $treasuryRole = Role::where('name', 'Tesorería')->first();
-                $receivers = User::where('role_id', $treasuryRole->id)->get();
+                $receivers = User::where('role_id', $treasuryRole->id)->get()->all();
 
                 $params = [
                     'subject' => 'Requisición pendiente de aprobación',
@@ -321,9 +321,7 @@ class RequisitionService
                 $action = "Enviada a Jefe Inmediato";
 
                 //DEFINE AL JEFE COMO DESTINATARIO
-                $receivers = [
-                    $requisition->boss,
-                ];
+                $receivers = $requisition->boss;
                 $params = [
                     'subject' => 'Requisición pendiente de aprobación',
                     'title' => "Requisición enviada para aprobación - {$requisition->folio}",
@@ -609,9 +607,7 @@ class RequisitionService
             ]);
 
             //DEFINE COMO DESTINATARIO AL APLICANTE DE LA REQUISICION
-            $receivers = [
-                $requisition->user,
-            ];
+            $receivers = $requisition->user;  
             $params = [
                 'subject' => 'Comprobante de pago añadido',
                 'title' => "Comprobante de pago registrado - {$requisition->folio}",
@@ -659,13 +655,16 @@ class RequisitionService
         return $folio;
     }
 
-    private function sendMail(array $receivers, array $params){
+    private function sendMail($receivers, array $params){
+        //Normaliza el arreglo                
+        if (!is_array($receivers)){
+            $receivers = [$receivers];
+        }
+
         if (config('app.sent_mails')) {
             foreach ($receivers as $receiver) {
                 if ($receiver->email && !str_contains($receiver->email, 'DN')) {
                     Mail::to($receiver->email)->queue((new RequisitionMail($receiver->name, $params))->onQueue("mails"));
-                    
-                    // Mail::to($receiver->email)->send((new RequisitionMail($receiver, $params)));
                 }
             }
         }

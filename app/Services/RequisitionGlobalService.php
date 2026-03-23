@@ -270,7 +270,7 @@ class RequisitionGlobalService
                 //DEFINE A LOS USUARIOS DE CONTABILIDAD Y ADMINISTRACIÓN COMO DESTINATARIOS
                 $administrationRole = Role::where('name', 'Administración')->first();
                 $accountingRole = Role::where('name', 'Contabilidad')->first();
-                $receivers = User::whereIn('role_id', [$administrationRole->id, $accountingRole->id])->get();
+                $receivers = User::whereIn('role_id', [$administrationRole->id, $accountingRole->id])->get()->all();
                 
                 $params = [
                     'subject' => 'Requisición global en revisión',
@@ -286,9 +286,7 @@ class RequisitionGlobalService
                 
                 //DEFINE COMO DESTINATARIO AL USUARIO DE DIRECCIÓN GENERAL
                 $dgRole = Role::where('name', 'Dirección general')->first();
-                $receivers = [
-                    User::where('role_id', $dgRole->id)->first(),
-                ];
+                $receivers = User::where('role_id', $dgRole->id)->first();
 
                 $params = [
                     'subject' => 'Requisición global pendiente de autorización',
@@ -391,7 +389,7 @@ class RequisitionGlobalService
 
                 //DEFINE A LOS USUARIOS DE TESORERIA COMO DESTINATARIOS
                 $treasuryRole = Role::where('name', 'Tesorería')->first();
-                $receivers = User::where('role_id', $treasuryRole->id)->get();
+                $receivers = User::where('role_id', $treasuryRole->id)->get()->all();
 
                 $params = [
                     'subject' => 'Requisición global finalizada',
@@ -452,8 +450,8 @@ class RequisitionGlobalService
         ]);
     }
 
-    private function sendMail(array $receivers, array $params){
-        //Normaliza el arreglo de destinatarios si solo se envía uno por accidente
+    private function sendMail($receivers, array $params){
+        //Normaliza el arreglo                
         if (!is_array($receivers)){
             $receivers = [$receivers];
         }
