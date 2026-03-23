@@ -22,6 +22,7 @@ return new class extends Migration
         });
 
         Schema::dropIfExists('requisition_rows');
+        Schema::dropIfExists('requisition_responses'); //SE AGREGO ESTA LINEA POR LA TABLA DE REQUISITION_RESPONSES
         Schema::dropIfExists('requisitions');
 
         Schema::create('requisitions', function(Blueprint $table){
