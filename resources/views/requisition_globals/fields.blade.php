@@ -33,7 +33,7 @@
             <th class="text-center">Selección   <span id="select_all_btn" class="add-supplier-btn">&darr;</span></th>
             <th>Folio</th>
             <th>Usuario</th>
-            <th>Fecha de pedido</th>
+            <th>Fecha</th>
             <th>Total</th>
             <th>Origen</th>
         </thead>

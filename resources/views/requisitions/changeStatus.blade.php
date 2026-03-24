@@ -68,22 +68,33 @@
                     <div class="col-md-12 d-flex justify-content-center gap-4">
                         @switch($currentOwnerPermission)
                             @case("requisitions.boss")
-                            <button id="approve_requisition_btn" class="btn btn-primary w-15" type="submit"
-                                form="form" formaction="{{ route('requisitions.send', $requisition->id) }}">
-                                Enviar a Tesoreria
-                            </button>
-                            <button id="return_requisition_btn" class="btn btn-info w-15" type="submit"
-                            form="form" formaction="{{ route('requisitions.return', $requisition->id) }}">
-                                Devolver
-                            </button>
-                            <button id="deny_requisition_btn" class="btn btn-warning w-15" type="submit"
-                            form="form" formaction="{{ route('requisitions.deny', $requisition->id) }}">
-                                Rechazar
-                            </button>
-                            <button id="cancel_requisition_btn" class="btn btn-danger w-15" type="submit"
-                            form="form" formaction="{{ route('requisitions.cancel', $requisition->id) }}">
-                                Cancelar
-                            </button>                                
+                                @if ($isBossAndCreator)
+                                    <button id="approve_requisition_btn" class="btn btn-primary w-15" type="submit"
+                                        form="form" formaction="{{ route('requisitions.send', $requisition->id) }}">
+                                        Enviar a Tesoreria
+                                    </button>
+                                    <button id="cancel_requisition_btn" class="btn btn-danger w-15" type="submit"
+                                    form="form" formaction="{{ route('requisitions.cancel', $requisition->id) }}">
+                                        Cancelar
+                                    </button>                      
+                                @else
+                                    <button id="approve_requisition_btn" class="btn btn-primary w-15" type="submit"
+                                        form="form" formaction="{{ route('requisitions.send', $requisition->id) }}">
+                                        Enviar a Tesoreria
+                                    </button>
+                                    <button id="return_requisition_btn" class="btn btn-info w-15" type="submit"
+                                    form="form" formaction="{{ route('requisitions.return', $requisition->id) }}">
+                                        Devolver
+                                    </button>
+                                    <button id="deny_requisition_btn" class="btn btn-warning w-15" type="submit"
+                                    form="form" formaction="{{ route('requisitions.deny', $requisition->id) }}">
+                                        Rechazar
+                                    </button>
+                                    <button id="cancel_requisition_btn" class="btn btn-danger w-15" type="submit"
+                                    form="form" formaction="{{ route('requisitions.cancel', $requisition->id) }}">
+                                        Cancelar
+                                    </button>                      
+                                @endif
                                 @break
                             @case("requisitions.treasury")
                                 <button id="approve_requisition_btn" class="btn btn-primary w-15" type="submit"

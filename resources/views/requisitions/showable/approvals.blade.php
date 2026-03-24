@@ -10,7 +10,7 @@
             <th>Rol</th>
             <th>Decisión</th>
             <th>Notas</th>
-            <th>Fecha tomada</th>
+            <th>Fecha</th>
         </thead>
 
         <tbody>

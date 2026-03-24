@@ -102,7 +102,7 @@ class RequisitionService
                     
                     $rowParams = [
                         'product' => $products[$i]['product_'.$i.'_product'],
-                        'product_description' => $products[$i]['product_'.$i.'_product_description'],
+                        'product_description' => $products[$i]['product_'.$i.'_product_description'] ?? null,
                         'product_quantity' => $products[$i]['product_'.$i.'_product_quantity'],
                         'product_cost' => $products[$i]['product_'.$i.'_product_cost'],
                         'has_iva' => $products[$i]['product_'.$i.'_has_iva'] == 'on' ? 1 : 0,
@@ -121,7 +121,6 @@ class RequisitionService
                             'starting_date' => $starting_date,
                             'ending_date' => $this->generateEndingDate($expense_duration_id, $starting_date),
                         ]);
-
                     }
                     $requisitionRow = RequisitionRow::create($rowParams);
 
@@ -208,7 +207,7 @@ class RequisitionService
 
                     $rowParams = [
                         'product' => $products[$i]['product_'.$i.'_product'],
-                        'product_description' => $products[$i]['product_'.$i.'_product_description'],
+                        'product_description' => $products[$i]['product_'.$i.'_product_description'] ?? null,
                         'product_quantity' => $products[$i]['product_'.$i.'_product_quantity'],
                         'product_cost' => $products[$i]['product_'.$i.'_product_cost'],
                         'has_iva' => $products[$i]['product_'.$i.'_has_iva'] == 'on' ? 1 : 0,
@@ -309,7 +308,7 @@ class RequisitionService
             //SI EL APLICANTE LA ESTA MANDANDO
             default:
                 //SI EL USUARIO ES SU PROPIO JEFE, MANDA DIRECTAMENTE A TESORERIA
-                if ($requisition->boss_id == auth()->id()){
+                if ($requisition->boss->id == auth()->id() && $requisition->user->id == auth()->id()){
                     $requisitionStatusEnum = RequisitionStatusEnum::SENT_TO_TREASURY;
                     $nextOwnerPermission = RequisitionOwnerPermissionEnum::TREASURY;
                     $action = "Enviada a Tesoreria";

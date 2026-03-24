@@ -59,10 +59,11 @@
                             &dollar;{{ number_format($row->product_cost, 2) }}
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center">
+                    <div id="see-products-container" class="d-flex justify-content-center">
                         <a onclick="requestEvidences({{ $row }}, this)" class="link-primary" type="button" data-bs-toggle="modal" data-bs-target="#reg-modal">
                             Ver productos
                         </a>
+                        <input type="hidden" name="currency_type_id" value="{{ $row->currencyType->name }}">
                     </div>
                     <hr>
                 @endforeach
@@ -82,6 +83,10 @@
             @if ($requisition->roleReturnedApproval('Contabilidad') || $requisition->roleReturnedApproval('Administración'))
                 <div class="d-flex justify-content-center align-item-center">
                     <span class="badge badge-danger">Devuelta</span>
+                </div>
+            @elseif($requisition->roleApprovedApproval('Contabilidad') && $requisition->roleApprovedApproval('Administración'))
+                <div class="d-flex justify-content-center align-item-center">
+                    <span class="badge badge-success">Aprobada</span>
                 </div>
             @else
                 <div class="text-center fw-bolder p-3">
