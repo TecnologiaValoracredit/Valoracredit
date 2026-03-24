@@ -313,6 +313,17 @@ class RequisitionService
                     $requisitionStatusEnum = RequisitionStatusEnum::SENT_TO_TREASURY;
                     $nextOwnerPermission = RequisitionOwnerPermissionEnum::TREASURY;
                     $action = "Enviada a Tesoreria";
+
+                    $treasuryRole = Role::where('name', 'Tesorería')->first();
+                    $receivers = User::where('role_id', $treasuryRole->id)->get()->all();
+
+                    $params = [
+                        'subject' => 'Requisición pendiente de aprobación',
+                        'title' => "Requisición enviada para aprobación - {$requisition->folio}",
+                        'message' => 'Se ha enviado una requisición para su revisión y aprobación de Tesorería.',
+                        'url' => route('requisitions.changeStatus', $requisition->id),
+                    ];
+                    $this->sendMail($receivers, $params);
                     break;
                 }
 

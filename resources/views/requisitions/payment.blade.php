@@ -20,7 +20,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Subir Pago</h5>
-                <form class="row g-3 needs-validation" enctype="multipart/form-data" novalidate method="POST" action="{{ route('requisitions.uploadPayment', $requisition->id) }}">
+                <form id="form" class="row g-3 needs-validation" enctype="multipart/form-data" novalidate method="POST" action="{{ route('requisitions.uploadPayment', $requisition->id) }}">
                     @csrf
                     @method("PUT")
                     <div class="d-flex justify-content-center">
@@ -51,6 +51,7 @@
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
+        @vite('resources/js/requisitions/payment.js')
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

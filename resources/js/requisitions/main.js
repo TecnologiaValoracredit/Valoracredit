@@ -59,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 requisitionForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log(products);
 
     if (!requisitionForm.checkValidity()){
         simpleAlert("Campos requeridos no ingresados", "Llene los campos requeridos", 'warning');

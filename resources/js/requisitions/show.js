@@ -2,10 +2,32 @@ const evidenceContainer = $('#evidence-container');
 const modal = $('#reg-modal');
 let currentDomRow;
 
+
+if ($('#form')){
+    let clickedBtn = null;
+
+    $('button[type="submit"]').on('click', function() {
+        clickedBtn = this;
+    });
+
+    $('form').on('submit', function(e) {
+        if (!this.checkValidity()) return;
+        if (clickedBtn) {
+            $(clickedBtn).prop('disabled', true);
+        }
+    });
+}
+
 modal.on('hidden.bs.modal', clearContainer);
 
 window.requestEvidences = function(row, domElem){
     currentDomRow = $(domElem).closest('tr');
+    console.log(currentDomRow);
+    
+    if (currentDomRow.length === 0){
+        currentDomRow = $(domElem).closest('#see-products-container');
+    }
+
     fillModalFields(row);
 
     const id = row['id'];
@@ -31,18 +53,35 @@ function fillModalFields(row){
     $('#has_iva').text(row['has_iva'] == 1 ? 'SI' : 'NO');
     $('#total_cost').text(`$${row['total_cost']}`);
     $('#reason').text(row['reason'] ?? 'No especificada');
-    $('#link').text(row['link'] ?? 'No especificado');
+
+    if (row['link']){
+        $('#link').append(`
+                <a href="${row['link']}" class="link-primary text-center" target="_blank">
+                    Visitar sitio
+                </a>
+        `);
+    }
+    else{
+        $('#link').text(row['link'] ?? 'No especificado');          
+    }
+
     $('#currency_type_id').text(convertIdToValue('currency_type_id') ?? '');
     $('#notes').text(row['notes'] ?? 'No especificadas');
     $('#iva_percentage').text(row['iva_percentage'] == 1 ? 'NO APLICA' : `%${row['iva_percentage']}`);
     
-    let startingDate = new Date(row['starting_date']);
-    let endingDate = new Date(row['ending_date']);
+    if (row['starting_date'] && row['ending_date']){
+        let startingDate = new Date(row['starting_date']);
+        let endingDate = new Date(row['ending_date']);
+    
+        startingDate = startingDate.toLocaleDateString('es-MX', {day:'2-digit', month:'2-digit', year:'numeric'});
+        endingDate = endingDate.toLocaleDateString('es-MX', {day:'2-digit', month:'2-digit', year:'numeric'});
+    
+        $('#duration').text(`${startingDate} - ${endingDate}`);
+    }
+    else{
+        $('#duration').text('N/A');
+    }
 
-    startingDate = startingDate.toLocaleDateString('es-MX', {day:'2-digit', month:'2-digit', year:'numeric'});
-    endingDate = endingDate.toLocaleDateString('es-MX', {day:'2-digit', month:'2-digit', year:'numeric'});
-
-    $('#duration').text(`${startingDate} - ${endingDate}`);
 }
 
 function convertIdToValue(key){

@@ -155,7 +155,6 @@
                 "type" => "textarea",
                 "placeholder" => "Descripción...",
                 "label" => "Descripción",
-                "required" => true,
                 "readonly" => isset($readonly) ? $readonly : false,
                 "value" => isset($requisitionRow) ? $requisitionRow->product_description :  old("product_description"),
                 "invalid_feedback" => "El campo es requerido"

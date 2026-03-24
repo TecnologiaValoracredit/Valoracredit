@@ -128,7 +128,7 @@ class RequisitionController extends Controller
         $isAbleToSendAndDelete = $lastStatus == RequisitionStatusEnum::CREATED->value;
         $isAbleToSendAndCancel = $lastStatus == RequisitionStatusEnum::RETURNED_BY_BOSS->value;
 
-    return view('requisitions.show', compact('requisition', 'isAbleToSendAndDelete', 'isAbleToSendAndCancel'));
+        return view('requisitions.show', compact('requisition', 'isAbleToSendAndDelete', 'isAbleToSendAndCancel'));
     }
       
     public function exportPdf(Request $request, Requisition $requisition) {
@@ -139,12 +139,13 @@ class RequisitionController extends Controller
         return $pdf->download('requisition'.$requisition->id.'.pdf');
     }
 
-    //FLUX
+    //FLUX  -
     
     public function changeStatus(Request $request, Requisition $requisition){
         $currentOwnerPermission = $requisition->current_owner_permission;
+        $isBossAndCreator = $requisition->boss->id == auth()->id() && $requisition->user->id == auth()->id();
 
-        return view('requisitions.changeStatus', compact('requisition', 'currentOwnerPermission'));
+        return view('requisitions.changeStatus', compact('requisition', 'currentOwnerPermission', 'isBossAndCreator'));
     }
     
     public function payment(Request $request, Requisition $requisition){

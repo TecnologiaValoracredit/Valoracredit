@@ -139,6 +139,7 @@
             <th class="section-title">Producto</th>
             <th class="section-title">Cantidad</th>
             <th class="section-title">Precio Unitario</th>
+            <th class="section-title">Tipo de moneda</th>
             <th class="section-title">Incluye IVA</th>
             <th class="section-title">Total</th>
         </thead>
@@ -149,6 +150,7 @@
                     <td>{{ $row->product }}</td>
                     <td>{{ $row->product_quantity }}</td>
                     <td>&dollar;{{ number_format($row->product_cost, 2) }}</td>
+                    <td>{{ $row->currencyType->name }}</td>
                     <td>{{ $row->has_iva ? "SI" : "NO" }}</td>
                     <td>&dollar;{{ number_format($row->total_cost, 2) }}</td>
                 </tr>
