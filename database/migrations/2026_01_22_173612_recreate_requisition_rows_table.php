@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('product');
-            $table->string('product_description');
+            $table->string('product_description')->nullable();
 
             $table->integer('product_quantity');
             $table->decimal('product_cost', 10, 2);

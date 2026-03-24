@@ -84,7 +84,7 @@
                 <div class="d-flex justify-content-center align-item-center">
                     <span class="badge badge-danger">Devuelta</span>
                 </div>
-            @elseif($requisition->roleApprovedApproval('Contabilidad') && $requisition->roleApprovedApproval('Administración'))
+            @elseif($requisition->roleApprovedApproval('Contabilidad') && $requisition->roleApprovedApproval('Administración') || $requisition->adminSignatureApproval())
                 <div class="d-flex justify-content-center align-item-center">
                     <span class="badge badge-success">Aprobada</span>
                 </div>

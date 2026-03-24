@@ -6,7 +6,7 @@ selectAllBtn.on('click', toggleAllInputs);
 
 function checkInputExistence(e){
     if (!this.checkValidity()) return;
-    $('#submit_btn').prop('disabled', true);
+    $('.btn').prop('disabled', true);
 }
 
 let allSelected = true;

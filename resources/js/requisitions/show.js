@@ -4,17 +4,9 @@ let currentDomRow;
 
 
 if ($('#form')){
-    let clickedBtn = null;
-
-    $('button[type="submit"]').on('click', function() {
-        clickedBtn = this;
-    });
-
     $('form').on('submit', function(e) {
         if (!this.checkValidity()) return;
-        if (clickedBtn) {
-            $(clickedBtn).prop('disabled', true);
-        }
+        $('.btn').prop('disabled', true);
     });
 }
 
@@ -127,7 +119,7 @@ function clearContainer(){
 }
 
 window.sendRequisition = function(id){
-    $('#send_requisition_btn').prop('disabled', true);
+    $('.btn').prop('disabled', true);
     $.ajax({
             url: `/requisitions/${id}/send`,
             type: 'PUT',
@@ -147,7 +139,7 @@ window.sendRequisition = function(id){
     });
 }
 window.deleteRequisition = function(id){
-    $('#delete_requisition_btn').prop('disabled', true);
+    $('.btn').prop('disabled', true);
     $.ajax({
             url: `/requisitions/${id}`,
             type: 'DELETE',
@@ -166,7 +158,7 @@ window.deleteRequisition = function(id){
     });
 }
 window.cancelRequisition = function(id){
-    $('#cancel_requisition_btn').prop('disabled', true);
+    $('.btn').prop('disabled', true);
     $.ajax({
             url: `/requisitions/${id}/cancel`,
             type: 'PUT',

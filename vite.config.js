@@ -62,6 +62,7 @@ export default defineConfig({
                 'resources/js/signature.js',
 
                 'resources/js/requisitions/addSupplier.js',
+                'resources/js/requisitions/chargePolicy.js',
                 'resources/js/requisitions/generals.js',
                 'resources/js/requisitions/ivaUiHandler.js',
                 'resources/js/requisitions/main.js',

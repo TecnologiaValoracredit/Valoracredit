@@ -112,7 +112,7 @@
                                     Cargar póliza y enviar a Tesoreria
                                 </button>
                                 <button id="return_requisition_btn" class="btn btn-danger w-15" type="submit"
-                                form="form" formaction="{{ route('requisitions.return', $requisition->id) }}">
+                                form="form" onclick="removeRequiredFields()" formaction="{{ route('requisitions.return', $requisition->id) }}">
                                     Devolver
                                 </button>
                                 @break
@@ -132,7 +132,8 @@
         </div>
     </div>
 
-    <x-slot:footerFiles>    
+    <x-slot:footerFiles>
+        @vite('resources/js/requisitions/chargePolicy.js')
     </x-slot>
 
 </x-base-layout>
