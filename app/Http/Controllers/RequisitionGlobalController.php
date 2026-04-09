@@ -95,13 +95,16 @@ class RequisitionGlobalController extends Controller
     }
 
     public function exportPdf(Request $request, RequisitionGlobal $requisition_global) {
-        dd($request);
+        //Toma una de las requisiciones de la global para obtener correctamente la firma de Administracion / Contabilidad
+        //Evita tambien que hardcodeemos la firma de DG y Contabilidad
+        $requisition = $requisition_global->requisitions[0]; 
 
         $pdf = Pdf::loadView('requisition_globals.pdf.layout', [
             'requisition_global' => $requisition_global,
+            'requisition' => $requisition,
         ])->setPaper('letter', 'portrait');
 
-        return $pdf->download('requisition'.$requisition_global->id.'.pdf');
+        return $pdf->stream('requisition'.$requisition_global->id.'.pdf');
     }
 
     public function destroy(Request $request, RequisitionGlobal $requisition_global){

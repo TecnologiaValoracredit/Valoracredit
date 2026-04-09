@@ -135,12 +135,13 @@
                     @if ($permit->permitStatus->name == "Aprobado")
                         <div class="row mb-2 mt-2">
                             <div class="col-md-12 d-flex justify-content-center">
-                                <a href="{{ route('permits.exportPermit', $permit->id) }}">
+                                <a href="{{ route('permits.exportPdf', $permit->id) }}" target="_blank">
                                     <button class="btn btn-success w-15"
                                         >Descargar PDF</button>
                                 </a>
                             </div>
                         </div>                           
+                        
                     @endif
 
                 </div>

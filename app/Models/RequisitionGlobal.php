@@ -39,7 +39,7 @@ class RequisitionGlobal extends Model
     public function getExpenseTypeTotal(int $id){
         return $this->requisitions
         ->where('expense_type_id', $id)
-        ->sum('amount');        
+        ->sum('amount');
     }
 
     public function totalGlobalAmount(){

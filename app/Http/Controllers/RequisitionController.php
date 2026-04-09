@@ -126,17 +126,28 @@ class RequisitionController extends Controller
     {
         $lastStatus = $requisition->lastLog->toStatusId->name;
         $isAbleToSendAndDelete = $lastStatus == RequisitionStatusEnum::CREATED->value;
-        $isAbleToSendAndCancel = $lastStatus == RequisitionStatusEnum::RETURNED_BY_BOSS->value;
+        $isAbleToSendAndCancel = $lastStatus == RequisitionStatusEnum::RETURNED_BY_BOSS->value || $lastStatus == RequisitionStatusEnum::RETURNED_BY_TREASURY->value;
 
         return view('requisitions.show', compact('requisition', 'isAbleToSendAndDelete', 'isAbleToSendAndCancel'));
     }
       
     public function exportPdf(Request $request, Requisition $requisition) {
+        $hasNotes = false; 
+        $notes = "";
+
+        if ($requisition->lastLog->notes){
+            $hasNotes = true;
+            $notes = $requisition->lastLog->notes;
+        }
+
         $pdf = Pdf::loadView('requisitions.pdf.layout', [
-            'requisition' => $requisition
+            'requisition' => $requisition,
+            'notes' => $notes,
+            'hasNotes' => $hasNotes,
         ])->setPaper('letter', 'portrait');
 
-        return $pdf->download('requisition'.$requisition->id.'.pdf');
+
+        return $pdf->stream('requisition'.$requisition->id.'.pdf');
     }
 
     //FLUX  -

@@ -98,7 +98,7 @@ Route::middleware("auth")->group(function () {
         Route::put('permits/{permit}/send', [PermitController::class, 'send'])->name('permits.send');
         Route::put('permits/{permit}/sign', [PermitController::class, 'sign'])->name('permits.sign');
         Route::put('permits/{permit}/deny', [PermitController::class, 'deny'])->name('permits.deny');
-        Route::get('permits/{permit}/exportPdf', [PermitController::class, 'export'])->name('permits.export');
+        Route::get('permits/{permit}/exportPdf', [PermitController::class, 'exportPdf'])->name('permits.exportPdf');
         
         Route::resource('users', UserController::class);
         
