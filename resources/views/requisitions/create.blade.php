@@ -26,7 +26,7 @@
                     @csrf
                     <div class="d-flex justify-content-center">
                         <div class="w-100">
-                            @if (count($fixed_expenses) > 0)                                
+                            @if (count($fixed_expenses) > 0 && auth()->user()->hasPermissions('suppliers.create'))                                
                                 <div class="row m-0 mb-4">
                                     <div class="col">
                                         <div class="text-center">

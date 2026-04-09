@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>{{$requisition->folio}} - Aprobada</title>
+    <title>{{$requisition->folio}} - {{ $requisition->lastLog->toStatusId->name }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,7 +65,7 @@
 
     <img src="{{ public_path('images/logo 2 tintas.png') }}" class="logo">
 
-    <h2 class="center">{{$requisition->folio}} - Aprobada</h2>
+    <h2 class="center">{{$requisition->folio}} - {{ $requisition->lastLog->toStatusId->name }}</h2>
 
     <h3 style="margin-top: 40px">Datos</h3>
 
@@ -116,10 +116,6 @@
                         <td>{{ $requisition->paymentType->name ?? '' }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Notas:</strong></td>
-                        <td>{{ $requisition->notes ?? '' }}</td>
-                    </tr>
-                    <tr>
                         <td><strong>Cuenta:</strong></td>
                         <td>{{ $requisition->bank->name ?? '' }}</td>
                     </tr>
@@ -158,8 +154,14 @@
         </tbody>
     </table>
 
-    <h3 style="margin-top: 100px">Notas</h3>
+    <h3 style="margin-top: 80px">Notas</h3>
     <p>{{ $requisition->notes ?? '' }}</p>
+
+    @if ($hasNotes)        
+        <h3 style="margin-top: 20px">Notas de ultima acción</h3>
+        <p>{{ $notes ?? '' }}</p>
+    @endif
+
 
     <!-- TABLA DE FIRMAS -->
     <table class="bottom-fixed" style="table-layout: fixed;">

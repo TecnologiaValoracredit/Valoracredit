@@ -64,4 +64,23 @@ class RequisitionRow extends Model
             $evidence->delete();
         }
     }
+    public function getPeriod(){
+        if ($this->starting_date == null && $this->ending_date == null){
+            return "N/A";
+        }
+
+        $starting_date_month = date("F", strtotime($this->starting_date));
+        $starting_date_year = date("Y", strtotime($this->starting_date));
+        $formatted_starting_date = "{$starting_date_month} {$starting_date_year}";
+        
+        $ending_date_month = date("F", strtotime($this->ending_date));
+        $ending_date_year = date("Y", strtotime($this->ending_date));
+        $formatted_ending_date = "{$starting_date_month} {$starting_date_year}";
+
+        if ($formatted_starting_date == $formatted_ending_date){
+            return $formatted_starting_date;
+        }
+
+        return "{$formatted_starting_date} - {$formatted_ending_date}";
+    }
 }

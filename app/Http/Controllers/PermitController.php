@@ -382,7 +382,7 @@ class PermitController extends Controller
             'permit' => $permit,
         ])->setPaper('letter', 'portrait');
 
-        return $pdf->download('Permiso_'.$permit->id.'_.pdf');
+        return $pdf->stream('Permiso_'.$permit->id.'_.pdf');
     }
 
     //MAILS

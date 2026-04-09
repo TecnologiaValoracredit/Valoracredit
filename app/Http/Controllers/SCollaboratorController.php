@@ -30,11 +30,14 @@ class SCollaboratorController extends Controller
    
     public function create()
     {
+        $coordinatorRole = Role::where('name', 'Coordinador')->first();
+        $promotorRole = Role::where('name', 'Promotor')->first();
+
         $roles = Role::where("is_active", 1)->pluck("name", "id");
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $s_branches = SBranch::where("is_active", 1)->pluck("name", "id");
         $departaments = Departament::where("is_active", 1)->pluck("name", "id");
-        $users = User::where("role_id", 20)->pluck("name","id");
+        $users = User::whereIn("role_id", [$coordinatorRole->id, $promotorRole->id])->pluck("name","id");
         $isEdit = false;
 
         return view('s_collaborators.create', compact('roles', 'branches', 's_branches', 'departaments', 'isEdit', 'users'));

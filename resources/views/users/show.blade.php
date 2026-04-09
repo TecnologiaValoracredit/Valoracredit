@@ -26,16 +26,16 @@
                     <div class="col-md-4">
                         <div>
                             <label for="termination_reason"><strong>Razón de baja: </strong></label>
-                            <span id="termination_reason">{{ $user->terminationReason->name }}</span>
+                            <span id="termination_reason">{{ $user->terminationReason->name ?? "No especificada"}}</span>
                         </div>
                     </div>
                     <div class="col-md-4">
                             <label for="termination_description"><strong>Descripción de baja: </strong></label>
-                            <span id="termination_description">{{ $user->termination_description }}</span>
+                            <span id="termination_description">{{ $user->termination_description ?? "No especificada"}}</span>
                     </div>
                     <div class="col-md-4">
                         <label for="termination_date"><strong>Fecha de baja: </strong></label>
-                        <span id="termination_date">{{ date("d/m/Y", strtotime($user->termination_date)) }}</span>
+                        <span id="termination_date">{{ date("d/m/Y", strtotime($user->termination_date)) ?? "No especificada"}}</span>
                     </div>
                 </div>
                 <hr>                
