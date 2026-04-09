@@ -35,6 +35,7 @@ class RequisitionStatus08012026Seeder extends Seeder
         ["name" => "Enviada a Contabilidad", "color" => "badge-sent"],
         ["name" => "Poliza cargada", "color" => "badge-loaded"],
         ["name" => "Rechazada por Contabilidad", "color" => "badge-rejected"],
+        ["name" => "Devuelta por Contabilidad", "color" => "badge-returned"],
         
         ["name" => "Revisión Global", "color" => "badge-global"],
         ["name" => "Devuelta de Revisión Global", "color" => "badge-returned"],

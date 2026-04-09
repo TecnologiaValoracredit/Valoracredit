@@ -18,6 +18,7 @@ enum RequisitionStatusEnum : string{
     case SENT_TO_ACCOUNTING = "Enviada a Contabilidad";
     case POLICY_CHARGED = "Poliza cargada";
     case DENIED_BY_ACCOUNTING = "Rechazada por Contabilidad";
+    case RETURNED_BY_ACCOUNTING = "Devuelta por Contabilidad";
 
     case GLOBAL_REVIEW = "Revisión Global";
     case RETURNED_BY_GLOBAL_REVIEW = "Devuelta de Revisión Global";

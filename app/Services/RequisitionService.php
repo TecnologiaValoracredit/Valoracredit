@@ -405,6 +405,10 @@ class RequisitionService
                 $requisitionStatusEnum = RequisitionStatusEnum::RETURNED_BY_TREASURY;
                 $nextOwnerPermission = RequisitionOwnerPermissionEnum::BOSS;
                 break;
+            case RequisitionOwnerPermissionEnum::ACCOUNTING->value:
+                $requisitionStatusEnum = RequisitionStatusEnum::RETURNED_BY_ACCOUNTING;
+                $nextOwnerPermission = RequisitionOwnerPermissionEnum::TREASURY;
+                break;
         }
         
         $lastLog = $requisition->lastLog;

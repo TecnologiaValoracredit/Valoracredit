@@ -46,6 +46,9 @@ $('#form').on('submit', function(e){
         if (result){
             this.submit();
         }
+        else{
+            $('.btn').prop('disabled', false);
+        }
     })
 })
 
