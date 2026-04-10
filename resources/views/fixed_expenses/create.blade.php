@@ -8,9 +8,13 @@
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <x-slot:headerFiles>
-        <!--  BEGIN CUSTOM STYLE FILE  -->
-        
-        <!--  END CUSTOM STYLE FILE  -->
+        <style>
+        .table .form-check-input:checked {
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary);
+            opacity: 1;
+        }
+        </style>
     </x-slot>
     <!-- END GLOBAL MANDATORY STYLES -->
 
@@ -24,7 +28,14 @@
                     @csrf
                     <div class="d-flex justify-content-center">
                         <div class="w-100">
+                            <div class="row mb-2">
+                                <b class="mb-2">INSTRUCCIONES:</b>
+                                <p>Cada gasto fijo toma como referencia una requisición ya creada previamente, independientemente de su estatus.</p>
+                                <p>Cada gasto fijo debe tener <b>nombre</b> y <b>descripción</b> para identificarse correctamente.</p>
+                                <p>Al usar un gasto fijo, este servirá como base para llenar automaticamente los datos de una requisición nueva.</p>
+                            </div>
                             @include("fixed_expenses.fields")
+                            
                             <div class="d-flex justify-content-end gap-2 mt-4">
                                 <a href="{{route('fixed_expenses.index')}}" class="btn btn-dark">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>

@@ -134,9 +134,9 @@
         <thead>
             <th class="section-title">Producto</th>
             <th class="section-title">Cantidad</th>
+            <th class="section-title">Incluye IVA</th>
             <th class="section-title">Precio Unitario</th>
             <th class="section-title">Tipo de moneda</th>
-            <th class="section-title">Incluye IVA</th>
             <th class="section-title">Total</th>
         </thead>
 
@@ -145,9 +145,9 @@
                 <tr>
                     <td>{{ $row->product }}</td>
                     <td>{{ $row->product_quantity }}</td>
+                    <td>{{ $row->has_iva ? "SI" : "NO ({{ $row->iva_percentage }})" }}</td>
                     <td>&dollar;{{ number_format($row->product_cost, 2) }}</td>
                     <td>{{ $row->currencyType->name }}</td>
-                    <td>{{ $row->has_iva ? "SI" : "NO" }}</td>
                     <td>&dollar;{{ number_format($row->total_cost, 2) }}</td>
                 </tr>
             @endforeach
@@ -167,15 +167,13 @@
     <table class="bottom-fixed" style="table-layout: fixed;">
         <tr>
             <td class="signature-box">
-                @if ($requisition->roleApprovedApproval('Dirección general'))
-                    <img src="{{ storage_path("app/public/{$requisition->roleApprovedApproval('Dirección general')->user->path_signature}") }}" alt="Firma de Dirección general" class="signature-img">                
+                @if ($requisition->boss)
+                    <img src="{{ storage_path("app/public/{$requisition->boss->path_signature}") }}" alt="Firma de Jefe Inmediato" class="signature-img">                
                 @endif
             </td>
             <td class="signature-box">
-                @if ($requisition->adminSignatureApproval())
-                    <img src="{{ storage_path("app/public/{$requisition->adminSignatureApproval()->user->path_signature}") }}" alt="Firma de Administración" class="signature-img">
-                @elseif($requisition->roleApprovedApproval('Administración'))
-                    <img src="{{ storage_path("app/public/{$requisition->roleApprovedApproval('Administración')->user->path_signature}") }}" alt="Firma de Administración" class="signature-img">
+                @if ($requisition->user)
+                    <img src="{{ storage_path("app/public/{$requisition->user->path_signature}") }}" alt="Firma de Solicitante" class="signature-img">                
                 @endif
             </td>
             <td class="signature-box">
@@ -183,32 +181,32 @@
                     <img src="{{ storage_path("app/public/{$requisition->adminSignatureApproval()->user->path_signature}") }}" alt="Firma de Contabilidad" class="signature-img">
                 @elseif($requisition->roleApprovedApproval('Contabilidad'))
                     <img src="{{ storage_path("app/public/{$requisition->roleApprovedApproval('Contabilidad')->user->path_signature}") }}" alt="Firma de Contabilidad" class="signature-img">
+                @elseif($requisition->roleApprovedApproval('Administración'))
+                    <img src="{{ storage_path("app/public/{$requisition->roleApprovedApproval('Administración')->user->path_signature}") }}" alt="Firma de Administración" class="signature-img">
                 @endif
             </td>
         </tr>
         <tr class="no-boder">
             <td class="center">
-                {{ $requisition->roleApprovedApproval('Dirección general')->user->name ?? '' }}
+                {{ $requisition->boss->name ?? '' }}
                 <br>
-                <strong>Firma de Dirección general</strong>
+                <strong>Firma de Jefe Inmediato</strong>
             </td>
             <td class="center">
-                @if ($requisition->adminSignatureApproval())
-                    {{ $requisition->adminSignatureApproval()->user->name ?? '' }}
-                @elseif($requisition->roleApprovedApproval('Administración'))
-                    {{ $requisition->roleApprovedApproval('Administración')->user->name ?? '' }}
-                @endif
+                {{ $requisition->user->name ?? '' }}
                 <br>
-                <strong>Firma de Administración</strong>
+                <strong>Firma de solicitante</strong>
             </td>
             <td class="center">
                 @if ($requisition->adminSignatureApproval())
                     {{ $requisition->adminSignatureApproval()->user->name ?? '' }}
                 @elseif($requisition->roleApprovedApproval('Contabilidad'))
                     {{ $requisition->roleApprovedApproval('Contabilidad')->user->name ?? '' }}
+                @elseif($requisition->roleApprovedApproval('Administración'))
+                    {{ $requisition->roleApprovedApproval('Administración')->user->name ?? '' }}
                 @endif
                 <br>
-                <strong>Firma de Contabilidad</strong>
+                <strong>Firma de Contabilidad / Administración</strong>
             </td>
         </tr>
     </table>

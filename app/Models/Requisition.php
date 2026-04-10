@@ -60,6 +60,9 @@ class Requisition extends Model
     {
         return $this->belongsTo("App\Models\ExpenseType", "expense_type_id", "id");
     }
+    public function fixedExpense(){
+        return $this->hasOne("App\Models\FixedExpense", "requisition_id", "id");
+    }
     public function supplier()
     {
         return $this->belongsTo("App\Models\Supplier", "supplier_id", "id");

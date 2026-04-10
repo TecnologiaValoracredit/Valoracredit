@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FixedExpense;
+use App\Models\Requisition;
 use App\Services\FixedExpenseService;
 use App\DataTables\FixedExpenseDataTable;
 use Illuminate\Http\Request;
@@ -15,7 +16,9 @@ class FixedExpenseController extends Controller
     }
 
     public function create() {
-        return view('fixed_expenses.create');
+        //Trae requisiciones que no han sido usadas para un gasto fijo
+        $requisitions = Requisition::whereDoesntHave("fixedExpense")->get();
+        return view('fixed_expenses.create', compact('requisitions'));
     }
 
     public function store(Request $request) {

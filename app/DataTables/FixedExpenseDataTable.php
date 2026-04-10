@@ -55,18 +55,13 @@ class FixedExpenseDataTable extends DataTable
                 </a>
             ';
         }
-        if (auth()->user()->hasPermissions("fixed_expenses.show")) {
+        if (auth()->user()->hasPermissions("permits.edit")) {
             $result .= '
-                <a href="'. route('fixed_expenses.show', $row->id) . '" title="Ver Más" class="btn btn-outline-info btn-icon ps-2 px-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal">
-                        <circle cx="12" cy="12" r="1"/>
-                        <circle cx="18" cy="12" r="1"/>
-                        <circle cx="24" cy="12" r="1"/>
-                    </svg>
+                <a title="Editar" href='.route("permits.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                 </a>
             ';
         }
-
         return $result;
 	}
 
@@ -85,7 +80,9 @@ class FixedExpenseDataTable extends DataTable
             'fixed_expenses.is_active',
             'fixed_expenses.created_at',
             'fixed_expenses.updated_at',
+            'requisitions.folio as requisition_folio'
         ])
+        ->leftJoin('requisitions', 'requisitions.id', '=', 'fixed_expenses.requisition_id')
         ->newQuery();
     }
 
@@ -131,6 +128,7 @@ class FixedExpenseDataTable extends DataTable
             ->visible(false),
             Column::make('name')->title("Nombre"),
             Column::make('description')->title("Descripción"),
+            Column::make('requisition_folio')->searchable(true)->title("Folio de referencia"),
             Column::make('created_at')->searchable(false)->title("Fecha creado"),
             Column::make('updated_at')->searchable(false)->title("Fecha editado"),
             Column::make('is_active')->title("Activo"),
