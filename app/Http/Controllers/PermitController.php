@@ -81,7 +81,7 @@ class PermitController extends Controller
             ]);
 
             //Si el usuario no cuenta con firma guardada
-            if ($currentUser->signature_path == null){
+             if ($currentUser->signature_path == null){
                 /** @var \Illuminate\Filesystem\FilesystemAdapter $fileSystem */
                 $fileSystem = Storage::disk('public');
                 

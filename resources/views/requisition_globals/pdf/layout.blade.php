@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Requisición Global No.{{$requisition_global->id}} - {{ $requisitionGlobalStatus->name }}</title>
+    <title>Requisición Global No.{{$requisition_global->id}} - {{ $requisition_global->requisitionGlobalStatus->name }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -68,7 +68,7 @@
 
     <img src="{{ public_path('images/logo 2 tintas.png') }}" class="logo">
 
-    <h2 class="center">Requisición Global No.{{$requisition_global->id}} - {{ $requisitionGlobalStatus->name }}</h2>
+    <h2 class="center">Requisición Global No.{{$requisition_global->id}} - {{ $requisition_global->requisitionGlobalStatus->name }}</h2>
 
     <h3 style="margin-top: 40px">WS PROMOTORA SAPI DE CV</h3>
     <h3>SOLICITUD DE AUTORIZACIÓN DE PAGOS</h3>

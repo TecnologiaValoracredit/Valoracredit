@@ -102,7 +102,7 @@ class RequisitionService
                     
                     $rowParams = [
                         'product' => $products[$i]['product_'.$i.'_product'],
-                        'product_description' => $products[$i]['product_'.$i.'_product_description'] ?? null,
+                        'product_description' => $products[$i]['product_'.$i.'_product_description'],
                         'product_quantity' => $products[$i]['product_'.$i.'_product_quantity'],
                         'product_cost' => $products[$i]['product_'.$i.'_product_cost'],
                         'has_iva' => $products[$i]['product_'.$i.'_has_iva'] == 'on' ? 1 : 0,
@@ -121,6 +121,7 @@ class RequisitionService
                             'starting_date' => $starting_date,
                             'ending_date' => $this->generateEndingDate($expense_duration_id, $starting_date),
                         ]);
+
                     }
                     $requisitionRow = RequisitionRow::create($rowParams);
 
@@ -207,7 +208,7 @@ class RequisitionService
 
                     $rowParams = [
                         'product' => $products[$i]['product_'.$i.'_product'],
-                        'product_description' => $products[$i]['product_'.$i.'_product_description'] ?? null,
+                        'product_description' => $products[$i]['product_'.$i.'_product_description'],
                         'product_quantity' => $products[$i]['product_'.$i.'_product_quantity'],
                         'product_cost' => $products[$i]['product_'.$i.'_product_cost'],
                         'has_iva' => $products[$i]['product_'.$i.'_has_iva'] == 'on' ? 1 : 0,
@@ -308,10 +309,21 @@ class RequisitionService
             //SI EL APLICANTE LA ESTA MANDANDO
             default:
                 //SI EL USUARIO ES SU PROPIO JEFE, MANDA DIRECTAMENTE A TESORERIA
-                if ($requisition->boss->id == auth()->id() && $requisition->user->id == auth()->id()){
+                if ($requisition->boss_id == auth()->id()){
                     $requisitionStatusEnum = RequisitionStatusEnum::SENT_TO_TREASURY;
                     $nextOwnerPermission = RequisitionOwnerPermissionEnum::TREASURY;
                     $action = "Enviada a Tesoreria";
+
+                    $treasuryRole = Role::where('name', 'Tesorería')->first();
+                    $receivers = User::where('role_id', $treasuryRole->id)->get()->all();
+
+                    $params = [
+                        'subject' => 'Requisición pendiente de aprobación',
+                        'title' => "Requisición enviada para aprobación - {$requisition->folio}",
+                        'message' => 'Se ha enviado una requisición para su revisión y aprobación de Tesorería.',
+                        'url' => route('requisitions.changeStatus', $requisition->id),
+                    ];
+                    $this->sendMail($receivers, $params);
                     break;
                 }
 
