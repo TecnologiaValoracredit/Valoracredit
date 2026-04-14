@@ -201,7 +201,8 @@ class RequisitionDataTable extends DataTable
 
         if ($currentRoleName == $accountantRole->name){
             //Si es contabilidad, solo trae las requisiciones que necesitan su accion
-            $query = $query->where('requisitions.current_owner_permission', RequisitionOwnerPermissionEnum::ACCOUNTING->value);
+            $query = $query->where('requisitions.current_owner_permission', RequisitionOwnerPermissionEnum::ACCOUNTING->value)
+                    ->orWhere('requisitions.request_id', auth()->id());
         }
         else if ($currentRoleName != $treasuryRole->name){
             //Si no es tesoreria, que muestre al aplicante sus propias requisiciones
