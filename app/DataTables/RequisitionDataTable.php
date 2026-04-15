@@ -260,26 +260,24 @@ class RequisitionDataTable extends DataTable
         //Si es tesorero
         if(auth()->user()->role_id == 3){
             $columns = [
-                Column::make('user_name')->title('Usuario')->name('users.name'),
+                Column::make('user_name')->title('Usuario')->name('users.name')->searchable(true),
                 Column::make('folio')->title('Folio'),
-                Column::make('supplier_name')->title('Proveedor'),
-                Column::make('expense_type_name')->title('Tipo de Gasto'),
-                Column::make('request_date')->title('Fecha de pedido'),
-                Column::make('status_name')->title('Estatus')->name('requisition_statuses.name'),
-                Column::make('amount')->title('Total'),
+                Column::make('supplier_name')->title('Proveedor')->name('suppliers.name')->searchable(true),
+                Column::make('expense_type_name')->title('Tipo de Gasto')->name('expense_types.name')->searchable(true),
+                Column::make('request_date')->title('Fecha de pedido')->searchable(false),
+                Column::make('status_name')->title('Estatus')->name('requisition_statuses.name')->searchable(true),
+                Column::make('amount')->title('Total')->searchable(true),
             ];
         }else{
             $columns = [
                 Column::make('folio')->title('Folio'),
-                Column::make('supplier_name')->title('Proveedor'),
-                Column::make('expense_type_name')->title('Tipo de Gasto'),
-                Column::make('request_date')->title('Fecha de pedido'),
-                Column::make('status_name')->title('Estatus')->name('requisition_statuses.name'),
-                Column::make('amount')->title('Total'),
+                Column::make('supplier_name')->title('Proveedor')->name('suppliers.name')->searchable(true),
+                Column::make('expense_type_name')->title('Tipo de Gasto')->name('expense_types.name')->searchable(true),
+                Column::make('request_date')->title('Fecha de pedido')->searchable(false),
+                Column::make('status_name')->title('Estatus')->name('requisition_statuses.name')->searchable(true),
+                Column::make('amount')->title('Total')->searchable(true),
             ];
         }
-
-        
 
         if (auth()->user()->hasPermissions("requisitions.edit") ||
             auth()->user()->hasPermissions("requisitions.create") ||

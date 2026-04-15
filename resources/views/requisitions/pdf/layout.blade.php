@@ -145,7 +145,7 @@
                 <tr>
                     <td>{{ $row->product }}</td>
                     <td>{{ $row->product_quantity }}</td>
-                    <td>{{ $row->has_iva ? "SI" : "NO ({{ $row->iva_percentage }})" }}</td>
+                    <td>{{ $row->has_iva ? "SI" : "NO ({$row->iva_percentage})" }}</td>
                     <td>&dollar;{{ number_format($row->product_cost, 2) }}</td>
                     <td>{{ $row->currencyType->name }}</td>
                     <td>&dollar;{{ number_format($row->total_cost, 2) }}</td>
