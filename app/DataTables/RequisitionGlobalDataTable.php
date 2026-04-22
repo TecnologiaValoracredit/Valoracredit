@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Enums\RequisitionGlobalStatusEnum;
 use App\Models\RequisitionGlobal;
+use Illuminate\Support\Facades\DB;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -26,6 +27,9 @@ class RequisitionGlobalDataTable extends DataTable
     {
         $datatable = (new EloquentDataTable($query))
         ->setRowId('id')
+        ->editColumn('id', function ($row) {
+            return "<span>RG-{$row->id}</span>";
+        })
         ->editColumn('status_name', function($row) {
             return '<span class="badge '. $row->badge . '">' . 
             $row->status_name . '</span>';
@@ -33,13 +37,16 @@ class RequisitionGlobalDataTable extends DataTable
         ->editColumn('created_at', function($row) {
             return date("d/m/Y H:i", strtotime($row->created_at));
         })
-        ->editColumn('updated_at', function($row) {
-            return date("d/m/Y H:i", strtotime($row->updated_at));
+        ->editColumn('suppliers', function($row) {
+            return str_replace(',', "</br>", $row->suppliers);
+        })
+        ->editColumn('total_amount', function($row) {
+            return '$' . number_format($row->total_amount, 2);
         });
 
         $datatable->addColumn('action', function($row){
             return $this->getActions($row);
-        })->rawColumns(["action", "status_name"]);
+        })->rawColumns(["action", "status_name", "id", "suppliers"]);
 
         return $datatable;
     }
@@ -50,20 +57,43 @@ class RequisitionGlobalDataTable extends DataTable
      * @param \App\Models\RequisitionGlobal $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(RequisitionGlobal $model): QueryBuilder
-    {
-        return $model
+public function query(RequisitionGlobal $model): QueryBuilder
+{
+    /** @var \Illuminate\Database\Eloquent\Builder $query */
+    $query = $model
         ->select(
             'requisition_globals.id',
             'requisition_globals.created_at',
             'requisition_globals.updated_at',
             'requisition_global_statuses.name as status_name',
             'requisition_global_statuses.badge',
+            DB::raw('GROUP_CONCAT(DISTINCT suppliers.name) as suppliers'),
+            DB::raw('SUM(requisitions.amount) as total_amount')
         )
         ->leftJoin('requisition_global_statuses', 'requisition_globals.requisition_global_status_id', '=', 'requisition_global_statuses.id')
+        ->leftJoin('requisitions', 'requisitions.requisition_global_id', '=', 'requisition_globals.id')
+        ->leftJoin('suppliers', 'suppliers.id', '=', 'requisitions.supplier_id')
         ->where('requisition_globals.is_active', true)
-        ->newQuery();
-    }
+        ->groupBy(
+            'requisition_globals.id',
+            'requisition_globals.created_at',
+            'requisition_globals.updated_at',
+            'requisition_global_statuses.name',
+            'requisition_global_statuses.badge'
+        );
+
+        $dgRole = Role::where('name', 'Dirección general')->first();
+        $sentToDgEnum = RequisitionGlobalStatusEnum::SENT_TO_DG;
+        $finalizedEnum = RequisitionGlobalStatusEnum::FINALIZED;
+
+        //Si es DG, solamente enseña las globales que han sido enviadas o finalizadas
+        if (auth()->user()->role->name == $dgRole->name){
+            $query = $query->where('status_name', $sentToDgEnum->value)
+                ->orWhere('status_name', $finalizedEnum->value);
+        }
+
+        return $query;
+}
 
     public function getActions($row){
         $result = null;
@@ -175,16 +205,21 @@ class RequisitionGlobalDataTable extends DataTable
             Column::make('id')
             ->title('Folio')
             ->searchable(true),
-            Column::make('created_at')
-            ->title('Fecha creado')
-            ->addClass('text-center')
+            Column::make('suppliers')
+            ->title('Proveedores')
+            ->name('suppliers.name')
+            ->searchable(true),
+            Column::make('total_amount')
+            ->title('Total')
+            ->name('total_amount')
             ->searchable(false),
-            Column::make('updated_at')
-            ->title('Fecha editado')
+            Column::make('created_at')
+            ->title('Fecha generada')
             ->addClass('text-center')
             ->searchable(false),
             Column::make('status_name')
             ->title("Estatus")
+            ->name('requisition_global_statuses.name')
             ->addClass('text-center'),
         ];
 

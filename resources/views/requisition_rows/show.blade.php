@@ -8,31 +8,31 @@
 
         <div>
             <label for="product"><strong>Nombre: </strong></label>
-            <span id="product"></span>
+            <p class="text-break" id="product"></p>
         </div>
         <div>
             <label for="product_description"><strong>Descripción: </strong></label>
-            <span id="product_description"></span>
+            <p class="text-break" id="product_description"></p>
         </div>
         <div>
             <label for="product_quantity"><strong>Cantidad: </strong></label>
-            <span id="product_quantity"></span>
+            <p class="text-break" id="product_quantity"></p>
         </div>
         <div>
             <label for="currency_type_id"><strong>Tipo de moneda: </strong></label>
-            <span id="currency_type_id"></span>
+            <p class="text-break" id="currency_type_id"></p>
         </div>
         <div>
             <label for="has_iva"><strong>Incluye IVA: </strong></label>
-            <span id="has_iva"></span>
+            <p class="text-break" id="has_iva"></p>
         </div>
         <div>
             <label for="iva_percentage"><strong>Porcentaje IVA: </strong></label>
-            <span id="iva_percentage"></span>
+            <p class="text-break" id="iva_percentage"></p>
         </div>
         <div>
             <label for="total_cost"><strong>Total: </strong></label>
-            <span id="total_cost"></span>
+            <p class="text-break" id="total_cost"></p>
         </div>
     </div>
 
@@ -45,15 +45,15 @@
 
         <div>
             <label for="link"><strong>Link: </strong></label>
-            <span id="link"></span>
+            <p class="text-break" id="link"></p>
         </div>
         <div>
             <label for="reason"><strong>Razón: </strong></label>
-            <span id="reason"></span>
+            <p class="text-break" id="reason"></p>
         </div>
         <div>
             <label for="duration"><strong>Periodo: </strong></label>
-            <span id="duration"></span>
+            <p class="text-break" id="duration"></p>
         </div>
     </div>
 </div>

@@ -4,8 +4,10 @@ class="form-check-input"
 name="{{ $name }}"
 id="{{ $id ?? $name }}"
 value="{{ $value }}"
-{{ isset($checked) ? "checked" : '' }}
+@if(isset($required) && $required == true)
 {{ isset($required) ? "required" : '' }}
+@endif
+{{ isset($checked) ? "checked" : '' }}
 >
 
 <label for="{{ $id ?? $name }}" class="form-check-label">{{ $label ?? $name }}</label>

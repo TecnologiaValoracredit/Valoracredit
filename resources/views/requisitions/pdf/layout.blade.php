@@ -143,12 +143,12 @@
         <tbody>
             @foreach ($requisition->requisitionRows as $row )
                 <tr>
-                    <td>{{ $row->product }}</td>
-                    <td>{{ $row->product_quantity }}</td>
-                    <td>{{ $row->has_iva ? "SI" : "NO ({$row->iva_percentage})" }}</td>
-                    <td>&dollar;{{ number_format($row->product_cost, 2) }}</td>
-                    <td>{{ $row->currencyType->name }}</td>
-                    <td>&dollar;{{ number_format($row->total_cost, 2) }}</td>
+                    <td style="white-space: normal; overflow-wrap: break-word; word-break: break-word;">{{ $row->product }}</td>
+                    <td style="width: 10%;">{{ $row->product_quantity }}</td>
+                    <td style="width: 10%;">{{ $row->has_iva ? "SI" : "NO ($row->iva_percentage%)" }}</td>
+                    <td style="width: 10%;">&dollar;{{ number_format($row->product_cost, 2) }}</td>
+                    <td style="width: 10%;">{{ $row->currencyType->name }}</td>
+                    <td style="width: 10%;">&dollar;{{ number_format($row->total_cost, 2) }}</td>
                 </tr>
             @endforeach
         </tbody>

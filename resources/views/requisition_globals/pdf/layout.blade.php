@@ -118,7 +118,7 @@
             @foreach ($requisition_global->suppliersWithTotals() as $supplier => $total )
                 <tr>
                     <td>{{ $supplier }}</td>
-                    <td>{{ $total }}</td>
+                    <td>&dollar;{{ number_format($total, 2) }}</td>
                 </tr>
             @endforeach
             <tr>
@@ -192,25 +192,28 @@
         <tbody>
             @foreach ($requisition_global->getRequisitionsByExpenseType($key) as $requisition)
                <tr>
-                <td>{{ $requisition->folio }}</td>
-                <td>
+                <td style="width: 15%;">{{ $requisition->folio }}</td>
+                <td style="white-space: normal; overflow-wrap: break-word; word-break: break-word;">
                     <table class="no-border">
                         @foreach ($requisition->requisitionRows as $row)
                            <tr>
-                                <td><b>Concepto:</b> {{ $row->product }}</td>
+                                <td style="word-break:break-all"><b>Concepto:</b> {{ $row->product }}</td>
                             </tr> 
                            <tr>
                                 <td><b>Periodo:</b> {{ $row->getPeriod() }}</td>
                             </tr> 
                            <tr>
-                                <td><b>Monto:</b> {{ number_format($row->total_cost) }}</td>
-                            </tr> 
+                                <td><b>Monto:</b>&dollar;{{ number_format($row->total_cost, 2) }}</td>
+                            </tr>
                         @endforeach
                     </table>
                 </td>
-                <td>{{ $requisition->amount }}</td>
-                <td>{{ $requisition->bank->name }}</td>
-                </tr> 
+                <td style="width: 15%;">&dollar;{{ number_format($requisition->amount, 2) }}</td>
+                <td style="width: 15%;">{{ $requisition->bank->name ?? "Pendiente"}}</td>
+                </tr>
+                <tr>
+                    <td class="center" colspan="4"><b>Solicitante:</b> {{ $requisition->creator->getFirstTwoNames() }}</td>
+                </tr>
             @endforeach
         </tbody>
     </table>

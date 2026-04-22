@@ -16,7 +16,7 @@ class PermissionFunction26022026Seeder extends Seeder
     public function run()
     {
         $values = [
-            ['name' => 'getFields', 'description' => 'Obtener los campos del gasto fijo'],
+            ['name' => 'getFields', 'description' => 'Obtener los campos del Gasto Recurrente'],
             ['name' => 'updateStatus', 'description' => 'Actualizar estatus'],
         ];
 

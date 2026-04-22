@@ -13,6 +13,7 @@ class FixedExpense extends Model
         'name',
         'description',
         'requisition_id',
+        'created_by',
         'created_at',
         'updated_at',
         'is_active',

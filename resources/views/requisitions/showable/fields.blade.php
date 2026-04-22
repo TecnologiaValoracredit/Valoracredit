@@ -95,12 +95,12 @@
         <tbody>
             @foreach ($requisition->requisitionRows as $row )
                 <tr>
-                    <td>{{ $row->product }}</td>
-                    <td>{{ $row->product_quantity }}</td>
-                    <td>&dollar;{{ number_format($row->product_cost, 2) }}</td>
-                    <td>{{ $row->has_iva ? "SI" : "NO" }}</td>
-                    <td>&dollar;{{ number_format($row->total_cost, 2) }}</td>
-                    <td>
+                    <td class="text-break text-wrap">{{ $row->product }}</td>
+                    <td style="width: 10%;">{{ $row->product_quantity }}</td>
+                    <td style="width: 10%;">&dollar;{{ number_format($row->product_cost, 2) }}</td>
+                    <td style="width: 10%;">{{ $row->has_iva ? "SI" : "NO" }}</td>
+                    <td style="width: 10%;">&dollar;{{ number_format($row->total_cost, 2) }}</td>
+                    <td style="width: 10%;">
                         <a onclick="requestEvidences({{ $row }}, this)" class="link-primary" type="button" data-bs-toggle="modal" data-bs-target="#reg-modal">Ver</a>
                     </td>
 

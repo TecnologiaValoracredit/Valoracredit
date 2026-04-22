@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Enums\RequisitionOwnerPermissionEnum;
 use App\Enums\RequisitionStatusEnum;
+use App\Models\RequisitionStatus;
 use App\Models\Requisition;
 use App\Models\Role;
 use Illuminate\Support\Facades\DB;
@@ -75,7 +76,11 @@ class RequisitionDataTable extends DataTable
     $isBoss = $row->boss_id == auth()->id();;
     $isBossChecks = $status == RequisitionStatusEnum::SENT_TO_BOSS->value || $status == RequisitionStatusEnum::RETURNED_BY_TREASURY->value;
 
-    $hasCurrentPermission = auth()->user()->hasPermissions($row->current_owner_permission);
+    $hasCurrentPermission = $row->current_owner_permission == RequisitionOwnerPermissionEnum::BOSS->value && $isBoss || 
+                            auth()->user()->hasPermissions($row->current_owner_permission) && 
+                            $row->current_owner_permission != RequisitionOwnerPermissionEnum::BOSS->value;
+    
+    //Permite cambiar estatus si no se encuentra en ninguno de los siguientes
     $changeStatusCheck = ($status != RequisitionStatusEnum::STAND_BY_TREASURY->value && 
                             $status != RequisitionStatusEnum::GLOBAL_REVIEW->value &&
                             $status != RequisitionStatusEnum::READY_FOR_DG->value &&
@@ -195,29 +200,47 @@ class RequisitionDataTable extends DataTable
             )
             ->where('requisitions.is_active', 1);
 
-        $treasuryRole = Role::where('name', 'Tesorería')->first();
         $accountantRole = Role::where('name', 'Contabilidad')->first();
         $currentRoleName = auth()->user()->role->name;
 
         if ($currentRoleName == $accountantRole->name){
-            //Si es contabilidad, solo trae las requisiciones que necesitan su accion
-            $query = $query->where('requisitions.current_owner_permission', RequisitionOwnerPermissionEnum::ACCOUNTING->value)
-                    ->orWhere('requisitions.request_id', auth()->id());
+            //Si es contabilidad, solo trae las requisiciones que necesitan su accion o las suyas
+            $query = $query->where(function($q) {
+                $q->where('requisitions.current_owner_permission', RequisitionOwnerPermissionEnum::ACCOUNTING->value)
+                ->orWhere('requisitions.request_id', auth()->id());
+            });
         }
-        else if ($currentRoleName != $treasuryRole->name){
+        else if (!auth()->user()->hasPermissions('requisitions.seeAllRequisitions')){
             //Si no es tesoreria, que muestre al aplicante sus propias requisiciones
             $query = $query->where(function($q) {
                 $q->where('requisitions.request_id', auth()->id())
 
                 //O si es jefe de alguien, que muestre la requisicion si no se ha mandado
                 ->orWhere(function ($q2){
-                    $q2->orWhere('requisitions.boss_id', auth()->id())
-                    ->whereNot('requisition_logs.to_status_id', 1);
+                    $createdStatus = RequisitionStatus::where('name', 'Creada')->first();
+
+                    $q2->Where('requisitions.boss_id', auth()->id())
+                    ->whereNot('requisition_logs.to_status_id', $createdStatus->id);
                 });
             });
         }
+        //En caso de ser tesoreria o tener el permiso
+        else if(auth()->user()->hasPermissions('requisitions.seeAllRequisitions')){
+            $query = $query->where(function ($q) {
+                $createdStatus = RequisitionStatus::where('name', 'Creada')->first();
 
-        //Si es tesoreria, trae todas
+                $q->whereNot('requisition_logs.to_status_id', $createdStatus->id)
+                ->orWhere(function ($q1) {
+                    $q1->where('requisitions.request_id', auth()->id());
+                })
+                ->orWhere(function ($q2) {
+                    $createdStatus = RequisitionStatus::where('name', 'Creada')->first();
+
+                    $q2->where('requisitions.boss_id', auth()->id())
+                        ->whereNot('requisition_logs.to_status_id', $createdStatus->id);
+                });
+            });
+        }
         return $query;
     }
     
@@ -258,7 +281,7 @@ class RequisitionDataTable extends DataTable
     public function getColumns(): array
     {
         //Si es tesorero
-        if(auth()->user()->role_id == 3){
+        if(auth()->user()->hasPermissions('requisitions.seeAllRequisitions')){
             $columns = [
                 Column::make('user_name')->title('Usuario')->name('users.name')->searchable(true),
                 Column::make('folio')->title('Folio'),

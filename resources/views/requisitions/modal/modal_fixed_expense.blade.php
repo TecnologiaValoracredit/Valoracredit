@@ -1,5 +1,5 @@
 <div class="modal-header bg-light">
-    <h5 class="modal-title" id="fixed-expense-modal-title">Usar Gasto Fijo</h5>
+    <h5 class="modal-title" id="fixed-expense-modal-title">Usar Gasto recurrente</h5>
     <button id="close_btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
     </button>
 </div>

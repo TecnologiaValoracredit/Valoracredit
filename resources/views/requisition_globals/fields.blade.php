@@ -34,6 +34,7 @@
             <th>Folio</th>
             <th>Usuario</th>
             <th>Fecha</th>
+            <th>Proveedor</th>
             <th>Total</th>
             <th>Origen</th>
         </thead>
@@ -52,10 +53,21 @@
                 <td>{{ $requisition->folio }}</td>
                 <td>{{ $requisition->user->name }}</td>
                 <td>{{ date("d/m/Y", strtotime($requisition->request_date)) }}</td>
-                <td>&dollar;{{ number_format($requisition->amount, 2) }}</td>
+                <td>{{ $requisition->supplier->name }}</td>
+                <td class="price">&dollar;{{ number_format($requisition->amount, 2) }}</td>
                 <td><a href="{{ route('requisitions.show', $requisition->id) }}" class="link-primary" target="_blank">Ver mas</a></td>
             </tr>
             @endforeach
         </tbody>
     </table>
+</div>
+
+<div id="fixed-footer" class="position-fixed start-50 bg-warning px-4 py-2 rounded shadow"
+     style="bottom: 40px; z-index:1050;">
+    
+    <div class="d-flex justify-content-between gap-4 text-white">
+        <span><b>TOTAL:</b></span>
+        <span id="fixed-total"><b>$0.00</b></span>
+    </div>
+
 </div>

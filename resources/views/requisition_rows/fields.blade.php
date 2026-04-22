@@ -51,7 +51,7 @@
                 "elements" => $currency_types,
                 "placeholder" => "Selecciona el tipo de moneda...",
                 "value" => isset($requisitionRow) ? $requisitionRow->currency_type_id :  old("suppliers_id"),
-                "label" => "Tipo de moneda",
+                "label" => "Moneda",
                 "required" => true,
                 "readonly" => isset($readonly) ? $readonly : false,
                 "invalid_feedback" => "El campo es requerido"
@@ -78,7 +78,7 @@
                 "elements" => $expense_durations,
                 "placeholder" => "Selecciona el tipo de periodo...",
                 "value" => isset($requisitionRow) ? $requisitionRow->expense_type_id :  old("expense_duration_id"),
-                "label" => "Tipo de periodo",
+                "label" => "Periodo",
                 "invalid_feedback" => "El campo es requerido"
                 ])
         </div>
@@ -114,6 +114,10 @@
             </div>
         </div>
     </div>
+
+    <p><B>IMPORTANTE</B></p>
+    <P>Para calcular correctamente el periodo del producto (inicio y fin), es necesario ingresar ambos datos: el Periodo y la Fecha de inicio.
+    En caso de que falte alguno de ellos, el periodo se mostrará como N/A.</P>
     
     <hr class="border border-dark">
     

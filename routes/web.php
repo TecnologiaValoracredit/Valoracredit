@@ -129,6 +129,7 @@ Route::middleware("auth")->group(function () {
         Route::resource('requisition_rows',RequisitionRowController::class);
         
         Route::put('requisition_globals/{requisition_global}/send', [RequisitionGlobalController::class, 'send'])->name('requisition_globals.send');
+        Route::put('requisition_globals/{requisition_global}/return', [RequisitionGlobalController::class, 'return'])->name('requisition_globals.return');
         Route::get('requisition_globals/{requisition_global}/changeStatus', [RequisitionGlobalController::class, 'changeStatus'])->name('requisition_globals.changeStatus');
         Route::put('requisition_globals/{requisition_global}/updateStatus', [RequisitionGlobalController::class, 'updateStatus'])->name('requisition_globals.updateStatus');
         Route::get('requisition_globals/{requisition_global}/review', [RequisitionGlobalController::class, 'review'])->name('requisition_globals.review');

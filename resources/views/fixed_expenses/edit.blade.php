@@ -1,7 +1,7 @@
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
-        Modificar contrato
+        Modificar Gasto recurrente
     </x-slot>
 
 
@@ -19,15 +19,15 @@
         <!-- CONTENT HERE -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Modificar contrato</h5>
-                <form class="row g-3 needs-validation" novalidate method="POST" enctype="multipart/form-data" action="{{ route('contracts.update', $contract->id) }}">
+                <h5 class="card-title">Modificar Gasto recurrente</h5>
+                <form class="row g-3 needs-validation" novalidate method="POST" enctype="multipart/form-data" action="{{ route('fixed_expenses.update', $fixedExpense->id) }}">
                     @csrf
                     @method("PUT")
                     <div class="d-flex justify-content-center">
                         <div class="w-100">
-                            @include("contracts.fields")
+                            @include("fixed_expenses.fields")
                             <div class="d-flex justify-content-end gap-2">
-                                <a href="{{route('contracts.index')}}" class="btn btn-dark">Cancelar</a>
+                                <a href="{{route('fixed_expenses.index')}}" class="btn btn-dark">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>
@@ -39,7 +39,6 @@
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
-        @vite(['resources/js/app.js','resources/js/tinymce_editor.js'])
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

@@ -17,70 +17,56 @@ html {
 }
 
 /* CUSTOMIZADOS */
-.badge-created {
-    background-color: #0d6efd;
-}
 
-.badge-cancelled {
-    background-color: #842029;
-}
+/* REQUISICIONES */
 
-.badge-sent {
-    background-color: #055160;
-}
+/* Generales */
+.badge-created { background-color: #3b82f6; }
+.badge-cancelled { background-color: #64748b; }
 
-.badge-returned {
-    background-color: #664d03;
-}
+/* Jefe Inmediato — azules */
+.badge-sent-boss { background-color: #60a5fa; }
+.badge-returned-boss { background-color: #f97316; }
+.badge-rejected-boss { background-color: #ef4444; }
+.badge-approved-boss { background-color: #22d3ee; }
 
-.badge-rejected {
-    background-color: #842029;
-}
+/* Tesorería — amarillos/dorados */
+.badge-sent-treasury { background-color: #fbbf24; }
+.badge-review-treasury { background-color: #f59e0b; }
+.badge-on-hold-treasury { background-color: #fcd34d; }
+.badge-returned-treasury { background-color: #fb923c; }
 
-.badge-approved {
-    background-color: #0f5132;
-}
+/* Contabilidad — verdes */
+.badge-sent-accounting { background-color: #34d399; }
+.badge-loaded-accounting { background-color: #10b981; }
+.badge-rejected-accounting { background-color: #f43f5e; }
+.badge-returned-accounting { background-color: #fb7185; }
 
-.badge-review {
-    background-color: #41464b;
-}
+/* Revisión Global — púrpuras */
+.badge-global { background-color: #a855f7; }
+.badge-returned-global { background-color: #e879f9; }
 
-.badge-on-hold {
-    background-color: #664d03;
-}
+/* Administración — naranja quemado */
+.badge-rejected-administration { background-color: #ea580c; }
 
-.badge-loaded {
-    background-color: #055160;
-}
+/* Dirección General — rosas/magentas */
+.badge-sent-dg { background-color: #f472b6; }
+.badge-ready-dg { background-color: #ec4899; }
+.badge-review-dg { background-color: #db2777; }
+.badge-authorized-dg { background-color: #4ade80; }
+.badge-returned-dg { background-color: #f9a8d4; }
+.badge-rejected-dg { background-color: #be185d; }
 
-.badge-global {
-    background-color: #5e35b1;
-}
+/* Final */
+.badge-paid { background-color: #4ade80; }
 
-.badge-ready {
-    background-color: #084298;
-}
+/* REQUISICIONES GLOBALES */
 
-.badge-authorized {
-    background-color: #0f5132;
-}
-
-.badge-paid {
-    background-color: #155724;
-}
-
-/* Extras del segundo flujo */
-.badge-reviewed {
-    background-color: #055160;
-}
-
-.badge-finalized {
-    background-color: #0f5132;
-}
-
-.badge-modified {
-    background-color: #7a3e00;
-}
+.badge-sent-admin-accounting     { background-color: #f59e0b; } /* Enviada a Administración y Contabilidad */
+.badge-in-review      { background-color: #a855f7; } /* En Revisión */
+.badge-reviewed       { background-color: #22d3ee; } /* Revisada */
+.badge-finalized      { background-color: #4ade80; } /* Finalizada */
+.badge-modified       { background-color: #fb923c; } /* Modificada */
 
 /* CUSTOMIZADOS */
 

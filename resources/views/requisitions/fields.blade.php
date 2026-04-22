@@ -103,7 +103,7 @@
                     "id" => "is_fixed",
                     "name" => "is_fixed",
                     "checked" => false,
-                    "label" => "Gasto Fijo",
+                    "label" => "Gasto recurrente",
                 ])
             </div>
         @endif
@@ -120,7 +120,7 @@
 @if (!isset($requisition) && auth()->user()->hasPermissions('fixed_expenses.getFields'))
     <div class="row collapse" id="fixedExpenseFields">
         <div class="mb-1">
-            DETALLES DE GASTO FIJO
+            DETALLES DE GASTO RECURRENTE
         </div>
 
         <div class="col-md-6 mb-2">
@@ -179,13 +179,13 @@
             @if (isset($requisition))
                 @foreach ($requisition_rows as $row)
                     <tr>
-                        <td>{{ $row->product }}</td>
-                        <td>{{ $row->product_quantity }}</td>
-                        <td>&dollar;{{ number_format($row->product_cost, 2) }}</td>
-                        <td>{{ $row->has_iva ? "Si" : "No" }}</td>
-                        <td>{{ $row->iva_percentage == 1 ? "NO APLICA" : $row->iva_percentage }}</td>
-                        <td>&dollar;{{ number_format($row->total_cost, 2) }}</td>
-                        <td>
+                        <td class="text-break text-wrap">{{ $row->product }}</td>
+                        <td style="width: 10%;">{{ $row->product_quantity }}</td>
+                        <td style="width: 10%;">&dollar;{{ number_format($row->product_cost, 2) }}</td>
+                        <td style="width: 10%;">{{ $row->has_iva ? "Si" : "No" }}</td>
+                        <td style="width: 10%;">{{ $row->iva_percentage == 1 ? "NO APLICA" : $row->iva_percentage }}</td>
+                        <td style="width: 10%;">&dollar;{{ number_format($row->total_cost, 2) }}</td>
+                        <td style="width: 10%;">
                             <a onclick="editProduct(this)" title="Editar" class="btn btn-outline-secondary btn-icon p-auto">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2">
                                     <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>

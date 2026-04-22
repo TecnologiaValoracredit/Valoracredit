@@ -91,7 +91,9 @@ class RequisitionGlobalController extends Controller
 
         $isEmpty = $requisition_global->requisitions->isEmpty();
 
-        return view('requisition_globals.show', compact('requisition_global', 'suppliersWithTotals', 'isSendingToReview', 'isSendingToDg', 'banks', 'isEmpty'));
+        $isAbleToReturnBeforeCheck = true;
+
+        return view('requisition_globals.show', compact('requisition_global', 'suppliersWithTotals', 'isSendingToReview', 'isSendingToDg', 'isAbleToReturnBeforeCheck', 'banks', 'isEmpty'));
     }
 
     public function exportPdf(Request $request, RequisitionGlobal $requisition_global) {
@@ -123,6 +125,18 @@ class RequisitionGlobalController extends Controller
         $service = new RequisitionGlobalService();
         list($status, $error) = $service->send($request, $requisition_global);
         $message = "Requisición Global enviada correctamente";
+
+        if (!$status){
+            $message = $this->getErrorMessage($error, 'requisition_globals');
+        }
+
+        return $this->getResponse($status, $message);
+    }
+
+    public function return(Request $request, RequisitionGlobal $requisition_global){
+        $service = new RequisitionGlobalService();
+        list($status, $error) = $service->return($request, $requisition_global);
+        $message = "Requisición Global devuelta correctamente";
 
         if (!$status){
             $message = $this->getErrorMessage($error, 'requisition_globals');

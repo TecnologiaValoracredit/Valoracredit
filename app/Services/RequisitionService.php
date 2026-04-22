@@ -151,6 +151,7 @@ class RequisitionService
                         'fixed_expense_name' => $request->fixed_expense_name,
                         'fixed_expense_description' => $request->fixed_expense_description,
                         'requisition_id' => $requisition->id,
+                        'created_by' => auth()->id(),
                     ]);
                 }
             } catch (QueryException $e) {
@@ -797,5 +798,33 @@ class RequisitionService
             'description' => $params['fixed_expense_description'],
             'requisition_id' => $params['requisition_id'],
         ]);
+    }
+
+    public function deleteWithRelations($id) {
+        $success = true;
+        $error = null;
+
+        $requisition = Requisition::findOrFail($id);
+
+        try {
+            foreach ($requisition->requisitionRows as $row) {
+                $row->deleteEvidences();
+                $row->delete();
+            }
+
+            $requisition->policies()->delete();
+            $requisition->payments()->delete();
+            $requisition->logs()->delete();
+            $requisition->approvals()->delete();
+
+            $requisition->fixedExpenses()->delete();
+
+            $requisition->delete();
+        } catch (QueryException $e) {
+            $success = false;
+            $error = $e;
+        }
+
+        return [$success, $error];
     }
 }

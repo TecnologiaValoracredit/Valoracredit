@@ -51,4 +51,3 @@
         </div>
     @endforeach
 </div>
-<!--TABLA DE PROVEEDORES-->

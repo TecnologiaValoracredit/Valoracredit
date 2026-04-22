@@ -12,7 +12,7 @@ function getFixedExpenseFields(e){
     const fixedExpenseId = fixedExpenseInput.val();
 
     if (!fixedExpenseId){
-        simpleAlert("Valor inválido", "Ingrese un gasto fijo válido", 'warning');
+        simpleAlert("Valor inválido", "Ingrese un Gasto recurrente válido", 'warning');
         return;
     }
 
@@ -30,7 +30,7 @@ function getFixedExpenseFields(e){
 
             $('#fixed-expense-modal').modal('hide');
 
-            //Remueve los nodos de gasto fijo
+            //Remueve los nodos de Gasto recurrente
             $('#is_fixed').parent().remove();
             $('#fixedExpenseFields').remove();
             $('#fixed_expense_modal_btn').remove();

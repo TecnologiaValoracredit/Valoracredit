@@ -1,7 +1,7 @@
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
-        Crear Gasto Fijo
+        Crear Gasto recurrente
     </x-slot>
 
 
@@ -23,16 +23,16 @@
         <!-- CONTENT HERE -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Crear Gasto Fijo</h5>
-                <form class="row g-3 needs-validation" novalidate method="POST"  enctype="multipart/form-data" action="{{ route('fixed_expenses.store')  }}" >
+                <h5 class="card-title">Crear Gasto recurrente</h5>
+                <form id="form" class="row g-3 needs-validation" novalidate method="POST"  enctype="multipart/form-data" action="{{ route('fixed_expenses.store')  }}" >
                     @csrf
                     <div class="d-flex justify-content-center">
                         <div class="w-100">
                             <div class="row mb-2">
                                 <b class="mb-2">INSTRUCCIONES:</b>
-                                <p>Cada gasto fijo toma como referencia una requisición ya creada previamente, independientemente de su estatus.</p>
-                                <p>Cada gasto fijo debe tener <b>nombre</b> y <b>descripción</b> para identificarse correctamente.</p>
-                                <p>Al usar un gasto fijo, este servirá como base para llenar automaticamente los datos de una requisición nueva.</p>
+                                <p>Cada Gasto recurrente toma como referencia una requisición ya creada previamente, independientemente de su estatus.</p>
+                                <p>Cada Gasto recurrente debe tener <b>nombre</b> y <b>descripción</b> para identificarse correctamente.</p>
+                                <p>Al usar un Gasto recurrente, este servirá como base para llenar automaticamente los datos de una requisición nueva.</p>
                             </div>
                             @include("fixed_expenses.fields")
                             
@@ -49,6 +49,7 @@
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
+        @vite('resources/js/fixed_expenses/main.js')
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

@@ -58,7 +58,7 @@ class RequisitionController extends Controller
         $suppliers = Supplier::where("is_active", 1)->pluck("name", "id");
         $currency_types = CurrencyType::where("is_active", 1)->pluck("name", "id");
         $expense_types = ExpenseType::all()->pluck('name', 'id');
-        $fixed_expenses = FixedExpense::all()->pluck('name', 'id');
+        $fixed_expenses = FixedExpense::where("created_by", auth()->id())->where('is_active', 1)->pluck('name', 'id');
         $expense_durations = ExpenseDuration::all()->pluck('name', 'id');
 
         return view('requisitions.create', compact('user','departaments', 'payment_types', 'branches', 'suppliers', 'currency_types', 'expense_types', 'fixed_expenses', 'expense_durations'));

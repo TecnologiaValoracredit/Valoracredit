@@ -18,6 +18,11 @@
                 .requisition-card,
                 .suppliers-card{
                     width: 100%;
+                    height: auto;
+                }
+
+                .requisitions-container{
+                    flex-direction: column;
                 }
             }
         </style>
@@ -36,8 +41,8 @@
                             @include('requisition_globals.showable.fields')
 
                             <div class="d-flex justify-content-end gap-2 mt-4">
-                                <a href="{{route('requisition_globals.index')}}" class="btn btn-dark">Cancelar</a>
-                                <button id="submit_btn" type="submit" class="btn btn-primary">Guardar</button>
+                                <a href="{{route('requisition_globals.index')}}" class="btn btn-dark">Regresar</a>
+                                <button id="submit_btn" type="submit" class="btn btn-primary">Aprobar</button>
                             </div>
                         </div>
                     </div>
@@ -55,6 +60,7 @@
     </div>
     <x-slot:footerFiles>
         @vite('resources/js/requisition_globals/changeStatus.js')
+        @vite('resources/js/requisition_globals/show.js')
     </x-slot>
 
 </x-base-layout>

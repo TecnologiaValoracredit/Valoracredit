@@ -73,6 +73,9 @@ export default defineConfig({
                 'resources/js/requisition_globals/changeStatus.js',
                 'resources/js/requisition_globals/main.js',
                 'resources/js/requisition_globals/review.js',
+                'resources/js/requisition_globals/show.js',
+
+                'resources/js/fixed_expenses/main.js',
             ],
             refresh: true,
         }),

@@ -5,9 +5,9 @@
                 "id" => "fixed_expense_id",
                 "name" => "fixed_expense_id",
                 "elements" => $fixed_expenses,
-                "placeholder" => "Seleccione un Gasto Fijo...",
+                "placeholder" => "Seleccione un Gasto recurrente...",
                 "value" => old("fixed_expense_id"),
-                "label" => "Gasto Fijo",
+                "label" => "Gasto recurrente",
             ])
         </div>
     </div>

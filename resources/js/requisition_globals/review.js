@@ -19,10 +19,10 @@ $('.toggle-btn').on('click', function(){
     select.val(val).change();
 
     if (val == 'Devuelta' || val == 'Rechazada'){
-        card.find('div.collapse').collapse('show');
+        card.find('.notes-collapsable.collapse').collapse('show');
     }
     else{
-        card.find('div.collapse').collapse('hide');
+        card.find('.notes-collapsable.collapse').collapse('hide');
     }
 });
 
@@ -30,10 +30,10 @@ $('select').on('change', function(){
     const card = $(this).closest('.requisition-card');
 
     if ($(this).val() == 'Devuelta' || $(this).val() == 'Rechazada'){
-        card.find('div.collapse').collapse('show');
+        card.find('.notes-collapsable.collapse').collapse('show');
     }
     else{
-        card.find('div.collapse').collapse('hide');
+        card.find('.notes-collapsable.collapse').collapse('hide');
     }
 })
 

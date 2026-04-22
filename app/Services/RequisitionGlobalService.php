@@ -330,6 +330,22 @@ class RequisitionGlobalService
         return [$status, $error];
     }
 
+    public function return(Request $request, RequisitionGlobal $requisition_global) {
+        $status = true;
+        $error = null;
+
+        $status = RequisitionGlobalStatus::where('name', RequisitionGlobalStatusEnum::REVIEWED->value)->first();
+        $requisition_global->update([
+            'requisition_global_status_id' => $status->id,
+        ]);
+        
+        //ACTUALIZA TODAS LAS DEMAS REQUISICIONES DE LA GLOBAL A UN ESTATUS DE LISTAS PARA DG
+        foreach ($requisition_global->requisitions as $key => $req) {
+            $this->createLog($req, RequisitionStatusEnum::READY_FOR_DG, "Aprobada y lista para D.G.");
+        }
+        return [$status, $error];
+    }
+
     public function approve(Request $request, RequisitionGlobal $requisition_global){
         $status = true;
         $error = null;

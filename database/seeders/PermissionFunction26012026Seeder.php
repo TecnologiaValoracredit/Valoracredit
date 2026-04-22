@@ -38,7 +38,8 @@ class PermissionFunction26012026Seeder extends Seeder
             ['name' => 'treasury', 'description' => 'Recibir acciones de Tesoreria'],
             ['name' => 'accounting', 'description' => 'Recibir acciones de Contabilidad'],
             ['name' => 'administration', 'description' => 'Recibir acciones de Administración'],
-            ['name' => 'dg', 'description' => 'Recibir acciones de Dirección General'],
+            
+            ['name' => 'seeAllRequisitions', 'description' => 'Permite ver todas las requisiciones'],
 
             ['name' => 'getFields', 'description' => 'Obtener los campos de un modulo'],
             ['name' => 'adminSignature', 'description' => 'Permite firmar como todos los responsables'],

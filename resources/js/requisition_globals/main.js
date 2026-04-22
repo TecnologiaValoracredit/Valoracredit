@@ -1,6 +1,48 @@
 const form = $('#form');
 const selectAllBtn = $('#select_all_btn');
 
+
+const formatterMX = new Intl.NumberFormat('es-MX', {
+    style: "currency",
+    currency: "MXN",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+});
+const fixedTotal = $('#fixed-total');
+$('input[type="checkbox"]').on('change', function (e) {
+    let price = $(this).closest('tr').find('.price').text();
+    price = Number(String(price).replace(/[^0-9.-]+/g, ''));
+    
+    let fixedTotalVal = fixedTotal.text();
+    fixedTotalVal = Number(String(fixedTotalVal).replace(/[^0-9.-]+/g, ''));
+
+    let updatedTotal;
+    if ($(this).prop('checked')){
+        updatedTotal = formatterMX.format(fixedTotalVal + price);
+    }
+    else{
+        updatedTotal = formatterMX.format(fixedTotalVal - price);
+    }
+
+    fixedTotal.text(updatedTotal);
+})
+
+function calculateInitialTotal() {
+    let total = 0;
+
+    $('input[type="checkbox"]:checked').each(function () {
+        let price = $(this).closest('tr').find('.price').text();
+        price = Number(String(price).replace(/[^0-9.-]+/g, ''));
+        total += price;
+    });
+
+    $('#fixed-total').text(formatterMX.format(total));
+}
+
+$(document).ready(function () {
+    calculateInitialTotal();
+});
+
 form.on('submit', checkInputExistence);
 selectAllBtn.on('click', toggleAllInputs);
 

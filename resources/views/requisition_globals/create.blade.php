@@ -14,6 +14,15 @@
             border-color: var(--bs-primary);
             opacity: 1;
         }
+
+        #fixed-footer {
+            transition: 
+                transform 0.2s ease-in-out;
+        }
+
+        #fixed-footer:hover {
+            transform: scale(1.1);
+        }
     </style>
 </x-slot>
     <!-- END GLOBAL MANDATORY STYLES -->

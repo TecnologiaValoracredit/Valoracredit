@@ -41,7 +41,7 @@ class Menu12022026Seeder extends Seeder
             'permission_id' => $this->getPermissionId('expense_types'),
         ]);
 
-        //MENU DE GASTOS FIJOS COMENTADO YA QUE AUN NO ESTA TERMINADO PARA CRUD FUNCIONAL, SOLO PARA TRAER DATOS DE UN GASTO FIJO
+        //MENU DE GASTOS FIJOS COMENTADO YA QUE AUN NO ESTA TERMINADO PARA CRUD FUNCIONAL, SOLO PARA TRAER DATOS DE UN Gasto Recurrente
         // Menu::create([
         //     'name' => 'Gastos fijos',
         //     'parent_id' => $expenses_menu->id,

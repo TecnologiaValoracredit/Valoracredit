@@ -20,6 +20,11 @@
                 .requisition-card,
                 .suppliers-card{
                     width: 100%;
+                    height: auto;
+                }
+
+                .requisitions-container{
+                    flex-direction: column;
                 }
             }
         </style>
@@ -55,6 +60,7 @@
     </div>
     <x-slot:footerFiles>
         @vite('resources/js/requisition_globals/review.js')
+        @vite('resources/js/requisition_globals/show.js')
     </x-slot>
 
 </x-base-layout>

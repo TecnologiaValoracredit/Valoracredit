@@ -30,8 +30,8 @@
                                 <div class="row m-0 mb-4">
                                     <div class="col">
                                         <div class="text-center">
-                                            <button id="fixed_expense_modal_btn" type="button" title="Usar Gasto Fijo" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fixed-expense-modal">
-                                                Usar Gasto Fijo
+                                            <button id="fixed_expense_modal_btn" type="button" title="Usar Gasto recurrente" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fixed-expense-modal">
+                                                Usar Gasto recurrente
                                             </button>
                                         </div>
                                     </div>

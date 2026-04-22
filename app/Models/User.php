@@ -297,4 +297,20 @@ class User extends Authenticatable
         // Regresa el primer nombre o el unico que tiene
         return $nameArr[0];
     }
+
+    public function getFirstTwoNames(){
+        $fullName = $this->name;
+        $nameArr = explode(' ', $fullName);
+
+        //Previene error si el nombre del usuario solo es una palabra
+        $names = null;
+        if (count($nameArr) > 1){
+            $names = "{$nameArr[0]} {$nameArr[1]}";
+        }
+        else{
+            $names = $nameArr[0];
+        }
+
+        return $names;
+    }
 }

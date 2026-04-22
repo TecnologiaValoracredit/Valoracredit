@@ -20,6 +20,11 @@
                 .requisition-card,
                 .suppliers-card{
                     width: 100%;
+                    height: auto;
+                }
+
+                .requisitions-container{
+                    flex-direction: column;
                 }
             }
         </style>
@@ -29,7 +34,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Detalle de Requisición Global</h5>         
-                <form id="form" class="row mb-2 mt-2 needs-validation" novalidate method="POST" action="{{ route('requisition_globals.send', $requisition_global->id) }}">
+                <form id="form" class="row mb-2 mt-2 needs-validation" novalidate method="POST"">
                     @csrf
                     @method("PUT")
                     <div class="d-flex flex-column justify-content-center">
@@ -44,11 +49,19 @@
                 </form>
 
                 @if ($isSendingToReview || $isSendingToDg && !$isEmpty)
-                    <div class="col-md-12 d-flex justify-content-center gap-4">
-                        <button type="submit" form="form" id="send_requisition_btn" class="btn btn-primary w-15">
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <button type="submit" form="form" formaction="{{ route('requisition_globals.send', $requisition_global->id) }}"
+                             id="send_requisition_btn" class="btn btn-primary w-15">
                             {{ $isSendingToDg ? "Enviar a Dirección general" : "Enviar a Revisión (Administración y Contabilidad)" }}
                         </button>
                     </div>
+                @elseif($isAbleToReturnBeforeCheck)
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <button type="submit" form="form" formaction="{{ route('requisition_globals.return', $requisition_global->id) }}"
+                                 id="return_requisition_btn" class="btn btn-warning w-15">
+                                Regresar de revisión
+                            </button>
+                        </div>
                 @endif
             </div>
         </div>
@@ -62,7 +75,7 @@
         </div>
     </div>
     <x-slot:footerFiles>
-        
+        @vite('resources/js/requisition_globals/show.js')
     </x-slot>
 
 </x-base-layout>

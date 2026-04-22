@@ -61,7 +61,11 @@ class Requisition extends Model
         return $this->belongsTo("App\Models\ExpenseType", "expense_type_id", "id");
     }
     public function fixedExpense(){
-        return $this->hasOne("App\Models\FixedExpense", "requisition_id", "id");
+        return $this->hasOne("App\Models\FixedExpense", "requisition_id", "id")
+        ->where('is_active', 1);
+    }
+    public function fixedExpenses(){
+        return $this->hasMany("App\Models\FixedExpense", "requisition_id", "id");
     }
     public function supplier()
     {
@@ -95,12 +99,21 @@ class Requisition extends Model
         return $this->hasOne("App\Models\RequisitionEntry", "requisition_id", "id")
         ->latestOfMany();
     }
+    public function policies(){
+        return $this->hasMany("App\Models\RequisitionEntry", "requisition_id", "id");
+    }
     public function payment(){
         return $this->hasOne("App\Models\RequisitionPayment", "requisition_id", "id")
         ->latestOfMany();
     }
+    public function payments(){
+        return $this->hasMany("App\Models\RequisitionPayment", "requisition_id", "id");
+    }
     public function logs(){
         return $this->hasMany("App\Models\RequisitionLog", 'requisition_id', 'id');
+    }
+    public function approvals(){
+        return $this->hasMany("App\Models\RequisitionApproval", 'requisition_id', 'id');
     }
     public function roleApprovedApproval(string $roleName){
         $role = Role::where('name', $roleName)->first();
@@ -147,10 +160,6 @@ class Requisition extends Model
         ->where('is_valid', true)
         ->first(fn ($approval) => $approval->user->hasPermissions('requisition_globals.adminSignature'));
     }
-    public function approvals(){
-        return $this->hasMany("App\Models\RequisitionApproval", 'requisition_id', 'id');
-    }
-
     public function totalRows()
     {
         $subtotal = 0;

@@ -1,5 +1,11 @@
 const evidenceContainer = $('#evidence-container');
 const modal = $('#reg-modal');
+const formatterMX = new Intl.NumberFormat('es-MX', {
+    style: "currency",
+    currency: "MXN",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+});
 let currentDomRow;
 
 
@@ -43,7 +49,7 @@ function fillModalFields(row){
     $('#product_description').text(row['product_description']);
     $('#product_quantity').text(row['product_quantity']);
     $('#has_iva').text(row['has_iva'] == 1 ? 'SI' : 'NO');
-    $('#total_cost').text(`$${row['total_cost']}`);
+    $('#total_cost').text(formatterMX.format(row['total_cost']));
     $('#reason').text(row['reason'] ?? 'No especificada');
 
     if (row['link']){
@@ -91,7 +97,7 @@ function appendEvidences(response){
         const extension = String(src).slice(-3); 
 
         let evidenceNode = $('<div></div>');
-        evidenceNode.addClass('d-flex justify-content-center align-items-center border');
+        evidenceNode.addClass('d-flex justify-content-center align-items-center border overflow-hidden');
 
         if (extension == 'pdf'){
             evidenceNode.append(`

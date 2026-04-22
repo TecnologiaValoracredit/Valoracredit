@@ -36,7 +36,7 @@
 
 
 <div class="mb-3">
-    <b>Seleccione la requisición de referencia para este gasto fijo:</b>
+    <b>Seleccione la requisición de referencia para este Gasto recurrente:</b>
 </div>
 
 <div class="overflow-auto mb-2">
@@ -59,7 +59,7 @@
                         "id" => "req-{$requisition->id}",
                         "name" => "req-id",
                         "value" => $requisition->id,
-                        "required" => true,
+                        "required" => isset($fixedExpense) ? false : true,
                         "label" => "",
                     ])
                 </td>

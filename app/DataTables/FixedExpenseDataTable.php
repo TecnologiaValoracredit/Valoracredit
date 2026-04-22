@@ -57,7 +57,7 @@ class FixedExpenseDataTable extends DataTable
         }
         if (auth()->user()->hasPermissions("permits.edit")) {
             $result .= '
-                <a title="Editar" href='.route("permits.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
+                <a title="Editar" href='.route("fixed_expenses.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                 </a>
             ';
@@ -83,6 +83,7 @@ class FixedExpenseDataTable extends DataTable
             'requisitions.folio as requisition_folio'
         ])
         ->leftJoin('requisitions', 'requisitions.id', '=', 'fixed_expenses.requisition_id')
+        ->where('fixed_expenses.created_by', auth()->id())
         ->newQuery();
     }
 
@@ -101,7 +102,7 @@ class FixedExpenseDataTable extends DataTable
                         'responsive' => true,
                         'scrollX' => true,
                     ])
-                    ->setTableId('fixedexpenses-table')
+                    ->setTableId('fixed_expenses-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy(1)

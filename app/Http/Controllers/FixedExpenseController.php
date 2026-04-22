@@ -16,8 +16,9 @@ class FixedExpenseController extends Controller
     }
 
     public function create() {
-        //Trae requisiciones que no han sido usadas para un gasto fijo
-        $requisitions = Requisition::whereDoesntHave("fixedExpense")->get();
+        //Trae requisiciones que han sido creadas por el usuario y no han sido usadas para un Gasto recurrente
+        $requisitions = Requisition::where('created_by', auth()->id())
+        ->whereDoesntHave('fixedExpense')->get(); 
         return view('fixed_expenses.create', compact('requisitions'));
     }
 
@@ -28,13 +29,16 @@ class FixedExpenseController extends Controller
 
         if (!$status){
             $message = $this->getErrorMessage($error, 'fixed_expenses');
-        }
+        } 
 
         return $this->getResponse($status, $message, $fixedExpense);
     }
 
     public function edit(FixedExpense $fixedExpense) {
-        return view('fixed_expenses.edit', compact('fixedExpense'));
+        //Trae requisiciones que no han sido usadas para un Gasto recurrente
+        $requisitions = Requisition::where('created_by', auth()->id())
+        ->whereDoesntHave('fixedExpense')->get(); 
+        return view('fixed_expenses.edit', compact('fixedExpense', 'requisitions'));
     }
 
     public function update(Request $request, FixedExpense $fixedExpense) {
@@ -69,7 +73,7 @@ class FixedExpenseController extends Controller
         $req = $fixedExpense->requisition;
 
         if (is_null($req)){
-            $message = "No existen los datos del Gasto Fijo solicitado";
+            $message = "No existen los datos del Gasto recurrente solicitado";
 
             return abort(422, $message);
         }
