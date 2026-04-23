@@ -68,10 +68,26 @@ function getDecisions(){
     let txt = ``;
 
     $.each(decisionsAndNotes, function(index, elem) {
+        let color;
+
+        switch (elem['decision']) {
+            case 'Aprobada':
+                color = 'success';
+                break;
+            case 'Devuelta':
+                color = 'warning';
+                break;
+            case 'Rechazada':
+                color = 'danger';
+                break;
+            default:
+                color = 'black';
+        }
+
         txt += `
         FOLIO: ${elem['REQ-FOLIO']}<br>
         MONTO: ${elem['amount']}<br>
-        DECISION: ${elem['decision']}<br><br>
+        DECISION: <span class="text-${color}">${elem['decision']}</span><br><br>
         `;
     });
 

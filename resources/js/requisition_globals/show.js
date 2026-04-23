@@ -1,7 +1,7 @@
 const mediaQuery = window.matchMedia('(max-width: 768px)');
 
 function handleMediaSizing(e) {
-    const a = $('.collapsable').closest('.requisition-card').find('a[target="_blank"]');
+    const a = $('.collapsable').closest('.requisition-card').find('a[target="_blank"]:not(.policy-link)');
 
     if (e.matches) {
         //Lo hace collapsable al div que contiene la información
@@ -11,19 +11,20 @@ function handleMediaSizing(e) {
         a.closest('.requisition-card').find('.bg-gradient').toggleClass('bg-primary bg-light');
         a.toggleClass('link-light link-dark');
 
-        //Event listener para cambiar de color solo una vez
-        a.one('click', function (e) {
-            const bg = $(this).closest('.requisition-card').find('.bg-gradient');
-            bg.toggleClass('bg-light bg-primary');
-
-            $(this).toggleClass('link-dark link-light');
-        })
-
         //Collapse en vez de llevar a link de requisicion
         a.on('click', function(e) {
             e.preventDefault();
-            $(this).closest('.requisition-card').find('.collapsable').collapse('toggle');
         });
+
+        a.closest('.requisition-card').find('div.bg-gradient').on('click', function(e) {
+            $(this).closest('.requisition-card').find('.collapsable').collapse('toggle');
+        })
+        a.closest('.requisition-card').find('div.bg-gradient').one('click', function(e) {
+            //Cambia color de bg
+            $(this).toggleClass('bg-light bg-primary');
+            //Cambia color de link
+            $(this).find('a[target="_blank"]:not(.policy-link)').toggleClass('link-dark link-light');
+        })
     }
     else {
         $('.collapsable').removeClass('collapse');

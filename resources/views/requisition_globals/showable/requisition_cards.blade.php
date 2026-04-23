@@ -71,7 +71,7 @@
             </div>
             <div class="d-flex justify-content-center">
                 <div class="text-align-center">
-                    <a href="{{ route('files.showRequisitionFile', [$requisition->id, $requisition->policy->path]) }}" target="_blank" class="link link-primary">Ver póliza</a>
+                    <a href="{{ route('files.showRequisitionFile', [$requisition->id, $requisition->policy->path]) }}" target="_blank" class="link link-primary policy-link">Ver póliza</a>
                 </div>
             </div>
             <hr>

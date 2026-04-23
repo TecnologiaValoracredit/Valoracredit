@@ -38,6 +38,18 @@ class RequisitionService
 
     }
 
+    public function validateFileSize($files){
+        //Normaliza a array si solo es un archivo
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+
+        
+        foreach ($files as $file) {
+            
+        }
+    }
+
     public function createInitialLog(Requisition $requisition){
         $createdStatus = RequisitionStatus::where('name', 'Creada')->first();
         
