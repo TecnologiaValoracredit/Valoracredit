@@ -44,7 +44,7 @@
 
                 <div class="col-md-12 d-flex justify-content-center">
                     <button form="form" type="submit" class="btn btn-info">
-                        Continuar
+                        Finalizar
                     </button>
                 </div>
             </div>
