@@ -58,7 +58,7 @@ class FileController extends Controller
         // $ableToSee = 
         // (auth()-> id() == $requisition->request_id) ||
         // (auth()-> id() == $requisition->boss_id) ||
-        // (auth()->user()->role->name == 'Recursos Humanos');
+        // (auth()->user()->hasPermissions('requisitions.seeAllRequisitions'));
 
         // if (!$ableToSee){
         //     return abort(403, 'No tienes permiso para ver este archivo.');           

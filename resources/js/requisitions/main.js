@@ -127,7 +127,15 @@ requisitionForm.addEventListener('submit', (e) => {
 
 productForm.addEventListener('submit', (e) => {
     e.preventDefault();
+    
     const data = new FormData(productForm);
+    
+    const hasCompressedFile = validateCompressedFile(data);
+    if (hasCompressedFile){
+        simpleAlert("Formato de evidencia no valido", "Suba la evidencia en cualquier formato de imagen o PDF", 'warning');
+        return;
+    }
+
     //Handle if has IVA checkbox is unchecked
     if (!data.has('has_iva')){
         data.append('has_iva', 'off');
@@ -148,6 +156,31 @@ productForm.addEventListener('submit', (e) => {
 })
 
 // FUNCTIONS
+
+function validateCompressedFile(data){
+    let hasCompressedFile = false;
+
+    for (let [key, value] of data.entries()) {
+        if (value instanceof File) {
+            const fileName = value.name.toLowerCase();
+            const fileType = value.type;
+
+            if (
+            fileName.endsWith('.zip') ||
+            fileName.endsWith('.rar') ||
+            fileType === 'application/zip' ||
+            fileType === 'application/x-zip-compressed' ||
+            fileType === 'application/vnd.rar' ||
+            fileType === 'application/x-rar-compressed'
+            ) {
+                hasCompressedFile = true;
+                break;
+            }
+        }
+    }
+
+    return hasCompressedFile;
+}
 
 function getAmount(){
     let amount = 0;

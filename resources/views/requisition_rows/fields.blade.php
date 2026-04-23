@@ -128,7 +128,7 @@
     <div class="row mb-2">
         <p id="evidence_message"></p>
         <div class="col-12 col-md-6 mt-2">
-            <label for="evidence" class="form-label">Captura de pantalla</label>
+            <label for="evidence" class="form-label">Captura de pantalla (Imagen o PDF)</label>
             <b class="text-danger">*</b>
             <input name="evidence" type="file" class="form-control"
                 id="evidence" value="{{ old("evidence") }}" placeholder="Archivo..."

@@ -8,8 +8,11 @@
             font-family: Arial, sans-serif;
             font-size: 12px;
         }
-        .center {
+        .page-center {
             text-align: center;
+            margin-top: 50%;
+            font-size: 2.5rem;
+            font-weight: bold;
         }
         .logo {
             position: absolute;
@@ -31,7 +34,7 @@
 
     <img src="{{ public_path('images/logo 2 tintas.png') }}" class="logo">
 
-    <h2 class="center">Poliza de Requisición No. {{$requisition->id}}</h2>
+    <div class="page-center">Poliza de Requisición No. {{$requisition->id}}</div>
 
     @if (isset($encodedImages))
     

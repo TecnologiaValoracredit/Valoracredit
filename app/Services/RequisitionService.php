@@ -18,6 +18,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Enums\RequisitionOwnerPermissionEnum;
 use App\Enums\RequisitionStatusEnum;
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -130,6 +131,23 @@ class RequisitionService
                     for ($j=0; $j < $evidenceLength; $j++) { 
                         $file = $request->file('product_'.$i.'_evidence_'.$j);
                         $fileExtension = $file->getClientOriginalExtension();
+                        
+                        //Previene que se guarden archivos zip o rar 
+                        if ($fileExtension == 'zip' || $fileExtension == 'rar') {
+                            //Elimina la requisición creada con los productos que haya creado y evidencias que se hayan guardado
+                            $this->deleteWithRelations($requisition->id);
+
+                            throw new Exception('No se pueden subir archivos comprimidos como evidencia de producto.');
+                        }
+
+                        // //Previene que se guarden archivos con peso mayor a 8 MB
+                        // if ($fileSize > $maxSize) {
+                        //     //Elimina la requisición creada con los productos que haya creado y evidencias que se hayan guardado
+                        //     $this->deleteWithRelations($requisition->id);
+
+                        //     throw new Exception('No se pueden subir archivos de evidencia de producto con un peso mayor a 8 MB.');
+                        // }
+
                         $fileName = "Product_{$requisitionRow->id}_evidence_{$j}.{$fileExtension}";
 
                         $path = $fileSystem->putFileAs('requisition_rows_evidences', $file, $fileName);
@@ -162,6 +180,11 @@ class RequisitionService
         } catch (QueryException $e) {
             $status = false;
             $error = $e;
+
+            //En caso de error, si se creó la requisición, la borra junto con todas las relaciones que se hayan creado
+            if ($requisition) {
+                $this->deleteWithRelations($requisition->id);
+            }
         }
 
         return [$status, $error, $requisition];
@@ -580,7 +603,7 @@ class RequisitionService
 
             RequisitionEntry::create([
             'requisition_id' => $requisition->id,
-            'poliza_number' => 'NUMERO_DE_POLIZA',
+            'poliza_number' => $request->poliza_number,
             'path' => $path,
             'notes' => $request->notes,
             'created_by' => auth()->id(),

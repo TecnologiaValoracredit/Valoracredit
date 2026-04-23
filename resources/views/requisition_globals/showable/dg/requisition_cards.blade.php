@@ -69,6 +69,11 @@
                     @endforeach
                 </div>
             </div>
+            <div class="d-flex justify-content-center">
+                <div class="text-align-center">
+                    <a href="{{ route('files.showRequisitionFile', [$requisition->id, $requisition->policy->path]) }}" target="_blank" class="link link-primary">Ver póliza</a>
+                </div>
+            </div>
             <div class="d-flex justify-content-between px-3 py-2">
                 <div class="fw-bolder">
                     Cuenta
