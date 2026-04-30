@@ -93,3 +93,12 @@ function getDecisions(){
 
     return txt;
 }
+
+const tabs = $('button.nav-link:not([id="suppliers-tab"])');
+tabs.each(function(index, element) {
+    const targetPane = $($(this).attr('data-bs-target'));
+    
+    if($(targetPane).find('.bg-warning').length > 0){
+        $(element).addClass('bg-gradient bg-warning');
+    }
+});

@@ -88,8 +88,8 @@ public function query(RequisitionGlobal $model): QueryBuilder
 
         //Si es DG, solamente enseña las globales que han sido enviadas o finalizadas
         if (auth()->user()->role->name == $dgRole->name){
-            $query = $query->where('status_name', $sentToDgEnum->value)
-                ->orWhere('status_name', $finalizedEnum->value);
+            $query = $query->where('requisition_global_statuses.name', $sentToDgEnum->value)
+                ->orWhere('requisition_global_statuses.name', $finalizedEnum->value);
         }
 
         return $query;

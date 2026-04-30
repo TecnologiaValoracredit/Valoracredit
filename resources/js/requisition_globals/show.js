@@ -8,8 +8,11 @@ function handleMediaSizing(e) {
         $('.collapsable').addClass('collapse');
 
         //Cambia colores a no interactuados
-        a.closest('.requisition-card').find('.bg-gradient').toggleClass('bg-primary bg-light');
-        a.toggleClass('link-light link-dark');
+        //No cambia el color del fondo si no es bg-primary
+        if (a.closest('.requisition-card').find('.bg-gradient').hasClass('bg-primary')){
+            a.closest('.requisition-card').find('.bg-gradient').toggleClass('bg-primary bg-light');
+            a.toggleClass('link-light link-dark');
+        }
 
         //Collapse en vez de llevar a link de requisicion
         a.on('click', function(e) {
@@ -20,10 +23,12 @@ function handleMediaSizing(e) {
             $(this).closest('.requisition-card').find('.collapsable').collapse('toggle');
         })
         a.closest('.requisition-card').find('div.bg-gradient').one('click', function(e) {
-            //Cambia color de bg
-            $(this).toggleClass('bg-light bg-primary');
-            //Cambia color de link
-            $(this).find('a[target="_blank"]:not(.policy-link)').toggleClass('link-dark link-light');
+            if ($(this).closest('.requisition-card').find('.bg-gradient').hasClass('bg-light')){
+                //Cambia color de bg
+                $(this).toggleClass('bg-light bg-primary');
+                //Cambia color de link
+                $(this).find('a[target="_blank"]:not(.policy-link)').toggleClass('link-dark link-light');
+            }
         })
     }
     else {
@@ -44,6 +49,8 @@ $('#form').on('submit', function(e) {
 
 const tabs = $('button.nav-link:not([id="suppliers-tab"])');
 tabs.one('click', function (e) {
-    console.log('testttttttt')
     $(this).addClass('bg-gradient bg-light');
+    if ($(this).hasClass('bg-warning')){
+        $(this).removeClass('bg-warning');
+    }
 });

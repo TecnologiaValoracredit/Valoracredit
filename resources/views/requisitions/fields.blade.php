@@ -183,7 +183,7 @@
                         <td style="width: 10%;">{{ $row->product_quantity }}</td>
                         <td style="width: 10%;">&dollar;{{ number_format($row->product_cost, 2) }}</td>
                         <td style="width: 10%;">{{ $row->has_iva ? "Si" : "No" }}</td>
-                        <td style="width: 10%;">{{ $row->iva_percentage == 1 ? "NO APLICA" : $row->iva_percentage }}</td>
+                        <td style="width: 10%;">{{ $row->iva_percentage }}</td>
                         <td style="width: 10%;">&dollar;{{ number_format($row->total_cost, 2) }}</td>
                         <td style="width: 10%;">
                             <a onclick="editProduct(this)" title="Editar" class="btn btn-outline-secondary btn-icon p-auto">
@@ -212,6 +212,8 @@
                         <input type="hidden" name="reason" value="{{ $row->reason }}">
                         <input type="hidden" name="total_cost" value="{{ $row->total_cost }}">
                         <input type="hidden" name="row_id" value="{{ $row->id }}">
+                        <input type="hidden" name="subtotal_cost" value="{{ $row->subtotal_cost }}">
+                        <input type="hidden" name="iva" value="{{ $row->iva }}">
                     </tr>
                 @endforeach
             @endif

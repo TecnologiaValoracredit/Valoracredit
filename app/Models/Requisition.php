@@ -123,6 +123,17 @@ class Requisition extends Model
         ->where('decision', RequisitionApprovalDecisionEnum::APPROVED->value)
         ->where('requisition_global_id', $this->requisition_global_id)
         ->where('is_valid', true)
+        ->where('notes', '!=', 'Firmada como ambos Administración y Contabilidad')
+        ->first();
+    }
+    public function roleDeniedApproval(string $roleName){
+        $role = Role::where('name', $roleName)->first();
+        
+        return $this->approvals
+        ->where('role_id', $role->id)
+        ->where('decision', RequisitionApprovalDecisionEnum::DENIED->value)
+        ->where('requisition_global_id', $this->requisition_global_id)
+        ->where('is_valid', true)
         ->first();
     }
     public function latestRoleApproval(string $roleName){
@@ -196,5 +207,11 @@ class Requisition extends Model
                 'is_valid' => false,
             ]);
         }
+    }
+    
+    public function currenciesWithTotals(){
+        return $this->requisitionRows
+        ->groupBy(fn ($row) => $row->currencyType->name)
+        ->map(fn ($rows) => $rows->sum('total_cost'));
     }
 }

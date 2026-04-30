@@ -80,12 +80,11 @@ class RequisitionGlobalController extends Controller
     }
 
     public function show(RequisitionGlobal $requisition_global){
-        $suppliersWithTotals = $requisition_global->suppliersWithTotals();
+        $suppliersWithCurrencyTotals = $requisition_global->suppliersWithCurrencyTotals();
         $banks = Bank::where("is_active", 1)->pluck("name", "id");
 
         $isAbleToSend = auth()->user()->hasPermissions('requisition_globals.send');
         $statusName = $requisition_global->requisitionGlobalStatus->name;
-
 
         //Checa si pueede enviar a alguna revisión Y si esta en un estatús de creada o modificada (CHECK PARA ENVIAR A ADMIN Y CONTABILIDAD)
         $isSendingToReview = $isAbleToSend && ($statusName == RequisitionGlobalStatusEnum::CREATED->value || $statusName == RequisitionGlobalStatusEnum::MODIFIED->value);
@@ -97,7 +96,7 @@ class RequisitionGlobalController extends Controller
         $isAbleToReturnBeforeCheck = auth()->user()->hasPermissions('requisition_globals.return') && $statusName == RequisitionGlobalStatusEnum::SENT_TO_DG->value
         && $requisition_global->roleHasNotVerified('Dirección general');
 
-        return view('requisition_globals.show', compact('requisition_global', 'suppliersWithTotals', 'isSendingToReview', 'isSendingToDg', 'isAbleToReturnBeforeCheck', 'banks', 'isEmpty'));
+        return view('requisition_globals.show', compact('requisition_global', 'suppliersWithCurrencyTotals', 'isSendingToReview', 'isSendingToDg', 'isAbleToReturnBeforeCheck', 'banks', 'isEmpty'));
     }
 
     public function exportPdf(Request $request, RequisitionGlobal $requisition_global) {
@@ -151,11 +150,12 @@ class RequisitionGlobalController extends Controller
 
     public function changeStatus(Request $request, RequisitionGlobal $requisition_global){
         $suppliersWithTotals = $requisition_global->suppliersWithTotals();
+        $suppliersWithCurrencyTotals = $requisition_global->suppliersWithCurrencyTotals();
 
         $service = new RequisitionGlobalService();
         $service->changeStatus($requisition_global);
 
-        return view('requisition_globals.changeStatus', compact('requisition_global', 'suppliersWithTotals'));
+        return view('requisition_globals.changeStatus', compact('requisition_global', 'suppliersWithTotals', 'suppliersWithCurrencyTotals'));
     }
 
     public function updateStatus(Request $request, RequisitionGlobal $requisition_global){
@@ -172,11 +172,12 @@ class RequisitionGlobalController extends Controller
 
     public function review(Request $request, RequisitionGlobal $requisition_global){
         $suppliersWithTotals = $requisition_global->suppliersWithTotals();
+        $suppliersWithCurrencyTotals = $requisition_global->suppliersWithCurrencyTotals();
 
         $service = new RequisitionGlobalService();
         $service->review($requisition_global);
 
-        return view('requisition_globals.dg.review', compact('requisition_global', 'suppliersWithTotals'));
+        return view('requisition_globals.dg.review', compact('requisition_global', 'suppliersWithTotals', 'suppliersWithCurrencyTotals'));
     }
     public function approve(Request $request, RequisitionGlobal $requisition_global){
         $service = new RequisitionGlobalService();

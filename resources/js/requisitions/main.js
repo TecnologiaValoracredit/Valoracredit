@@ -1,5 +1,4 @@
 import './addSupplier.js';
-import './ivaUiHandler.js';
 
 const formatterMX = new Intl.NumberFormat('es-MX', {
     style: "currency",
@@ -267,15 +266,32 @@ function filterValues(data){
 function updateTotal(e){
     if (quantityInput <= 0 || costInput <= 0) return;
 
-    let total = quantityInput.value * costInput.value;
+    let subtotal = Number(quantityInput.value * costInput.value);
+    let iva = Number(subtotal * (1 / ivaPercentageInput.value)).toFixed(2);
+    let total = 0;
 
-    // Handle IVA
-    if (!ivaInput.checked){
-        total = total * (1 + ivaPercentageInput.value / 100);
+    if (ivaInput.checked){
+        total = subtotal;
+        subtotal = total - iva;
+    }
+    else {
+        total = Number(subtotal) + Number(iva);
     }
 
-    totalCost.value = Number(total).toFixed(2);
-    visibleTotal.textContent = formatterMX.format(totalCost.value);
+    //Normaliza a numeros
+    subtotal = Number(subtotal).toFixed(2);
+    total = Number(total).toFixed(2);
+
+    totalCost.value = total;
+    visibleTotal.textContent = formatterMX.format(total);
+
+    //Actualiza el input y nodo de subtotal
+    $('#subtotal_cost').val(subtotal);
+    $('#subtotal_visible_total').text(formatterMX.format(subtotal));
+    
+    //Actualiza el input y nodo de iva
+    $('#iva').val(iva);
+    $('#iva_visible_total').text(formatterMX.format(iva));
 }
 
 window.deleteProduct = function(elem, id = null){

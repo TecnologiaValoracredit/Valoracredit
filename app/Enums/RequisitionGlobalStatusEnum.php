@@ -10,5 +10,6 @@ enum RequisitionGlobalStatusEnum : string{
     case SENT_TO_DG = "Enviada a D.G.";
     case FINALIZED = "Finalizada";
     case MODIFIED = "Modificada";
+    case REVIEWED_BY_DG = "Revisada por D.G.";
 }
 

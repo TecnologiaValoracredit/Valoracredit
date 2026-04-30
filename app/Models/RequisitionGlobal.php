@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RequisitionApprovalDecisionEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -53,11 +54,28 @@ class RequisitionGlobal extends Model
         ->map(fn ($reqs) => $reqs->sum('amount'));
     }
 
+    public function suppliersWithCurrencyTotals(){
+        return $this->requisitions
+        ->groupBy(fn ($req) => $req->supplier->name)
+        ->map(function ($reqs){
+            return $reqs->flatMap->requisitionRows
+            ->groupBy(fn ($rr) => $rr->currencyType->name)
+            ->map(fn ($rrs) => $rrs->sum('total_cost'));
+        });
+    }
+
     public function suppliers(){
         return $this->requisitions
         ->pluck('supplier.name')
         ->unique()
         ->values();
+    }
+
+    public function currenciesWithTotals(){
+        return $this->requisitions
+        ->flatMap->requisitionRows
+        ->groupBy(fn ($rr) => $rr->currencyType->name)
+        ->map(fn ($rrs) => $rrs->sum('total_cost'));
     }
 
     public function expenseTypes(){
@@ -79,4 +97,30 @@ class RequisitionGlobal extends Model
 
         return $hasNotVerified;
     }
+
+    public function allApprovedRequisitionsArePaid(){
+        $dgRole = Role::where('name', 'Dirección general')->first();
+        $adminRole = Role::where('name', 'Admin')->first();
+
+        $approvedReqs = $this->requisitions()
+        ->whereHas('approvals', function($query) use ($dgRole, $adminRole){
+            $query->whereIn('role_id', [$dgRole->id, $adminRole->id])
+            ->where('decision', RequisitionApprovalDecisionEnum::APPROVED->value)
+            ->where('requisition_global_id', $this->id)
+            ->where('is_valid', true);
+        })
+        ->get();
+
+        $allArePaid = true;
+
+        foreach ($approvedReqs as $req) {
+            if (!$req->payment){
+                $allArePaid = false;
+                break;
+            }
+        }
+
+        return $allArePaid;
+    }
+    
 }

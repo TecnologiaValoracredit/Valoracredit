@@ -1,6 +1,34 @@
 <div class="requisitions-container d-flex align-items-center gap-3 overflow-auto min-w-0">
     @foreach ($requisitions as $requisition)
     <div class="card requisition-card flex-shrink-0 mb-10 rounded-2" data-folio="{{ $requisition->folio }}" data-amount="{{ $requisition->amount }}">
+        @if ($requisition->roleApprovedApproval('Dirección general') || $requisition->roleApprovedApproval('Admin'))     
+        <div class="d-flex justify-content-center p-3 bg-gradient bg-success">
+            <div class="fw-bolder">
+                <a href="{{ route('requisitions.show', $requisition->id) }}" class="link-light" target="_blank"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="Ver más">
+                    {{ $requisition->folio }}
+                </a>
+            </div>
+        </div>
+        @elseif($requisition->roleDeniedApproval('Dirección general') || $requisition->roleDeniedApproval('Admin'))
+        <div class="d-flex justify-content-center p-3 bg-gradient bg-danger">
+            <div class="fw-bolder">
+                <a href="{{ route('requisitions.show', $requisition->id) }}" class="link-light" target="_blank"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="Ver más">
+                    {{ $requisition->folio }}
+                </a>
+            </div>
+        </div>
+        @elseif($requisition->roleReturnedApproval('Dirección general') || $requisition->roleReturnedApproval('Admin'))
+        <div class="d-flex justify-content-center p-3 bg-gradient bg-warning">
+            <div class="fw-bolder">
+                <a href="{{ route('requisitions.show', $requisition->id) }}" class="link-light" target="_blank"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="Ver más">
+                    {{ $requisition->folio }}
+                </a>
+            </div>
+        </div>
+        @else
         <div class="d-flex justify-content-center p-3 bg-gradient bg-primary">
             <div class="fw-bolder">
                 <a href="{{ route('requisitions.show', $requisition->id) }}" class="link-light" target="_blank"
@@ -9,6 +37,7 @@
                 </a>
             </div>
         </div>
+        @endif
         <div class="collapsable">
             <div class="d-flex justify-content-between px-3 py-2">
                 <div class="fw-bolder">
@@ -82,15 +111,20 @@
                     {{ $requisition->bank->name }}
                 </div>
             </div>
+            @foreach ($requisition->currenciesWithTotals() as $currency => $total)
             <div class="d-flex justify-content-between px-3 py-2">
                 <div class="fw-bolder">
-                    Total
+                    {{ "Total ({$currency})" }}
                 </div>
-                <div data-bs-toggle="tooltip" data-bs-placement="right" title="{{ $requisition->user->name }}">
-                    &dollar;{{ number_format($requisition->amount, 2) }}
+                <div>
+                    &dollar;{{ number_format($total, 2) }}
                 </div>
             </div>
-            @if ($requisition->roleApprovedApproval("Dirección general"))
+            @endforeach
+            @if (
+                    ($requisition->roleApprovedApproval("Dirección general") || $requisition->roleDeniedApproval("Dirección general")) ||
+                    ($requisition->roleApprovedApproval("Admin") || $requisition->roleDeniedApproval("Admin"))
+                )
                 <div class="text-center px-3 py-2">
                     <strong>{{ $requisition->lastApproval->decision }}</strong>
                 </div>

@@ -6,6 +6,7 @@ use App\Http\Requests\RequisitionRequest;
 use App\Models\Requisition;
 use App\Models\RequisitionRow;
 use App\Models\RequisitionStatus;
+use App\Models\RequisitionGlobalStatus;
 use App\Models\RequisitionLog;
 use App\Models\RequisitionEntry;
 use App\Models\FixedExpense;
@@ -44,7 +45,6 @@ class RequisitionService
             $files = [$files];
         }
 
-        
         foreach ($files as $file) {
             
         }
@@ -125,6 +125,8 @@ class RequisitionService
                         'currency_type_id' => $products[$i]['product_'.$i.'_currency_type_id'],
                         'requisition_id' => $requisition->id,
                         'iva_percentage' => $products[$i]['product_'.$i.'_iva_percentage'],
+                        'subtotal_cost' => $products[$i]['product_'.$i.'_subtotal_cost'],
+                        'iva' => $products[$i]['product_'.$i.'_iva'],
                     ];
 
                     //SI SI PUSIERON EXPENSE DURATION Y STARTING DATE
@@ -254,6 +256,8 @@ class RequisitionService
                         'currency_type_id' => $products[$i]['product_'.$i.'_currency_type_id'],
                         'requisition_id' => $requisition->id,
                         'iva_percentage' => $products[$i]['product_'.$i.'_iva_percentage'],
+                        'subtotal_cost' => $products[$i]['product_'.$i.'_subtotal_cost'],
+                        'iva' => $products[$i]['product_'.$i.'_iva'],
                     ];
 
                     //SI SI PUSIERON EXPENSE DURATION Y STARTING DATE
@@ -672,6 +676,13 @@ class RequisitionService
             $error = $e;
         }
 
+        if ($requisition->global->allApprovedRequisitionsArePaid()){
+            $nextGlobalStatus = RequisitionGlobalStatus::where('name', RequisitionGlobalStatusEnum::FINALIZED->value)->first();
+            $requisition->global->update([
+                'requisition_global_status_id' => $nextGlobalStatus->id,
+            ]);
+        }
+
         return [$status, $error];
     }
 
@@ -832,6 +843,7 @@ class RequisitionService
             'name' => $params['fixed_expense_name'],
             'description' => $params['fixed_expense_description'],
             'requisition_id' => $params['requisition_id'],
+            'created_by' => $params['created_by'],
         ]);
     }
 

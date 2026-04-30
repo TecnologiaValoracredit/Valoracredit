@@ -27,6 +27,8 @@ class RequisitionRow extends Model
         'expense_duration_id',
         'starting_date',
         'ending_date',
+        'subtotal_cost',
+        'iva',
     ];
 
     public function currencyType()

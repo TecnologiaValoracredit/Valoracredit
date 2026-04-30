@@ -1,3 +1,10 @@
+const formatterMX = new Intl.NumberFormat('es-MX', {
+    style: "currency",
+    currency: "MXN",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+});
+
 const form = $('#fixed_expense_form');
 const fixedExpenseInput = $('#fixed_expense_id');
 
@@ -62,10 +69,10 @@ function repopulateRequisitionRowsTable(response){
         //AÑADE FILA CON LA INFO DE CADA PRODUCTO
         row.append($('<td>').text(requisitionRow['product']));
         row.append($('<td>').text(requisitionRow['product_quantity']));
-        row.append($('<td>').text(`${requisitionRow['product_cost']}`));
+        row.append($('<td>').text(formatterMX.format(requisitionRow['product_cost'])));
         row.append($('<td>').text(requisitionRow['has_iva'] == 1 ? "SI" : "NO"));
-        row.append($('<td>').text(requisitionRow['iva_percentage'] == 1 ? "NO APLICA" : requisitionRow['iva_percentage']));
-        row.append($('<td>').text(`${requisitionRow['total_cost']}`));
+        row.append($('<td>').text(requisitionRow['iva_percentage']));
+        row.append($('<td>').text(formatterMX.format(requisitionRow['total_cost'])));
         row.append($('<td>').html(getActions()));
 
         row.append($('<input>', {type:"hidden", name:"currency_type_id", value: requisitionRow['currency_type_id']}));

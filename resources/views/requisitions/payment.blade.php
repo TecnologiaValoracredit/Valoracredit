@@ -33,7 +33,7 @@
                                     "placeholder" => "Comprobante...",
                                     "label" => "Comprobante",
                                     "required" => true,
-                                    "accept" => "image/*",
+                                    "accept" => "image/*,.pdf",
                                     "value" => old("name"),
                                     "invalid_feedback" => "El campo es requerido"
                                 ])

@@ -20,36 +20,29 @@ html {
 
 /* REQUISICIONES */
 
-/* Generales */
 .badge-created { background-color: #3b82f6; }
 .badge-cancelled { background-color: #64748b; }
 
-/* Jefe Inmediato — azules */
 .badge-sent-boss { background-color: #60a5fa; }
 .badge-returned-boss { background-color: #f97316; }
 .badge-rejected-boss { background-color: #ef4444; }
 .badge-approved-boss { background-color: #22d3ee; }
 
-/* Tesorería — amarillos/dorados */
 .badge-sent-treasury { background-color: #fbbf24; }
 .badge-review-treasury { background-color: #f59e0b; }
 .badge-on-hold-treasury { background-color: #fcd34d; }
 .badge-returned-treasury { background-color: #fb923c; }
 
-/* Contabilidad — verdes */
 .badge-sent-accounting { background-color: #34d399; }
 .badge-loaded-accounting { background-color: #10b981; }
 .badge-rejected-accounting { background-color: #f43f5e; }
 .badge-returned-accounting { background-color: #fb7185; }
 
-/* Revisión Global — púrpuras */
 .badge-global { background-color: #a855f7; }
 .badge-returned-global { background-color: #e879f9; }
 
-/* Administración — naranja quemado */
 .badge-rejected-administration { background-color: #ea580c; }
 
-/* Dirección General — rosas/magentas */
 .badge-sent-dg { background-color: #f472b6; }
 .badge-ready-dg { background-color: #ec4899; }
 .badge-review-dg { background-color: #db2777; }
@@ -57,16 +50,16 @@ html {
 .badge-returned-dg { background-color: #f9a8d4; }
 .badge-rejected-dg { background-color: #be185d; }
 
-/* Final */
 .badge-paid { background-color: #4ade80; }
 
 /* REQUISICIONES GLOBALES */
 
-.badge-sent-admin-accounting     { background-color: #f59e0b; } /* Enviada a Administración y Contabilidad */
-.badge-in-review      { background-color: #a855f7; } /* En Revisión */
-.badge-reviewed       { background-color: #22d3ee; } /* Revisada */
-.badge-finalized      { background-color: #4ade80; } /* Finalizada */
-.badge-modified       { background-color: #fb923c; } /* Modificada */
+.badge-sent-admin-accounting     { background-color: #f59e0b; }
+.badge-in-review      { background-color: #a855f7; }
+.badge-reviewed       { background-color: #22d3ee; }
+.badge-finalized      { background-color: #4ade80; }
+.badge-modified       { background-color: #fb923c; }
+.badge-reviewed-dg    { background-color: #db2777; }
 
 /* CUSTOMIZADOS */
 

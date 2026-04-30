@@ -57,7 +57,7 @@
                 "invalid_feedback" => "El campo es requerido"
                 ])
         </div>
-        <div id="percentage_container" class="col-md-4 mt-2 d-none">
+        <div class="col-md-4 mt-2">
             @include("components.custom.forms.input", [
                 "id" => "iva_percentage",
                 "name" => "iva_percentage",
@@ -67,7 +67,7 @@
                 "label" => "Porcentaje de IVA",
                 "required" => false,
                 "readonly" => false,
-                "value" => 1,
+                "value" => 16,
                 "invalid_feedback" => "El campo es requerido"
             ])
         </div>
@@ -106,9 +106,19 @@
     </div>
     
     <div class="row mb-2">
-        <div class="col d-flex justify-content-end">
+        <div class="col d-flex flex-column align-items-end">
             <div>
-                <label for="total_cost" class="text-decoration-underline"><strong>Costo Total:</strong></label>
+                <label for="iva"><strong>IVA:</strong></label>
+                <span id="iva_visible_total">$0.00</span>
+                <input type="hidden" name="iva" id="iva" value="0">
+            </div>
+            <div>
+                <label for="subtotal_cost"><strong>Subtotal:</strong></label>
+                <span id="subtotal_visible_total">$0.00</span>
+                <input type="hidden" name="subtotal_cost" id="subtotal_cost" value="0">
+            </div>
+            <div>
+                <label for="total_cost" class="text-decoration-underline"><strong>Total:</strong></label>
                 <span id="visible_total">$0.00</span>
                 <input type="hidden" name="total_cost" id="total_cost" value="0">
             </div>

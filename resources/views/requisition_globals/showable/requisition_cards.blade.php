@@ -71,18 +71,20 @@
             </div>
             <div class="d-flex justify-content-center">
                 <div class="text-align-center">
-                    <a href="{{ route('files.showRequisitionFile', [$requisition->id, $requisition->policy->path]) }}" target="_blank" class="link link-primary policy-link">Ver póliza</a>
+                    {{-- <a href="{{ route('files.showRequisitionFile', [$requisition->id, $requisition->policy->path]) }}" target="_blank" class="link link-primary policy-link">Ver póliza</a> --}}
                 </div>
             </div>
-            <hr>
+            @foreach ($requisition->currenciesWithTotals() as $currency => $total)
             <div class="d-flex justify-content-between px-3 py-2">
                 <div class="fw-bolder">
-                    Total
+                    {{ "Total ({$currency})" }}
                 </div>
-                <div data-bs-toggle="tooltip" data-bs-placement="right" title="{{ $requisition->user->name }}">
-                    &dollar;{{ number_format($requisition->amount, 2) }}
+                <div>
+                    &dollar;{{ number_format($total, 2) }}
                 </div>
             </div>
+            @endforeach
+            <hr>
             @if(Route::currentRouteName() == 'requisition_globals.changeStatus')
                 @if ($requisition->roleReturnedApproval('Contabilidad') || $requisition->roleReturnedApproval('Administración'))
                     <div class="d-flex justify-content-center align-item-center">

@@ -85,10 +85,6 @@
                         <td><strong>Fecha de aplicación:</strong></td>
                         <td>{{ date("d-m-Y",strtotime(($requisition_global->application_date))) }}</td>
                     </tr>
-                    <tr>
-                        <td><strong>Total:</strong></td>
-                        <td>&dollar;{{ number_format($requisition_global->totalGlobalAmount(), 2) ?? '' }}</td>
-                    </tr>
                 </table>
             </td>
             <td style="width: 50%;">
@@ -115,16 +111,23 @@
         </thead>
 
         <tbody>
-            @foreach ($requisition_global->suppliersWithTotals() as $supplier => $total )
+            @foreach ($requisition_global->suppliersWithCurrencyTotals() as $supplier => $currencyTotals )
                 <tr>
                     <td>{{ $supplier }}</td>
-                    <td>&dollar;{{ number_format($total, 2) }}</td>
+                    <td>
+                        @foreach ($currencyTotals as $currency => $total)
+                        <div>&dollar;{{ number_format($total, 2) }} {{ $currency }}</div>
+                        <br>
+                        @endforeach
+                    </td>
                 </tr>
             @endforeach
+            @foreach ($requisition_global->currenciesWithTotals() as $currency => $total)
             <tr>
-                <td class="bold right-text">Total:</td>
-                <td>&dollar;{{ number_format($requisition_global->totalGlobalAmount(), 2) ?? '' }}</td>
+                <td class="right-text"><strong>{{ "Total {$currency}" }}</strong></td>
+                <td>&dollar;{{ number_format($total, 2) }}</td>
             </tr>
+            @endforeach
         </tbody>
     </table>
 
@@ -203,12 +206,17 @@
                                 <td><b>Periodo:</b> {{ $row->getPeriod() }}</td>
                             </tr> 
                            <tr>
-                                <td><b>Monto:</b>&dollar;{{ number_format($row->total_cost, 2) }}</td>
+                                <td><b>Monto:</b>&dollar;{{ number_format($row->total_cost, 2) }} {{ $row->currencyType->name }}</td>
                             </tr>
                         @endforeach
                     </table>
                 </td>
-                <td style="width: 15%;">&dollar;{{ number_format($requisition->amount, 2) }}</td>
+                <td style="width: 15%;">
+                    @foreach ($requisition->currenciesWithTotals() as $currency => $total)
+                        <div>&dollar;{{ number_format($total, 2) }} {{ $currency }}</div>
+                        <br>
+                    @endforeach
+                </td>
                 <td style="width: 15%;">{{ $requisition->bank->name ?? "Pendiente"}}</td>
                 </tr>
                 <tr>

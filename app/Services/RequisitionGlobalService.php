@@ -353,8 +353,11 @@ class RequisitionGlobalService
         try {
             $allDecided = true;
             foreach ($requisition_global->requisitions as $key => $req) {
-                //Si ya habia sido aprobada, se omite
-                if ($req->roleApprovedApproval('Dirección general')){
+                //Si ya habia sido aprobada o rechazada, se omite
+                if (
+                    ($req->roleApprovedApproval('Dirección general') || $req->roleDeniedApproval('Dirección general')) ||
+                    ($req->roleApprovedApproval('Admin') || $req->roleDeniedApproval('Admin'))
+                    ){
                     continue;
                 }
 
@@ -372,14 +375,14 @@ class RequisitionGlobalService
                         break;
                     case RequisitionApprovalDecisionEnum::RETURNED:
                         $nextStatus = RequisitionStatusEnum::RETURNED_BY_DG;
-                        $action = "Devuelta por D.G.";
+                        $action = "Devuelta por D.G.\n Razon:{$notes}";
 
                         $nextOwnerPermission = RequisitionOwnerPermissionEnum::TREASURY->value;
                         $allDecided = false;
                         break;
                     case RequisitionApprovalDecisionEnum::DENIED:
                         $nextStatus = RequisitionStatusEnum::DENIED_BY_DG;
-                        $action = "Rechazada por D.G.";
+                        $action = "Rechazada por D.G.\n Razon:{$notes}";
                         break;
                     
                     default:
@@ -398,7 +401,7 @@ class RequisitionGlobalService
 
             //Solamente si todas estan APROBADAS o RECHAZADAS, se finaliza
             if ($allDecided){
-                $nextGlobalStatus = RequisitionGlobalStatus::where('name', RequisitionGlobalStatusEnum::FINALIZED->value)->first();
+                $nextGlobalStatus = RequisitionGlobalStatus::where('name', RequisitionGlobalStatusEnum::REVIEWED_BY_DG->value)->first();
                 $requisition_global->update([
                     'requisition_global_status_id' => $nextGlobalStatus->id,
                 ]);
@@ -410,7 +413,7 @@ class RequisitionGlobalService
                 $params = [
                     'subject' => 'Requisición global finalizada',
                     'title' => "Requisición global finalizada - {$requisition_global->id}",
-                    'message' => 'La requisición global ha concluido su proceso de revisión y autorización.',
+                    'message' => 'La requisición global ha concluido su proceso de revisión y autorización por D.G.',
                     'url' => route('requisition_globals.show', $requisition_global->id),
                 ];
                 $this->sendMail($receivers, $params);
