@@ -61,6 +61,7 @@ function getDecisions(){
             "REQ-FOLIO" : card.data('folio'),
             "amount" : formatterMX.format(card.data('amount')),
             "decision" : $(this).val(),
+            "notes" : card.data('notes'),
         };
         decisionsAndNotes.push(decisionAndNotes);
     });
@@ -88,6 +89,7 @@ function getDecisions(){
         FOLIO: ${elem['REQ-FOLIO']}<br>
         MONTO: ${elem['amount']}<br>
         DECISION: <span class="text-${color}">${elem['decision']}</span><br><br>
+        NOTAS: ${elem['notes']}<br>
         `;
     });
 

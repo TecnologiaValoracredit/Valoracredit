@@ -26,6 +26,14 @@
                     {{ $requisition->user->getFirstTwoNames() }}
                 </div>
             </div>
+            <div class="d-flex flex-column px-3 py-2">
+                <div class="fw-bolder">
+                    Notas
+                </div>
+                <div>
+                    {{ $requisition->notes }}
+                </div>
+            </div>
             
             <!--CONTENEDOR DE PRODUCTOS DE REQUISICIÓN-->
             <div class="px-3 py-2">
@@ -71,7 +79,7 @@
             </div>
             <div class="d-flex justify-content-center">
                 <div class="text-align-center">
-                    {{-- <a href="{{ route('files.showRequisitionFile', [$requisition->id, $requisition->policy->path]) }}" target="_blank" class="link link-primary policy-link">Ver póliza</a> --}}
+                    <a href="{{ route('files.showRequisitionFile', [$requisition->id, $requisition->policy->path]) }}" target="_blank" class="link link-primary policy-link">Ver póliza</a>
                 </div>
             </div>
             @foreach ($requisition->currenciesWithTotals() as $currency => $total)
@@ -128,6 +136,21 @@
                     <div class="d-flex justify-content-center align-items-center">
                         @if ($requisition->latestRoleApproval('Dirección general'))
                             @switch($requisition->latestRoleApproval('Dirección general')->decision)
+                                @case("Aprobada")
+                                    <span class="badge badge-success">Aprobada</span>
+                                    @break
+            
+                                @case("Rechazada")
+                                    <span class="badge badge-danger">Rechazada</span>
+                                    @break
+                                @case("Devuelta")
+                                    <span class="badge badge-danger">Devuelta</span>
+                                    @break
+                                @default
+            
+                            @endswitch
+                        @elseif($requisition->latestRoleApproval('Admin'))
+                            @switch($requisition->latestRoleApproval('Admin')->decision)
                                 @case("Aprobada")
                                     <span class="badge badge-success">Aprobada</span>
                                     @break

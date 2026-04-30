@@ -1,6 +1,6 @@
 <div class="requisitions-container d-flex align-items-center gap-3 overflow-auto min-w-0">
     @foreach ($requisitions as $requisition)
-    <div class="card requisition-card flex-shrink-0 mb-10 rounded-2" data-folio="{{ $requisition->folio }}" data-amount="{{ $requisition->amount }}">
+    <div class="card requisition-card flex-shrink-0 mb-10 rounded-2" data-folio="{{ $requisition->folio }}" data-amount="{{ $requisition->amount }}" data-notes="{{ $requisition->notes }}">
         @if ($requisition->roleApprovedApproval('Dirección general') || $requisition->roleApprovedApproval('Admin'))     
         <div class="d-flex justify-content-center p-3 bg-gradient bg-success">
             <div class="fw-bolder">
@@ -53,6 +53,14 @@
                 </div>
                 <div data-bs-toggle="tooltip" data-bs-placement="right" title="{{ $requisition->user->name }}">
                     {{ $requisition->user->getFirstTwoNames() }}
+                </div>
+            </div>
+            <div class="d-flex flex-column px-3 py-2">
+                <div class="fw-bolder">
+                    Notas
+                </div>
+                <div>
+                    {{ $requisition->notes }}
                 </div>
             </div>
             
