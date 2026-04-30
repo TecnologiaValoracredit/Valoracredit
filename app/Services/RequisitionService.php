@@ -19,6 +19,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Enums\RequisitionOwnerPermissionEnum;
 use App\Enums\RequisitionStatusEnum;
+use App\Enums\RequisitionGlobalStatusEnum;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -682,7 +683,6 @@ class RequisitionService
                 'requisition_global_status_id' => $nextGlobalStatus->id,
             ]);
         }
-
         return [$status, $error];
     }
 

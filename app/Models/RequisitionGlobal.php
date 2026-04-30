@@ -106,6 +106,7 @@ class RequisitionGlobal extends Model
         ->whereHas('approvals', function($query) use ($dgRole, $adminRole){
             $query->whereIn('role_id', [$dgRole->id, $adminRole->id])
             ->where('decision', RequisitionApprovalDecisionEnum::APPROVED->value)
+            ->where('notes', '!=', 'Firmada como ambos Administración y Contabilidad')
             ->where('requisition_global_id', $this->id)
             ->where('is_valid', true);
         })
@@ -114,7 +115,7 @@ class RequisitionGlobal extends Model
         $allArePaid = true;
 
         foreach ($approvedReqs as $req) {
-            if (!$req->payment){
+            if (!$req->payment()->exists()){
                 $allArePaid = false;
                 break;
             }

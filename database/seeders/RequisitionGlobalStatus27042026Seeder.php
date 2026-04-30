@@ -16,7 +16,7 @@ class RequisitionGlobalStatus27042026Seeder extends Seeder
     public function run()
     {
         $values = [
-            ['name' => 'Revisada por D.G.', 'description' => 'Revisada por D.G., en espera de subir comprobantes para finalizar la global', 'badge' => 'badge-reviewed-dg'],
+            ['name' => 'En espera de pago', 'description' => 'Revisada por D.G., en espera de subir comprobantes para finalizar la global', 'badge' => 'badge-reviewed-dg'],
         ];
 
         foreach($values as $key => $value){

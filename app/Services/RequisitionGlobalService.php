@@ -382,7 +382,7 @@ class RequisitionGlobalService
                         break;
                     case RequisitionApprovalDecisionEnum::DENIED:
                         $nextStatus = RequisitionStatusEnum::DENIED_BY_DG;
-                        $action = "Rechazada por D.G.\n Razon:{$notes}";
+                        $action = "Rechazada por D.G.\n Razon: {$notes}";
                         break;
                     
                     default:
@@ -401,7 +401,7 @@ class RequisitionGlobalService
 
             //Solamente si todas estan APROBADAS o RECHAZADAS, se finaliza
             if ($allDecided){
-                $nextGlobalStatus = RequisitionGlobalStatus::where('name', RequisitionGlobalStatusEnum::REVIEWED_BY_DG->value)->first();
+                $nextGlobalStatus = RequisitionGlobalStatus::where('name', RequisitionGlobalStatusEnum::AWAITING_PAYMENT->value)->first();
                 $requisition_global->update([
                     'requisition_global_status_id' => $nextGlobalStatus->id,
                 ]);
