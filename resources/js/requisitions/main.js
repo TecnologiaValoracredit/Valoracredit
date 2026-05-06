@@ -264,18 +264,21 @@ function filterValues(data){
 }
 
 function updateTotal(e){
-    if (quantityInput <= 0 || costInput <= 0) return;
+    if (quantityInput.value <= 0 || costInput.value <= 0) return;
 
     let subtotal = Number(quantityInput.value * costInput.value);
-    let iva = Number(subtotal * (1 / ivaPercentageInput.value)).toFixed(2);
+    let ivaPercentage = Number(ivaPercentageInput.value) / 100;
+    let iva = 0;
     let total = 0;
 
     if (ivaInput.checked){
         total = subtotal;
-        subtotal = total - iva;
+        subtotal = Number(total / (1 + ivaPercentage)).toFixed(2);
+        iva = Number(total - subtotal).toFixed(2);
     }
     else {
-        total = Number(subtotal) + Number(iva);
+        iva = Number((subtotal * ivaPercentage).toFixed(2));
+        total = Number((subtotal + iva).toFixed(2));
     }
 
     //Normaliza a numeros

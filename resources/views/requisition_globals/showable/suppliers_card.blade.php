@@ -1,4 +1,4 @@
-<div class="card suppliers-card flex-shrink-0 mb-10 rounded-2">
+<div class="card suppliers-card flex-shrink-0 mb-10 rounded-2 pb-2">
     <div class="d-flex justify-content-center p-3 bg-gradient bg-primary">
         <div class="fw-bolder">
             Proveedores

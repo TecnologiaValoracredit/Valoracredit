@@ -187,6 +187,16 @@ class Requisition extends Model
         return ['subtotal' => $subtotal, 'totalIva' => $totalIva, 'total' => $total];
     }
 
+    public function getSubtotal(){
+        return $this->requisitionRows
+        ->sum('subtotal_cost');
+    }
+
+    public function getTotalIva(){
+        return $this->requisitionRows
+        ->sum('iva');
+    }
+
     public function isAuthor(User $user){
         // dd($user->id,  $this->user_id);
         dd($this);
