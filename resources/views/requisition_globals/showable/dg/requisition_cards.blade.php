@@ -1,6 +1,6 @@
 <div class="requisitions-container d-flex align-items-center gap-3 overflow-auto min-w-0">
     @foreach ($requisitions as $requisition)
-    <div class="card requisition-card flex-shrink-0 mb-10 rounded-2" data-folio="{{ $requisition->folio }}" data-amount="{{ $requisition->amount }}" data-notes="{{ $requisition->notes }}">
+    <div class="card requisition-card flex-shrink-0 mb-10 rounded-2 pb-2" data-folio="{{ $requisition->folio }}" data-amount="{{ $requisition->amount }}" data-notes="{{ $requisition->notes }}">
         @if ($requisition->roleApprovedApproval('Dirección general') || $requisition->roleApprovedApproval('Admin'))     
         <div class="d-flex justify-content-center p-3 bg-gradient bg-success">
             <div class="fw-bolder">
@@ -96,6 +96,14 @@
                                 &dollar;{{ number_format($row->product_cost, 2) }}
                             </div>
                         </div>
+                        <div class="d-flex justify-content-between px-3 py-2 gap-3 overflow-auto">
+                            <div class="fw-bolder">
+                                Cantidad
+                            </div>
+                            <div>
+                                {{ $row->product_quantity }}
+                            </div>
+                        </div>
                         <div id="see-products-container" class="d-flex justify-content-center">
                             <a onclick="requestEvidences({{ $row }}, this)" class="link-primary" type="button" data-bs-toggle="modal" data-bs-target="#reg-modal">
                                 Ver producto
@@ -117,6 +125,22 @@
                 </div>
                 <div data-bs-toggle="tooltip" data-bs-placement="right" title="{{ $requisition->user->name }}">
                     {{ $requisition->bank->name }}
+                </div>
+            </div>
+            <div class="d-flex justify-content-between px-3 py-2">
+                <div class="fw-bolder">
+                    Subtotal
+                </div>
+                <div>
+                    &dollar;{{ number_format($requisition->getSubtotal(), 2) }}
+                </div>
+            </div>
+            <div class="d-flex justify-content-between px-3 py-2">
+                <div class="fw-bolder">
+                    Total IVA
+                </div>
+                <div>
+                    &dollar;{{ number_format($requisition->getTotalIva(), 2) }}
                 </div>
             </div>
             @foreach ($requisition->currenciesWithTotals() as $currency => $total)

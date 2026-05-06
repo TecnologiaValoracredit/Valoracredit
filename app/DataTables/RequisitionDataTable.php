@@ -81,11 +81,9 @@ class RequisitionDataTable extends DataTable
                             $row->current_owner_permission != RequisitionOwnerPermissionEnum::BOSS->value;
     
     //Permite cambiar estatus si no se encuentra en ninguno de los siguientes
-    $changeStatusCheck = ($status != RequisitionStatusEnum::STAND_BY_TREASURY->value && 
-                            $status != RequisitionStatusEnum::GLOBAL_REVIEW->value &&
+    $changeStatusCheck = ($status != RequisitionStatusEnum::GLOBAL_REVIEW->value && 
                             $status != RequisitionStatusEnum::READY_FOR_DG->value &&
                             $status != RequisitionStatusEnum::RETURNED_BY_DG->value);
-
 
     if (auth()->user()->hasPermissions("requisitions.edit") && (($isCreator && $isCreatorChecks) || ($isBoss && $isBossChecks))) {
         $result .= '

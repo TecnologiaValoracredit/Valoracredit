@@ -89,7 +89,7 @@ function getDecisions(){
         FOLIO: ${elem['REQ-FOLIO']}<br>
         MONTO: ${elem['amount']}<br>
         DECISION: <span class="text-${color}">${elem['decision']}</span><br>
-        <span style="font-size: 12px; color: black;">NOTAS: ${elem['notes']}</span><br><br>
+        NOTAS: <span class="text-dark small">${elem['notes']}</span><br><br>
         `;
     });
 

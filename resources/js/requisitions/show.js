@@ -65,7 +65,7 @@ function fillModalFields(row){
 
     $('#currency_type_id').text(convertIdToValue('currency_type_id') ?? '');
     $('#notes').text(row['notes'] ?? 'No especificadas');
-    $('#iva_percentage').text(row['iva_percentage'] == 1 ? 'NO APLICA' : `%${row['iva_percentage']}`);
+    $('#iva_percentage').text(`${row['iva_percentage']}%`);
     
     if (row['starting_date'] && row['ending_date']){
         let startingDate = new Date(row['starting_date']);

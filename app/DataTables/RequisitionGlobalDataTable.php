@@ -100,7 +100,9 @@ public function query(RequisitionGlobal $model): QueryBuilder
 
         $currentRoleName = auth()->user()->role->name;
    
-        $editChecks = $row->status_name == RequisitionGlobalStatusEnum::CREATED->value || $row->status_name == RequisitionGlobalStatusEnum::REVIEWED->value; //VERIFICA QUE LA GLOBAL ESTE EN CREADA
+        $editChecks = $row->status_name == RequisitionGlobalStatusEnum::CREATED->value || 
+                        $row->status_name == RequisitionGlobalStatusEnum::REVIEWED->value ||
+                        $row->status_name == RequisitionGlobalStatusEnum::MODIFIED->value;
 
         $destroyChecks = $row->status_name == RequisitionGlobalStatusEnum::CREATED->value;
 
