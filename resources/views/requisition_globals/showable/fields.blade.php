@@ -37,13 +37,13 @@
 <div class="tab-content mb-2 mt-2">
     <div class="tab-pane show active" id="suppliers-pane" role="tabpanel" aria-labelledby="suppliers-tab">
         <div class="d-flex justify-content-center">   
-            @include('requisition_globals.showable.suppliers_card')
+            @include('requisition_globals.cards.suppliers')
         </div>
     </div>
     @foreach ($requisition_global->expenseTypes() as $key => $value)
         <div class="tab-pane fade" id={{ Str::slug($value) . "-pane" }} role="tabpanel" aria-labelledby={{ Str::slug($value) . "-tab" }}>
             <div>
-                @include('requisition_globals.showable.requisition_cards', [
+                @include('requisition_globals.cards.base', [
                     "requisitions" => $requisition_global->getRequisitionsByExpenseType($key),
                     "total" => $requisition_global->getExpenseTypeTotal($key),
                 ])

@@ -496,14 +496,18 @@ class RequisitionService
             'to_status_id' => $updatedStatus->id,
             'notes' => $request->notes,
             ]);
+
+            $requisition->update([
+                'current_owner_permission' => NULL,
+            ]);
+
+            if ($requisition->global) {
+                $requisition->extractFromGlobal();
+            }
         } catch (QueryException $e) {
             $status = false;
             $error = $e;
         }
-
-        $requisition->update([
-           'current_owner_permission' => null,
-        ]);
 
         return [$status, $error]; 
     }
@@ -644,6 +648,10 @@ class RequisitionService
         $files = $request->file('payment_voucher', []);
         $path = $this->saveEvidenceToPdf($files, $requisition, "payments", "payment");
         try {
+            $requisition->update([
+                'bank_id' => $request->bank_id, 
+            ]);
+
             RequisitionPayment::create([
                 'requisition_id' => $requisition->id,
                 'path' => $path ?? null,
@@ -684,6 +692,28 @@ class RequisitionService
             ]);
         }
         return [$status, $error];
+    }
+
+    public function updateBank(Request $request, Requisition $requisition){
+        $status = true;
+        $error = null;
+
+        $bank_id = $request->input('bank_id');
+
+        if ($bank_id == null || $bank_id <= 0){
+            return [ false, "Bank id must be valid" ];
+        }
+
+        try {
+            $requisition->update([
+                'bank_id' => $bank_id,
+            ]);
+        } catch (\Throwable $e) {
+            $status = false;
+            $error = $e;
+        }
+
+        return [ $status, $error ];
     }
 
     // HELPERS

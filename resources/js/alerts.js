@@ -181,6 +181,42 @@ window.deleteSavedFile = (id, filePath) => {
     });
 }
 
+window.cancelRequisition = (id) => {
+    const confirm = alertYesNo(
+        'Cancelar requisición',
+        '¿Estás seguro de cancelar la requisición?'
+    );
+    
+    const appUrl = $('meta[name="app-url"]').attr('content');
+    const route = $("#route").val();
+    confirm.then((result) => {
+        if (result) {
+            $.ajax({
+                url: `${appUrl}/${route}/${id}/cancel`,
+                type: 'PUT',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                
+                success: function(response) {
+                    if (response.status) {
+                        var table = window.LaravelDataTables[`${route}-table`];
+                        table.draw(false);
+                        snackBar("Requisición cancelada correctamente", "success");
+                    }
+                    else{
+                        errorMessage("Error", response.message);
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    errorMessage(xhr.status, errorThrown);
+                }
+            });
+        }
+    })
+}
+
 window.simpleAlert = (title, text, icon = 'success') => {
     Swal.fire({
         title: title,
@@ -222,5 +258,4 @@ window.formatNumber = (num) => {
         maximumFractionDigits: 2,
     });
 }
-
 })

@@ -387,7 +387,6 @@ class PermitController extends Controller
 
     //MAILS
     public function sendPermitSentNotifications(Permit $permit){
-        return;
         $hrRole = Role::where('name', 'Recursos Humanos')->first();
         $hrUser = User::where('role_id', $hrRole->id)->first();
 
@@ -445,7 +444,6 @@ class PermitController extends Controller
     }
 
     public function sendApprovedNotification(Permit $permit){
-        return;
         $receiver = $permit->user;
         if (config('app.sent_mails')) {
             if ($receiver->email && !str_contains($receiver->email, 'DN')) {
@@ -489,7 +487,6 @@ class PermitController extends Controller
     }
 
     public function sendDeniedNotification(Permit $permit){
-        return;
         $receiver = $permit->user;
 
         if (config('app.sent_mails')) {

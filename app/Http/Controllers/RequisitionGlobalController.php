@@ -85,18 +85,33 @@ class RequisitionGlobalController extends Controller
 
         $isAbleToSend = auth()->user()->hasPermissions('requisition_globals.send');
         $statusName = $requisition_global->requisitionGlobalStatus->name;
-
-        //Checa si pueede enviar a alguna revisión Y si esta en un estatús de creada o modificada (CHECK PARA ENVIAR A ADMIN Y CONTABILIDAD)
-        $isSendingToReview = $isAbleToSend && ($statusName == RequisitionGlobalStatusEnum::CREATED->value || $statusName == RequisitionGlobalStatusEnum::MODIFIED->value);
-        //Checa si pueede enviar a alguna revisión Y la requisición ha terminado de ser revisada Y si tiene requisiciones por checar (CHECK PARA ENVIAR A D.G.)
-        $isSendingToDg = $isAbleToSend && $statusName == RequisitionGlobalStatusEnum::REVIEWED->value;
         $isEmpty = $requisition_global->requisitions->isEmpty(); 
 
-        //Checa si puede enviar devolver una global de haber sido enviada a D.G. Y si no la ha checado aun D.G.
-        $isAbleToReturnBeforeCheck = auth()->user()->hasPermissions('requisition_globals.return') && $statusName == RequisitionGlobalStatusEnum::SENT_TO_DG->value
-        && $requisition_global->roleHasNotVerified('Dirección general');
+        //Checa si pueede enviar a alguna revisión Y si esta en un estatús de creada o modificada (CHECK PARA ENVIAR A ADMIN Y CONTABILIDAD)
+        $isSendingToReview = $isAbleToSend &&
+            ($statusName == RequisitionGlobalStatusEnum::CREATED->value || $statusName == RequisitionGlobalStatusEnum::MODIFIED->value) &&
+            !$isEmpty;
 
-        return view('requisition_globals.show', compact('requisition_global', 'suppliersWithCurrencyTotals', 'isSendingToReview', 'isSendingToDg', 'isAbleToReturnBeforeCheck', 'banks', 'isEmpty'));
+
+        //Checa si pueede enviar a alguna revisión Y la requisición ha terminado de ser revisada Y si tiene requisiciones por checar (CHECK PARA ENVIAR A D.G.)
+        $isSendingToDg = $isAbleToSend &&
+            $statusName == RequisitionGlobalStatusEnum::REVIEWED->value &&
+            !$isEmpty;
+
+        //Checa si puede enviar devolver una global de haber sido enviada a D.G. Y si no la ha checado aun D.G.
+        $isAbleToReturn = auth()->user()->hasPermissions('requisition_globals.return') &&
+            $statusName == RequisitionGlobalStatusEnum::SENT_TO_DG->value &&
+            $requisition_global->roleHasNotVerified('Dirección general');
+
+
+        //CHECKS PARA SABER QUE PARTE RENDERIZAR DE LAS REQUISITION CARDS
+        $currentActions = 'info';
+
+        if ($isSendingToDg){
+            $currentActions = 'treasury';
+        }
+
+        return view('requisition_globals.show', compact('requisition_global', 'suppliersWithCurrencyTotals', 'banks', 'isSendingToReview', 'isSendingToDg', 'isAbleToReturn', 'isEmpty', 'currentActions'));
     }
 
     public function exportPdf(Request $request, RequisitionGlobal $requisition_global) {
@@ -155,7 +170,9 @@ class RequisitionGlobalController extends Controller
         $service = new RequisitionGlobalService();
         $service->changeStatus($requisition_global);
 
-        return view('requisition_globals.changeStatus', compact('requisition_global', 'suppliersWithTotals', 'suppliersWithCurrencyTotals'));
+        $currentActions = 'admin-account';
+
+        return view('requisition_globals.changeStatus', compact('requisition_global', 'suppliersWithTotals', 'suppliersWithCurrencyTotals', 'currentActions'));
     }
 
     public function updateStatus(Request $request, RequisitionGlobal $requisition_global){
@@ -177,7 +194,9 @@ class RequisitionGlobalController extends Controller
         $service = new RequisitionGlobalService();
         $service->review($requisition_global);
 
-        return view('requisition_globals.dg.review', compact('requisition_global', 'suppliersWithTotals', 'suppliersWithCurrencyTotals'));
+        $currentActions = 'dg';
+
+        return view('requisition_globals.review', compact('requisition_global', 'suppliersWithTotals', 'suppliersWithCurrencyTotals', 'currentActions'));
     }
     public function approve(Request $request, RequisitionGlobal $requisition_global){
         $service = new RequisitionGlobalService();

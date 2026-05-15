@@ -106,7 +106,15 @@
             </div>
         </div>
     </div>
-    <x-slot:footerFiles>    
+    <div class="modal fade" id="pdf-viewer-modal" aria-labelledby="modal-title" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                @include('pdf_viewer.modal')
+            </div>
+        </div>
+    </div>
+    <x-slot:footerFiles>
+        @vite('resources/js/pdfjs_viewer.js')
     </x-slot>
 
 </x-base-layout>

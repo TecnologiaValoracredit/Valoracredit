@@ -57,7 +57,7 @@ class RequisitionController extends Controller
         $branches = Branch::where("is_active", 1)->pluck("name", "id");
         $suppliers = Supplier::where("is_active", 1)->pluck("name", "id");
         $currency_types = CurrencyType::where("is_active", 1)->pluck("name", "id");
-        $expense_types = ExpenseType::all()->pluck('name', 'id');
+        $expense_types = ExpenseType::where("is_active", 1)->pluck('name', 'id');
         $fixed_expenses = FixedExpense::where("created_by", auth()->id())->where('is_active', 1)->pluck('name', 'id');
         $expense_durations = ExpenseDuration::all()->pluck('name', 'id');
 
@@ -85,7 +85,7 @@ class RequisitionController extends Controller
         $suppliers = Supplier::where("is_active", 1)->pluck("name", "id");
         $currency_types = CurrencyType::where("is_active", 1)->pluck("name", "id");
         $banks = Bank::where("is_active", 1)->pluck("name", "id");
-        $expense_types = ExpenseType::all()->pluck('name', 'id');
+        $expense_types = ExpenseType::where("is_active", 1)->pluck('name', 'id');
         $expense_durations = ExpenseDuration::all()->pluck('name', 'id');
 
         $user = auth()->user();
@@ -162,7 +162,9 @@ class RequisitionController extends Controller
     public function payment(Request $request, Requisition $requisition){
         $currentOwnerPermission = $requisition->current_owner_permission;
 
-        return view('requisitions.payment', compact('requisition', 'currentOwnerPermission'));
+        $banks = Bank::where("is_active", 1)->pluck("name", "id");
+
+        return view('requisitions.payment', compact('requisition', 'currentOwnerPermission', 'banks'));
     }
 
     public function uploadPayment(Request $request, Requisition $requisition){
@@ -206,7 +208,8 @@ class RequisitionController extends Controller
         $message = "Requisición cancelada correctamente";
 
         if (!$status){
-            $message = $this->getErrorMessage($error, 'requisitions');
+            // $message = $this->getErrorMessage($error, 'requisitions');
+            $message = $error;
         }
 
         return $this->getResponse($status, $message);
@@ -222,16 +225,23 @@ class RequisitionController extends Controller
 
         return $this->getResponse($status, $message);
     }
-    public function approve(Request $request, Requisition $requisition){
-        //AUN NO IMPLEMENTADO EL APROBAR UNA REQUISICION INDIVIDUAL, PERO ESTE SERIA EL METODO
-    
-        dd('Aprobar');
-    }
 
     public function chargePolicy(RequisitionRequest $request, Requisition $requisition){
         $service = new RequisitionService();
         list($status, $error) = $service->chargePolicy($request, $requisition);
         $message = "Poliza cargada correctamente";
+
+        if (!$status){
+            $message = $this->getErrorMessage($error, 'requisitions');
+        }
+
+        return $this->getResponse($status, $message);
+    }
+
+    public function updateBank(Request $request, Requisition $requisition){
+        $service = new RequisitionService();
+        list($status, $error) = $service->updateBank($request, $requisition);
+        $message = "Banco actualizado correctamente";
 
         if (!$status){
             $message = $this->getErrorMessage($error, 'requisitions');

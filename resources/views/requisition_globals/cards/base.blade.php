@@ -1,34 +1,7 @@
-<div class="requisitions-container d-flex align-items-center gap-3 overflow-auto min-w-0">
+<div class="text-center text-dark mb-2"><b>TOTAL:</b> &dollar;{{{ number_format($total, 2) ?? "TOTAL" }}}</div>
+<div class="requisitions-container d-flex align-items-center overflow-auto gap-3 min-w-0">
     @foreach ($requisitions as $requisition)
-    <div class="card requisition-card flex-shrink-0 mb-10 rounded-2 pb-2" data-folio="{{ $requisition->folio }}" data-amount="{{ $requisition->amount }}" data-notes="{{ $requisition->notes }}">
-        @if ($requisition->roleApprovedApproval('Dirección general') || $requisition->roleApprovedApproval('Admin'))     
-        <div class="d-flex justify-content-center p-3 bg-gradient bg-success">
-            <div class="fw-bolder">
-                <a href="{{ route('requisitions.show', $requisition->id) }}" class="link-light" target="_blank"
-                    data-bs-toggle="tooltip" data-bs-placement="right" title="Ver más">
-                    {{ $requisition->folio }}
-                </a>
-            </div>
-        </div>
-        @elseif($requisition->roleDeniedApproval('Dirección general') || $requisition->roleDeniedApproval('Admin'))
-        <div class="d-flex justify-content-center p-3 bg-gradient bg-danger">
-            <div class="fw-bolder">
-                <a href="{{ route('requisitions.show', $requisition->id) }}" class="link-light" target="_blank"
-                    data-bs-toggle="tooltip" data-bs-placement="right" title="Ver más">
-                    {{ $requisition->folio }}
-                </a>
-            </div>
-        </div>
-        @elseif($requisition->roleReturnedApproval('Dirección general') || $requisition->roleReturnedApproval('Admin'))
-        <div class="d-flex justify-content-center p-3 bg-gradient bg-warning">
-            <div class="fw-bolder">
-                <a href="{{ route('requisitions.show', $requisition->id) }}" class="link-light" target="_blank"
-                    data-bs-toggle="tooltip" data-bs-placement="right" title="Ver más">
-                    {{ $requisition->folio }}
-                </a>
-            </div>
-        </div>
-        @else
+    <div class="card requisition-card flex-shrink-0 pb-2" data-id="{{ $requisition->id }}" data-folio="{{ $requisition->folio }}" data-amount="{{ $requisition->amount }}" data-notes="{{ $requisition->notes }}">
         <div class="d-flex justify-content-center p-3 bg-gradient bg-primary">
             <div class="fw-bolder">
                 <a href="{{ route('requisitions.show', $requisition->id) }}" class="link-light" target="_blank"
@@ -37,9 +10,8 @@
                 </a>
             </div>
         </div>
-        @endif
         <div class="collapsable">
-            <div class="d-flex justify-content-between px-3 py-2">
+            <div class="d-flex justify-content-between px-3 py-2 gap-3 overflow-auto">
                 <div class="fw-bolder">
                     Proveedor
                 </div>
@@ -47,7 +19,7 @@
                     {{ $requisition->supplier->name }}
                 </div>
             </div>
-            <div class="d-flex justify-content-between px-3 py-2">
+            <div class="d-flex justify-content-between px-3 py-2 gap-3 overflow-auto">
                 <div class="fw-bolder">
                     Solicita
                 </div>
@@ -88,7 +60,7 @@
                                 {{ $row->product_description }}
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between px-3 py-2">
+                        <div class="d-flex justify-content-between px-3 py-2 gap-3 overflow-auto">
                             <div class="fw-bolder">
                                 Costo Unitario
                             </div>
@@ -121,14 +93,6 @@
             </div>
             <div class="d-flex justify-content-between px-3 py-2">
                 <div class="fw-bolder">
-                    Cuenta
-                </div>
-                <div data-bs-toggle="tooltip" data-bs-placement="right" title="{{ $requisition->user->name }}">
-                    {{ $requisition->bank->name }}
-                </div>
-            </div>
-            <div class="d-flex justify-content-between px-3 py-2">
-                <div class="fw-bolder">
                     Subtotal
                 </div>
                 <div>
@@ -153,47 +117,22 @@
                 </div>
             </div>
             @endforeach
-            @if (
-                    ($requisition->roleApprovedApproval("Dirección general") || $requisition->roleDeniedApproval("Dirección general")) ||
-                    ($requisition->roleApprovedApproval("Admin") || $requisition->roleDeniedApproval("Admin"))
-                )
-                <div class="text-center px-3 py-2">
-                    <strong>{{ $requisition->lastApproval->decision }}</strong>
-                </div>
-            @else
-                <div class="d-flex justify-content-center">
-                    <div class="fw-bold">Decisión</div>
-                </div>
-                <div class="d-flex justify-content-center px-3 py-2">
-                    <div class="toggle-btn btn btn-primary w-50">
-                        Alternar
-                    </div>
-                </div>
-                <div class="px-3 py-1 mb-3>
-                    @include("components.custom.forms.input-select", [
-                        "id" => "req-{$requisition->id}-decision",
-                        "name" => "req-{$requisition->id}-decision",
-                        "elements" => ['Aprobada' => 'Aprobar', 'Devuelta' => 'Devolver', 'Rechazada' => 'Rechazar'],
-                        "placeholder" => "Decision...",
-                        "value" => 'Aprobada',
-                        "label" => "",
-                        "invalid_feedback" => "El campo es requerido",
-                    ])
-                </div>
-                <div class="notes-collapsable collapse">
-                    <div class="px-3 py-2">
-                        @include("components.custom.forms.input", [
-                        "id" => "req-{$requisition->id}-notes",
-                        "name" => "req-{$requisition->id}-notes",
-                        "type" => "text",
-                        "placeholder" => "Notas...",
-                        "label" => "",
-                        "value" => old("req-{$requisition->id}-decision"),
-                        "invalid_feedback" => "El campo es requerido",
-                    ])
-                    </div>
-                </div>
-            @endif
+            <hr>
+            @switch($currentActions)
+                @case('admin-account')
+                    @include('requisition_globals.cards.admin-account-actions')
+                    @break
+                @case('dg')
+                    @include('requisition_globals.cards.dg-actions')
+                    @break
+                @case('treasury')
+                    @include('requisition_globals.cards.treasury-actions')
+                    @break
+                @case('info')
+                    @include('requisition_globals.cards.decisions_status')
+                    @break
+                @default
+            @endswitch
         </div>
     </div>
     @endforeach

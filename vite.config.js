@@ -74,8 +74,11 @@ export default defineConfig({
                 'resources/js/requisition_globals/main.js',
                 'resources/js/requisition_globals/review.js',
                 'resources/js/requisition_globals/show.js',
+                'resources/js/requisition_globals/banksSelect.js',
 
                 'resources/js/fixed_expenses/main.js',
+
+                'resources/js/pdfjs_viewer.js',
             ],
             refresh: true,
         }),

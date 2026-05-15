@@ -214,7 +214,7 @@ function addProductRow(data){
             cell.textContent = formatterMX.format(value);
         }
         else if (key == 'iva_percentage'){
-            cell.textContent = value == '1' ? 'NO APLICA' : value;
+            cell.textContent = `${value}%`;
         }
         else{
             cell.textContent = value;
@@ -408,7 +408,7 @@ function updateRow(){
             cell.textContent = formatterMX.format(value);
         }
         else if (key == 'iva_percentage'){
-            cell.textContent = value == '1' ? 'NO APLICA' : value;
+            cell.textContent = `${value}%`;
         }
         else{
             cell.textContent = value;

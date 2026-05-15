@@ -32,6 +32,15 @@ class RequisitionGlobal extends Model
         return $this->hasMany(Requisition::class, 'requisition_global_id', 'id');
     }
 
+    public function approvals(){
+        return $this->hasMany(RequisitionApproval::class, 'requisition_global_id', 'id');
+    }
+
+    public function deleteWithRelations(){
+        $this->approvals()->delete();
+        $this->delete();
+    }
+
     public function getRequisitionsByExpenseType(int $id){
         return $this->requisitions
         ->where('expense_type_id', $id);

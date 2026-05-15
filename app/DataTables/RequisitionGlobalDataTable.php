@@ -207,22 +207,22 @@ public function query(RequisitionGlobal $model): QueryBuilder
             Column::make('id')
             ->title('Folio')
             ->searchable(true),
-            Column::make('suppliers')
-            ->title('Proveedores')
-            ->name('suppliers.name')
-            ->searchable(true),
-            Column::make('total_amount')
-            ->title('Total')
-            ->name('total_amount')
-            ->searchable(false),
-            Column::make('created_at')
-            ->title('Fecha generada')
-            ->addClass('text-center')
-            ->searchable(false),
             Column::make('status_name')
             ->title("Estatus")
             ->name('requisition_global_statuses.name')
             ->addClass('text-center'),
+            Column::make('total_amount')
+            ->title('Total')
+            ->name('total_amount')
+            ->searchable(false),
+            Column::make('suppliers')
+            ->title('Proveedores')
+            ->name('suppliers.name')
+            ->searchable(true),
+            Column::make('created_at')
+            ->title('Fecha generada')
+            ->addClass('text-center')
+            ->searchable(false),
         ];
 
         $columns = array_merge($columns, [

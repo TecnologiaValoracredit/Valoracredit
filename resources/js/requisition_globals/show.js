@@ -1,3 +1,5 @@
+import './banksSelect.js'
+
 const mediaQuery = window.matchMedia('(max-width: 768px)');
 
 function handleMediaSizing(e) {
@@ -39,13 +41,6 @@ function handleMediaSizing(e) {
 
 mediaQuery.addEventListener('change', handleMediaSizing);
 handleMediaSizing(mediaQuery);
-
-$('#form').on('submit', function(e) {
-    if (!this.checkValidity()) {
-        simpleAlert("Cuentas no seleccionadas", "Cada requisición debe contar con una cuenta asignada", 'warning');
-        return;
-    }
-})
 
 const tabs = $('button.nav-link:not([id="suppliers-tab"])');
 tabs.one('click', function (e) {

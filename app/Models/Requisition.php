@@ -115,6 +115,16 @@ class Requisition extends Model
     public function approvals(){
         return $this->hasMany("App\Models\RequisitionApproval", 'requisition_id', 'id');
     }
+    public function extractFromGlobal(){
+        $requisitionGlobal = RequisitionGlobal::where('id', $this->requisition_global_id)->first();
+        $this->update([
+            'requisition_global_id' => NULL, 
+        ]);
+
+        if (!$requisitionGlobal->requisitions()->exists()) {
+            $requisitionGlobal->deleteWithRelations();
+        }
+    }
     public function roleApprovedApproval(string $roleName){
         $role = Role::where('name', $roleName)->first();
         

@@ -11,5 +11,6 @@ enum RequisitionGlobalStatusEnum : string{
     case FINALIZED = "Finalizada";
     case MODIFIED = "Modificada";
     case AWAITING_PAYMENT = "En espera de pago";
+    case UNDER_REVIEW_BY_DG = "En revisión - D.G.";
 }
 

@@ -71,7 +71,7 @@ function repopulateRequisitionRowsTable(response){
         row.append($('<td>').text(requisitionRow['product_quantity']));
         row.append($('<td>').text(formatterMX.format(requisitionRow['product_cost'])));
         row.append($('<td>').text(requisitionRow['has_iva'] == 1 ? "SI" : "NO"));
-        row.append($('<td>').text(requisitionRow['iva_percentage']));
+        row.append($('<td>').text(`${requisitionRow['iva_percentage']}%`));
         row.append($('<td>').text(formatterMX.format(requisitionRow['total_cost'])));
         row.append($('<td>').html(getActions()));
 

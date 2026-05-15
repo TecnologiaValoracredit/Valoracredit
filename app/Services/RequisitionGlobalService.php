@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Enums\RequisitionApprovalDecisionEnum;
 use App\Enums\RequisitionGlobalStatusEnum;
 use App\Enums\RequisitionOwnerPermissionEnum;
+use App\Mail\GlobalDecisionsMail;
+use App\Mail\UnreviewedGlobalsMail;
 use App\Models\RequisitionGlobal;
 use App\Models\RequisitionApproval;
 use App\Models\RequisitionStatus;
@@ -19,6 +21,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequisitionGlobalMail;
+use Route;
 
 class RequisitionGlobalService
 {
@@ -249,6 +252,14 @@ class RequisitionGlobalService
     }
 
     public function review(RequisitionGlobal $requisition_global){
+        if ($requisition_global->requisitionGlobalStatus->name == RequisitionGlobalStatusEnum::SENT_TO_DG->value){
+            $underReviewByDG = RequisitionGlobalStatus::where('name', RequisitionGlobalStatusEnum::UNDER_REVIEW_BY_DG->value)->first();
+
+            $requisition_global->update([
+                'requisition_global_status_id' => $underReviewByDG->id,
+            ]);
+        }
+
         foreach ($requisition_global->requisitions as $key => $req) {
             $lastStatusName = $req->lastLog->toStatusId->name;
             if ($lastStatusName != RequisitionStatusEnum::SENT_TO_DG->value) return;
@@ -303,7 +314,7 @@ class RequisitionGlobalService
                 $error = "No se puede mandar una requisición global ya enviada";
                 return [$status, $error];
         }
-
+        
         try {
             $nextStatus = RequisitionGlobalStatus::where('name', $nextStatusEnum->value)->first();
             $requisition_global->update([
@@ -351,7 +362,10 @@ class RequisitionGlobalService
         $error = null;
 
         try {
+            //Se declara la variable allDecided con true, al iterar despues de todas las requis, si solamente una se regresa, se vuelve falsa
             $allDecided = true;
+            $reviewedReqs = [];
+            
             foreach ($requisition_global->requisitions as $key => $req) {
                 //Si ya habia sido aprobada o rechazada, se omite
                 if (
@@ -361,6 +375,7 @@ class RequisitionGlobalService
                     continue;
                 }
 
+                array_push($reviewedReqs, $req);
                 $decision = RequisitionApprovalDecisionEnum::from($request->input("req-{$req->id}-decision"));
                 $notes = $request->input("req-{$req->id}-notes");
 
@@ -419,15 +434,75 @@ class RequisitionGlobalService
                 $this->sendMail($receivers, $params);
             }
 
+            if (count($reviewedReqs) > 0){
+                $this->sendGlobalDecisionsMail($reviewedReqs);
+            }
+
         } catch (QueryException $e) {
             $status = false;
             $error = $e;
-        }
+        }   
 
         return [$status, $error];
     }
 
+    public function handleUnreviewedRequisitions() {
+        $hadUnreviewed = false;
+
+        $sentToDgStatus = RequisitionGlobalStatus::where('name', RequisitionGlobalStatusEnum::SENT_TO_DG->value)->first();
+        $inReviewByDgStatus = RequisitionGlobalStatus::where('name', RequisitionGlobalStatusEnum::UNDER_REVIEW_BY_DG->value)->first();
+        $uncheckedGlobals = RequisitionGlobal::whereIn('requisition_global_status_id', [$sentToDgStatus->id, $inReviewByDgStatus->id])->get();
+
+        if (count($uncheckedGlobals) > 0){
+            $hadUnreviewed = true;
+            $this->sendUnreviewedGlobalsMail($uncheckedGlobals);
+        }
+
+        return $hadUnreviewed;
+    }
+
     // HELPERS
+    private function sendUnreviewedGlobalsMail($uncheckedGlobals) {
+        //DEFINE COMO DESTINATARIO AL USUARIO DE DIRECCIÓN GENERAL
+        $dgRole = Role::where('name', 'Dirección general')->first();
+        $receiver = User::where('role_id', $dgRole->id)->first();
+
+        $params = [
+            'subject' => 'Requisición globales no revisadas',
+            'title' => "Requisiciónes globales no revisadas",
+            'message' => 'Hay requisiciones globales no revisadas, ingrese por favor al sistema para su revisión.',
+            'requisition_globals' => $uncheckedGlobals,
+            'url' => route('requisition_globals.index'),
+        ];
+
+        // Mail::to($receiver->email)->send((new UnreviewedGlobalsMail($params)));
+        Mail::to('auxtecnologia@valoracredit.mx')->send((new UnreviewedGlobalsMail($params)));
+    }
+
+    private function sendGlobalDecisionsMail($reviewedReqs){
+        if (!is_array($reviewedReqs)) {
+            $reviewedReqs = [$reviewedReqs];
+        }
+
+        $cc = collect($reviewedReqs)
+            ->pluck('creator.email')
+            ->filter(fn ($value, $key) => !str_contains($value, 'DN'))
+            ->unique()
+            ->values()
+            ->all();
+
+        $receiver = env('MAIL_FROM_ADDRESS', 'auxtecnologia@valoracredit.mx');
+        $params = [
+            'subject' => 'Requisiciones revisadas por D.G.',
+            'title' => "Requisiciones revisadas por D.G.",
+            'requisitions' => $reviewedReqs,
+            'cc' => $cc,
+            'url' => route('requisitions.index'),
+        ];
+
+        Mail::to($receiver)->send((new GlobalDecisionsMail($receiver, $params)));
+    }
+
     private function deleteNonExistentRequisitions(array $requisitionIds, RequisitionGlobal $requisition_global){        
         $existingReqs = $requisition_global->requisitions;
         

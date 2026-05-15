@@ -38,7 +38,7 @@
                     @csrf
                     @method("PUT")                    
                     <div class="w-100">
-                        @include('requisition_globals.showable.dg.fields')
+                        @include('requisition_globals.showable.fields')
                     </div>
                 </form>
 
@@ -58,9 +58,17 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="pdf-viewer-modal" aria-labelledby="modal-title" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                @include('pdf_viewer.modal')
+            </div>
+        </div>
+    </div>
     <x-slot:footerFiles>
         @vite('resources/js/requisition_globals/review.js')
         @vite('resources/js/requisition_globals/show.js')
+        @vite('resources/js/pdfjs_viewer.js')        
     </x-slot>
 
 </x-base-layout>

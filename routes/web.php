@@ -93,6 +93,8 @@ Route::middleware("auth")->group(function () {
     Route::get('files/showPermitFile/{permit}/{path}', [FileController::class, 'showPermitFile'])->where('path', '.*')->name('files.showPermitFile');
     Route::get('files/showRequisitionFile/{requisition}/{path}', [FileController::class, 'showRequisitionFile'])->where('path', '.*')->name('files.showRequisitionFile');
 
+    Route::put('requisitions/{requisition}/updateBank', [RequisitionController::class, 'updateBank'])->name('requisitions.updateBank');
+
     Route::middleware(['permission'])->group(function () {
         Route::get('permits/{permit}/changeStatus', [PermitController::class, 'changeStatus'])->name('permits.changeStatus');
         Route::put('permits/{permit}/send', [PermitController::class, 'send'])->name('permits.send');

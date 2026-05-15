@@ -48,14 +48,14 @@
                     </div>
                 </form>
 
-                @if ($isSendingToReview || $isSendingToDg && !$isEmpty)
+                @if ($isSendingToReview || $isSendingToDg)
                     <div class="col-md-12 d-flex justify-content-center">
                         <button type="submit" form="form" formaction="{{ route('requisition_globals.send', $requisition_global->id) }}"
                              id="send_requisition_btn" class="btn btn-primary w-15">
                             {{ $isSendingToDg ? "Enviar a Dirección general" : "Enviar a Revisión (Administración y Contabilidad)" }}
                         </button>
                     </div>
-                @elseif($isAbleToReturnBeforeCheck)
+                @elseif($isAbleToReturn)
                         <div class="col-md-12 d-flex justify-content-center">
                             <button type="submit" form="form" formaction="{{ route('requisition_globals.return', $requisition_global->id) }}"
                                  id="return_requisition_btn" class="btn btn-warning w-15">
@@ -74,8 +74,16 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="pdf-viewer-modal" aria-labelledby="modal-title" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                @include('pdf_viewer.modal')
+            </div>
+        </div>
+    </div>
     <x-slot:footerFiles>
         @vite('resources/js/requisition_globals/show.js')
+        @vite('resources/js/pdfjs_viewer.js')
     </x-slot>
 
 </x-base-layout>
