@@ -79,6 +79,7 @@ export default defineConfig({
                 'resources/js/fixed_expenses/main.js',
 
                 'resources/js/pdfjs_viewer.js',
+                'resources/js/fullCalendar.js',
             ],
             refresh: true,
         }),

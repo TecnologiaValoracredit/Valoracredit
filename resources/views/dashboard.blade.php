@@ -18,10 +18,11 @@
         <p class="text-center">Hola, {{auth()->user()->name}}</p>
 
     </div>
+    <div id="calendar"></div>
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
-        
+        {{-- @vite('resources/js/fullCalendar.js') --}}
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>
