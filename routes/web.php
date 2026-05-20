@@ -8,8 +8,12 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\PermitController;
 use App\Http\Controllers\PreApplicationController;
+use App\Http\Controllers\VacationBalanceController;
+use App\Http\Controllers\VacationController;
+use App\Http\Controllers\VacationPolicyController;
 use App\Models\Contract;
 use App\Models\SCollaborator;
+use App\Models\VacationPolicy;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -113,6 +117,10 @@ Route::middleware("auth")->group(function () {
         Route::resource('expedients', ExpedientController::class);
         Route::get("exp_reports", [ExpReportController::class, "index"])->name("exp_reports.index");
         Route::resource('chk_checklists', ChkChecklistController::class);
+
+        Route::resource('vacations', VacationController::class);
+        Route::resource('vacation_policies', VacationPolicyController::class);
+        Route::resource('vacation_balances', VacationBalanceController::class);
 
         Route::resource('suppliers', SupplierController::class);
         Route::resource('branches', BranchController::class);
