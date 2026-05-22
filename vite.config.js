@@ -80,6 +80,8 @@ export default defineConfig({
 
                 'resources/js/pdfjs_viewer.js',
                 'resources/js/fullCalendar.js',
+
+                'resources/js/vacations/create.js',
             ],
             refresh: true,
         }),

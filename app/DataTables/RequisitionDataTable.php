@@ -32,39 +32,39 @@ class RequisitionDataTable extends DataTable
      * @return \Yajra\DataTables\EloquentDataTable
      */
    public function dataTable(QueryBuilder $query): EloquentDataTable
-{
-    $datatable = (new EloquentDataTable($query))
-        ->setRowId('id')
+    {
+        $datatable = (new EloquentDataTable($query))
+            ->setRowId('id')
 
-        // Fechas en formato bonito
-        ->editColumn('created_at', function(Requisition $role) {
-            return date("d/m/Y H:i", strtotime($role->created_at));
+            // Fechas en formato bonito
+            ->editColumn('created_at', function(Requisition $role) {
+                return date("d/m/Y H:i", strtotime($role->created_at));
+            })
+            ->editColumn('updated_at', function(Requisition $role) {
+                return date("d/m/Y H:i", strtotime($role->updated_at));
+            })
+            ->editColumn('request_date', function(Requisition $role) {
+                return date("d/m/Y", strtotime($role->request_date));
+            })
+
+            // Total con $
+            ->editColumn('amount', function(Requisition $role) {
+                return '$' . number_format($role->amount, 2);
+            })
+
+            // Estatus con colores (ejemplo básico)
+            ->editColumn('status_name', function(Requisition $role) {
+                return '<span class="badge '. $role->status_color . ' text-light">' . 
+                $role->status_name . '</span>';
+            });
+
+        $datatable->addColumn('action', function($row){
+            return $this->getActions($row);
         })
-        ->editColumn('updated_at', function(Requisition $role) {
-            return date("d/m/Y H:i", strtotime($role->updated_at));
-        })
-        ->editColumn('request_date', function(Requisition $role) {
-            return date("d/m/Y", strtotime($role->request_date));
-        })
+        ->rawColumns(["action", "is_active", "status_name"]); // 👈 importante habilitar html en status_name
 
-        // Total con $
-        ->editColumn('amount', function(Requisition $role) {
-            return '$' . number_format($role->amount, 2);
-        })
-
-        // Estatus con colores (ejemplo básico)
-        ->editColumn('status_name', function(Requisition $role) {
-            return '<span class="badge '. $role->status_color . ' text-light">' . 
-            $role->status_name . '</span>';
-        });
-
-    $datatable->addColumn('action', function($row){
-        return $this->getActions($row);
-    })
-    ->rawColumns(["action", "is_active", "status_name"]); // 👈 importante habilitar html en status_name
-
-    return $datatable;
-}
+        return $datatable;
+    }
 
     public function getActions($row){
     $result = null;

@@ -1,7 +1,7 @@
 <x-base-layout :scrollspy="false">
 
     <x-slot:pageTitle>
-        Crear Tipo de Gasto
+        Crear Balance de Vacaciones
     </x-slot>
 
 
@@ -19,7 +19,7 @@
         <!-- CONTENT HERE -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Crear Tipo de Gasto</h5>
+                <h5 class="card-title">Crear Balance de Vacaciones</h5>
                 <form class="row g-3 needs-validation" novalidate method="POST"  enctype="multipart/form-data" action="{{ route('expense_types.store')  }}" >
                     @csrf
                     <div class="d-flex justify-content-center">

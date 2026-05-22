@@ -110,7 +110,8 @@ public function query(RequisitionGlobal $model): QueryBuilder
         && $this->verifyRoleHasNotReviewed($row->id, $currentRoleName); //VERIFICA QUE EL ROL ACTUAL NO HAYA YA CHECADO LA GLOBAL
 
         //QUE SOLO PUEDA ENTRAR EL QUE TENGA LOS PERMISOS Y [OPCIONAL QUE SOLO SEA DIRECCIÓN GENERAL]
-        $reviewChecks = $row->status_name == RequisitionGlobalStatusEnum::SENT_TO_DG->value;
+        $reviewChecks = $row->status_name == RequisitionGlobalStatusEnum::SENT_TO_DG->value ||
+                        $row->status_name == RequisitionGlobalStatusEnum::UNDER_REVIEW_BY_DG->value;
 
         $exportChecks = $row->status_name != RequisitionGlobalStatusEnum::CREATED->value;
 

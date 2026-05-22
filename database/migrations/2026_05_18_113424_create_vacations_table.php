@@ -38,6 +38,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('updated_by');
             $table->foreign('updated_by')->references('id')->on('users');
 
+            $table->boolean('is_active')->default(true);
+
             $table->timestamps();
 
             $table->string('notes')->nullable();

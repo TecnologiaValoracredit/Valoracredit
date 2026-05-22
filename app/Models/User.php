@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -143,6 +144,10 @@ class User extends Authenticatable
 
     public function permits(){
         return $this->hasMany(Permit::class, 'user_id', 'id');
+    }
+
+    public function vacationBalance() {
+        return $this->hasOne(VacationBalance::class, 'user_id', 'id');
     }
 
     public function permissions()
@@ -312,5 +317,16 @@ class User extends Authenticatable
         }
 
         return $names;
+    }
+
+    public function getActiveYears() {
+
+        if (!$this->entry_date) {
+            return 0;
+        }
+
+        $activeYears = Carbon::parse($this->entry_date)->diffInYears(now());
+
+        return $activeYears;
     }
 }

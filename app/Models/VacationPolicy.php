@@ -15,6 +15,7 @@ class VacationPolicy extends Model
         'days',
         'advance_days',
         'applicable_month_range',
+        'is_active',
         'created_at',
         'updated_at',
     ];

@@ -24,6 +24,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('advance_days');
             $table->unsignedTinyInteger('applicable_month_range');
 
+            $table->boolean('is_active')->default(true);
+
             $table->timestamps();
         });
     }

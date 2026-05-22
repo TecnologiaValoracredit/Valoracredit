@@ -17,6 +17,7 @@ class VacationBalance extends Model
         'days_remaining',
         'advance_days_available',
         'advance_days_used',
+        'is_active',
         'created_at',
         'updated_at',
     ];

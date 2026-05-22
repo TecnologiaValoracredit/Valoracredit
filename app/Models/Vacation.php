@@ -19,6 +19,7 @@ class Vacation extends Model
         'days_available_after',
         'created_by',
         'updated_by',
+        'is_active',
         'created_at',
         'updated_at',
         'notes',

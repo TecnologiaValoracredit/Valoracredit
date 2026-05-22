@@ -9,6 +9,8 @@ class VacationDate extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'vacation_id',
         'date',
@@ -16,6 +18,6 @@ class VacationDate extends Model
     ];
 
     public function vacation() {
-        return $this->belongsTo("App\Models\Vacation", "id", "vacation_id");
+        return $this->belongsTo("App\Models\Vacation", "vacation_id", "id");
     }
 }

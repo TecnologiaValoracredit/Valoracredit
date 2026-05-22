@@ -27,6 +27,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('advance_days_available');
             $table->unsignedTinyInteger('advance_days_used');
 
+            $table->boolean('is_active')->default(true);
+
             $table->timestamps();
         });
     }

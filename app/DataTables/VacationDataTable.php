@@ -22,10 +22,48 @@ class VacationDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-            ->addColumn('action', 'vacation.action')
-            ->setRowId('id');
+        $datatable = (new EloquentDataTable($query))
+        ->setRowId('id')
+        ->editColumn('status_name', function(Vacation $vacation) {
+            return '<span class="badge '. $vacation->badge . ' text-light">' . 
+            $vacation->status_name . '</span>';
+        })
+        ->editColumn('created_at', function(Vacation $vacation) {
+            return date("d/m/Y H:i", strtotime($vacation->created_at));
+        })
+        ->editColumn('is_active', function(Vacation $vacation) {
+            if ($vacation->is_active) {
+                return '<span class="badge badge-success mb-2 me-4">Sí</span>';
+            }
+            return '<span class="badge badge-danger mb-2 me-4">No</span>';
+        });
+
+        $datatable->addColumn('action', function($row){
+            return $this->getActions($row);
+        })->rawColumns(["action", "status_name", "is_active"]);
+
+        return $datatable;
     }
+
+    public function getActions($row){
+        $result = null;
+        
+        if (auth()->user()->hasPermissions("vacations.destroy")) {
+            $result .= '
+                <a onclick="deleteRow('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>        </a>
+                </a>
+            ';
+        }
+        if (auth()->user()->hasPermissions("vacations.edit")) {
+            $result .= '
+                <a title="Editar" href='.route("vacation_policies.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                </a>
+            ';
+        }
+        return $result;
+	}
 
     /**
      * Get query source of dataTable.
@@ -35,7 +73,21 @@ class VacationDataTable extends DataTable
      */
     public function query(Vacation $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model
+        ->select([
+            'vacations.id',
+            'user_id as user_name',
+            'vacations.total_days',
+            'vacation_statuses.name as status_name',
+            'vacation_statuses.badge',
+            'vacations.reason',
+            'vacations.is_active',
+            'vacations.created_at',
+            ])
+        ->join('users', 'users.id', '=', 'vacations.user_id')
+        ->join('vacation_statuses', 'vacation_statuses.id', '=', 'vacations.vacation_status_id')
+        ->where('vacations.is_active', true)
+        ->newQuery();
     }
 
     /**
@@ -46,19 +98,23 @@ class VacationDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('vacation-table')
+                    ->parameters([
+                        'paging' => true,
+                        'searching' => true,
+                        'info' => true,
+                        'responsive' => true,
+                        'scrollX' => true,
+                    ])
+                    ->setTableId('vacation_policies-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(1, 'asc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
                         Button::make('pdf'),
                         Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
                     ]);
     }
 
@@ -69,17 +125,29 @@ class VacationDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+        $columns = [
+            Column::make('id')
+            ->title('Id')
+            ->searchable(false)
+            ->visible(false),
+            Column::make('user_name')->title("Usuario")->searchable(true),
+            Column::make('total_days')->title("Días totales"),
+            Column::make('reason')->title("Razón"),
+            Column::make('created_at')->title("Fecha creado"),
+            Column::make('status_name')->title("Estatus")->searchable(true),
+            Column::make('is_active')->title("Activo"),
         ];
+
+        $columns = array_merge($columns, [
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(60)
+            ->addClass('text-center')
+            ->title("Acciones")
+        ]);
+
+        return $columns;
     }
 
     /**
@@ -89,6 +157,6 @@ class VacationDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Vacation_' . date('YmdHis');
+        return 'Vacations_' . date('YmdHis');
     }
 }

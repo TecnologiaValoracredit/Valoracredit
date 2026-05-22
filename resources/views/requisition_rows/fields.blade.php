@@ -34,7 +34,6 @@
                 "id" => "product_cost",
                 "name" => "product_cost",
                 "type" => "number",
-                "min" => "1",
                 "step" => "0.01",
                 "placeholder" => "Costo del producto...",
                 "label" => "Precio Unitario",

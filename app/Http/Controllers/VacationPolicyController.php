@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\VacationPolicyDataTable;
 use Illuminate\Http\Request;
+use App\Services\VacationBalanceService;
 
 class VacationPolicyController extends Controller
 {
