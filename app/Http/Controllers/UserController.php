@@ -6,10 +6,8 @@ use App\DataTables\BankDetailDataTable;
 use App\Http\Requests\UpdateSignatureRequest;
 use App\Models\BankDetail;
 use App\Models\CivilStatus;
-use App\Models\ContractType;
 use App\Models\Contract;
 use App\Models\TerminationReason;
-
 use App\Models\Gender;
 use App\Models\JobPosition;
 use Illuminate\Database\QueryException;
@@ -22,11 +20,7 @@ use App\Models\Departament;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Email;
-use Webklex\PHPIMAP\ClientManager;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-use App\Services\WhatsAppService;
 
 
 class UserController extends Controller

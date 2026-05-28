@@ -2,14 +2,13 @@
 
 namespace App\DataTables;
 
+use App\Enums\VacationStatusEnum;
 use App\Models\Vacation;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class VacationDataTable extends DataTable
@@ -47,21 +46,49 @@ class VacationDataTable extends DataTable
 
     public function getActions($row){
         $result = null;
+
+        $destroyChecks = in_array($row->status_name, [VacationStatusEnum::CREATED->value]);
+        $editChecks = in_array($row->status_name, [VacationStatusEnum::CREATED->value]);
+        $changeStatusChecks = in_array($row->status_name, [VacationStatusEnum::PENDING_BOSS->value, VacationStatusEnum::PENDING_HR->value])
+            && $row->boss_id == auth()->id();
         
-        if (auth()->user()->hasPermissions("vacations.destroy")) {
+        //SHOW
+        $result .= '
+            <a href="'. route('vacations.show', $row->id) . '" title="Ver Más" class="btn btn-outline-info btn-icon p-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal">
+                    <circle cx="12" cy="12" r="1"/>
+                    <circle cx="18" cy="12" r="1"/>
+                    <circle cx="24" cy="12" r="1"/>
+                </svg>
+            </a>
+        ';
+
+        //EDITAR
+        if (auth()->user()->hasPermissions("vacations.edit") && $editChecks) {
+            $result .= '
+                <a title="Editar" href='.route("vacations.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                </a>
+            ';
+        }
+
+        //CAMBIAR ESTATUS
+        if (auth()->user()->hasPermissions('vacations.changeStatus') && $changeStatusChecks) {
+            $result .= '
+                <a href="'.route('vacations.changeStatus', $row->id).'" title="Cambiar estatus de requisición" class="btn btn-outline-primary btn-icon ps-2 px-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="10" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>                </a>
+            ';
+        }
+
+        //DESTRUIR
+        if (auth()->user()->hasPermissions("vacations.destroy") && $destroyChecks) {
             $result .= '
                 <a onclick="deleteRow('.$row->id.')" title="Eliminar" class="btn btn-outline-danger btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>        </a>
                 </a>
             ';
         }
-        if (auth()->user()->hasPermissions("vacations.edit")) {
-            $result .= '
-                <a title="Editar" href='.route("vacation_policies.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                </a>
-            ';
-        }
+
         return $result;
 	}
 
@@ -73,21 +100,35 @@ class VacationDataTable extends DataTable
      */
     public function query(Vacation $model): QueryBuilder
     {
-        return $model
+        /** @var \Illuminate\Database\Eloquent\Builder $query */
+        $query =  $model
         ->select([
             'vacations.id',
-            'user_id as user_name',
+            'vacations.user_id',
+            'vacations.boss_id',
+            'users.name as user_name',
             'vacations.total_days',
             'vacation_statuses.name as status_name',
             'vacation_statuses.badge',
             'vacations.reason',
             'vacations.is_active',
             'vacations.created_at',
-            ])
+        ])
         ->join('users', 'users.id', '=', 'vacations.user_id')
         ->join('vacation_statuses', 'vacation_statuses.id', '=', 'vacations.vacation_status_id')
-        ->where('vacations.is_active', true)
-        ->newQuery();
+        ->where('vacations.is_active', true);
+
+        $user = auth()->user();
+
+        //Si el usuario no cuenta con permiso para ver todas las vacaciones
+        if (!$user->hasPermissions('vacations.seeAllVacations')) {
+            $query->where(function($q) use ($user) {
+                $q->where('vacations.user_id', $user->id)
+                ->orWhere('vacations.boss_id', $user->id);
+            });
+        }
+
+        return $query;
     }
 
     /**
@@ -105,10 +146,10 @@ class VacationDataTable extends DataTable
                         'responsive' => true,
                         'scrollX' => true,
                     ])
-                    ->setTableId('vacation_policies-table')
+                    ->setTableId('vacations-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->orderBy(1, 'asc')
+                    ->orderBy(1, 'desc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),

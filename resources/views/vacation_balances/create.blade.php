@@ -20,13 +20,13 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Crear Balance de Vacaciones</h5>
-                <form class="row g-3 needs-validation" novalidate method="POST"  enctype="multipart/form-data" action="{{ route('expense_types.store')  }}" >
+                <form class="row g-3 needs-validation" novalidate method="POST"  enctype="multipart/form-data" action="{{ route('vacation_balances.store')  }}" >
                     @csrf
                     <div class="d-flex justify-content-center">
                         <div class="w-100">
-                            @include("expense_types.fields")
+                            @include("vacation_balances.fields")
                             <div class="d-flex justify-content-end gap-2 mt-4">
-                                <a href="{{route('expense_types.index')}}" class="btn btn-dark">Cancelar</a>
+                                <a href="{{route('vacation_balances.index')}}" class="btn btn-dark">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>

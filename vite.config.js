@@ -82,6 +82,7 @@ export default defineConfig({
                 'resources/js/fullCalendar.js',
 
                 'resources/js/vacations/create.js',
+                'resources/js/vacations/edit.js',
             ],
             refresh: true,
         }),

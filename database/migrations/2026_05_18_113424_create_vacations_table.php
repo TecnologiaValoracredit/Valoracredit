@@ -32,6 +32,8 @@ return new class extends Migration
             $table->tinyInteger('days_available_before');
             $table->tinyInteger('days_available_after');
 
+            $table->enum('balance_used', ['Normal', 'Advance']);
+
             $table->unsignedSmallInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
             

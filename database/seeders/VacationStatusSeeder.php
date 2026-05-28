@@ -20,8 +20,8 @@ class VacationStatusSeeder extends Seeder
             ['name' => 'Cancelada', 'description' => 'Vacación cancelada', 'badge' => 'badge-cancelled'],
             ['name' => 'Aprobada', 'description' => 'Vacación aprovada', 'badge' => 'badge-approved'],
             ['name' => 'Rechazada', 'description' => 'Vacación rechazada', 'badge' => 'badge-rejected'],
-            ['name' => 'Pendiente - RH', 'description' => 'Vacación pendiente de aprobación de Jefe Inmediato', 'badge' => 'badge-pending-boss'],
-            ['name' => 'Pendiente - Jefe Inmediato', 'description' => 'Vacación pendiente de aprobación de RH', 'badge' => 'badge-pending-hr'],
+            ['name' => 'Pendiente - RH', 'description' => 'Vacación pendiente de aprobación de Jefe Inmediato', 'badge' => 'badge-pending-hr'],
+            ['name' => 'Pendiente - Jefe Inmediato', 'description' => 'Vacación pendiente de aprobación de RH', 'badge' => 'badge-pending-boss'],
         ];
 
         foreach ($values as $key => $value) {

@@ -130,7 +130,7 @@ class VacationBalanceDataTable extends DataTable
             ->title('Id')
             ->searchable(false)
             ->visible(false),
-            Column::make('user_name')->title("Usuario")->searchable(true),
+            Column::make('user_name')->title("Usuario")->searchable(true)->name('users.name'),
             Column::make('active_years')->title("Años activo"),
             Column::make('days_used')->title("Días usados"),
             Column::make('days_remaining')->title("Días restantes"),

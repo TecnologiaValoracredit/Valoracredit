@@ -9,6 +9,10 @@
             <span id="available_days">{{ auth()->user()->vacationBalance->days_remaining ?? "No especificados "}}</span>
         </div>
         <div>
+            <label for="advance_available_days"><strong>Días en avance disponibles: </strong></label>
+            <span id="advance_available_days">{{ auth()->user()->vacationBalance->advance_days_available ?? "No especificados "}}</span>
+        </div>
+        <div>
             <label for="boss"><strong>Jefe Inmediato: </strong></label>
             <span id="boss">{{ auth()->user()->boss->name ?? "No especificado "}}</span>
         </div>
@@ -69,3 +73,11 @@
         ])
     </div>
 </div>
+
+@if (isset($vacation))
+<div id="vacation-dates" class="d-none">
+    @foreach ($vacation->dates as $key => $date)
+    <input type="hidden" value="{{ $date->date }}">
+    @endforeach
+</div>
+@endif

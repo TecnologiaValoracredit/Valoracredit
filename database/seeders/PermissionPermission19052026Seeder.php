@@ -17,7 +17,7 @@ class PermissionPermission19052026Seeder extends Seeder
      */
     public function run()
     {
-        $this->createPermissions(['vacations'], ['seeAllVacations', 'approve', 'deny', 'exportPdf', 'cancel']);
+        $this->createPermissions(['vacations'], ['seeAllVacations', 'send', 'changeStatus', 'approve', 'deny', 'exportPdf', 'cancel']);
         $this->createPermissions(['vacation_policies', 'vacation_balances']);
     }
 

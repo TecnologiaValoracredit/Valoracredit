@@ -19,6 +19,7 @@ class Database19052026Seeder extends Seeder
             PermissionFunction19052026Seeder::class, //LISTO
             PermissionPermission19052026Seeder::class, //LISTO
             PermissionPermissionRole19052026Seeder::class, //LISTO
+            PermissionPermissionRole28052026Seeder::class, //LISTO
             Menu19052026Seeder::class, //LISTO
             VacationStatusSeeder::class, //LISTO
             VacationPolicySeeder::class, //LISTO

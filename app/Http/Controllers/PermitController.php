@@ -7,12 +7,9 @@ use App\Http\Requests\PermitRequest;
 use App\Mail\PermitSentMail;
 use App\Mail\PermitDeniedMail;
 use App\Mail\PermitApprovedMail;
-
 use App\Notifications\WhatsApp\PermissionRequestTemplate;
 use App\Notifications\WhatsApp\PermissionApDnTemplate;
-
 use App\Services\WhatsAppService;
-
 use App\Models\WhatsAppLog;
 use App\Models\DiscountCharacteristic;
 use App\Models\Permit;
@@ -22,17 +19,11 @@ use App\Models\Role;
 use App\Models\JobPosition;
 use App\Models\Motive;
 use App\Models\PermitStatus;
-use DateTime;
-use DateInterval;
-use DatePeriod;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Mail\Mailable;
-
 use Illuminate\Support\Facades\Mail;
-use function PHPUnit\Framework\isNull;
 use App\Exceptions\WhatsAppException;
 
 class PermitController extends Controller

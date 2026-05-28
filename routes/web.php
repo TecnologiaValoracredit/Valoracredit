@@ -118,6 +118,7 @@ Route::middleware("auth")->group(function () {
         Route::get("exp_reports", [ExpReportController::class, "index"])->name("exp_reports.index");
         Route::resource('chk_checklists', ChkChecklistController::class);
 
+        Route::get('vacations/{vacation}/changeStatus', [VacationController::class, 'changeStatus'])->name('vacations.changeStatus');
         Route::put('vacations/{vacation}/cancel', [VacationController::class, 'cancel'])->name('vacations.cancel');
         Route::put('vacations/{vacation}/send', [VacationController::class, 'send'])->name('vacations.send');
         Route::put('vacations/{vacation}/approve', [VacationController::class, 'approve'])->name('vacations.approve');

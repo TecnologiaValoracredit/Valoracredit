@@ -2,47 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\RequisitionRowsDataTable;
-use App\Enums\RequisitionOwnerPermissionEnum;
-use App\Exports\RequisitionRequestExport;
 use App\Models\Bank;
 use App\Models\ExpenseDuration;
 use App\Models\ExpenseType;
 use App\Models\FixedExpense;
-use App\Models\RequisitionMonthRegistry;
-use App\Models\RequisitionResponse;
-use App\Models\RequisitionStatus;
 use App\Enums\RequisitionStatusEnum;
 use Illuminate\Http\Request;
 use App\Models\Requisition;
 use App\Models\PaymentType;
 use App\Models\Branch;
-use App\Models\User;
 use App\Models\Departament;
 use App\Models\Supplier;
 use App\Models\CurrencyType;
 use App\Services\RequisitionService;
 use App\DataTables\RequisitionDataTable;
-use App\Models\PermissionModule;
-use App\Models\RequisitionRow;
-use App\Models\RequisitionRowEvidence;
-use App\Models\RequisitionLog;
-use App\Models\RequisitionRowOptional;
-use Illuminate\Support\Facades\Auth; 
 use App\Http\Requests\RequisitionRequest;
-use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\RequisitionMail;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\QueryException;
-use Webklex\PDFMerger\PDFMerger;
-use Illuminate\Filesystem\Filesystem;
 
 class RequisitionController extends Controller
 {
-    //BASE CRUD
-    
+    public function __construct(private RequisitionService $service) {}
+
     public function index(RequisitionDataTable $dataTable)
     {
         $allowAdd = auth()->user()->hasPermissions("requisitions.create");
@@ -66,8 +46,7 @@ class RequisitionController extends Controller
 
     public function store(Request $request)
     {
-        $service = new RequisitionService();
-        list($status, $error, $requisition) = $service->store($request);
+        list($status, $error, $requisition) = $this->service->store($request);
         $message = "Requisición creada correctamente";
 
         if (!$status){
@@ -98,8 +77,7 @@ class RequisitionController extends Controller
     
     public function update(Request $request, Requisition $requisition)
     {
-        $service = new RequisitionService();
-        list($status, $error, $requisition) = $service->update($request, $requisition);
+        list($status, $error, $requisition) = $this->service->update($request, $requisition);
         $message = "Requisición actualizada correctamente";
 
         if (!$status){
@@ -111,8 +89,7 @@ class RequisitionController extends Controller
 
     public function destroy(Requisition $requisition)
     {
-        $service = new RequisitionService();
-        list($status, $error) = $service->destroy($requisition);
+        list($status, $error) = $this->service->destroy($requisition);
         $message = "Requisición enviada correctamente";
 
         if (!$status){
@@ -168,8 +145,7 @@ class RequisitionController extends Controller
     }
 
     public function uploadPayment(Request $request, Requisition $requisition){
-        $service = new RequisitionService();
-        list($status, $error) = $service->uploadPayment($request, $requisition);
+        list($status, $error) = $this->service->uploadPayment($request, $requisition);
         $message = "Comprobante de pago subido correctamente";
 
         if (!$status){
@@ -180,8 +156,7 @@ class RequisitionController extends Controller
     }
 
     public function send(Request $request, Requisition $requisition){
-        $service = new RequisitionService();
-        list($status, $error) = $service->send($request, $requisition);
+        list($status, $error) = $this->service->send($request, $requisition);
         $message = "Requisición enviada correctamente";
 
         if (!$status){
@@ -192,8 +167,7 @@ class RequisitionController extends Controller
     }
 
     public function return(Request $request, Requisition $requisition){
-        $service = new RequisitionService();
-        list($status, $error) = $service->return($request, $requisition);
+        list($status, $error) = $this->service->return($request, $requisition);
         $message = "Requisición devuelta correctamente";
 
         if (!$status){
@@ -203,8 +177,7 @@ class RequisitionController extends Controller
         return $this->getResponse($status, $message);
     }
     public function cancel(Request $request, Requisition $requisition){
-        $service = new RequisitionService();
-        list($status, $error) = $service->cancel($request, $requisition);
+        list($status, $error) = $this->service->cancel($request, $requisition);
         $message = "Requisición cancelada correctamente";
 
         if (!$status){
@@ -215,8 +188,7 @@ class RequisitionController extends Controller
         return $this->getResponse($status, $message);
     }
     public function deny(Request $request, Requisition $requisition){
-        $service = new RequisitionService();
-        list($status, $error) = $service->deny($request, $requisition);
+        list($status, $error) = $this->service->deny($request, $requisition);
         $message = "Requisición denegada correctamente";
 
         if (!$status){
@@ -227,8 +199,7 @@ class RequisitionController extends Controller
     }
 
     public function chargePolicy(RequisitionRequest $request, Requisition $requisition){
-        $service = new RequisitionService();
-        list($status, $error) = $service->chargePolicy($request, $requisition);
+        list($status, $error) = $this->service->chargePolicy($request, $requisition);
         $message = "Poliza cargada correctamente";
 
         if (!$status){
@@ -239,8 +210,7 @@ class RequisitionController extends Controller
     }
 
     public function updateBank(Request $request, Requisition $requisition){
-        $service = new RequisitionService();
-        list($status, $error) = $service->updateBank($request, $requisition);
+        list($status, $error) = $this->service->updateBank($request, $requisition);
         $message = "Banco actualizado correctamente";
 
         if (!$status){

@@ -22,8 +22,6 @@ $('#total_days').on('input', function(e) {
     }
 });
 
-
-
 const form = $('#form');
 let sendOnCreate = false;
 window.sendOnCreation = function(e) {
