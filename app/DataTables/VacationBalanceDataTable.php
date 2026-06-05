@@ -57,7 +57,7 @@ class VacationBalanceDataTable extends DataTable
         }
         if (auth()->user()->hasPermissions("vacation_balances.edit")) {
             $result .= '
-                <a title="Editar" href='.route("vacation_policies.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
+                <a title="Editar" href='.route("vacation_balances.edit", $row->id).' class="btn btn-outline-secondary btn-icon ps-2 px-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                 </a>
             ';

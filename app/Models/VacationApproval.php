@@ -19,7 +19,7 @@ class VacationApproval extends Model
     ];
 
     public function vacation() {
-        return $this->belongsTo("App\Models\Vacation", "id", "vacation_id");
+        return $this->belongsTo("App\Models\Vacation", "vacation_id", "id");
     }
     public function user() {
         return $this->belongsTo("App\Models\User", "user_id", "id");

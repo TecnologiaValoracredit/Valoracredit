@@ -27,6 +27,7 @@ class VacationController extends Controller
         
         return view('vacations.create', compact('hrUser'));
     }
+
     public function store(Request $request) {
         list($status, $error, $vacation) = $this->service->store($request);
         $message = "Vacaciones creadas correctamente";
@@ -71,6 +72,18 @@ class VacationController extends Controller
 
         return $this->getResponse($status, $message);
     }
+
+    public function cancel(Vacation $vacation) {
+        list($status, $error) = $this->service->cancel($vacation);
+        $message = "Vacaciones canceladas correctamente";
+
+        if (!$status){
+            $message = $this->getErrorMessage($error, 'vacations');
+        }
+
+        return $this->getResponse($status, $message);
+    }
+
     public function send(Request $request, Vacation $vacation) {
         list($status, $error) = $this->service->send($request, $vacation);
         $message = "Vacaciones enviadas correctamente";
@@ -81,6 +94,7 @@ class VacationController extends Controller
 
         return $this->getResponse($status, $message);
     }
+
     public function changeStatus(Request $request, Vacation $vacation) {
         $isHrOrHasPermissions = $this->service->isHrOrHasPermissions();
         $isBoss = $this->service->isBoss($vacation);
@@ -91,6 +105,7 @@ class VacationController extends Controller
 
         return view('vacations.changeStatus', compact('vacation', 'approveAs'));
     }
+
     public function approve(Request $request, Vacation $vacation) {
         list($status, $error) = $this->service->approve($request, $vacation);
         $message = "Vacaciones aprobadas correctamente";
@@ -101,6 +116,7 @@ class VacationController extends Controller
 
         return $this->getResponse($status, $message);
     }
+
     public function deny(Request $request, Vacation $vacation) {
         list($status, $error) = $this->service->deny($request, $vacation);
         $message = "Vacaciones enviadas correctamente";
@@ -111,6 +127,7 @@ class VacationController extends Controller
 
         return $this->getResponse($status, $message);
     }
+
     public function exportPdf(Request $request, Vacation $vacation) {
 
     }

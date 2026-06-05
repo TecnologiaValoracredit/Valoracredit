@@ -11,11 +11,7 @@ use App\Http\Controllers\PreApplicationController;
 use App\Http\Controllers\VacationBalanceController;
 use App\Http\Controllers\VacationController;
 use App\Http\Controllers\VacationPolicyController;
-use App\Models\Contract;
-use App\Models\SCollaborator;
-use App\Models\VacationPolicy;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DepartamentController;
@@ -51,8 +47,6 @@ use App\Http\Controllers\FFluxReportController;
 use App\Http\Controllers\SPromotorReportController;
 use App\Http\Controllers\RIndicatorController;
 //Commissions 
-use App\Http\Controllers\ComCoordinatorController;
-use App\Http\Controllers\ComPromotorController;
 
 // use App\Http\Controllers\SInstitutionReportController;
 
@@ -121,6 +115,7 @@ Route::middleware("auth")->group(function () {
         Route::get('vacations/{vacation}/changeStatus', [VacationController::class, 'changeStatus'])->name('vacations.changeStatus');
         Route::put('vacations/{vacation}/cancel', [VacationController::class, 'cancel'])->name('vacations.cancel');
         Route::put('vacations/{vacation}/send', [VacationController::class, 'send'])->name('vacations.send');
+        Route::put('vacations/{vacation}/cancel', [VacationController::class, 'cancel'])->name('vacations.cancel');
         Route::put('vacations/{vacation}/approve', [VacationController::class, 'approve'])->name('vacations.approve');
         Route::put('vacations/{vacation}/deny', [VacationController::class, 'deny'])->name('vacations.deny');
         Route::put('vacations/{vacation}/exportPdf', [VacationController::class, 'exportPdf'])->name('vacations.exportPdf');

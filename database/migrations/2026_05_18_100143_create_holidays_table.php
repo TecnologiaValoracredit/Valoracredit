@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
 
+            $table->date('date');
+
             $table->unsignedSmallInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
             

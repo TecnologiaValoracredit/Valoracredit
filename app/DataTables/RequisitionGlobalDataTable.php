@@ -84,12 +84,12 @@ public function query(RequisitionGlobal $model): QueryBuilder
 
         $dgRole = Role::where('name', 'Dirección general')->first();
         $sentToDgEnum = RequisitionGlobalStatusEnum::SENT_TO_DG;
+        $underReviewByDgEnum = RequisitionGlobalStatusEnum::UNDER_REVIEW_BY_DG;
         $finalizedEnum = RequisitionGlobalStatusEnum::FINALIZED;
 
         //Si es DG, solamente enseña las globales que han sido enviadas o finalizadas
         if (auth()->user()->role->name == $dgRole->name){
-            $query = $query->where('requisition_global_statuses.name', $sentToDgEnum->value)
-                ->orWhere('requisition_global_statuses.name', $finalizedEnum->value);
+            $query = $query->whereIn('requisition_global_statuses.name', [$sentToDgEnum->value, $underReviewByDgEnum->value, $finalizedEnum->value ]);
         }
 
         return $query;

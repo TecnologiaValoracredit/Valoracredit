@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Vacation;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\MenuComposer;
 use Illuminate\Support\Facades\View;
@@ -28,5 +30,9 @@ class AppServiceProvider extends ServiceProvider
         View::composer('components.menu.vertical-menu', MenuComposer::class);
         View::composer('components.navbar.style-vertical-menu', MenuComposer::class);
 
+        Relation::enforceMorphMap([
+            'vacation' => \App\Models\Vacation::class,
+            'holiday' => \App\Models\Holiday::class,
+        ]);
     }
 }

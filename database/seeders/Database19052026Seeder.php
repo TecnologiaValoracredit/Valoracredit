@@ -15,14 +15,15 @@ class Database19052026Seeder extends Seeder
     public function run()
     {
         $this->call([
-            PermissionModule19052026Seeder::class, //LISTO
-            PermissionFunction19052026Seeder::class, //LISTO
-            PermissionPermission19052026Seeder::class, //LISTO
-            PermissionPermissionRole19052026Seeder::class, //LISTO
-            PermissionPermissionRole28052026Seeder::class, //LISTO
-            Menu19052026Seeder::class, //LISTO
+            // PermissionModule19052026Seeder::class, //LISTO
+            // PermissionFunction19052026Seeder::class, //LISTO
+            // PermissionPermission19052026Seeder::class, //LISTO
+            // PermissionPermissionRole19052026Seeder::class, //LISTO
+            // PermissionPermissionRole28052026Seeder::class, //LISTO
+            // Menu19052026Seeder::class, //LISTO
             VacationStatusSeeder::class, //LISTO
             VacationPolicySeeder::class, //LISTO
+            // HolidaySeeder::class,
         ]);
     }
 }

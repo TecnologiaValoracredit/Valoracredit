@@ -49,7 +49,7 @@ class Vacation extends Model
     }
     public function approvedByBoss(){
         return $this->approvals()
-        ->where('boss_id', $this->boss_id)
+        ->where('user_id', $this->boss_id)
         ->exists();
     }
     public function approvedWithPermissions($route_name) {

@@ -74,22 +74,6 @@ class VacationService {
         return [ $status, $error ];
     }
 
-    public function isHrOrHasPermissions() {
-        return auth()->user()->hasPermissions('vacations.seeAllVacations');
-    }
-    public function isBoss(Vacation $vacation) { 
-        return $vacation->boss_id == auth()->id();
-    }
-    public function canAction($vacation) {
-        return in_array($vacation->status->name, [VacationStatusEnum::CREATED->value, VacationStatusEnum::PENDING_BOSS->value, VacationStatusEnum::PENDING_HR->value]);
-    }
-    public function canSend($vacation) {
-        return $vacation->status->name == VacationStatusEnum::CREATED->value;
-    }
-    public function canDestroy($vacation) {
-        return $vacation->status->name == VacationStatusEnum::CREATED->value;
-    }
-
     public function destroy(Vacation $vacation ){
         $status = true;
         $error = null;
@@ -104,11 +88,18 @@ class VacationService {
         return [$status, $error];
     }
 
-    public function cancel(Request $request, Vacation $vacation) {
+    public function cancel(Vacation $vacation) {
         $status = true;
         $error = null;
-        
-        return [ $status, $error ];
+
+        try {
+            $this->cancelVacation($vacation);
+        } catch (\Throwable $th) {
+            $status = false;
+            $error = $th;
+        }
+
+        return [$status, $error];
     }
 
     public function send(Request $request, Vacation $vacation) {
@@ -162,6 +153,22 @@ class VacationService {
     }
 
     //HELPERS
+
+    public function isHrOrHasPermissions() {
+        return auth()->user()->hasPermissions('vacations.seeAllVacations');
+    }
+    public function isBoss(Vacation $vacation) { 
+        return $vacation->boss_id == auth()->id();
+    }
+    public function canAction($vacation) {
+        return in_array($vacation->status->name, [VacationStatusEnum::CREATED->value, VacationStatusEnum::PENDING_BOSS->value, VacationStatusEnum::PENDING_HR->value]);
+    }
+    public function canSend($vacation) {
+        return $vacation->status->name == VacationStatusEnum::CREATED->value;
+    }
+    public function canDestroy($vacation) {
+        return $vacation->status->name == VacationStatusEnum::CREATED->value;
+    }
 
     private function createVacation($requestInputs) {
         $user = auth()->user();
@@ -320,6 +327,10 @@ class VacationService {
     }
 
     private function sendVacation(Vacation $vacation) {
+        if ($vacation->user_id != auth()->id()) {
+            throw new ErrorException("Solo el creador de las vacaciones puede cancelarlas");
+        }
+
         if ($vacation->status->name != VacationStatusEnum::CREATED->value) {
             throw new ErrorException("No se puede enviar vacaciones previamente enviadas!");
         }
@@ -347,6 +358,11 @@ class VacationService {
         ];
         try {
             $this->createApproval($params);
+
+            $nextStatus = VacationStatus::where('name', VacationStatusEnum::PENDING_HR->value)->first();
+            $vacation->update([
+                'vacation_status_id' => $nextStatus->id,
+            ]);
         } catch (QueryException $e) {
             throw $e;
         }
@@ -364,7 +380,7 @@ class VacationService {
     }
 
     private function denyVacation(Vacation $vacation, $requestInputs) {
-        if (!$this->isBoss($vacation) || !$this->isHrOrHasPermissions()) {
+        if (!$this->isBoss($vacation) && !$this->isHrOrHasPermissions()) {
             throw new ErrorException("Solo el Jefe Inmediato o RH pueden rechazar vacaciones");
         }
 
@@ -377,6 +393,7 @@ class VacationService {
         
         try {
             $this->createApproval($params);
+            $vacation->dates()->delete();
 
             $nextStatus = VacationStatus::where('name', VacationStatusEnum::REJECTED->value)->first();
             $vacation->update([
@@ -386,6 +403,28 @@ class VacationService {
         } catch (QueryException $e) {
             throw $e;
         }        
+    }
+
+    private function cancelVacation(Vacation $vacation) {
+        if ($vacation->user_id != auth()->id()) {
+            throw new ErrorException("Solo el creador de las vacaciones puede cancelarlas");
+        }
+
+        if (in_array($vacation->status->name, [VacationStatusEnum::CREATED->value, VacationStatusEnum::APPROVED->value, VacationStatusEnum::REJECTED->value])) {
+            throw new ErrorException("No se pueden cancelar vacaciones previamente aprobadas, rechazadas o creadas");
+        }
+
+        $nextStatus = VacationStatus::where('name', VacationStatusEnum::CANCELLED->value)->first();
+        try {
+            $vacation->dates()->delete();
+            
+            $vacation->update([
+                'vacation_status_id' => $nextStatus->id,
+            ]);
+            $this->returnUnusedBalance($vacation);
+        } catch (QueryException $e) {
+            throw $e;
+        }
     }
 
     private function returnUnusedBalance(Vacation $vacation){

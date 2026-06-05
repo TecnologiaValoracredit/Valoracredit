@@ -47,10 +47,10 @@ class VacationDataTable extends DataTable
     public function getActions($row){
         $result = null;
 
-        $destroyChecks = in_array($row->status_name, [VacationStatusEnum::CREATED->value]);
-        $editChecks = in_array($row->status_name, [VacationStatusEnum::CREATED->value]);
-        $changeStatusChecks = in_array($row->status_name, [VacationStatusEnum::PENDING_BOSS->value, VacationStatusEnum::PENDING_HR->value])
-            && $row->boss_id == auth()->id();
+        $destroyChecks = $row->user_id == auth()->id() && $row->status_name ==  VacationStatusEnum::CREATED->value;
+        $editChecks = $row->user_id == auth()->id() && $row->status_name ==  VacationStatusEnum::CREATED->value;
+        $changeStatusChecks = ($row->boss_id == auth()->id() && $row->status_name ==  VacationStatusEnum::PENDING_BOSS->value) 
+            || (auth()->user()->hasPermissions('vacations.seeAllVacations') && $row->status_name ==  VacationStatusEnum::PENDING_HR->value);
         
         //SHOW
         $result .= '

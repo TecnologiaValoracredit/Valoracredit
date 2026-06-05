@@ -14,6 +14,7 @@
     {{isset($required) ? "required" : ""}}
     {{isset($readonly) ? $readonly == true ? "readonly" : "" : ""}}
     min = {{ $min ?? "" }}
+    max = {{ $max ?? "" }}
     data-tab = {{ $dataTab ?? '' }}
 >
 
