@@ -1,5 +1,3 @@
-import './banksSelect.js'
-
 const mediaQuery = window.matchMedia('(max-width: 768px)');
 
 function handleMediaSizing(e) {

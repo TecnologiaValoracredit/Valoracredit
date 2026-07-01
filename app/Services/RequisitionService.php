@@ -12,7 +12,6 @@ use App\Models\RequisitionEntry;
 use App\Models\FixedExpense;
 use App\Models\ExpenseDuration;
 use Carbon\Carbon;
-use App\Models\RequisitionApproval;
 use App\Models\RequisitionPayment;
 use App\Models\RequisitionRowEvidence;
 use App\Models\User;
@@ -27,7 +26,6 @@ use Illuminate\Support\Facades\Storage;
 use Webklex\PDFMerger\PDFMerger;
 use Illuminate\Filesystem\Filesystem;
 use Barryvdh\DomPDF\Facade\Pdf;
-use function PHPUnit\Framework\isNull;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequisitionMail;
@@ -491,7 +489,7 @@ class RequisitionService
             'requisition_id' => $requisition->id,
             'user_id' => auth()->id(),
             'role_id' => auth()->user()->role->id,
-            'action' => "Requisición cancelada por Jefe Inmediato",
+            'action' => "Requisición cancelada",
             'from_status_id' => $lastLog->to_status_id,
             'to_status_id' => $updatedStatus->id,
             'notes' => $request->notes,

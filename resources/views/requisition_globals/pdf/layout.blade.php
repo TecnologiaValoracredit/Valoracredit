@@ -38,6 +38,9 @@
         .right-text{
             text-align: right;
         }
+        .text-center {
+            text-align: center;
+        }
         .observations{
             border: 1px solid #000;
             height: 80px;
@@ -62,6 +65,13 @@
         .next-page{
             page-break-after: always;
         }
+
+        .main-description {
+            margin-top: -30px;
+            font-size: 14px;
+            border-collapse: separate;
+            border-spacing: 0 100px;
+        }
     </style>
 </head>
 <body>
@@ -70,65 +80,26 @@
 
     <h2 class="center">Requisición Global No.{{$requisition_global->id}} - {{ $requisition_global->requisitionGlobalStatus->name }}</h2>
 
-    <h3 style="margin-top: 40px">WS PROMOTORA SAPI DE CV</h3>
-    <h3>SOLICITUD DE AUTORIZACIÓN DE PAGOS</h3>
+    <h3 class="text-center" style="margin-top: 40px">WS PROMOTORA SAPI DE CV</h3>
+    <h3 class="text-center">SOLICITUD DE AUTORIZACIÓN DE PAGOS</h3>
 
-    <table class="no-border">
+    <table class="no-border main-description">
         <tr>
-            <td style="width: 50%;">
-                <table>
-                    <tr>
-                        <td><strong>Fecha de solicitud:</strong></td>
-                        <td>{{ date("d-m-Y",strtotime(($requisition_global->created_at))) }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Fecha de aplicación:</strong></td>
-                        <td>{{ date("d-m-Y",strtotime(($requisition_global->application_date))) }}</td>
-                    </tr>
-                </table>
-            </td>
-            <td style="width: 50%;">
-                <table>
-                    <tr>
-                        <td><strong>Solicita:</strong></td>
-                        <td>{{ $requisition_global->creator->name ?? '' }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Provisiona:</strong></td>
-                        <td>Francisco Sánchez</td>
-                    </tr>
-                </table>
-            </td>
+            <td style="margin-bottom: 40px;"><strong>Fecha de solicitud:</strong></td>
+            <td class="right-text">{{ date("d-m-Y",strtotime(($requisition_global->created_at))) }}</td>
         </tr>
-    </table>
-
-    <h3 style="margin-top: 20px">Proveedores</h3>
-
-    <table class="table">
-        <thead>
-            <th class="section-title">Nombre</th>
-            <th class="section-title">Importe</th>
-        </thead>
-
-        <tbody>
-            @foreach ($requisition_global->suppliersWithCurrencyTotals() as $supplier => $currencyTotals )
-                <tr>
-                    <td>{{ $supplier }}</td>
-                    <td>
-                        @foreach ($currencyTotals as $currency => $total)
-                        <div>&dollar;{{ number_format($total, 2) }} {{ $currency }}</div>
-                        <br>
-                        @endforeach
-                    </td>
-                </tr>
-            @endforeach
-            @foreach ($requisition_global->currenciesWithTotals() as $currency => $total)
-            <tr>
-                <td class="right-text"><strong>{{ "Total {$currency}" }}</strong></td>
-                <td>&dollar;{{ number_format($total, 2) }}</td>
-            </tr>
-            @endforeach
-        </tbody>
+        <tr>
+            <td><strong>Fecha de aplicación:</strong></td>
+            <td class="right-text">{{ date("d-m-Y",strtotime(($requisition_global->application_date))) }}</td>
+        </tr>
+        <tr>
+            <td><strong>Solicita:</strong></td>
+            <td class="right-text">{{ $requisition_global->creator->name ?? '' }}</td>
+        </tr>
+        <tr>
+            <td><strong>Provisiona:</strong></td>
+            <td class="right-text">Francisco Sánchez</td>
+        </tr>
     </table>
 
     <!-- TABLA DE FIRMAS -->
@@ -173,6 +144,38 @@
                 <strong>Firma del solciitante</strong>
             </td>
         </tr>
+    </table>
+
+    <div class="next-page"></div>
+
+    {{-- TABLA DE PROVEEDORES --}}
+    <h3 style="margin-top: 20px">Proveedores</h3>
+
+    <table class="table">
+        <thead>
+            <th class="section-title">Nombre</th>
+            <th class="section-title">Importe</th>
+        </thead>
+
+        <tbody>
+            @foreach ($requisition_global->suppliersWithCurrencyTotals() as $supplier => $currencyTotals )
+                <tr>
+                    <td>{{ $supplier }}</td>
+                    <td>
+                        @foreach ($currencyTotals as $currency => $total)
+                        <div>&dollar;{{ number_format($total, 2) }} {{ $currency }}</div>
+                        <br>
+                        @endforeach
+                    </td>
+                </tr>
+            @endforeach
+            @foreach ($requisition_global->currenciesWithTotals() as $currency => $total)
+            <tr>
+                <td class="right-text"><strong>{{ "Total {$currency}" }}</strong></td>
+                <td>&dollar;{{ number_format($total, 2) }}</td>
+            </tr>
+            @endforeach
+        </tbody>
     </table>
 
     <div class="next-page"></div>

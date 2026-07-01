@@ -91,7 +91,7 @@
                             </button>
                                 
                             <button id="cancel_requisition_btn" class="btn btn-danger w-15"
-                            onclick="cancelRequisition({{ $requisition->id }})">Cancelar</button>
+                            onclick="cancel({{ $requisition->id }})">Cancelar</button>
                         </div>
                     </div>
                 @endif
@@ -115,6 +115,7 @@
     </div>
     <x-slot:footerFiles>
         @vite('resources/js/pdfjs_viewer.js')
+        @vite('resources/js/requisitions/show.js')
     </x-slot>
 
 </x-base-layout>

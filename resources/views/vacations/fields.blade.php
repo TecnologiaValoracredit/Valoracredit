@@ -45,7 +45,7 @@
     <div class="col-md-12 bg-gradient bg-light">
         <div class="mt-3 text-center"><label for="dates"><b>Fechas</b></label></div>
     </div>
-    <div class="col-md-12 bg-gradient bg-light dates-container d-flex gap-2 flex-wrap justify-content-around">
+    <div class="col-md-12 bg-gradient bg-light dates-container d-flex gap-2 flex-wrap justify-content-around p-2">
     </div>
 </div>
 

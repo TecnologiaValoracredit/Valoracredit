@@ -6,6 +6,8 @@ const formatterMX = new Intl.NumberFormat('es-MX', {
 });
 
 const reqsWithBanks = $('.requisition-card select');
+
+
 // AJAX PARA ACTUALIZAR BANCO AL HACER SELECT DE CADA REQUISICIÓN
 if (reqsWithBanks.length > 0){
     reqsWithBanks.on('change', updateBank);

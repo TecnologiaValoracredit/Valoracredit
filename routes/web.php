@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalendarEventController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ExpenseTypeController;
@@ -63,10 +64,14 @@ use App\Http\Controllers\RIndicatorController;
 |
 */
 
+Route::redirect('/', '/login');
+
 Route::middleware("auth")->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard', ['title' => 'Inicio']);
     })->name("dashboard.index");
+
+    Route::get('/calendar_events', [CalendarEventController::class, 'events'])->name('calendar_events.events');
 
     Route::get('f_clasifications/getDataAutocomplete/{f_movement_type}', [FClasificationController::class, "getDataAutocomplete"])->name("f_clasifications.getDataAutocomplete");
     Route::get('f_beneficiaries/getDataAutocomplete', [FBeneficiaryController::class, "getDataAutocomplete"])->name("f_beneficiaries.getDataAutocomplete");
@@ -118,7 +123,7 @@ Route::middleware("auth")->group(function () {
         Route::put('vacations/{vacation}/cancel', [VacationController::class, 'cancel'])->name('vacations.cancel');
         Route::put('vacations/{vacation}/approve', [VacationController::class, 'approve'])->name('vacations.approve');
         Route::put('vacations/{vacation}/deny', [VacationController::class, 'deny'])->name('vacations.deny');
-        Route::put('vacations/{vacation}/exportPdf', [VacationController::class, 'exportPdf'])->name('vacations.exportPdf');
+        Route::get('vacations/{vacation}/exportPdf', [VacationController::class, 'exportPdf'])->name('vacations.exportPdf');
         Route::resource('vacations', VacationController::class);
 
         Route::resource('vacation_policies', VacationPolicyController::class);

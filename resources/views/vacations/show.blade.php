@@ -35,10 +35,12 @@
                         @csrf
                         @method("PUT")
                             <div class="col-md-12 d-flex justify-content-center gap-5">
-                                <button class="btn btn-primary w-15" type="submit"
-                                    form="form" formaction="{{ route('vacations.send', $vacation->id) }}">
-                                    Enviar a revisión
-                                </button>
+                                @if ($canSend)                                    
+                                    <button class="btn btn-primary w-15" type="submit"
+                                        form="form" formaction="{{ route('vacations.send', $vacation->id) }}">
+                                        Enviar a revisión
+                                    </button>
+                                @endif
                                 @if ($canDestroy)
                                     <button class="btn btn-danger w-15" type="submit"
                                     form="destroy-form" formaction="{{ route('vacations.destroy', $vacation->id) }}">
@@ -59,6 +61,7 @@
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
+        @vite('resources/js/vacations/show.js')
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>

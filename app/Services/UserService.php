@@ -24,4 +24,20 @@ class UserService {
             ]);
         }
     }
+
+    public function createRandomBirthDateForAllUsers() {
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $min = strtotime('1990-01-01');
+            $max = strtotime('2003-01-01');
+
+            $rand = random_int($min, $max);
+            $rand_date = date('Y-m-d', $rand);
+
+            $user->update([
+                'birthday' => $rand_date ?? null,
+            ]);
+        }
+    }
 }

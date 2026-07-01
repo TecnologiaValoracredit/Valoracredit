@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Vacation;
 use App\Services\VacationService;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class VacationController extends Controller
 {
@@ -15,6 +16,7 @@ class VacationController extends Controller
 
     public function index(VacationDataTable $dataTable) {
         $allowAdd = auth()->user()->hasPermissions("vacations.create");
+
         return $dataTable->render('vacations.index', compact('allowAdd'));
     }
     
@@ -130,5 +132,11 @@ class VacationController extends Controller
 
     public function exportPdf(Request $request, Vacation $vacation) {
 
+        $pdf = Pdf::loadView('vacations.pdf.layout', [
+            'vacation' => $vacation,
+        ])->setPaper('letter', 'portrait');
+
+
+        return $pdf->stream('vacaciones_'.$vacation->id.'.pdf');
     }
 }

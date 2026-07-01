@@ -5,20 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Holiday extends Model
+class Birthday extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'user_id',
         'date',
-        'description',
-        'created_by',
-        'updated_by',
     ];
-
-    public function creator() {
-        return $this->belongsTo(User::class, 'created_by', 'id');
+    
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function calendarEvents(){

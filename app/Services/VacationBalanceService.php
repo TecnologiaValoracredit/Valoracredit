@@ -59,13 +59,15 @@ class VacationBalanceService {
 
     private function autoCreateBalance(User $user) {
         //CALCULATE TOTAL ACTIVE YEARS
-        $activeYears = $user->getActiveYears();
-        $policy = VacationPolicy::where('years_from', $activeYears)->first();
+        $activeYears = $user->getActiveTimeInYears();
+        $policy = VacationPolicy::where('years_from', $activeYears)->where('is_active', 1)->first();
 
         //If policy is null, grab the latest
-        // if ($policy == null);
-        // $policy = VacationPolicy::latest()->first();
+        if ($policy == null){
+            $policy = VacationPolicy::latest()->where('is_active', 1)->first();
+        }
 
+        $canHaveAdvanceDays = $user->getActiveTimeInMonths() >= $policy->applicable_month_range;
         try {
             $vacationBalance = VacationBalance::create([
                 'user_id' => $user->id,
@@ -73,7 +75,7 @@ class VacationBalanceService {
                 'days_assigned' => $policy->days,
                 'days_used' => 0,
                 'days_remaining' => $policy->days,
-                'advance_days_available' => $policy->advance_days,
+                'advance_days_available' => $canHaveAdvanceDays ? $policy->advance_days : 0,
                 'advance_days_used' => 0,
             ]);
         } catch (QueryException $e) {
@@ -109,5 +111,58 @@ class VacationBalanceService {
         } catch (QueryException $e) {
             throw $e;
         }
+    }
+
+    //EXECUTE EVERY FIRST MONDAY OF MONTH
+    public function recalculateBalanceForAll() {
+        $this->createBalanceForUsersWithoutIt();
+        $users = User::with('vacationBalance')->where('is_active', 1)->get();
+
+        foreach ($users as $user) {
+            try {
+                $this->recalculateBalance($user);
+            } catch (\Throwable $th) {
+                error_log("Error recalculating balance for {$user->name}. Error: {$th->getMessage()}");
+                continue;
+            }
+        }
+    }
+
+    private function recalculateBalance(User $user) {
+            $activeTimeInYears = $user->getActiveTimeInYears();
+            $activeTimeInMonths = $user->getActiveTimeInMonths();
+
+            $balance = $user->vacationBalance;
+            $policy = VacationPolicy::where('years_from', $activeTimeInYears)->where('is_active', 1)->first();
+            
+            //If policy is null, grab the latest
+            if ($policy == null) {
+                $policy = VacationPolicy::latest()->where('is_active', 1)->first();
+            }
+
+            $params = null;
+            //Si el usuario ya cumplió mas años activo, actualiza la información de su balance
+            if ($activeTimeInYears > $balance->active_years) {
+                $advanceDaysUsed = $balance->advance_days_used;
+                $canHaveAdvanceDays = $activeTimeInMonths >= $policy->applicable_month_range;
+                $params = [
+                    'active_years' => $activeTimeInYears,
+                    'days_assigned' => $policy->days,
+                    'days_used' => $advanceDaysUsed,
+                    'days_remaining' => ($policy->days - $advanceDaysUsed),
+                    'advance_days_available' => $canHaveAdvanceDays ? $policy->advance_days : 0,
+                    'advance_days_used' => 0,
+                ];
+            }
+            //Ya que esta funcion se ejecuta cada mes, tambien checa si no se han gastado ya de sus dias de vacaciones en avance, cosa que indicaría que ya se le habían asignado días en una ocasión pasada
+            else if ($activeTimeInMonths >= $balance->applicable_month_range && $balance->advance_days_used == 0) {
+                $params = [
+                    'advance_days_available' => $policy->advance_days,
+                ];
+            }
+
+            if ($params !== null) {
+                $balance->update($params);                    
+            }
     }
 }

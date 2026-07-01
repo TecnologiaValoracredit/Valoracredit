@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Vacation;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\MenuComposer;
@@ -33,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             'vacation' => \App\Models\Vacation::class,
             'holiday' => \App\Models\Holiday::class,
+            'birthday' => \App\Models\Birthday::class,
         ]);
     }
 }

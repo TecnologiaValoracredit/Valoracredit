@@ -65,4 +65,26 @@ class Vacation extends Model
             return $approval->user->hasPermissions($route_name);
         });
     }
+    public function bossApproval() {
+        return $this->approvals
+        ->where('user_id', $this->boss_id)
+        ->first();
+    }
+    public function hrOrWithPermissionsApproval($route_name) {
+        return $this->approvals
+        ->first(function ($approval) use ($route_name) {
+            return $approval->user->hasPermissions($route_name);
+        });
+    }
+    public function calendarEvents(){
+        return $this->morphMany(CalendarEvent::class, 'related');
+    }
+    public function startDate() {
+        return $this->hasOne(VacationDate::class, 'vacation_id', 'id')
+            ->oldestOfMany('date');
+    }
+    public function endDate() {
+        return $this->hasOne(VacationDate::class, 'vacation_id', 'id')
+            ->latestOfMany('date');
+    }
 }

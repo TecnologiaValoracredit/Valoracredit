@@ -150,6 +150,10 @@ class User extends Authenticatable
         return $this->hasOne(VacationBalance::class, 'user_id', 'id');
     }
 
+    public function birthdayEvent() {
+        return $this->hasOne(Birthday::class, 'user_id', 'id');
+    }
+
     public function permissions()
 	{
 		return $this->role->permissionsRole();
@@ -319,7 +323,7 @@ class User extends Authenticatable
         return $names;
     }
 
-    public function getActiveYears() {
+    public function getActiveTimeInYears() {
 
         if (!$this->entry_date) {
             return 0;
@@ -328,5 +332,25 @@ class User extends Authenticatable
         $activeYears = Carbon::parse($this->entry_date)->diffInYears(now());
 
         return $activeYears;
+    }
+
+    public function getActiveTimeInYearsDecimal() {
+        if (!$this->entry_date) {
+            return 0;
+        }
+
+        $activeYears = Carbon::parse($this->entry_date)->floatDiffInYears(now());
+
+        return $activeYears;
+    }
+
+    public function getActiveTimeInMonths() {
+        if (!$this->entry_date) {
+            return 0;
+        }
+
+        $activeMonths = Carbon::parse($this->entry_date)->diffInMonths(now());
+
+        return $activeMonths;
     }
 }

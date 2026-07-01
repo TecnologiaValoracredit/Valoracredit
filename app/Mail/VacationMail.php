@@ -18,9 +18,13 @@ class VacationMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    private string $receiver;
+    private array $params;
+
+    public function __construct(string $receiver, array $params)
     {
-        //
+        $this->receiver = $receiver;
+        $this->params = $params;
     }
 
     /**
@@ -31,7 +35,7 @@ class VacationMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Vacation Mail',
+            subject: $this->params['subject'],
         );
     }
 
@@ -43,7 +47,14 @@ class VacationMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'vacations.email.layout',
+            with: [
+                'subject' => $this->params['subject'],
+                'title' => $this->params['title'],
+                'receiver' => $this->receiver,
+                'bodyMessage' => $this->params['message'],
+                'url' => $this->params['url'],
+            ],
         );
     }
 

@@ -6,13 +6,19 @@ use App\Enums\RolesEnum;
 use App\Enums\VacationDecisionEnum;
 use App\Enums\VacationStatusEnum;
 use App\Enums\BalanceUsedEnum;
+use App\Models\Role;
+use App\Models\User;
 use App\Models\Vacation;
 use App\Models\VacationDate;
 use App\Models\VacationApproval;
 use App\Models\VacationStatus;
+use Carbon\Carbon;
 use ErrorException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+
+use App\Mail\VacationMail;
+use Illuminate\Support\Facades\Mail;
 
 class VacationService {
     public function __construct() {
@@ -34,7 +40,16 @@ class VacationService {
             ->values()
         ->all();
 
+        $vacation = null;
         try {
+            foreach ($dates as $key => $date) {
+                $dt = Carbon::parse($date);
+
+                if ($dt < Carbon::today()) {
+                    throw new ErrorException("Fechas ingresadas invalidas");
+                }
+            }
+            
             $vacation = $this->createVacation($requestInputs);
             $this->createVacationDates($vacation, $dates);
 
@@ -340,6 +355,17 @@ class VacationService {
             $vacation->update([
                 'vacation_status_id' => $nextStatus->id,
             ]);
+
+            $receivers = $vacation->boss;
+            $receivers = auth()->user();
+
+            $params = [
+                'subject' => 'Vacaciones pendientes de aprobación',
+                'title' => "Vacaciones enviadas para aprobación de Jefe Inmediato",
+                'message' => 'Se ha enviadon unas vacaciones para su revisión y aprobación de Jefe Inmediato.',
+                'url' => route('vacations.changeStatus', $vacation->id),
+            ];
+            $this->sendMail($receivers, $params);
         } catch (QueryException $e) {
             throw $e;
         }
@@ -367,16 +393,61 @@ class VacationService {
             throw $e;
         }
 
+        $vacation->refresh();
+        $receivers = null;
+        $params = null;
         if ($this->checkForApprovability($vacation)){
             try {
                 $nextStatus = VacationStatus::where('name', VacationStatusEnum::APPROVED->value)->first();
                 $vacation->update([
                     'vacation_status_id' => $nextStatus->id,
                 ]);
+
+                $this->createCalendarEvents($vacation);
+
+                $receivers = $vacation->user;
+                $receivers = User::where('id', 92)->first();
+
+                $params = [
+                    'subject' => 'Vacaciones aprobadas',
+                    'title' => "Vacaciones aprobadas",
+                    'message' => 'Sus vacaciones han sido aprobadas, ingrese al sistema para ver mas acerca de esta decisión.',
+                    'url' => route('vacations.show', $vacation->id),
+                ];
             } catch (QueryException $e) {
                 throw $e;
             }
         }
+        else {
+            $hrRole = Role::where('name', 'Recursos Humanos')->first();
+            $receivers = User::where('role_id', $hrRole->id)->get()->all();
+            $receivers = User::where('id', 92)->first();
+
+            $params = [
+                'subject' => 'Vacaciones pendientes de aprobación',
+                'title' => "Vacaciones enviadas para aprobación de Recursos Humanos",
+                'message' => 'Se han enviado unas vacaciones para su revisión y aprobación de Recursos Humanos.',
+                'url' => route('vacations.changeStatus', $vacation->id),
+            ];
+        }
+
+        $this->sendMail($receivers, $params);
+    }
+
+    private function createCalendarEvents(Vacation $vacation) {
+        $startDate = $vacation->startDate->date;
+        $endDate = $vacation->endDate->date;
+
+        $vacation->calendarEvents()->create([
+            'event_type' => 'vacation',
+            'title' => "Vacations - {$vacation->user->name}",
+            'description' => $vacation->notes,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'all_day' => true,
+            'color' => 'blue',
+            'user_id' => $vacation->user_id,
+        ]);
     }
 
     private function denyVacation(Vacation $vacation, $requestInputs) {
@@ -400,6 +471,17 @@ class VacationService {
                 'vacation_status_id' => $nextStatus->id,
             ]);
             $this->returnUnusedBalance($vacation);
+
+            $receivers = $vacation->user;
+            $receivers = auth()->user();
+
+            $params = [
+                'subject' => 'Vacaciones rechazadas',
+                'title' => "Vacaciones rechazadas",
+                'message' => 'Sus vacaciones han sido rechazadas, ingrese al sistema para ver mas acerca de esta decisión.',
+                'url' => route('vacations.show', $vacation->id),
+            ];
+            $this->sendMail($receivers, $params);
         } catch (QueryException $e) {
             throw $e;
         }        
@@ -458,5 +540,20 @@ class VacationService {
     private function checkForApprovability(Vacation $vacation) {
         return $vacation->isSelfApprovedWithPermissions('vacations.seeAllVacations') 
         || ($vacation->approvedWithPermissions('vacations.seeAllVacations') && $vacation->approvedByBoss());
+    }
+
+    private function sendMail($receivers, array $params){
+        //Normaliza el arreglo                
+        if (!is_array($receivers)){
+            $receivers = [$receivers];
+        }
+
+        // if (config('app.sent_mails')) {
+            foreach ($receivers as $receiver) {
+                if ($receiver->email && !str_contains($receiver->email, 'DN')) {
+                    Mail::to($receiver->email)->send((new VacationMail($receiver->name, $params)));
+                }
+            }
+        // }
     }
 }

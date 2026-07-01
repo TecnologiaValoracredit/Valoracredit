@@ -2,25 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Services\UserService;
-use App\Services\VacationBalanceService;
 use Illuminate\Console\Command;
+USE App\Services\VacationBalanceService;
 
-class autoCreateVacationBalances extends Command
+class RecalculateVacationBalances extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'vacationBalances:autoCreate';
+    protected $signature = 'vacationBalances:recalculateAll';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Crea balances de vacaciones para todos los usuarios';
+    protected $description = 'Recalcula el saldo de vacaciones de los usuarios';
 
     /**
      * Execute the console command.
@@ -29,11 +28,8 @@ class autoCreateVacationBalances extends Command
      */
     public function handle()
     {
-        $userService = new UserService();
-        $userService->createRandomEntryDateForAllUsers();
-
         $service = new VacationBalanceService();
-        $service->createBalanceForUsersWithoutIt();
+        $service->recalculateBalanceForAll();
 
         return Command::SUCCESS;
     }

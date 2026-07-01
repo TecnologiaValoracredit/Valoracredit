@@ -52,4 +52,34 @@
         </div>
     </div>
 
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <div class="mb-2 mt-2">
+                DECISIÓN Y NOTAS - RH
+            </div>
+            <hr>
+            <div>
+                <label for="user"><strong>Decisión: </strong></label>
+                <span id="user">{{ $vacation->hrOrWithPermissionsApproval('vacations.seeAllVacations')->decision ?? "Decisión no tomada" }}</span>
+            </div>
+            <div>
+                <label for="boss"><strong>Notas: </strong></label>
+                <span id="boss">{{ $vacation->hrOrWithPermissionsApproval('vacations.seeAllVacations')->notes ?? "Notas no ingresadas" }}</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-2 mt-2">
+                DECISIÓN Y NOTAS - JEFE INMEDIATO
+            </div>
+            <hr>
+            <div>
+                <label for="total_days"><strong>Decisión: </strong></label>
+                <span id="total_days">{{ $vacation->bossApproval()->decision ?? "Decisión no tomada" }}</span>
+            </div>
+            <div>
+                <label for="reason"><strong>Notas: </strong></label>
+                <span id="reason">{{ $vacation->bossApproval()->notes ?? "Notas no ingresadas" }}</span>
+            </div>
+        </div>
+    </div>
 </div>

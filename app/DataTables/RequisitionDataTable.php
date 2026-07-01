@@ -274,7 +274,7 @@ class RequisitionDataTable extends DataTable
                     ->setTableId('requisitions-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->orderBy(1, "desc")
+                    ->orderBy(0, "desc")
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -295,6 +295,7 @@ class RequisitionDataTable extends DataTable
         //Si es tesorero
         if(auth()->user()->hasPermissions('requisitions.seeAllRequisitions')){
             $columns = [
+                Column::make('id')->title('Id')->searchable(false)->visible(false),
                 Column::make('user_name')->title('Usuario')->name('users.name')->searchable(true),
                 Column::make('folio')->title('Folio'),
                 Column::make('supplier_name')->title('Proveedor')->name('suppliers.name')->searchable(true),
@@ -305,6 +306,7 @@ class RequisitionDataTable extends DataTable
             ];
         }else{
             $columns = [
+                Column::make('id')->title('Id')->searchable(false)->visible(false),
                 Column::make('folio')->title('Folio'),
                 Column::make('supplier_name')->title('Proveedor')->name('suppliers.name')->searchable(true),
                 Column::make('expense_type_name')->title('Tipo de Gasto')->name('expense_types.name')->searchable(true),
