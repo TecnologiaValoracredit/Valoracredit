@@ -29,9 +29,6 @@ class CreateVacationBalances extends Command
      */
     public function handle()
     {
-        $userService = new UserService();
-        $userService->createRandomEntryDateForAllUsers();
-
         $service = new VacationBalanceService();
         $service->createBalanceForUsersWithoutIt();
 

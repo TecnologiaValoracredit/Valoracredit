@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('requisitions:handleUnreviewed')->mondays()->at('10:00');
+        $schedule->command('vacationBalances:recalculateAll')->monthlyOn(1, '11:00');
     }
 
     /**
