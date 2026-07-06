@@ -16,7 +16,7 @@
                     <div class="nav-logo">
                         <div class="nav-item theme-logo">
                             <a href="{{getRouterValue();}}/dashboard">
-                                <img src="{{Vite::asset('resources/images/logo.svg')}}" class="navbar-logo logo-light" alt="logo">
+                                <img src="{{Vite::asset('resources/images/logo.png')}}" class="navbar-logo logo-light" style="width: 100%;" alt="logo">
                             </a>
                         </div>
                         <div class="nav-item theme-text">

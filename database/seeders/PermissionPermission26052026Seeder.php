@@ -8,7 +8,7 @@ use App\Models\PermissionModule;
 use App\Models\PermissionFunction   ;
 use App\Models\PermissionPermission;
 
-class PermissionPermission21082025Seeder extends Seeder
+class PermissionPermission26052026Seeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,7 +17,7 @@ class PermissionPermission21082025Seeder extends Seeder
      */
     public function run()
     {
-		$this->createPermissions(["requisition_rows"]);
+		$this->createPermissions(["minutes"]);
     }
 
     public function createPermissions($moduleNames = [], $functionNames = [], $addCrudFunctions = true) {

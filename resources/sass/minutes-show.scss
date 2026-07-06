@@ -1,0 +1,48 @@
+.minute-tasks-table td,
+.minute-tasks-table th {
+    vertical-align: middle;
+}
+
+.minute-tasks-table input.form-control,
+.minute-tasks-table select.form-control {
+    min-width: 110px;
+    padding: 4px 6px;
+    font-size: 13px;
+}
+
+.minute-tasks-table .progress {
+    height: 8px;
+    min-width: 80px;
+}
+
+.minute-metric-card {
+    border-radius: 10px;
+    padding: 16px;
+    color: #fff;
+}
+
+.minute-metric-card h2 {
+    color: #fff;
+    margin: 0;
+    font-size: 28px;
+}
+
+.minute-metric-card small {
+    opacity: 0.9;
+}
+
+.bg-grad-primary {
+    background: linear-gradient(135deg, #5279f5, #2c4ad6);
+}
+
+.bg-grad-success {
+    background: linear-gradient(135deg, #3cba92, #0ba360);
+}
+
+.bg-grad-warning {
+    background: linear-gradient(135deg, #f7b733, #fc4a1a);
+}
+
+.bg-grad-danger {
+    background: linear-gradient(135deg, #ff6a6a, #d62828);
+}

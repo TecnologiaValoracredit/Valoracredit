@@ -1,0 +1,28 @@
+.minute-report-card {
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    padding: 14px;
+    background: #fff;
+}
+
+.minute-report-kpi {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.minute-report-subtitle {
+    color: #6c757d;
+    font-size: 12px;
+}
+
+.minute-history-table td,
+.minute-history-table th {
+    vertical-align: middle;
+}
+
+.minute-field-badge {
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 11px;
+}

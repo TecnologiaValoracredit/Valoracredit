@@ -24,6 +24,8 @@ export default defineConfig({
                 'resources/sass/input-inline.scss',
                 'resources/sass/colvis.scss',
                 'resources/sass/f_fluxes.scss',
+                'resources/sass/minutes-show.scss',
+                'resources/sass/minutes-reports.scss',
 
                 'resources/layouts/modern-light-menu/loader.js',
                 'resources/layouts/modern-light-menu/app.js',
@@ -58,6 +60,9 @@ export default defineConfig({
 
                 'resources/js/tinymce_editor.js',
                 'resources/js/contract_types.js',
+                'resources/js/minutes/show.js',
+                'resources/js/minutes/fields.js',
+                'resources/js/minutes/monthly-report.js',
 
                 'resources/js/signature.js',
 
