@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Birthday;
 use Illuminate\Database\QueryException;
+use Carbon\Carbon;
 
 class BirthdayService {
     public function createCalendarEvents() {
@@ -33,7 +34,7 @@ class BirthdayService {
         try {
             Birthday::create([
                 'user_id' => $user->id,
-                'date' => $user->birthday,
+                'date' => $user->birthday ?? Carbon::today(),
             ]);
         } catch (QueryException $e) {
             throw $e;
@@ -48,7 +49,7 @@ class BirthdayService {
                 $this->autoCreateBirthday($user);
             } catch (\Throwable $th) {
                 error_log("Error birthday for {$user->name}. Error: {$th->getMessage()}");
-                break;
+                continue;
             }
         }
     }

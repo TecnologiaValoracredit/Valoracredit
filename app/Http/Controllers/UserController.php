@@ -21,6 +21,7 @@ use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 
 
 class UserController extends Controller
@@ -261,6 +262,13 @@ class UserController extends Controller
         } catch (QueryException $e) {
             $status = false;
             $message = $this->getErrorMessage($e, 'users');
+        }
+
+        try {
+            Artisan::call('vacationBalances:create');
+            Artisan::call('birthdays:create');
+        } catch (\Throwable $th) {
+            //throw $th;
         }
 
         return $this->getResponse($status, $message, $user);

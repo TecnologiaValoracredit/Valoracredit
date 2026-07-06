@@ -45,7 +45,7 @@
         }
         
         .w-15 { width: 15%; }
-        .w-25 { width: 25%; }
+        .w-20 { width: 20%; }
 
         .approved { color: #008000; }
         .denied { color: #ff0000; }
@@ -70,22 +70,29 @@
                     <th>TOTAL</th>
                     <th>PROVEEDORES</th>
                     <th>ORIGEN</th>
+                    <th>FECHA DE CREACIÓN</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($requisition_globals as $global)
                 <tr>
-                    <td class="w-25">RG-{{ $global->id ?? "NO ESPECIFICADO" }}</td>
-                    <td class="w-25">{{ number_format($global->totalGlobalAmount(), 2) ?? "NO ESPECIFICADO" }}</td>
-                    <td class="w-25">
+                    <td class="w-20">RG-{{ $global->id ?? "NO ESPECIFICADO" }}</td>
+                    <td class="w-20">
+                        @foreach ($requisition_global->currenciesWithTotals() as $currency => $total)
+                        <div class="d-flex justify-content-between px-3 py-2">
+                            <span>{{ "Total ({$currency})" }} &dollar;{{ number_format($total, 2) }}</span><br>
+                        @endforeach
+                    </td>
+                    <td class="w-20">
                         @foreach ($global->suppliers() as $supplier)
                             <span>{{ $supplier }}</span><br>
                         @endforeach
                     </td>
-                    <td class="w-25"><a style="color: #0000ff" href="{{ route('requisition_globals.review', $global->id) ?? "#" }}">Ver más</a></td>
+                    <td class="w-20"><a style="color: #0000ff" href="{{ route('requisition_globals.review', $global->id) ?? "#" }}">Ver más</a></td>
+                    <td class="w-20">{{ date("d/m/Y", strtotime($global->application_date)) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="4" style="border-bottom: 1px solid black;"></td>
+                    <td colspan="5" style="border-bottom: 1px solid black;"></td>
                 </tr>
                 @endforeach
             </tbody>

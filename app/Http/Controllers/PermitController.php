@@ -213,7 +213,7 @@ class PermitController extends Controller
     public function changeStatus(Permit $permit){
 
         try {
-            $this->authorize('changePermitStatus', $permit);
+            $this->authorize('changeStatus', $permit);
         } catch (\Throwable $th) {
             return redirect()->route('unauthorized');
         }

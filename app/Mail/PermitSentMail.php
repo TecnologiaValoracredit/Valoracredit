@@ -59,7 +59,7 @@ class PermitSentMail extends Mailable implements ShouldQueue
                 'receiver_name' => $receiver_name,
                 'mail_message' => $mail_message,
                 'permit' => $this->permit,
-                'url' => route('permits.changePermitStatus', $this->permit->id),
+                'url' => route('permits.changeStatus', $this->permit->id),
             ]
         );
     }

@@ -11,7 +11,7 @@ class PermissionRequestTemplate
         $isHr = $receiver->hasPermissions('permits.seeAllPermits');
         $receiver_name = $receiver->name;
         $message = $isHr ? "Este permiso requiere revisión de RH." : "Este permiso requiere revisión del Jefe Inmediato del solicitante.";
-        $url = route('permits.changePermitStatus', $permit->id);
+        $url = route('permits.changeStatus', $permit->id);
 
         return [
             'template' => [

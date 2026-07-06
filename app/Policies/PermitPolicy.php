@@ -100,7 +100,7 @@ class PermitPolicy
         && ($permit->permitStatus->name == "Creado");
     }
 
-    public function changePermitStatus(User $user, Permit $permit) {
+    public function changeStatus(User $user, Permit $permit) {
         //Checa si el usuario es el jefe del permiso O recursos humanos
         //Y
         //Checa si el permiso fue enviado y si esta en revisión
