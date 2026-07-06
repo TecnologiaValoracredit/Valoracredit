@@ -17,12 +17,12 @@ return new class extends Migration
         Schema::table('permission_modules', function (Blueprint $table) {
             //
 
-            PermissionModule::create([
-                'name' => 'contracts',
-                'description' => 'Contratos',
-                'module_type_id' => '2',
-                'parent_id' => '2'
-            ]);
+            // PermissionModule::create([
+            //     'name' => 'contracts',
+            //     'description' => 'Contratos',
+            //     'module_type_id' => '2',
+            //     'parent_id' => '2'
+            // ]);
         });
     }
 

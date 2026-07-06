@@ -6,7 +6,7 @@ use App\Models\TerminationReason;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TerminationReasonSeeder extends Seeder
+class TerminationReasonsSeeder extends Seeder
 {
     /** 
      * Run the database seeds.

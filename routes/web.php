@@ -12,6 +12,8 @@ use App\Http\Controllers\PreApplicationController;
 use App\Http\Controllers\VacationBalanceController;
 use App\Http\Controllers\VacationController;
 use App\Http\Controllers\VacationPolicyController;
+use App\Http\Controllers\MinuteController;
+use App\Http\Controllers\MinuteTaskController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
@@ -254,6 +256,16 @@ Route::middleware("auth")->group(function () {
     Route::delete('commissions/deleteInstitutionFromManager/{institution_commission}',  [CommissionController::class, 'deleteInstitutionFromManager'])->name('commissions.deleteInstitutionFromManager');
     Route::delete('commissions/deleteName/{s_user_name}',  [CommissionController::class, 'deleteName'])->name('commissions.deleteName');
     
+    //MINUTAS
+    Route::get('minutes/reports/monthly', [MinuteController::class, 'monthlyReport'])->name('minutes.reports.monthly');
+    Route::get('minutes/{minute}/tasks/{task}/history', [MinuteController::class, 'taskHistory'])->name('minutes.tasks.history');
+    Route::get('minutes/{minute}/exportPdf', [MinuteController::class, 'exportPdf'])->name('minutes.exportPdf');
+    Route::post('minutes/{minute}/tasks', [MinuteTaskController::class, 'store'])->name('minutes.tasks.store');
+    Route::put('minutes/{minute}/tasks/{task}', [MinuteTaskController::class, 'update'])->name('minutes.tasks.update');
+    Route::delete('minutes/{minute}/tasks/{task}', [MinuteTaskController::class, 'destroy'])->name('minutes.tasks.destroy');
+    Route::resource("minutes", MinuteController::class);
+
+
     //DATATABLES
     Route::get('r_indicators/getRIndicatorFinalDataTable',  [RIndicatorController::class, 'getRIndicatorFinalDataTable'])->name('r_indicators.getRIndicatorFinalDataTable');
     Route::get('r_indicators/getRIndicatorDataTable',  [RIndicatorController::class, 'getRIndicatorDataTable'])->name('r_indicators.getRIndicatorDataTable');
