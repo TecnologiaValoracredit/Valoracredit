@@ -16,11 +16,11 @@ class VacationPolicySeeder extends Seeder
     public function run()
     {
         $values = [
-            ['years_from' => 0, 'years_to' => 1, 'days' => 0, 'advance_days' => 3, 'applicable_month_range' => 6],
-            ['years_from' => 1, 'years_to' => 2, 'days' => 12, 'advance_days' => 3, 'applicable_month_range' => 18],
-            ['years_from' => 2, 'years_to' => 3, 'days' => 14, 'advance_days' => 3, 'applicable_month_range' => 30],
-            ['years_from' => 3, 'years_to' => 4, 'days' => 16, 'advance_days' => 3, 'applicable_month_range' => 42],
-            ['years_from' => 4, 'years_to' => 5, 'days' => 18, 'advance_days' => 3, 'applicable_month_range' => 54],
+            ['years_from' => 0, 'years_to' => 1, 'days' => 0, 'advance_days' => 6, 'applicable_month_range' => 6],
+            ['years_from' => 1, 'years_to' => 2, 'days' => 12, 'advance_days' => 6, 'applicable_month_range' => 18],
+            ['years_from' => 2, 'years_to' => 3, 'days' => 14, 'advance_days' => 6, 'applicable_month_range' => 30],
+            ['years_from' => 3, 'years_to' => 4, 'days' => 16, 'advance_days' => 6, 'applicable_month_range' => 42],
+            ['years_from' => 4, 'years_to' => 5, 'days' => 18, 'advance_days' => 6, 'applicable_month_range' => 54],
         ];
 
         foreach ($values as $key => $value) {

@@ -441,7 +441,7 @@ class VacationService {
         $vacation->calendarEvents()->create([
             'event_type' => 'vacation',
             'title' => "Vacations - {$vacation->user->name}",
-            'description' => $vacation->notes,
+            'description' => $vacation->notes ?? "Vacaciones de ${$vacation->user->name}",
             'start_date' => $startDate,
             'end_date' => $endDate,
             'all_day' => true,
@@ -548,12 +548,12 @@ class VacationService {
             $receivers = [$receivers];
         }
 
-        // if (config('app.sent_mails')) {
+        if (config('app.sent_mails')) {
             foreach ($receivers as $receiver) {
                 if ($receiver->email && !str_contains($receiver->email, 'DN')) {
                     Mail::to($receiver->email)->send((new VacationMail($receiver->name, $params)));
                 }
             }
-        // }
+        }
     }
 }

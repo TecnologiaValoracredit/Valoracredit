@@ -33,7 +33,7 @@
             </div>
             <div>
                 <label for="created_at"><strong>Fecha de creación: </strong></label>
-                <span id="created_at">{{ date("d-m-Y",strtotime($vacation->created_at)) }}</span>
+                <span id="created_at">{{ date("d/m/Y",strtotime($vacation->created_at)) }}</span>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
         </div>
         <div class="col-md-12 d-flex gap-2 flex-wrap justify-content-around text-dark">
             @foreach ($vacation->dates as $key => $date)
-            <div class="mt-2 mb-2">{{ date("d-m-Y", strtotime($date->date)) }}</div>
+            <div class="mt-2 mb-2 bg-primary rounded-1 py-1 px-2 fw-bold" style="font-size: 1.1rem;">{{ date("d/m/Y", strtotime($date->date)) }}</div>
             @endforeach
         </div>
     </div>
