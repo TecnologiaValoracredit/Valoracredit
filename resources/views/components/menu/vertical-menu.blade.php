@@ -15,7 +15,11 @@
                 <div class="navbar-nav theme-brand flex-row  text-center">
                     <div class="nav-logo">
                         <div class="nav-item theme-text">
-                            <a href="{{getRouterValue();}}/dashboard" class="nav-link"><img src="{{Vite::asset('resources/images/logo.png')}}" class="navbar-logo logo-light" style="width: 75%;" alt="logo"></a>
+                            @if(optional(auth()->user()->company)->id == 1 || auth()->user()->company == null)
+                                <a href="{{getRouterValue();}}/dashboard" class="nav-link"><img src="{{Vite::asset('resources/images/logo.png')}}" class="navbar-logo logo-light" style="width: 75%;" alt="logo"></a>
+                            @else
+                                <a href="{{getRouterValue();}}/dashboard" class="nav-link"><img src="{{Vite::asset('resources/images/gcelogo.png')}}" class="navbar-logo logo-light" style="width: 75%;" alt="logo"></a>
+                            @endif
                         </div>
                     </div>
                     <div class="nav-item theme-toggle sidebar-toggle">

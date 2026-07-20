@@ -72,6 +72,7 @@ class User extends Authenticatable
         'is_replacing_on_hired',
         'replacement_for_id',
         'path_signature',
+        'company_id'
     ];
 
     /**
@@ -220,6 +221,10 @@ class User extends Authenticatable
     //RPuesto de trabajo 
     public function jobPosition(){
         return $this->belongsTo(JobPosition::class, "position_id", "id");
+    }
+
+    public function company(){
+        return $this->belongsTo(Company::class, "company_id", "id");
     }
 
     public function getUserTypeAttribute()

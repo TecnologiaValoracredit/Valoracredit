@@ -88,6 +88,7 @@ export default defineConfig({
 
                 'resources/js/vacations/create.js',
                 'resources/js/vacations/edit.js',
+                'resources/js/vacations/show.js',
             ],
             refresh: true,
         }),

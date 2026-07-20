@@ -259,6 +259,7 @@ class VacationService {
                 VacationDate::create([
                     'vacation_id' => $vacation->id,
                     'date' => $date,
+                    'created_at' => now(),
                 ]);
             }
         } catch (\Throwable $th) {
@@ -464,7 +465,7 @@ class VacationService {
         
         try {
             $this->createApproval($params);
-            $vacation->dates()->delete();
+            // $vacation->dates()->delete();
 
             $nextStatus = VacationStatus::where('name', VacationStatusEnum::REJECTED->value)->first();
             $vacation->update([

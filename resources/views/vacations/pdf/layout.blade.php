@@ -66,7 +66,17 @@
     </style>
 </head>
 <body>
-    <img src="{{ public_path('images/logo 2 tintas.png') }}" class="logo">
+    @php
+        $formatVacationDate = function ($value) {
+            return ucfirst(\Carbon\Carbon::parse($value)->locale('es')->translatedFormat('d/m/Y (l)'));
+        };
+    @endphp
+
+    @if(optional(auth()->user()->company)->id == 1 || auth()->user()->company == null)
+        <img src="{{ public_path('images/logo 2 tintas.png') }}" class="logo">
+    @else
+        <img src="{{ public_path('images/gcelogo.png') }}" class="logo">
+    @endif
 
     <h2 class="center">Solicitud de Vacaciones No. {{$vacation->id}} - Aprobada</h2>
 
@@ -109,8 +119,8 @@
                         <td>{{ $vacation->notes ?? '' }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Fecha:</strong></td>
-                        <td>{{ date("d-m-Y",strtotime(($vacation->created_at))) }}</td>
+                        <td><strong>Fecha de solicitud:</strong></td>
+                        <td>{{ date("d/m/Y",strtotime(($vacation->created_at))) }}</td>
                     </tr>
                 </table>
             </td>
@@ -122,13 +132,13 @@
     <table>
         <tr class="section-title">
             <th colspan="{{ $vacation->total_days }}" class="text-center">
-                Fechas
+                Fechas solicitadas (días que faltará el solicitante)
             </th>
         </tr>
 
         <tr>
             @foreach ($vacation->dates as $key => $date)
-            <td class="text-center">{{ date("d-m-Y", strtotime($date->date)) }}</td>
+            <td class="text-center">{{ $formatVacationDate($date->date) }}</td>
             @endforeach
         </tr>
     </table>

@@ -78,7 +78,7 @@
     ])
 </div>
 
-<div class="col-4">
+<div class="col-3">
     @include("components.custom.forms.input", [
         "id" => "salary",
         "name" => "salary",
@@ -89,7 +89,19 @@
     ])
 </div>
 
-<div class="col-8">
+<div class="col-3">
+    @include("components.custom.forms.input-select", [
+        "id" => "company_id",
+        "name" => "company_id",
+        "elements" => $companies,
+        "placeholder" => "Empresa...",
+        "value" => isset($user) ? $user->company_id :  old("company_id"),
+        "label" => "Empresa",
+        "dataTab" => "job",
+    ])
+</div>
+
+<div class="col-6">
     @include("components.custom.forms.input", [
         "id" => "other_benefits",
         "name" => "other_benefits",

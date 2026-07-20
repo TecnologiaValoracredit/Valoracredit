@@ -36,7 +36,7 @@
                 "label" => "Días a tomar:",
                 "required" => true,
                 "min" => 1,
-                "max" => auth()->user()->vacationBalance->advance_days + auth()->user()->vacationBalance->days_remaining,
+                "max" => auth()->user()->vacationBalance->advance_days_available + auth()->user()->vacationBalance->days_remaining,
                 "value" => isset($vacation) ? $vacation->total_days :  old("total_days"),
                 "invalid_feedback" => "El campo es requerido"
             ])

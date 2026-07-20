@@ -18,6 +18,7 @@ use App\Models\Branch;
 use App\Models\Bank;
 use App\Models\Departament;
 use App\Models\User;
+use App\Models\Company;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -158,8 +159,9 @@ class UserController extends Controller
 
         $isEdit = false;
         $replacementUsers = User::where("is_active", 0)->pluck("name", "id");
+        $companies = Company::where("is_active", 1)->pluck("name", "id");
 
-        return view('users.create', compact('replacementUsers', 'isEdit','roles', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses', 'contracts'));
+        return view('users.create', compact('companies','replacementUsers', 'isEdit','roles', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses', 'contracts'));
     }
 
     public function store(UserRequest $request)
@@ -301,9 +303,10 @@ class UserController extends Controller
         });
 
         $isEdit = true;
+        $companies = Company::where("is_active", 1)->pluck("name", "id");
 
 
-        return view('users.edit', compact('isEdit', 'roles', 'user', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses', 'contracts'));
+        return view('users.edit', compact('companies', 'isEdit', 'roles', 'user', 'branches', 'departaments', 'banks', 'job_positions', 'users', 'genders', 'civilStatuses', 'contracts'));
 
     }
 

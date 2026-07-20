@@ -16,7 +16,7 @@ class CalendarEventService {
                 'color' => $event->color,
             ];
 
-            if ($event->event_type === 'holiday' || $event->event_type === 'birthday') {
+            if ($event->event_type === 'Festivo' || $event->event_type === 'Cumpleaños') {
                 $data['rrule'] = [
                     'freq' => 'yearly',
                     'dtstart' => $event->start_date,

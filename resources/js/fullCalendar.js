@@ -11,7 +11,7 @@ plugins: [
     rrulePlugin,
 ],
 locale: 'es',
-weekends: false,
+weekends: true,
 initialView: 'dayGridMonth',
 editable: true,
 buttonText: {

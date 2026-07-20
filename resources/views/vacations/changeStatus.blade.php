@@ -24,7 +24,7 @@
 
                 @include('vacations.showable.info')
 
-                <form id="form" class="row mb-2" novalidate method="POST" enctype="multipart/form-data">
+                <form id="form" class="row mb-2 needs-validation" novalidate method="POST" enctype="multipart/form-data">
                     @csrf
                     @method("PUT")
                     <div class="col-md-12 mb-4">
@@ -40,11 +40,11 @@
                         ])                                
                     </div>
                     <div class="col-md-12 d-flex justify-content-center gap-5">
-                        <button class="btn btn-primary w-15" type="submit"
+                        <button class="btn btn-primary w-15 vacation-status-submit" type="submit"
                             form="form" formaction="{{ route('vacations.approve', $vacation->id) }}">
                             {{ $approveAs ?? "No especificado" }}
                         </button>
-                        <button class="btn btn-danger w-15" type="submit"
+                        <button class="btn btn-danger w-15 vacation-status-submit" type="submit"
                         form="form" formaction="{{ route('vacations.deny', $vacation->id) }}">
                             Rechazar
                         </button>
@@ -56,6 +56,34 @@
     
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     <x-slot:footerFiles>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const form = document.getElementById('form');
+                
+
+                if (!form) {
+                    return;
+                }
+
+                form.addEventListener('submit', function (event) {
+                    if (form.dataset.submitting === 'true') {
+                        event.preventDefault();
+                        return;
+                    }
+
+                    if (!form.checkValidity()) {
+                        form.classList.add('was-validated');
+                        return;
+                    }
+
+                    form.dataset.submitting = 'true';
+
+                    form.querySelectorAll('.vacation-status-submit').forEach(function (button) {
+                        button.disabled = true;
+                    });
+                });
+            });
+        </script>
     </x-slot>
     <!--  END CUSTOM SCRIPTS FILE  -->
 </x-base-layout>
