@@ -441,7 +441,7 @@ class VacationService {
         $vacation->calendarEvents()->create([
             'event_type' => 'vacation',
             'title' => "Vacations - {$vacation->user->name}",
-            'description' => $vacation->notes ?? "Vacaciones de ${$vacation->user->name}",
+            'description' => $vacation->notes ?? "Vacaciones de {$vacation->user->name}",
             'start_date' => $startDate,
             'end_date' => $endDate,
             'all_day' => true,
