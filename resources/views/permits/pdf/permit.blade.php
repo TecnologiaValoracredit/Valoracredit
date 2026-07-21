@@ -56,7 +56,11 @@
 </head>
 <body>
 
-    <img src="{{ public_path('images/logo 2 tintas.png') }}" class="logo">
+    @if(optional($permit()->user->company)->id == 1 || $permit->user->company == null)
+        <img src="{{ public_path('images/logo 2 tintas.png') }}" class="logo">
+    @else
+        <img src="{{ public_path('images/gcelogo.png') }}" class="logo">
+    @endif
 
     <h2 class="center">Solicitud de Permiso No. {{$permit->id}} - Aprobada</h2>
 

@@ -146,6 +146,9 @@ class User extends Authenticatable
     public function permits(){
         return $this->hasMany(Permit::class, 'user_id', 'id');
     }
+    public function vacations(){
+        return $this->hasMany(Vacation::class, 'user_id', 'id');
+    }
 
     public function vacationBalance() {
         return $this->hasOne(VacationBalance::class, 'user_id', 'id');
@@ -339,12 +342,25 @@ class User extends Authenticatable
         return $activeYears;
     }
 
-    public function getActiveTimeInYearsDecimal() {
+    public function getActiveTimeInYearsDecimal($formatted = false) {
         if (!$this->entry_date) {
             return 0;
         }
 
         $activeYears = Carbon::parse($this->entry_date)->floatDiffInYears(now());
+        $activeYears = round($activeYears, 1);
+
+        if ($formatted) {
+            if (str_contains($activeYears, '.')) {
+                $yearsAndMonths = explode('.', $activeYears);
+                $formattedTime = "{$yearsAndMonths[0]} años y {$yearsAndMonths[1]} mes(es)";
+            }
+            else{
+                $formattedTime ="{$activeYears} años";
+            }
+
+            return $formattedTime;
+        }
 
         return $activeYears;
     }

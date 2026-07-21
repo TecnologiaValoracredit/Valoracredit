@@ -51,6 +51,11 @@
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="vacations-tab" data-bs-toggle="tab" data-bs-target="#vacations-pane" type="button" role="tab">
+                            VACACIONES
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
                         <button class="nav-link" id="h_hardware-tab" data-bs-toggle="tab" data-bs-target="#h_hardware-pane" type="button" role="tab">
                             ACTIVOS
                         </button>
@@ -69,17 +74,22 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="documents-pane" role="tabpanel" aria-labelledby="documents-tab">
-                        <div class="row gy-3 mt-2">
+                        <div class="row gy-3 mt-2 overflow-auto">
                             @include('users.profile_custom_fields.contracts')
                         </div>
                     </div>
+                    <div class="tab-pane fade" id="vacations-pane" role="tabpanel" aria-labelledby="vacations-tab">
+                        <div class="row gy-3 mt-2 overflow-auto">
+                            @include('users.profile_custom_fields.vacations')
+                        </div>
+                    </div>
                     <div class="tab-pane fade" id="permits-pane" role="tabpanel" aria-labelledby="permits-tab">
-                        <div class="row gy-3 mt-2">
+                        <div class="row gy-3 mt-2 overflow-auto">
                             @include('users.profile_custom_fields.permits')
                         </div>
                     </div>
                     <div class="tab-pane fade" id="h_hardware-pane" role="tabpanel" aria-labelledby="h_hardware-tab">
-                        <div class="row gy-3 mt-2">
+                        <div class="row gy-3 mt-2 overflow-auto">
                             @include('users.profile_custom_fields.h_hardware')
                         </div>
                     </div>

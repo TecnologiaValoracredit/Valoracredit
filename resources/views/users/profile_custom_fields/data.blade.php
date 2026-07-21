@@ -302,5 +302,11 @@
                 <span id="user_food_pension">{{ $user->food_pension ?? "No definido" }}</span>
             </div>
         </div>
+        <div class="col-md-12">
+            <hr>
+            <div class="text-center">
+                <span><label><strong>Tiempo activo en empresa:</strong></label> {{ $user->getActiveTimeInYearsDecimal(true) ?? "No definido" }}</span>
+            </div>
+        </div>
     </div>
 </div>
