@@ -56,7 +56,7 @@
 </head>
 <body>
 
-    @if(optional($permit()->user->company)->id == 1 || $permit->user->company == null)
+    @if(optional($permit->user->company)->id == 1 || $permit->user->company == null)
         <img src="{{ public_path('images/logo 2 tintas.png') }}" class="logo">
     @else
         <img src="{{ public_path('images/gcelogo.png') }}" class="logo">

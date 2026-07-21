@@ -72,7 +72,7 @@
         };
     @endphp
 
-    @if(optional(auth()->user()->company)->id == 1 || auth()->user()->company == null)
+    @if(optional($vacation->user->company)->id == 1 || $vacation->user->company == null)
         <img src="{{ public_path('images/logo 2 tintas.png') }}" class="logo">
     @else
         <img src="{{ public_path('images/gcelogo.png') }}" class="logo">
