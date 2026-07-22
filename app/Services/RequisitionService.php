@@ -81,11 +81,15 @@ class RequisitionService
         try {
             $user = User::where('id', $request->request_id)->first();
 
+            $bossId = auth()->user()->hasPermissions('requisitions.approveAsBoss')
+                ? $user->id
+                : ($user->boss?->id ?? $user->id);
+
             //Crea datos de la requisicion
             $params = array_merge($request->all(), [
                 'folio' => $this->generateFolio() ?? null,
                 'request_id' => $request->request_id,
-                'boss_id' => $user->boss->id ?? $user->id, // SI EL USUARIO ES SU MISMO JEFE, EL MISMO PUEDE AUTORIZAR
+                'boss_id' => $bossId,
                 'payment_type_id' => $request->payment_type_id,
                 'amount' => $request->amount,
                 'request_date' => now(),
