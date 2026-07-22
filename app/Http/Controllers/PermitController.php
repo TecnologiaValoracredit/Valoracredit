@@ -390,7 +390,11 @@ class PermitController extends Controller
             foreach ($receivers as $receiver) {
                 if (!$receiver || !$receiver->email) continue;
                 if (!str_contains('DN', $receiver->email)){
-                    Mail::to($receiver->email)->queue((new PermitSentMail( $receiver,$permit))->onQueue("mails"));
+                    try {
+                        Mail::to($receiver->email)->queue((new PermitSentMail( $receiver,$permit))->onQueue("mails"));
+                    } catch (\Throwable $th) {
+                        //SE IMPLEMENTARÁ NUEVO TIPO DE CORREO PARA ADMIN EN CASO DE ERROR
+                    }
                 }
             }
         }

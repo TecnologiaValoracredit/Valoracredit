@@ -73,7 +73,7 @@ class RequisitionDataTable extends DataTable
     $isCreator = $row->request_id == auth()->id();
     $isCreatorChecks = ($status == RequisitionStatusEnum::CREATED->value || $status == RequisitionStatusEnum::RETURNED_BY_BOSS->value);
 
-    $isBoss = $row->boss_id == auth()->id();
+    $isBoss = $row->boss_id == auth()->id() || auth()->user()->hasPermissions('requisitions.approveAsBoss');
     $isBossChecks = $status == RequisitionStatusEnum::SENT_TO_BOSS->value || $status == RequisitionStatusEnum::RETURNED_BY_TREASURY->value;
 
     $hasCurrentPermission = $row->current_owner_permission == RequisitionOwnerPermissionEnum::BOSS->value && $isBoss || 
