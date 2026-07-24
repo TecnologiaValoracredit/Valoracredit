@@ -439,16 +439,20 @@ class VacationService {
         $startDate = $vacation->startDate->date;
         $endDate = $vacation->endDate->date;
 
-        $vacation->calendarEvents()->create([
-            'event_type' => 'vacation',
-            'title' => "Vacations - {$vacation->user->name}",
-            'description' => $vacation->notes ?? "Vacaciones de {$vacation->user->name}",
-            'start_date' => $startDate,
-            'end_date' => $endDate,
-            'all_day' => true,
-            'color' => 'blue',
-            'user_id' => $vacation->user_id,
-        ]);
+        $vacation->refresh();
+
+        foreach($vacation->dates as $date) {
+            $vacation->calendarEvents()->create([
+                    'event_type' => 'vacation',
+                    'title' => "Vacaciones - {$vacation->user->name}",
+                    'description' => $vacation->notes ?? "Vacaciones de {$vacation->user->name}",
+                    'start_date' => $date->date,
+                    'end_date' => $date->date,
+                    'all_day' => true,
+                    'color' => 'blue',
+                    'user_id' => $vacation->user_id,
+                ]);
+        }
     }
 
     private function denyVacation(Vacation $vacation, $requestInputs) {
